@@ -198,6 +198,10 @@ body.is-locked .page {
   gap: 16px;
 }
 
+.wiki-layout > * {
+  min-width: 0;
+}
+
 .wiki-nav {
   border: 1px solid var(--line);
   border-radius: 12px;
@@ -205,6 +209,8 @@ body.is-locked .page {
   background: #fcfdff;
   font-size: 15px;
   line-height: 1.4;
+  width: 100%;
+  max-width: 100%;
 }
 
 .wiki-nav h2 {
@@ -292,6 +298,9 @@ body.is-locked .page {
   border-radius: 12px;
   padding: 16px;
   background: #fff;
+  width: 100%;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .wiki-findbar {
@@ -299,6 +308,8 @@ body.is-locked .page {
   align-items: center;
   gap: 8px;
   margin-bottom: 10px;
+  width: 100%;
+  max-width: 100%;
 }
 
 .wiki-find-input {
@@ -506,6 +517,18 @@ body.is-locked .page {
 }
 
 @media (max-width: 767px) {
+  .wiki-findbar {
+    flex-wrap: wrap;
+  }
+
+  .wiki-find-input {
+    flex: 1 1 100%;
+  }
+
+  .wiki-find-count {
+    margin-left: auto;
+  }
+
   .calc-form {
     gap: 16px;
   }
