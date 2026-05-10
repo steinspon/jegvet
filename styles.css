@@ -390,7 +390,24 @@ body.is-locked .page {
 
 .tools-list {
   display: grid;
-  gap: 12px;
+  gap: 14px;
+}
+
+.tools-list .action-button {
+  margin: 0;
+}
+
+@media (max-width: 767px) {
+  .tools-list {
+    padding: 4px 2px;
+    gap: 12px;
+  }
+
+  .tools-list .action-button {
+    border-radius: 14px;
+    padding: 15px 16px;
+    box-shadow: 0 2px 8px rgba(17, 43, 67, 0.08);
+  }
 }
 
 .tool-card {
@@ -418,20 +435,26 @@ body.is-locked .page {
 
 .calc-field {
   display: grid;
-  gap: 6px;
+  gap: 8px;
 }
 
 .calc-field label {
+  display: block;
   font-weight: 600;
   color: #2a445a;
+  line-height: 1.35;
 }
 
 .calc-field input {
+  display: block;
   width: 100%;
-  padding: 12px 14px;
+  min-height: 48px;
+  padding: 13px 14px;
   border: 1px solid var(--line);
   border-radius: 10px;
-  font: inherit;
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1.25;
 }
 
 .calc-error {
