@@ -1,31 +1,31 @@
 ﻿{
     "title":  "Veterinary Reference Wiki",
-    "generatedAt":  "2026-05-10T18:54:21+02:00",
+    "generatedAt":  "2026-05-10T18:56:27+02:00",
     "pages":  [
                   {
-                      "file":  "chronic-disease/feline-ckd-follow-up.md",
+                      "file":  "chronic disease/feline-ckd-follow-up.md",
                       "title":  "Feline CKD Follow-Up Checklist",
-                      "folder":  "chronic-disease"
+                      "folder":  "chronic disease"
                   },
                   {
-                      "file":  "client-communication/discharge-communication-checklist.md",
+                      "file":  "client communication/discharge-communication-checklist.md",
                       "title":  "Discharge Communication Checklist",
-                      "folder":  "client-communication"
+                      "folder":  "client communication"
                   },
                   {
-                      "file":  "client-communication/post-op-home-care-script.md",
+                      "file":  "client communication/post-op-home-care-script.md",
                       "title":  "Post-Operative Home Care Script",
-                      "folder":  "client-communication"
+                      "folder":  "client communication"
                   },
                   {
-                      "file":  "clinical-protocols/canine-acute-vomiting-triage.md",
+                      "file":  "clinical protocols/canine-acute-vomiting-triage.md",
                       "title":  "Canine Acute Vomiting Triage",
-                      "folder":  "clinical-protocols"
+                      "folder":  "clinical protocols"
                   },
                   {
-                      "file":  "emergency-care/suspected-toxin-intake-triage.md",
+                      "file":  "emergency care/suspected-toxin-intake-triage.md",
                       "title":  "Suspected Toxin Intake Triage",
-                      "folder":  "emergency-care"
+                      "folder":  "emergency care"
                   },
                   {
                       "file":  "evidensia stuff/admin/testsub.md",
