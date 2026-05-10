@@ -34,6 +34,9 @@ body {
   justify-content: center;
   align-items: center;
   padding: 20px;
+  padding-left: max(20px, env(safe-area-inset-left));
+  padding-right: max(20px, env(safe-area-inset-right));
+  padding-bottom: max(20px, env(safe-area-inset-bottom));
 }
 
 .page-top {
@@ -107,6 +110,18 @@ body {
 .action-button:hover,
 .action-button:focus-visible {
   background: var(--accent-hover);
+}
+
+.action-button:focus-visible,
+.search-input:focus-visible,
+#auth-password:focus-visible,
+#auth-form button:focus-visible,
+.wiki-find-input:focus-visible,
+.wiki-find-btn:focus-visible,
+.wiki-folder-toggle:focus-visible,
+.wiki-nav a:focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 3px rgba(31, 75, 110, 0.2);
 }
 
 body.is-locked .page {
@@ -405,6 +420,57 @@ body.is-locked .page {
   color: var(--muted);
 }
 
+.search-results-wrap {
+  margin-top: 16px;
+}
+
+.search-summary {
+  margin: 0 2px 10px;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.search-result {
+  padding: 12px 2px;
+  border-top: 1px solid #e6ebf0;
+}
+
+.search-result-url {
+  color: #36566f;
+  font-size: 13px;
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.search-result-title {
+  margin: 4px 0;
+  font-size: 19px;
+  line-height: 1.28;
+  font-weight: 600;
+}
+
+.search-result-title a {
+  color: #1f4b6e;
+  text-decoration: none;
+}
+
+.search-result-title a:hover,
+.search-result-title a:focus-visible {
+  text-decoration: underline;
+}
+
+.search-result-snippet {
+  margin: 0;
+  color: #344a5f;
+  line-height: 1.45;
+  font-size: 15px;
+}
+
+.search-empty {
+  margin: 6px 2px 0;
+  color: var(--muted);
+}
+
 .tools-list {
   display: grid;
   gap: 14px;
@@ -415,7 +481,7 @@ body.is-locked .page {
 }
 
 .tools-list .action-button + .action-button {
-  margin-top: 12px;
+  margin-top: 0;
 }
 
 @media (max-width: 767px) {
