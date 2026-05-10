@@ -1,0 +1,27 @@
+﻿{
+  "title": "Veterinary Reference Wiki",
+  "sections": [
+    {
+      "label": "Clinical Protocols",
+      "pages": [
+        {
+          "title": "Canine Acute Vomiting Triage",
+          "file": "canine-acute-vomiting-triage.md"
+        },
+        {
+          "title": "Feline CKD Follow-Up Checklist",
+          "file": "feline-ckd-follow-up.md"
+        }
+      ]
+    },
+    {
+      "label": "Client Communication",
+      "pages": [
+        {
+          "title": "Post-Operative Home Care Script",
+          "file": "post-op-home-care-script.md"
+        }
+      ]
+    }
+  ]
+}

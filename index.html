@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JegVet</title>
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <link rel="icon" type="image/png" href="logo_day_small.png" />
+  <link rel="apple-touch-icon" href="logo_day_small.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="auth-guard.js" defer></script>
+</head>
+<body>
+  <main class="page">
+    <section class="layout-card">
+      <a href="index.html" class="brand-link" aria-label="Go to homepage">
+        <img src="logo_day.png" alt="JegVet logo" class="brand-logo" />
+      </a>
+
+      <form class="main-form" action="search.html" method="get">
+        <input
+          type="search"
+          name="q"
+          class="search-input"
+          placeholder="Search..."
+          aria-label="Search"
+          required
+        />
+        <a href="wiki.html" class="action-button">Browse Reference</a>
+        <button type="button" class="action-button">Tools &amp; Calculators</button>
+      </form>
+    </section>
+  </main>
+</body>
+</html>
