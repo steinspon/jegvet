@@ -195,11 +195,14 @@ body.is-locked .page {
 
 .wiki-layout {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 16px;
 }
 
 .wiki-layout > * {
   min-width: 0;
+  width: 100%;
+  max-width: 100%;
 }
 
 .wiki-nav {
@@ -211,6 +214,7 @@ body.is-locked .page {
   line-height: 1.4;
   width: 100%;
   max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .wiki-nav h2 {
@@ -270,6 +274,7 @@ body.is-locked .page {
   font-weight: 600;
   color: #5a6775;
   margin: 0;
+  overflow-wrap: anywhere;
 }
 
 .wiki-nav a {
@@ -277,6 +282,7 @@ body.is-locked .page {
   text-decoration: none;
   font-size: 15px;
   font-weight: 500;
+  overflow-wrap: anywhere;
 }
 
 .wiki-nav a:hover,
