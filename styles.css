@@ -397,6 +397,10 @@ body.is-locked .page {
   margin: 0;
 }
 
+.tools-list .action-button + .action-button {
+  margin-top: 12px;
+}
+
 @media (max-width: 767px) {
   .tools-list {
     padding: 4px 2px;
@@ -481,6 +485,8 @@ body.is-locked .page {
   border-bottom: 1px solid #e6ebf0;
   text-align: left;
   font-size: 14px;
+  vertical-align: top;
+  word-break: break-word;
 }
 
 .calc-table th {
@@ -496,5 +502,31 @@ body.is-locked .page {
   .wiki-layout {
     grid-template-columns: 280px minmax(0, 1fr);
     align-items: start;
+  }
+}
+
+@media (max-width: 767px) {
+  .calc-form {
+    gap: 16px;
+  }
+
+  .calc-field {
+    display: block;
+  }
+
+  .calc-field label {
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .calc-field input {
+    display: block;
+    width: 100%;
+  }
+
+  .calc-table th,
+  .calc-table td {
+    font-size: 13px;
+    padding: 10px 10px;
   }
 }
