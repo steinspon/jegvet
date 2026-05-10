@@ -12,7 +12,8 @@ Ask the owner to repeat back:
 3. Urgent warning signs.
 
 ## Visual Reference
-![Discharge handout visual](../../images/example.jpg)
+![Discharge handout visual](/wiki/images/example.jpg)
 
 ## External References
 - [Clinic OneDrive discharge pack](https://onedrive.live.com/)
+

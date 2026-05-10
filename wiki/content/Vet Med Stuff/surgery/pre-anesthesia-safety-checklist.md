@@ -15,4 +15,5 @@
 Perform a verbal safety pause before induction.
 
 ## Equipment Snapshot
-![Anesthesia setup](../../images/example.jpg)
+![Anesthesia setup](/wiki/images/example.jpg)
+

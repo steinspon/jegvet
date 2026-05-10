@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Suspension Calculator | JegVet</title>
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="JegVet" />
+  <link rel="icon" type="image/png" href="logo_day_small.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <link rel="apple-touch-icon" href="logo_day_small.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="auth-guard.js" defer></script>
+</head>
+<body>
+  <main class="page page-top">
+    <section class="layout-card layout-card-wide">
+      <a href="index.html" class="brand-link" aria-label="Go to homepage">
+        <img src="logo_day.png" alt="JegVet logo" class="brand-logo" />
+      </a>
+
+      <h1 class="section-title">Suspension Calculator</h1>
+      <p class="section-subtitle">
+        Enter tablet strength and target dose. Results are shown for natural dose-volume increments from 0.05 ml to 0.50 ml.
+      </p>
+
+      <form id="calc-form" class="calc-form">
+        <div class="calc-field">
+          <label for="tablet-mg">Tablet strength (mg)</label>
+          <input id="tablet-mg" name="tablet-mg" type="number" step="0.01" min="0" required />
+        </div>
+
+        <div class="calc-field">
+          <label for="dose-mg">Required dose for patient (mg)</label>
+          <input id="dose-mg" name="dose-mg" type="number" step="0.01" min="0" required />
+        </div>
+      </form>
+
+      <p id="calc-error" class="calc-error" aria-live="polite"></p>
+
+      <div class="calc-table-wrap">
+        <table class="calc-table" aria-label="Suspension results">
+          <thead>
+            <tr>
+              <th>Water To Add Per Tablet (ml)</th>
+              <th>Resulting Concentration (mg/ml)</th>
+              <th>Dose Volume For Required Dose (ml)</th>
+            </tr>
+          </thead>
+          <tbody id="calc-results">
+            <tr>
+              <td colspan="3">Enter values to generate suspension options.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var MIN_DOSE_VOLUME = 0.05;
+      var MAX_DOSE_VOLUME = 0.50;
+      var WATER_STEP = 1;
+
+      var tabletInput = document.getElementById('tablet-mg');
+      var doseInput = document.getElementById('dose-mg');
+      var resultsBody = document.getElementById('calc-results');
+      var errorEl = document.getElementById('calc-error');
+
+      function toNumber(value) {
+        return Number(value);
+      }
+
+      function format(value, decimals) {
+        return value.toFixed(decimals);
+      }
+
+      function setError(message) {
+        errorEl.textContent = message;
+      }
+
+      function renderPlaceholder(message) {
+        resultsBody.innerHTML = '<tr><td colspan="3">' + message + '</td></tr>';
+      }
+
+      function renderResults() {
+        var tabletMg = toNumber(tabletInput.value);
+        var doseMg = toNumber(doseInput.value);
+
+        if (!tabletInput.value || !doseInput.value) {
+          setError('');
+          renderPlaceholder('Enter values to generate suspension options.');
+          return;
+        }
+
+        if (!isFinite(tabletMg) || !isFinite(doseMg) || tabletMg <= 0 || doseMg <= 0) {
+          setError('Both values must be greater than 0.');
+          renderPlaceholder('No results.');
+          return;
+        }
+
+        setError('');
+        var rows = [];
+        var minWater = (MIN_DOSE_VOLUME * tabletMg) / doseMg;
+        var maxWater = (MAX_DOSE_VOLUME * tabletMg) / doseMg;
+        var startWater = Math.max(1, Math.ceil(minWater));
+        var endWater = Math.floor(maxWater);
+
+        for (var waterToAdd = startWater; waterToAdd <= endWater; waterToAdd += WATER_STEP) {
+          var concentration = tabletMg / waterToAdd;
+          var doseVolume = doseMg / concentration;
+
+          rows.push(
+            '<tr>' +
+              '<td>' + format(waterToAdd, 0) + '</td>' +
+              '<td>' + format(concentration, 2) + '</td>' +
+              '<td>' + format(doseVolume, 3) + '</td>' +
+            '</tr>'
+          );
+        }
+
+        if (!rows.length) {
+          renderPlaceholder('No whole-ml water options keep dose volume between 0.05 ml and 0.50 ml for these values.');
+          return;
+        }
+
+        resultsBody.innerHTML = rows.join('');
+      }
+
+      tabletInput.addEventListener('input', renderResults);
+      doseInput.addEventListener('input', renderResults);
+    })();
+  </script>
+</body>
+</html>

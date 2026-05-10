@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Medicated Drinking Water Calculator | JegVet</title>
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="JegVet" />
+  <link rel="icon" type="image/png" href="logo_day_small.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <link rel="apple-touch-icon" href="logo_day_small.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="auth-guard.js" defer></script>
+</head>
+<body>
+  <main class="page page-top">
+    <section class="layout-card layout-card-wide">
+      <a href="index.html" class="brand-link" aria-label="Go to homepage">
+        <img src="logo_day.png" alt="JegVet logo" class="brand-logo" />
+      </a>
+
+      <h1 class="section-title">Medicated Drinking Water Calculator</h1>
+      <p class="section-subtitle">
+        Enter target concentration in mg/L and tablet strength in mg/tablet.
+      </p>
+
+      <form id="water-calc-form" class="calc-form">
+        <div class="calc-field">
+          <label for="target-mg-l">Target concentration (mg/L)</label>
+          <input id="target-mg-l" type="number" min="0" step="0.01" required />
+        </div>
+        <div class="calc-field">
+          <label for="tablet-strength">Tablet strength (mg/tablet)</label>
+          <input id="tablet-strength" type="number" min="0" step="0.01" required />
+        </div>
+      </form>
+
+      <p id="water-calc-error" class="calc-error" aria-live="polite"></p>
+
+      <div class="tool-card" aria-live="polite">
+        <h2>Result</h2>
+        <p id="water-calc-result">Enter values to calculate deciliters of water per tablet.</p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var targetInput = document.getElementById('target-mg-l');
+      var tabletInput = document.getElementById('tablet-strength');
+      var errorEl = document.getElementById('water-calc-error');
+      var resultEl = document.getElementById('water-calc-result');
+
+      function toNumber(value) {
+        return Number(value);
+      }
+
+      function format(value, decimals) {
+        return value.toFixed(decimals);
+      }
+
+      function render() {
+        var targetMgPerL = toNumber(targetInput.value);
+        var tabletMg = toNumber(tabletInput.value);
+
+        if (!targetInput.value || !tabletInput.value) {
+          errorEl.textContent = '';
+          resultEl.textContent = 'Enter values to calculate deciliters of water per tablet.';
+          return;
+        }
+
+        if (!isFinite(targetMgPerL) || !isFinite(tabletMg) || targetMgPerL <= 0 || tabletMg <= 0) {
+          errorEl.textContent = 'Both values must be greater than 0.';
+          resultEl.textContent = 'No result.';
+          return;
+        }
+
+        errorEl.textContent = '';
+        var litersPerTablet = tabletMg / targetMgPerL;
+        var decilitersPerTablet = litersPerTablet * 10;
+        resultEl.textContent = format(decilitersPerTablet, 2) + ' dL water per tablet';
+      }
+
+      targetInput.addEventListener('input', render);
+      tabletInput.addEventListener('input', render);
+    })();
+  </script>
+</body>
+</html>

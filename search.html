@@ -352,11 +352,13 @@
         var title = doc.title.toLowerCase();
         var body = doc.body.toLowerCase();
         var score = 0;
+        var hasExactTitleMatch = title.indexOf(query) !== -1;
+        var hasExactBodyMatch = body.indexOf(query) !== -1;
 
-        if (title.indexOf(query) !== -1) {
+        if (hasExactTitleMatch) {
           score += 80;
         }
-        if (body.indexOf(query) !== -1) {
+        if (hasExactBodyMatch) {
           score += 30;
         }
 
@@ -365,6 +367,14 @@
           var bodyHits = (body.match(new RegExp(token, 'g')) || []).length;
           score += (titleHits * 25) + (bodyHits * 4);
         });
+
+        // Prefer precise section matches above broad page-level matches.
+        if (doc.kind === 'section' && hasExactBodyMatch) {
+          score += 18;
+        }
+        if (doc.kind === 'page' && !hasExactTitleMatch && hasExactBodyMatch) {
+          score -= 8;
+        }
 
         return score;
       }
@@ -383,11 +393,23 @@
           return;
         }
 
+        function withHitQuery(url, q) {
+          if (!q || url.indexOf('wiki.html') !== 0) {
+            return url;
+          }
+          var hashIndex = url.indexOf('#');
+          var hash = hashIndex === -1 ? '' : url.slice(hashIndex);
+          var base = hashIndex === -1 ? url : url.slice(0, hashIndex);
+          var sep = base.indexOf('?') === -1 ? '?' : '&';
+          return base + sep + 'hit=' + encodeURIComponent(q) + hash;
+        }
+
         resultsEl.innerHTML = results.slice(0, 20).map(function (result) {
+          var targetUrl = withHitQuery(result.url, query);
           return (
             '<article class="search-result">' +
-              '<a class="search-result-url" href="' + result.url + '">' + escapeHtml(result.displayUrl) + '</a>' +
-              '<h2 class="search-result-title"><a href="' + result.url + '">' + escapeHtml(result.title) + '</a></h2>' +
+              '<a class="search-result-url" href="' + targetUrl + '">' + escapeHtml(result.displayUrl) + '</a>' +
+              '<h2 class="search-result-title"><a href="' + targetUrl + '">' + escapeHtml(result.title) + '</a></h2>' +
               '<p class="search-result-snippet">' + escapeHtml(result.snippet) + '</p>' +
             '</article>'
           );
@@ -409,11 +431,24 @@
             displayUrl: 'wiki.html'
           }
         ];
+        var folderMap = {};
 
         var manifest = await loadManifestData();
         for (var p = 0; p < manifest.pages.length; p += 1) {
           var page = manifest.pages[p];
           var markdown = await loadMarkdown(page.file);
+          var pageBody = stripMarkdown(markdown);
+
+          if (pageBody) {
+            corpus.push({
+              kind: 'page',
+              title: page.title,
+              body: pageBody + ' ' + humanizeFolder(page.folder),
+              url: 'wiki.html?page=' + encodeURIComponent(page.file),
+              displayUrl: 'wiki.html?page=' + page.file
+            });
+          }
+
           var sections = splitMarkdownSections(markdown);
           for (var i = 0; i < sections.length; i += 1) {
             var sec = sections[i];
@@ -423,11 +458,29 @@
             }
             var hash = slugify(sec.heading);
             corpus.push({
+              kind: 'section',
               title: page.title + ' - ' + sec.heading,
               body: cleaned + ' ' + humanizeFolder(page.folder),
               url: 'wiki.html?page=' + encodeURIComponent(page.file) + '#' + encodeURIComponent(hash),
               displayUrl: 'wiki.html?page=' + page.file + '#' + hash
             });
+          }
+
+          if (page.folder && page.folder !== 'General') {
+            var parts = page.folder.split('/').filter(Boolean);
+            for (var f = 0; f < parts.length; f += 1) {
+              var folderPath = parts.slice(0, f + 1).join('/');
+              if (!folderMap[folderPath]) {
+                folderMap[folderPath] = true;
+                var humanFolder = humanizeFolder(folderPath);
+                corpus.push({
+                  title: humanFolder + ' Folder',
+                  body: humanFolder + ' ' + folderPath.replace(/\//g, ' '),
+                  url: 'wiki.html?page=' + encodeURIComponent(page.file),
+                  displayUrl: 'wiki.html#folder=' + folderPath
+                });
+              }
+            }
           }
         }
 

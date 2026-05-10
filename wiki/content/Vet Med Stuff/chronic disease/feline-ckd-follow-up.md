@@ -21,8 +21,9 @@ Standardize recheck visits for chronic kidney disease cats to improve consistenc
 - Give clear triggers for urgent reassessment.
 
 ## Visual Aid
-![CKD follow-up visual](../../images/example.jpg)
+![CKD follow-up visual](/wiki/images/example.jpg)
 
 ## External References
 - [IRIS Staging Overview](https://www.iris-kidney.com/guidelines/staging.html)
 - [Clinic OneDrive CKD Handout](https://onedrive.live.com/)
+

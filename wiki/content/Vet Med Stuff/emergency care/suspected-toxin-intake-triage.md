@@ -16,7 +16,8 @@
 - Severe cardiovascular instability.
 
 ## Reference Image
-![Triage visual](../../images/example.jpg)
+![Triage visual](/wiki/images/example.jpg)
 
 ## References
 - [ASPCA Animal Poison Control](https://www.aspca.org/pet-care/animal-poison-control)
+

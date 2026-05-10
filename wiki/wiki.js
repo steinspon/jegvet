@@ -1,5 +1,10 @@
 ﻿(function () {
   'use strict';
+  var findState = {
+    hits: [],
+    activeIndex: -1
+  };
+
 
   function escapeHtml(text) {
     return text
@@ -401,12 +406,222 @@
     return nodeHasActive;
   }
 
+  function clearSearchHitHighlight() {
+    var previous = document.querySelector('.wiki-search-hit');
+    if (previous) {
+      previous.classList.remove('wiki-search-hit');
+    }
+  }
+
+  function highlightHashTarget() {
+    var article = document.getElementById('wiki-article');
+    if (!article) {
+      return;
+    }
+
+    clearSearchHitHighlight();
+    if (!window.location.hash) {
+      return;
+    }
+
+    var rawId = window.location.hash.replace(/^#/, '');
+    var targetId = '';
+    try {
+      targetId = decodeURIComponent(rawId);
+    } catch (error) {
+      targetId = rawId;
+    }
+
+    if (!targetId) {
+      return;
+    }
+
+    var target = document.getElementById(targetId);
+    if (!target || !article.contains(target)) {
+      return;
+    }
+
+    target.classList.add('wiki-search-hit');
+    window.requestAnimationFrame(function () {
+      target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      window.setTimeout(function () {
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 140);
+    });
+  }
+
+  function clearFindHighlights() {
+    var article = document.getElementById('wiki-article');
+    if (!article) {
+      return;
+    }
+
+    var marks = article.querySelectorAll('mark.wiki-find-hit');
+    for (var i = 0; i < marks.length; i += 1) {
+      var mark = marks[i];
+      var textNode = document.createTextNode(mark.textContent);
+      mark.parentNode.replaceChild(textNode, mark);
+    }
+
+    article.normalize();
+    findState.hits = [];
+    findState.activeIndex = -1;
+  }
+
+  function updateFindCount() {
+    var countEl = document.getElementById('wiki-find-count');
+    if (!countEl) {
+      return;
+    }
+    if (!findState.hits.length) {
+      countEl.textContent = '0/0';
+      return;
+    }
+    countEl.textContent = (findState.activeIndex + 1) + '/' + findState.hits.length;
+  }
+
+  function getTextNodes(root) {
+    var nodes = [];
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (node) {
+        if (!node.nodeValue || !node.nodeValue.trim()) {
+          return NodeFilter.FILTER_REJECT;
+        }
+        var parentTag = node.parentNode && node.parentNode.nodeName ? node.parentNode.nodeName.toUpperCase() : '';
+        if (parentTag === 'SCRIPT' || parentTag === 'STYLE') {
+          return NodeFilter.FILTER_REJECT;
+        }
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+
+    var current = walker.nextNode();
+    while (current) {
+      nodes.push(current);
+      current = walker.nextNode();
+    }
+    return nodes;
+  }
+
+  function setActiveFindHit(index, shouldScroll) {
+    if (!findState.hits.length) {
+      findState.activeIndex = -1;
+      updateFindCount();
+      return;
+    }
+
+    for (var i = 0; i < findState.hits.length; i += 1) {
+      findState.hits[i].classList.toggle('is-active', i === index);
+    }
+
+    findState.activeIndex = index;
+    updateFindCount();
+
+    if (shouldScroll) {
+      findState.hits[index].scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+
+  function applyFind(term) {
+    clearFindHighlights();
+    var article = document.getElementById('wiki-article');
+    if (!article) {
+      updateFindCount();
+      return;
+    }
+
+    var query = (term || '').trim();
+    if (!query) {
+      updateFindCount();
+      return;
+    }
+
+    var escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    var pattern = new RegExp(escaped, 'gi');
+    var textNodes = getTextNodes(article);
+
+    for (var i = 0; i < textNodes.length; i += 1) {
+      var node = textNodes[i];
+      var text = node.nodeValue;
+      pattern.lastIndex = 0;
+      if (!pattern.test(text)) {
+        continue;
+      }
+
+      var frag = document.createDocumentFragment();
+      var lastIndex = 0;
+      pattern.lastIndex = 0;
+      var match = pattern.exec(text);
+
+      while (match) {
+        if (match.index > lastIndex) {
+          frag.appendChild(document.createTextNode(text.slice(lastIndex, match.index)));
+        }
+        var mark = document.createElement('mark');
+        mark.className = 'wiki-find-hit';
+        mark.textContent = match[0];
+        frag.appendChild(mark);
+        findState.hits.push(mark);
+        lastIndex = match.index + match[0].length;
+        match = pattern.exec(text);
+      }
+
+      if (lastIndex < text.length) {
+        frag.appendChild(document.createTextNode(text.slice(lastIndex)));
+      }
+
+      node.parentNode.replaceChild(frag, node);
+    }
+
+    if (findState.hits.length) {
+      setActiveFindHit(0, true);
+    } else {
+      updateFindCount();
+    }
+  }
+
+  function moveFind(step) {
+    if (!findState.hits.length) {
+      return;
+    }
+    var next = (findState.activeIndex + step + findState.hits.length) % findState.hits.length;
+    setActiveFindHit(next, true);
+  }
+
+  function setupFindUi() {
+    var input = document.getElementById('wiki-find-input');
+    var prevBtn = document.getElementById('wiki-find-prev');
+    var nextBtn = document.getElementById('wiki-find-next');
+    if (!input || !prevBtn || !nextBtn) {
+      return;
+    }
+
+    input.addEventListener('input', function () {
+      applyFind(input.value);
+    });
+
+    input.addEventListener('keydown', function (event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        moveFind(event.shiftKey ? -1 : 1);
+      }
+    });
+
+    prevBtn.addEventListener('click', function () {
+      moveFind(-1);
+    });
+
+    nextBtn.addEventListener('click', function () {
+      moveFind(1);
+    });
+  }
   async function loadPage(file, title, navLinks, options) {
     var article = document.getElementById('wiki-article');
     if (!article) {
       return;
     }
     var keepHash = options && options.keepHash;
+    var hitQuery = options && options.hitQuery ? options.hitQuery : '';
 
     navLinks.forEach(function (link) {
       link.classList.toggle('active', link.getAttribute('data-file') === file);
@@ -420,10 +635,26 @@
       document.title = title + ' | Wiki | JegVet';
       var nextUrl = new URL(window.location.href);
       nextUrl.searchParams.set('page', file);
+      if (hitQuery) {
+        nextUrl.searchParams.set('hit', hitQuery);
+      } else {
+        nextUrl.searchParams.delete('hit');
+      }
       if (!keepHash) {
         nextUrl.hash = '';
       }
       window.history.replaceState({}, '', nextUrl.toString());
+      highlightHashTarget();
+      var findInput = document.getElementById('wiki-find-input');
+      if (findInput && hitQuery) {
+        findInput.value = hitQuery;
+        applyFind(hitQuery);
+      } else if (findInput && findInput.value.trim()) {
+        applyFind(findInput.value);
+      } else {
+        clearFindHighlights();
+        updateFindCount();
+      }
     } catch (error) {
       article.innerHTML = '<p>Unable to load this entry. Check file path and try again.</p>';
     }
@@ -455,6 +686,7 @@
 
       var params = new URLSearchParams(window.location.search);
       var requestedFile = params.get('page');
+      var hitQuery = params.get('hit') || '';
       var initialPage = null;
 
       if (requestedFile) {
@@ -467,7 +699,7 @@
       nav.appendChild(rootList);
 
       if (initialPage) {
-        loadPage(initialPage.file, initialPage.title, navLinks, { keepHash: true });
+        loadPage(initialPage.file, initialPage.title, navLinks, { keepHash: true, hitQuery: hitQuery });
       } else if (pages.length) {
         loadPage(pages[0].file, pages[0].title, navLinks, { keepHash: false });
       } else {
@@ -484,4 +716,12 @@
   } else {
     initWiki();
   }
+
+  setupFindUi();
+  window.addEventListener('hashchange', highlightHashTarget);
 })();
+
+
+
+
+
