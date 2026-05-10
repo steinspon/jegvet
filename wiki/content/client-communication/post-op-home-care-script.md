@@ -20,8 +20,9 @@ Use this script framework when discharging routine surgery patients so instructi
 3. Document owner understanding in patient record.
 
 ## Reference Image
-![Post-op care reference](../images/example.jpg)
+![Post-op care reference](../../images/example.jpg)
 
 ## External References
 - [AAHA Postoperative Care Resources](https://www.aaha.org/)
 - [Clinic OneDrive Discharge Template](https://onedrive.live.com/)
+

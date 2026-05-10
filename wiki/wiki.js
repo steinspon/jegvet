@@ -185,7 +185,104 @@
     };
   }
 
+  function humanizeFileName(fileName) {
+    return fileName
+      .replace(/\.md$/i, '')
+      .replace(/[-_]+/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .split(' ')
+      .map(function (part) {
+        if (!part) {
+          return '';
+        }
+        return part.charAt(0).toUpperCase() + part.slice(1);
+      })
+      .join(' ');
+  }
+
+  function getGitHubRepoContext() {
+    if (window.WIKI_GITHUB_REPO && window.WIKI_GITHUB_REPO.owner && window.WIKI_GITHUB_REPO.repo) {
+      return {
+        owner: window.WIKI_GITHUB_REPO.owner,
+        repo: window.WIKI_GITHUB_REPO.repo
+      };
+    }
+
+    var host = window.location.hostname || '';
+    if (!/\.github\.io$/i.test(host)) {
+      return null;
+    }
+
+    var owner = host.split('.')[0];
+    var parts = window.location.pathname.split('/').filter(Boolean);
+    if (!parts.length) {
+      return null;
+    }
+
+    return {
+      owner: owner,
+      repo: parts[0]
+    };
+  }
+
+  async function loadManifestFromGitHub() {
+    var repoContext = getGitHubRepoContext();
+    if (!repoContext) {
+      throw new Error('No GitHub repository context');
+    }
+
+    var apiBase = 'https://api.github.com/repos/' + encodeURIComponent(repoContext.owner) + '/' + encodeURIComponent(repoContext.repo);
+    var repoResponse = await fetch(apiBase, { headers: { Accept: 'application/vnd.github+json' } });
+    if (!repoResponse.ok) {
+      throw new Error('Could not load repository metadata from GitHub API');
+    }
+    var repoData = await repoResponse.json();
+    var branch = repoData.default_branch || 'main';
+
+    var treeResponse = await fetch(apiBase + '/git/trees/' + encodeURIComponent(branch) + '?recursive=1', {
+      headers: { Accept: 'application/vnd.github+json' }
+    });
+    if (!treeResponse.ok) {
+      throw new Error('Could not load repository tree from GitHub API');
+    }
+    var treeData = await treeResponse.json();
+    var items = treeData.tree || [];
+
+    var pages = items
+      .filter(function (item) {
+        return item.type === 'blob' && /^wiki\/content\/.+\.md$/i.test(item.path);
+      })
+      .map(function (item) {
+        var relative = item.path.replace(/^wiki\/content\//i, '');
+        var slashIndex = relative.lastIndexOf('/');
+        var folder = slashIndex === -1 ? 'General' : relative.slice(0, slashIndex);
+        var fileName = slashIndex === -1 ? relative : relative.slice(slashIndex + 1);
+
+        return {
+          file: relative,
+          title: humanizeFileName(fileName),
+          folder: folder
+        };
+      })
+      .sort(function (a, b) {
+        return a.file.localeCompare(b.file, undefined, { sensitivity: 'base' });
+      });
+
+    return {
+      title: 'Veterinary Reference Wiki',
+      generatedAt: new Date().toISOString(),
+      pages: pages
+    };
+  }
+
   async function loadManifestData() {
+    try {
+      return await loadManifestFromGitHub();
+    } catch (githubError) {
+      // Fall through to static manifest/fallback for local dev or API failures.
+    }
+
     try {
       var response = await fetch('wiki/data/content-manifest.json?v=' + Date.now());
       if (!response.ok) {
@@ -239,20 +336,40 @@
     return root;
   }
 
-  function renderTree(node, parentEl, navLinks, onClickPage, folderPrefix) {
+  function renderTree(node, parentEl, navLinks, onClickPage, folderPrefix, activeFile) {
+    var nodeHasActive = false;
     var folderNames = Object.keys(node.folders).sort();
     folderNames.forEach(function (folderName) {
       var li = document.createElement('li');
-      var folderLabel = document.createElement('span');
       var fullPath = folderPrefix ? folderPrefix + '/' + folderName : folderName;
-      folderLabel.className = 'wiki-folder-label';
-      folderLabel.textContent = humanizeFolderName(folderName);
-      folderLabel.title = fullPath;
-      li.appendChild(folderLabel);
+      var folderButton = document.createElement('button');
+      folderButton.type = 'button';
+      folderButton.className = 'wiki-folder-toggle';
+      folderButton.title = fullPath;
+      folderButton.setAttribute('aria-expanded', 'false');
+      folderButton.innerHTML =
+        '<span class="wiki-folder-caret" aria-hidden="true">&#9656;</span>' +
+        '<span class="wiki-folder-label">' + escapeHtml(humanizeFolderName(folderName)) + '</span>';
+      li.appendChild(folderButton);
 
       var nested = document.createElement('ul');
       nested.className = 'wiki-folder-list';
-      renderTree(node.folders[folderName], nested, navLinks, onClickPage, fullPath);
+      var childHasActive = renderTree(node.folders[folderName], nested, navLinks, onClickPage, fullPath, activeFile);
+      nodeHasActive = nodeHasActive || childHasActive;
+      if (!childHasActive) {
+        nested.classList.add('is-collapsed');
+      } else {
+        folderButton.classList.add('is-expanded');
+        folderButton.setAttribute('aria-expanded', 'true');
+      }
+
+      folderButton.addEventListener('click', function () {
+        var expanded = folderButton.getAttribute('aria-expanded') === 'true';
+        folderButton.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+        folderButton.classList.toggle('is-expanded', !expanded);
+        nested.classList.toggle('is-collapsed', expanded);
+      });
+
       li.appendChild(nested);
       parentEl.appendChild(li);
     });
@@ -275,7 +392,13 @@
         navLinks.push(link);
         li.appendChild(link);
         parentEl.appendChild(li);
+
+        if (activeFile && page.file === activeFile) {
+          nodeHasActive = true;
+        }
       });
+
+    return nodeHasActive;
   }
 
   async function loadPage(file, title, navLinks, options) {
@@ -330,9 +453,6 @@
         loadPage(page.file, page.title, navLinks, { keepHash: false });
       }
 
-      renderTree(tree, rootList, navLinks, handlePageClick, '');
-      nav.appendChild(rootList);
-
       var params = new URLSearchParams(window.location.search);
       var requestedFile = params.get('page');
       var initialPage = null;
@@ -342,6 +462,9 @@
           return page.file === requestedFile;
         }) || null;
       }
+
+      renderTree(tree, rootList, navLinks, handlePageClick, '', requestedFile);
+      nav.appendChild(rootList);
 
       if (initialPage) {
         loadPage(initialPage.file, initialPage.title, navLinks, { keepHash: true });

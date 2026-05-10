@@ -228,8 +228,34 @@ body.is-locked .page {
   padding-left: 0;
 }
 
+.wiki-folder-list.is-collapsed {
+  display: none;
+}
+
 .wiki-nav li {
   margin: 0 0 6px;
+}
+
+.wiki-folder-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  background: transparent;
+  padding: 2px 0;
+  cursor: pointer;
+  color: #2d4f6b;
+  font: inherit;
+}
+
+.wiki-folder-caret {
+  font-size: 11px;
+  color: #6a7784;
+  transition: transform 0.15s ease;
+}
+
+.wiki-folder-toggle.is-expanded .wiki-folder-caret {
+  transform: rotate(90deg);
 }
 
 .wiki-folder-label {
@@ -237,7 +263,7 @@ body.is-locked .page {
   font-size: 15px;
   font-weight: 600;
   color: #5a6775;
-  margin: 8px 0 4px;
+  margin: 0;
 }
 
 .wiki-nav a {

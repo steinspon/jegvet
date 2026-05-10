@@ -21,7 +21,7 @@ Use this workflow for stable canine patients with acute vomiting (<48 hours) and
 4. Recheck in 24 hours or earlier if deterioration occurs.
 
 ## Example Imaging Placeholder
-![Exam room reference image](../images/example.jpg)
+![Exam room reference image](../../images/example.jpg)
 
 ## External References
 - [WSAVA Global Nutrition Toolkit](https://wsava.org/global-guidelines/global-nutrition-guidelines/)
@@ -29,3 +29,4 @@ Use this workflow for stable canine patients with acute vomiting (<48 hours) and
 
 ## Personal Notes
 Keep this section updated with local clinic preferences and medication stock adjustments.
+
