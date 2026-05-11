@@ -1,0 +1,184 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anaesthetic Calculator, Chinchilla | JegVet</title>
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="JegVet" />
+  <link rel="icon" type="image/png" sizes="32x32" href="logo_day_small.png?v=3" />
+  <link rel="apple-touch-icon" sizes="180x180" href="logo_day_small.png?v=3" />
+  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="logo_day_small.png?v=3" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="auth-guard.js" defer></script>
+</head>
+<body>
+  <main class="page page-top">
+    <section class="layout-card layout-card-wide">
+      <a href="index.html" class="brand-link" aria-label="Go to homepage">
+        <img src="logo_day.png" alt="JegVet logo" class="brand-logo" />
+      </a>
+
+      <h1 class="section-title">Anaesthetic Calculator, Chinchilla</h1>
+      <p class="section-subtitle">Enter patient weight in grams. Tables are optimized for phone portrait view.</p>
+
+      <form class="calc-form">
+        <div class="calc-field">
+          <label for="weight-grams">Weight (g)</label>
+          <input id="weight-grams" type="number" min="0" step="1" required />
+        </div>
+      </form>
+
+      <p id="calc-error" class="calc-error" aria-live="polite"></p>
+
+      <h2 class="section-subtitle" style="margin: 8px 0;">Anaesthetic (IM, same syringe)</h2>
+      <div class="calc-table-wrap">
+        <table class="calc-table" aria-label="Anaesthetic dose results">
+          <thead>
+            <tr>
+              <th>Drug (conc.)</th>
+              <th>Dose (mg/kg)</th>
+              <th>Volume (ml)</th>
+            </tr>
+          </thead>
+          <tbody id="anaesthetic-results">
+            <tr><td colspan="3">Enter weight to calculate doses.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 class="section-subtitle" style="margin: 14px 0 8px;">Reversal (IV/IM, separate syringes)</h2>
+      <div class="calc-table-wrap">
+        <table class="calc-table" aria-label="Reversal dose results">
+          <thead>
+            <tr>
+              <th>Drug (conc.)</th>
+              <th>Dose (mg/kg)</th>
+              <th>Volume (ml)</th>
+            </tr>
+          </thead>
+          <tbody id="reversal-results">
+            <tr><td colspan="3">Enter weight to calculate reversal doses.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tool-card" aria-live="polite" style="margin-top:14px;">
+        <h2>Combined IM Syringe</h2>
+        <p id="combined-result">Enter weight to calculate total IM volume for fentanyl + midazolam + medetomidine.</p>
+      </div>
+
+      <div class="tool-card" aria-live="polite" style="margin-top:14px;">
+        <h2>Journaltekst (Norsk)</h2>
+        <textarea id="journal-text" rows="8" readonly style="width:100%; border:1px solid var(--line); border-radius:10px; padding:10px; font:inherit;">Enter weight to generate patient journal summary.</textarea>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var drugs = [
+        { key: 'fentanyl', label: 'Fentanyl', doseMgKg: 0.02, concentrationMgMl: 0.05, group: 'induction' },
+        { key: 'midazolam', label: 'Midazolam', doseMgKg: 1.0, concentrationMgMl: 5, group: 'induction' },
+        { key: 'medetomidine', label: 'Medetomidine', doseMgKg: 0.05, concentrationMgMl: 1, group: 'induction' },
+        { key: 'naloxone', label: 'Naloxone', doseMgKg: 0.05, concentrationMgMl: 0.4, group: 'reversal' },
+        { key: 'flumazenil', label: 'Flumazenil', doseMgKg: 0.1, concentrationMgMl: 0.1, group: 'reversal' },
+        { key: 'atipamezole', label: 'Atipamezole', doseMgKg: 0.5, concentrationMgMl: 5, group: 'reversal' }
+      ];
+
+      var weightInput = document.getElementById('weight-grams');
+      var errorEl = document.getElementById('calc-error');
+      var anaestheticResultsEl = document.getElementById('anaesthetic-results');
+      var reversalResultsEl = document.getElementById('reversal-results');
+      var combinedResultEl = document.getElementById('combined-result');
+      var journalTextEl = document.getElementById('journal-text');
+
+      function format(value, decimals) {
+        return value.toFixed(decimals);
+      }
+
+      function renderPlaceholder() {
+        anaestheticResultsEl.innerHTML = '<tr><td colspan="3">Enter weight to calculate doses.</td></tr>';
+        reversalResultsEl.innerHTML = '<tr><td colspan="3">Enter weight to calculate reversal doses.</td></tr>';
+      }
+
+      function render() {
+        var weightGrams = Number(weightInput.value);
+
+        if (!weightInput.value) {
+          errorEl.textContent = '';
+          renderPlaceholder();
+          combinedResultEl.textContent = 'Enter weight to calculate total IM volume for fentanyl + midazolam + medetomidine.';
+          journalTextEl.value = 'Enter weight to generate patient journal summary.';
+          return;
+        }
+
+        if (!isFinite(weightGrams) || weightGrams <= 0) {
+          errorEl.textContent = 'Weight must be greater than 0 g.';
+          anaestheticResultsEl.innerHTML = '<tr><td colspan="3">No results.</td></tr>';
+          reversalResultsEl.innerHTML = '<tr><td colspan="3">No results.</td></tr>';
+          combinedResultEl.textContent = 'No result.';
+          journalTextEl.value = 'No journal text.';
+          return;
+        }
+
+        errorEl.textContent = '';
+        var weightKg = weightGrams / 1000;
+        var anaestheticRows = [];
+        var reversalRows = [];
+        var resultByKey = {};
+        var combinedImMl = 0;
+
+        for (var i = 0; i < drugs.length; i += 1) {
+          var drug = drugs[i];
+          var mg = drug.doseMgKg * weightKg;
+          var ml = mg / drug.concentrationMgMl;
+          resultByKey[drug.key] = { ml: ml };
+
+          if (drug.group === 'induction') {
+            combinedImMl += ml;
+            anaestheticRows.push(
+              '<tr>' +
+                '<td>' + drug.label + ' (' + format(drug.concentrationMgMl, 3) + ' mg/ml)</td>' +
+                '<td>' + format(drug.doseMgKg, 3) + '</td>' +
+                '<td>' + format(ml, 2) + '</td>' +
+              '</tr>'
+            );
+          } else {
+            reversalRows.push(
+              '<tr>' +
+                '<td>' + drug.label + ' (' + format(drug.concentrationMgMl, 3) + ' mg/ml)</td>' +
+                '<td>' + format(drug.doseMgKg, 3) + '</td>' +
+                '<td>' + format(ml, 2) + '</td>' +
+              '</tr>'
+            );
+          }
+        }
+
+        anaestheticResultsEl.innerHTML = anaestheticRows.join('');
+        reversalResultsEl.innerHTML = reversalRows.join('');
+        combinedResultEl.textContent = 'Total IM volume (fentanyl + midazolam + medetomidine): ' + format(combinedImMl, 2) + ' ml';
+
+        journalTextEl.value =
+          'Pasienten ble plassert i rolige omgivelser preoperativt for å minimere stress og ble deretter preoksygenert med 100 % O2 før anestesiinduksjon. ' +
+          'Narkoseprotokoll chinchilla: fentanyl 0,02 mg/kg + midazolam 1,0 mg/kg + medetomidine 0,05 mg/kg gis IM. ' +
+          'Beregnet for ' + format(weightGrams, 0) + ' g: fentanyl ' + format(resultByKey.fentanyl.ml, 2) + ' ml, midazolam ' + format(resultByKey.midazolam.ml, 2) + ' ml, medetomidine ' + format(resultByKey.medetomidine.ml, 2) + ' ml (totalt IM ' + format(combinedImMl, 2) + ' ml). ' +
+          'Det ble lagt inn perifert intravenøst kateter for vaskulær tilgang dersom anatomisk og klinisk mulig. Vedlikehold av narkose med isofluran gass 1-3%. Manuell monitorering av pasienten kontinuelig. ' +
+          'Reversert med: naloxone 0,05 mg/kg (' + format(resultByKey.naloxone.ml, 2) + ' ml), flumazenil 0,1 mg/kg (' + format(resultByKey.flumazenil.ml, 2) + ' ml), atipamezole 0,5 mg/kg (' + format(resultByKey.atipamezole.ml, 2) + ' ml). Gis IV i veneflon eller IM.';
+      }
+
+      weightInput.addEventListener('input', render);
+    })();
+  </script>
+</body>
+</html>
+
+
+
