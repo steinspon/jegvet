@@ -1,0 +1,21 @@
+﻿{
+  "name": "JegVet",
+  "short_name": "JegVet",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f6f8",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "logo_day_small.png?v=3",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "logo_day_small.png?v=3",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
