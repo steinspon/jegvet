@@ -1,4 +1,4 @@
-﻿(function () {
+(function () {
   'use strict';
 
   var STORAGE_KEY = 'jegvet-lang';
@@ -16,7 +16,7 @@
     no: {
       nav_home: 'Hjem',
       nav_back: 'Tilbake',
-      nav_search: 'SÃ¸k',
+      nav_search: 'Søk',
       nav_about: 'Info',
       switch_on: 'EN',
       switch_off: 'NO'

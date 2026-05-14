@@ -999,6 +999,13 @@ body.is-locked .page {
   font-size: 13px;
 }
 
+@media (prefers-color-scheme: dark) {
+  body[data-page="search"] .app-topbar-brand img,
+  body[data-page="search"] .brand-logo {
+    filter: brightness(0) invert(1);
+  }
+}
+
 .about-role {
   font-weight: 700;
   letter-spacing: 0.02em;
