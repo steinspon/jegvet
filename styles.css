@@ -1038,7 +1038,8 @@ body.is-locked .page {
   line-height: 1.35;
 }
 
-.calc-field input {
+.calc-field input,
+.calc-field select {
   display: block;
   width: 100%;
   min-height: 48px;
@@ -1132,7 +1133,8 @@ body.is-locked .page {
     margin-bottom: 8px;
   }
 
-  .calc-field input {
+  .calc-field input,
+  .calc-field select {
     display: block;
     width: 100%;
   }

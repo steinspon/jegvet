@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Dog Premed Calculator | JegVet</title>
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="JegVet" />
+  <link rel="icon" type="image/png" sizes="32x32" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel='manifest' href='manifest.webmanifest' />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="auth-guard.js" defer></script>
+  <script src="app-shell.js" defer></script>
+  <script>
+    window.PAGE_I18N = {
+      en: {
+        page_title_dog_premed: 'Dog Premed Calculator | JegVet',
+        dog_premed_title: 'Dog Premed Calculator',
+        dog_premed_subtitle: 'Medetomidine or dexmedetomidine plus methadone in same IM syringe.',
+        dog_premed_weight: 'Dog weight (kg)',
+        dog_premed_alpha: 'Alpha-2 choice',
+        dog_premed_mood: 'Dog mood category',
+        dog_premed_pain: 'Methadone category',
+        dog_premed_alpha_med: 'Medetomidine 1 mg/ml',
+        dog_premed_alpha_dex: 'Dexmedetomidine 0.5 mg/ml',
+        dog_premed_mood_low: 'Veldig gammel og rolig hund (low dose)',
+        dog_premed_mood_mid: 'Chill & happy hund (middle dose)',
+        dog_premed_mood_high: 'Stresset eller sint hund (high dose)',
+        dog_premed_pain_low: 'Litt smertefull (0.2 mg/kg)',
+        dog_premed_pain_high: 'Veldig smertefull/sint (0.3 mg/kg)',
+        dog_premed_results: 'Dose Results (IM)',
+        dog_premed_placeholder: 'Select options and enter weight to calculate dose in ml.',
+        dog_premed_error_positive: 'Weight must be greater than 0 kg.',
+        dog_premed_error_select: 'Please select alpha-2, mood category, and methadone category.',
+        dog_premed_no_result: 'No result.',
+        dog_premed_th_drug: 'Drug',
+        dog_premed_th_dose: 'Dose',
+        dog_premed_th_volume: 'Volume (ml)',
+        dog_premed_total: 'Total volume in same syringe:',
+        dog_premed_combined_title: 'Combined IM Syringe',
+        dog_premed_info_title: 'Calculation information'
+      },
+      no: {
+        page_title_dog_premed: 'Premed kalkulator hund | JegVet',
+        dog_premed_title: 'Premed kalkulator hund',
+        dog_premed_subtitle: 'Medetomidin eller dexmedetomidin pluss methadone i samme IM-sproyte.',
+        dog_premed_weight: 'Hundens vekt (kg)',
+        dog_premed_alpha: 'Valg av alpha-2',
+        dog_premed_mood: 'Kategori for hundens humoor',
+        dog_premed_pain: 'Kategori for methadone',
+        dog_premed_alpha_med: 'Medetomidin 1 mg/ml',
+        dog_premed_alpha_dex: 'Dexmedetomidin 0,5 mg/ml',
+        dog_premed_mood_low: 'Veldig gammel og rolig hund (lav dose)',
+        dog_premed_mood_mid: 'Chill & happy hund (middels dose)',
+        dog_premed_mood_high: 'Stresset eller sint hund (hoy dose)',
+        dog_premed_pain_low: 'Litt smertefull (0,2 mg/kg)',
+        dog_premed_pain_high: 'Veldig smertefull/sint (0,3 mg/kg)',
+        dog_premed_results: 'Doseresultat (IM)',
+        dog_premed_placeholder: 'Velg alternativ og oppgi vekt for aa beregne dose i ml.',
+        dog_premed_error_positive: 'Vekten maa vaere stoerre enn 0 kg.',
+        dog_premed_error_select: 'Velg alpha-2, humoorkategori og methadone-kategori.',
+        dog_premed_no_result: 'Ingen resultat.',
+        dog_premed_th_drug: 'Legemiddel',
+        dog_premed_th_dose: 'Dose',
+        dog_premed_th_volume: 'Volum (ml)',
+        dog_premed_total: 'Totalvolum i samme sproyte:',
+        dog_premed_combined_title: 'Kombinert IM-sproyte',
+        dog_premed_info_title: 'Informasjon om beregning'
+      }
+    };
+  </script>
+</head>
+<body data-i18n-title="page_title_dog_premed">
+  <main class="page page-top">
+    <section class="layout-card layout-card-wide">
+      <a href="index.html" class="brand-link" aria-label="Go to homepage">
+        <img src="logo_day.png" alt="JegVet logo" class="brand-logo" />
+      </a>
+
+      <h1 class="section-title" data-i18n="dog_premed_title">Dog Premed Calculator</h1>
+      <p class="section-subtitle" data-i18n="dog_premed_subtitle">Medetomidine or dexmedetomidine plus methadone in same IM syringe.</p>
+
+      <form class="calc-form" id="dog-premed-form">
+        <div class="calc-field">
+          <label for="weight-kg" data-i18n="dog_premed_weight">Dog weight (kg)</label>
+          <input id="weight-kg" type="number" min="0" step="0.01" required />
+        </div>
+        <div class="calc-field">
+          <label for="alpha-choice" data-i18n="dog_premed_alpha">Alpha-2 choice</label>
+          <select id="alpha-choice" required>
+            <option value="">-</option>
+            <option value="med" data-i18n="dog_premed_alpha_med">Medetomidine 1 mg/ml</option>
+            <option value="dex" data-i18n="dog_premed_alpha_dex">Dexmedetomidine 0.5 mg/ml</option>
+          </select>
+        </div>
+        <div class="calc-field">
+          <label for="mood-choice" data-i18n="dog_premed_mood">Dog mood category</label>
+          <select id="mood-choice" required>
+            <option value="">-</option>
+            <option value="low" data-i18n="dog_premed_mood_low">Veldig gammel og rolig hund (low dose)</option>
+            <option value="mid" data-i18n="dog_premed_mood_mid">Chill &amp; happy hund (middle dose)</option>
+            <option value="high" data-i18n="dog_premed_mood_high">Stresset eller sint hund (high dose)</option>
+          </select>
+        </div>
+        <div class="calc-field">
+          <label for="pain-choice" data-i18n="dog_premed_pain">Methadone category</label>
+          <select id="pain-choice" required>
+            <option value="">-</option>
+            <option value="0.2" data-i18n="dog_premed_pain_low">Litt smertefull (0.2 mg/kg)</option>
+            <option value="0.3" data-i18n="dog_premed_pain_high">Veldig smertefull/sint (0.3 mg/kg)</option>
+          </select>
+        </div>
+      </form>
+
+      <p id="calc-error" class="calc-error" aria-live="polite"></p>
+
+      <h2 class="section-subtitle" style="margin: 8px 0;" data-i18n="dog_premed_results">Dose Results (IM)</h2>
+      <div class="calc-table-wrap">
+        <table class="calc-table" aria-label="Dog premed dose results">
+          <thead>
+            <tr>
+              <th data-i18n="dog_premed_th_drug">Drug</th>
+              <th data-i18n="dog_premed_th_dose">Dose</th>
+              <th data-i18n="dog_premed_th_volume">Volume (ml)</th>
+            </tr>
+          </thead>
+          <tbody id="dose-results">
+            <tr><td colspan="3" data-i18n="dog_premed_placeholder">Select options and enter weight to calculate dose in ml.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tool-card" aria-live="polite" style="margin-top:14px;">
+        <h2 data-i18n="dog_premed_combined_title">Combined IM Syringe</h2>
+        <p id="combined-result" data-i18n="dog_premed_placeholder">Select options and enter weight to calculate dose in ml.</p>
+      </div>
+
+      <div class="tool-card" style="margin-top:14px;">
+        <h2 data-i18n="dog_premed_info_title">Calculation information</h2>
+        <ul>
+          <li>Medetomidine 1 mg/ml mood groups: 5, 10, 15 ug/kg</li>
+          <li>Dexmedetomidine 0.5 mg/ml mood groups: 2, 5, 7 ug/kg</li>
+          <li>Methadone 10 mg/ml categories: 0.2 and 0.3 mg/kg</li>
+          <li>Alpha-2 and methadone are mixed in same syringe and given IM</li>
+          <li>Formula: ml = (dose mg/kg x body weight kg) / concentration mg/ml</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var weightInput = document.getElementById('weight-kg');
+      var alphaSelect = document.getElementById('alpha-choice');
+      var moodSelect = document.getElementById('mood-choice');
+      var painSelect = document.getElementById('pain-choice');
+      var errorEl = document.getElementById('calc-error');
+      var resultsEl = document.getElementById('dose-results');
+      var combinedEl = document.getElementById('combined-result');
+      var formEl = document.getElementById('dog-premed-form');
+
+      var alphaDefinitions = {
+        med: { label: 'Medetomidine', concentrationMgMl: 1, moodUgKg: { low: 5, mid: 10, high: 15 } },
+        dex: { label: 'Dexmedetomidine', concentrationMgMl: 0.5, moodUgKg: { low: 2, mid: 5, high: 7 } }
+      };
+
+      function t(key, fallback) {
+        if (window.JegVetLang && typeof window.JegVetLang.t === 'function') {
+          return window.JegVetLang.t(key, fallback);
+        }
+        return fallback || key;
+      }
+
+      function format(value, decimals) {
+        return value.toFixed(decimals);
+      }
+
+      function renderPlaceholder(messageKey, fallback) {
+        resultsEl.innerHTML = '<tr><td colspan="3">' + t(messageKey, fallback) + '</td></tr>';
+        combinedEl.textContent = t(messageKey, fallback);
+      }
+
+      function render() {
+        var weightKg = Number(weightInput.value);
+        var alphaKey = alphaSelect.value;
+        var moodKey = moodSelect.value;
+        var methadoneDoseMgKg = Number(painSelect.value);
+
+        if (!weightInput.value && !alphaKey && !moodKey && !painSelect.value) {
+          errorEl.textContent = '';
+          renderPlaceholder('dog_premed_placeholder', 'Select options and enter weight to calculate dose in ml.');
+          return;
+        }
+
+        if (!isFinite(weightKg) || weightKg <= 0) {
+          errorEl.textContent = t('dog_premed_error_positive', 'Weight must be greater than 0 kg.');
+          renderPlaceholder('dog_premed_no_result', 'No result.');
+          return;
+        }
+
+        if (!alphaKey || !moodKey || !isFinite(methadoneDoseMgKg) || methadoneDoseMgKg <= 0) {
+          errorEl.textContent = t('dog_premed_error_select', 'Please select alpha-2, mood category, and methadone category.');
+          renderPlaceholder('dog_premed_no_result', 'No result.');
+          return;
+        }
+
+        errorEl.textContent = '';
+
+        var alphaDef = alphaDefinitions[alphaKey];
+        var alphaDoseUgKg = alphaDef.moodUgKg[moodKey];
+        var alphaDoseMgKg = alphaDoseUgKg / 1000;
+        var alphaVolumeMl = (alphaDoseMgKg * weightKg) / alphaDef.concentrationMgMl;
+
+        var methadoneConcentration = 10;
+        var methadoneVolumeMl = (methadoneDoseMgKg * weightKg) / methadoneConcentration;
+        var totalMl = alphaVolumeMl + methadoneVolumeMl;
+
+        resultsEl.innerHTML = [
+          '<tr><td>' + alphaDef.label + ' (' + format(alphaDef.concentrationMgMl, 2) + ' mg/ml)</td><td>' + format(alphaDoseUgKg, 0) + ' ug/kg</td><td>' + format(alphaVolumeMl, 3) + '</td></tr>',
+          '<tr><td>Methadone (10.00 mg/ml)</td><td>' + format(methadoneDoseMgKg, 1) + ' mg/kg</td><td>' + format(methadoneVolumeMl, 3) + '</td></tr>'
+        ].join('');
+
+        combinedEl.textContent = t('dog_premed_total', 'Total volume in same syringe:') + ' ' + format(totalMl, 3) + ' ml';
+      }
+
+      weightInput.addEventListener('input', render);
+      alphaSelect.addEventListener('change', render);
+      moodSelect.addEventListener('change', render);
+      painSelect.addEventListener('change', render);
+      document.addEventListener('jegvet:langchange', render);
+      if (formEl) {
+        formEl.addEventListener('submit', function (event) {
+          event.preventDefault();
+          render();
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
