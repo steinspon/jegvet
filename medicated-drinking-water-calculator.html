@@ -8,35 +8,64 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="JegVet" />
-  <link rel="icon" type="image/png" sizes="32x32" href="logo_day_small.png?v=3" />
-  <link rel="apple-touch-icon" sizes="180x180" href="logo_day_small.png?v=3" />
-  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="logo_day_small.png?v=3" />
+  <link rel="icon" type="image/png" sizes="32x32" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
   <link rel='manifest' href='manifest.webmanifest' />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <script src="auth-guard.js" defer></script>
+  <script src="app-shell.js" defer></script>
+  <script>
+    window.PAGE_I18N = {
+      en: {
+        page_title_water: 'Medicated Drinking Water Calculator | JegVet',
+        water_title: 'Medicated Drinking Water Calculator',
+        water_subtitle: 'Enter target concentration in mg/L and tablet strength in mg/tablet.',
+        water_target_label: 'Target concentration (mg/L)',
+        water_tablet_label: 'Tablet strength (mg/tablet)',
+        water_result_title: 'Result',
+        water_placeholder: 'Enter values to calculate deciliters of water per tablet.',
+        water_error_positive: 'Both values must be greater than 0.',
+        water_no_result: 'No result.',
+        water_result_suffix: 'dL water per tablet'
+      },
+      no: {
+        page_title_water: 'Kalkulator for medisinert drikkevann | JegVet',
+        water_title: 'Kalkulator for medisinert drikkevann',
+        water_subtitle: 'Oppgi mÃ¥lkonsentrasjon i mg/L og tablettstyrke i mg/tablett.',
+        water_target_label: 'MÃ¥lkonsentrasjon (mg/L)',
+        water_tablet_label: 'Tablettstyrke (mg/tablett)',
+        water_result_title: 'Resultat',
+        water_placeholder: 'Oppgi verdier for Ã¥ beregne desiliter vann per tablett.',
+        water_error_positive: 'Begge verdier mÃ¥ vÃ¦re stÃ¸rre enn 0.',
+        water_no_result: 'Ingen resultat.',
+        water_result_suffix: 'dL vann per tablett'
+      }
+    };
+  </script>
 </head>
-<body>
+<body data-i18n-title="page_title_water">
   <main class="page page-top">
     <section class="layout-card layout-card-wide">
       <a href="index.html" class="brand-link" aria-label="Go to homepage">
         <img src="logo_day.png" alt="JegVet logo" class="brand-logo" />
       </a>
 
-      <h1 class="section-title">Medicated Drinking Water Calculator</h1>
-      <p class="section-subtitle">
+      <h1 class="section-title" data-i18n="water_title">Medicated Drinking Water Calculator</h1>
+      <p class="section-subtitle" data-i18n="water_subtitle">
         Enter target concentration in mg/L and tablet strength in mg/tablet.
       </p>
 
       <form id="water-calc-form" class="calc-form">
         <div class="calc-field">
-          <label for="target-mg-l">Target concentration (mg/L)</label>
+          <label for="target-mg-l" data-i18n="water_target_label">Target concentration (mg/L)</label>
           <input id="target-mg-l" type="number" min="0" step="0.01" required />
         </div>
         <div class="calc-field">
-          <label for="tablet-strength">Tablet strength (mg/tablet)</label>
+          <label for="tablet-strength" data-i18n="water_tablet_label">Tablet strength (mg/tablet)</label>
           <input id="tablet-strength" type="number" min="0" step="0.01" required />
         </div>
       </form>
@@ -44,8 +73,19 @@
       <p id="water-calc-error" class="calc-error" aria-live="polite"></p>
 
       <div class="tool-card" aria-live="polite">
-        <h2>Result</h2>
-        <p id="water-calc-result">Enter values to calculate deciliters of water per tablet.</p>
+        <h2 data-i18n="water_result_title">Result</h2>
+        <p id="water-calc-result" data-i18n="water_placeholder">Enter values to calculate deciliters of water per tablet.</p>
+      </div>
+
+      <div class="tool-card" style="margin-top:14px;">
+        <h2>Calculation information</h2>
+        <p>Assumptions used in this calculator:</p>
+        <ul>
+          <li>Input target concentration is in mg/L</li>
+          <li>Input tablet strength is in mg/tablet</li>
+          <li>Liters water per tablet = tablet strength (mg) / target concentration (mg/L)</li>
+          <li>Displayed result: dL water per tablet = liters per tablet x 10</li>
+        </ul>
       </div>
     </section>
   </main>
@@ -53,6 +93,13 @@
   <script>
     (function () {
       'use strict';
+
+      function t(key, fallback) {
+        if (window.JegVetLang && typeof window.JegVetLang.t === 'function') {
+          return window.JegVetLang.t(key, fallback);
+        }
+        return fallback || key;
+      }
 
       var targetInput = document.getElementById('target-mg-l');
       var tabletInput = document.getElementById('tablet-strength');
@@ -73,28 +120,31 @@
 
         if (!targetInput.value || !tabletInput.value) {
           errorEl.textContent = '';
-          resultEl.textContent = 'Enter values to calculate deciliters of water per tablet.';
+          resultEl.textContent = t('water_placeholder', 'Enter values to calculate deciliters of water per tablet.');
           return;
         }
 
         if (!isFinite(targetMgPerL) || !isFinite(tabletMg) || targetMgPerL <= 0 || tabletMg <= 0) {
-          errorEl.textContent = 'Both values must be greater than 0.';
-          resultEl.textContent = 'No result.';
+          errorEl.textContent = t('water_error_positive', 'Both values must be greater than 0.');
+          resultEl.textContent = t('water_no_result', 'No result.');
           return;
         }
 
         errorEl.textContent = '';
         var litersPerTablet = tabletMg / targetMgPerL;
         var decilitersPerTablet = litersPerTablet * 10;
-        resultEl.textContent = format(decilitersPerTablet, 2) + ' dL water per tablet';
+        resultEl.textContent = format(decilitersPerTablet, 2) + ' ' + t('water_result_suffix', 'dL water per tablet');
       }
 
       targetInput.addEventListener('input', render);
       tabletInput.addEventListener('input', render);
+      document.addEventListener('jegvet:langchange', render);
     })();
   </script>
 </body>
 </html>
+
+
 
 
 

@@ -1,0 +1,204 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Cat Heart Protocol Sedation Calculator | JegVet</title>
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="JegVet" />
+  <link rel="icon" type="image/png" sizes="32x32" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel='manifest' href='manifest.webmanifest' />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="auth-guard.js" defer></script>
+  <script src="app-shell.js" defer></script>
+  <script>
+    window.PAGE_I18N = {
+      en: {
+        page_title_cat_heart: 'Cat Heart Protocol Sedation Calculator | JegVet',
+        cat_heart_title: 'Sedation/Premedication Heart Protocol, Cat',
+        cat_heart_subtitle: 'Midazolam 0.2-0.3 mg/kg IV + methadone 0.2-0.3 mg/kg IV.',
+        cat_heart_weight: 'Weight (kg)',
+        cat_heart_section: 'Sedation/Premedication (IV)',
+        cat_heart_th_drug: 'Drug (conc.)',
+        cat_heart_th_dose: 'Dose range (mg/kg)',
+        cat_heart_th_volume: 'Volume range (ml)',
+        cat_heart_placeholder: 'Enter weight to calculate doses.',
+        cat_heart_combined_title: 'Combined IV Volume',
+        cat_heart_combined_placeholder: 'Enter weight to calculate total IV volume range for midazolam + methadone.',
+        cat_heart_error_positive: 'Weight must be greater than 0 kg.',
+        cat_heart_no_results: 'No results.',
+        cat_heart_no_result: 'No result.',
+        cat_heart_total_label: 'Total IV volume range (midazolam + methadone):'
+      },
+      no: {
+        page_title_cat_heart: 'Sedasjonskalkulator katt hjerteprotokoll | JegVet',
+        cat_heart_title: 'Sedasjon/premedikasjon hjerteprotokoll, katt',
+        cat_heart_subtitle: 'Midazolam 0,2-0,3 mg/kg IV + methadone 0,2-0,3 mg/kg IV.',
+        cat_heart_weight: 'Vekt (kg)',
+        cat_heart_section: 'Sedasjon/premedikasjon (IV)',
+        cat_heart_th_drug: 'Legemiddel (kons.)',
+        cat_heart_th_dose: 'Doseintervall (mg/kg)',
+        cat_heart_th_volume: 'Volumintervall (ml)',
+        cat_heart_placeholder: 'Oppgi vekt for aa beregne doser.',
+        cat_heart_combined_title: 'Kombinert IV-volum',
+        cat_heart_combined_placeholder: 'Oppgi vekt for aa beregne totalt IV-volumintervall for midazolam + methadone.',
+        cat_heart_error_positive: 'Vekten maa vaere stoerre enn 0 kg.',
+        cat_heart_no_results: 'Ingen resultater.',
+        cat_heart_no_result: 'Ingen resultat.',
+        cat_heart_total_label: 'Totalt IV-volumintervall (midazolam + methadone):'
+      }
+    };
+  </script>
+</head>
+<body data-i18n-title="page_title_cat_heart">
+  <main class="page page-top">
+    <section class="layout-card layout-card-wide">
+      <a href="index.html" class="brand-link" aria-label="Go to homepage">
+        <img src="logo_day.png" alt="JegVet logo" class="brand-logo" />
+      </a>
+
+      <h1 class="section-title" data-i18n="cat_heart_title">Sedation/Premedication Heart Protocol, Cat</h1>
+      <p class="section-subtitle" data-i18n="cat_heart_subtitle">Midazolam 0.2-0.3 mg/kg IV + methadone 0.2-0.3 mg/kg IV.</p>
+
+      <form class="calc-form" id="cat-heart-form">
+        <div class="calc-field">
+          <label for="weight-kg" data-i18n="cat_heart_weight">Weight (kg)</label>
+          <input id="weight-kg" type="number" min="0" step="0.01" required />
+        </div>
+      </form>
+
+      <p id="calc-error" class="calc-error" aria-live="polite"></p>
+
+      <h2 class="section-subtitle" style="margin: 8px 0;" data-i18n="cat_heart_section">Sedation/Premedication (IV)</h2>
+      <div class="calc-table-wrap">
+        <table class="calc-table" aria-label="Cat heart protocol sedation dose results">
+          <thead>
+            <tr>
+              <th data-i18n="cat_heart_th_drug">Drug (conc.)</th>
+              <th data-i18n="cat_heart_th_dose">Dose range (mg/kg)</th>
+              <th data-i18n="cat_heart_th_volume">Volume range (ml)</th>
+            </tr>
+          </thead>
+          <tbody id="sedation-results">
+            <tr><td colspan="3" data-i18n="cat_heart_placeholder">Enter weight to calculate doses.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tool-card" aria-live="polite" style="margin-top:14px;">
+        <h2 data-i18n="cat_heart_combined_title">Combined IV Volume</h2>
+        <p id="combined-result" data-i18n="cat_heart_combined_placeholder">Enter weight to calculate total IV volume range for midazolam + methadone.</p>
+      </div>
+
+      <div class="tool-card" style="margin-top:14px;">
+        <h2>Calculation information</h2>
+        <p>Assumptions used in this calculator:</p>
+        <ul>
+          <li>Midazolam dose range: 0.20 to 0.30 mg/kg</li>
+          <li>Midazolam concentration: 5.00 mg/ml</li>
+          <li>Methadone dose range: 0.20 to 0.30 mg/kg</li>
+          <li>Methadone concentration: 10.00 mg/ml</li>
+          <li>Volume range (ml) = ((dose range mg/kg) x body weight kg) / concentration mg/ml</li>
+          <li>Combined IV volume range = midazolam range + methadone range</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var drugs = [
+        { label: 'Midazolam', doseMinMgKg: 0.2, doseMaxMgKg: 0.3, concentrationMgMl: 5.0 },
+        { label: 'Methadone', doseMinMgKg: 0.2, doseMaxMgKg: 0.3, concentrationMgMl: 10.0 }
+      ];
+
+      var formEl = document.getElementById('cat-heart-form');
+      var weightInput = document.getElementById('weight-kg');
+      var errorEl = document.getElementById('calc-error');
+      var resultsEl = document.getElementById('sedation-results');
+      var combinedResultEl = document.getElementById('combined-result');
+
+      function t(key, fallback) {
+        if (window.JegVetLang && typeof window.JegVetLang.t === 'function') {
+          return window.JegVetLang.t(key, fallback);
+        }
+        return fallback || key;
+      }
+
+      function format(value, decimals) {
+        return value.toFixed(decimals);
+      }
+
+      function renderPlaceholder() {
+        resultsEl.innerHTML = '<tr><td colspan="3">' + t('cat_heart_placeholder', 'Enter weight to calculate doses.') + '</td></tr>';
+      }
+
+      function render() {
+        var weightKg = Number(weightInput.value);
+
+        if (!weightInput.value) {
+          errorEl.textContent = '';
+          renderPlaceholder();
+          combinedResultEl.textContent = t('cat_heart_combined_placeholder', 'Enter weight to calculate total IV volume range for midazolam + methadone.');
+          return;
+        }
+
+        if (!isFinite(weightKg) || weightKg <= 0) {
+          errorEl.textContent = t('cat_heart_error_positive', 'Weight must be greater than 0 kg.');
+          resultsEl.innerHTML = '<tr><td colspan="3">' + t('cat_heart_no_results', 'No results.') + '</td></tr>';
+          combinedResultEl.textContent = t('cat_heart_no_result', 'No result.');
+          return;
+        }
+
+        errorEl.textContent = '';
+        var rows = [];
+        var totalMinMl = 0;
+        var totalMaxMl = 0;
+
+        for (var i = 0; i < drugs.length; i += 1) {
+          var drug = drugs[i];
+          var minMg = drug.doseMinMgKg * weightKg;
+          var maxMg = drug.doseMaxMgKg * weightKg;
+          var minMl = minMg / drug.concentrationMgMl;
+          var maxMl = maxMg / drug.concentrationMgMl;
+
+          totalMinMl += minMl;
+          totalMaxMl += maxMl;
+
+          rows.push(
+            '<tr>' +
+              '<td>' + drug.label + ' (' + format(drug.concentrationMgMl, 2) + ' mg/ml)</td>' +
+              '<td>' + format(drug.doseMinMgKg, 2) + ' - ' + format(drug.doseMaxMgKg, 2) + '</td>' +
+              '<td>' + format(minMl, 2) + ' - ' + format(maxMl, 2) + '</td>' +
+            '</tr>'
+          );
+        }
+
+        resultsEl.innerHTML = rows.join('');
+        combinedResultEl.textContent =
+          t('cat_heart_total_label', 'Total IV volume range (midazolam + methadone):') +
+          ' ' + format(totalMinMl, 2) + ' - ' + format(totalMaxMl, 2) + ' ml';
+      }
+
+      weightInput.addEventListener('input', render);
+      if (formEl) {
+        formEl.addEventListener('submit', function (event) {
+          event.preventDefault();
+          render();
+        });
+      }
+      document.addEventListener('jegvet:langchange', render);
+    })();
+  </script>
+</body>
+</html>
+

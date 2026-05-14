@@ -8,75 +8,135 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="JegVet" />
-  <link rel="icon" type="image/png" sizes="32x32" href="logo_day_small.png?v=3" />
-  <link rel="apple-touch-icon" sizes="180x180" href="logo_day_small.png?v=3" />
-  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="logo_day_small.png?v=3" />
+  <link rel="icon" type="image/png" sizes="32x32" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
   <link rel='manifest' href='manifest.webmanifest' />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <script src="auth-guard.js" defer></script>
+  <script src="app-shell.js" defer></script>
+  <script>
+    window.PAGE_I18N = {
+      en: {
+        guinea_title_page: 'Anaesthetic Calculator, Guinea pig | JegVet',
+        guinea_title: 'Anaesthetic Calculator, Guinea pig',
+        anaes_subtitle: 'Enter patient weight in grams. Tables are optimized for phone portrait view.',
+        anaes_weight: 'Weight (g)',
+        anaes_section_anaes: 'Anaesthetic (IM, same syringe)',
+        anaes_section_rev: 'Reversal (IV/IM, separate syringes)',
+        anaes_th_drug: 'Drug (conc.)',
+        anaes_th_dose: 'Dose (mg/kg)',
+        anaes_th_volume: 'Volume (ml)',
+        anaes_placeholder_dose: 'Enter weight to calculate doses.',
+        anaes_placeholder_rev: 'Enter weight to calculate reversal doses.',
+        anaes_combined_title: 'Combined IM Syringe',
+        anaes_combined_placeholder: 'Enter weight to calculate total IM volume for fentanyl + midazolam + medetomidine.',
+        anaes_journal_title: 'Journaltekst (Norsk)',
+        anaes_journal_placeholder: 'Enter weight to generate patient journal summary.',
+        anaes_error_positive: 'Weight must be greater than 0 g.',
+        anaes_no_results: 'No results.',
+        anaes_no_result: 'No result.',
+        anaes_no_journal: 'No journal text.',
+        anaes_total_label: 'Total IM volume (fentanyl + midazolam + medetomidine):'
+      },
+      no: {
+        guinea_title_page: 'Anestesikalkulator, marsvin | JegVet',
+        guinea_title: 'Anestesikalkulator, marsvin',
+        anaes_subtitle: 'Oppgi pasientens vekt i gram. Tabellene er optimalisert for mobil i portrett.',
+        anaes_weight: 'Vekt (g)',
+        anaes_section_anaes: 'Anestesi (IM, samme sprøyte)',
+        anaes_section_rev: 'Reversering (IV/IM, separate sprøyter)',
+        anaes_th_drug: 'Legemiddel (kons.)',
+        anaes_th_dose: 'Dose (mg/kg)',
+        anaes_th_volume: 'Volum (ml)',
+        anaes_placeholder_dose: 'Oppgi vekt for å beregne doser.',
+        anaes_placeholder_rev: 'Oppgi vekt for å beregne reverseringsdoser.',
+        anaes_combined_title: 'Kombinert IM-sprøyte',
+        anaes_combined_placeholder: 'Oppgi vekt for å beregne totalt IM-volum for fentanyl + midazolam + medetomidin.',
+        anaes_journal_title: 'Journaltekst (Norsk)',
+        anaes_journal_placeholder: 'Oppgi vekt for å generere journalsammendrag.',
+        anaes_error_positive: 'Vekten må være større enn 0 g.',
+        anaes_no_results: 'Ingen resultater.',
+        anaes_no_result: 'Ingen resultat.',
+        anaes_no_journal: 'Ingen journaltekst.',
+        anaes_total_label: 'Totalt IM-volum (fentanyl + midazolam + medetomidine):'
+      }
+    };
+  </script>
 </head>
-<body>
+<body data-i18n-title="guinea_title_page">
   <main class="page page-top">
     <section class="layout-card layout-card-wide">
       <a href="index.html" class="brand-link" aria-label="Go to homepage">
         <img src="logo_day.png" alt="JegVet logo" class="brand-logo" />
       </a>
 
-      <h1 class="section-title">Anaesthetic Calculator, Guinea pig</h1>
-      <p class="section-subtitle">Enter patient weight in grams. Tables are optimized for phone portrait view.</p>
+      <h1 class="section-title" data-i18n="guinea_title">Anaesthetic Calculator, Guinea pig</h1>
+      <p class="section-subtitle" data-i18n="anaes_subtitle">Enter patient weight in grams. Tables are optimized for phone portrait view.</p>
 
       <form class="calc-form">
         <div class="calc-field">
-          <label for="weight-grams">Weight (g)</label>
+          <label for="weight-grams" data-i18n="anaes_weight">Weight (g)</label>
           <input id="weight-grams" type="number" min="0" step="1" required />
         </div>
       </form>
 
       <p id="calc-error" class="calc-error" aria-live="polite"></p>
 
-      <h2 class="section-subtitle" style="margin: 8px 0;">Anaesthetic (IM, same syringe)</h2>
+      <h2 class="section-subtitle" style="margin: 8px 0;" data-i18n="anaes_section_anaes">Anaesthetic (IM, same syringe)</h2>
       <div class="calc-table-wrap">
         <table class="calc-table" aria-label="Anaesthetic dose results">
           <thead>
             <tr>
-              <th>Drug (conc.)</th>
-              <th>Dose (mg/kg)</th>
-              <th>Volume (ml)</th>
+              <th data-i18n="anaes_th_drug">Drug (conc.)</th>
+              <th data-i18n="anaes_th_dose">Dose (mg/kg)</th>
+              <th data-i18n="anaes_th_volume">Volume (ml)</th>
             </tr>
           </thead>
           <tbody id="anaesthetic-results">
-            <tr><td colspan="3">Enter weight to calculate doses.</td></tr>
+            <tr><td colspan="3" data-i18n="anaes_placeholder_dose">Enter weight to calculate doses.</td></tr>
           </tbody>
         </table>
       </div>
 
-      <h2 class="section-subtitle" style="margin: 14px 0 8px;">Reversal (IV/IM, separate syringes)</h2>
+      <h2 class="section-subtitle" style="margin: 14px 0 8px;" data-i18n="anaes_section_rev">Reversal (IV/IM, separate syringes)</h2>
       <div class="calc-table-wrap">
         <table class="calc-table" aria-label="Reversal dose results">
           <thead>
             <tr>
-              <th>Drug (conc.)</th>
-              <th>Dose (mg/kg)</th>
-              <th>Volume (ml)</th>
+              <th data-i18n="anaes_th_drug">Drug (conc.)</th>
+              <th data-i18n="anaes_th_dose">Dose (mg/kg)</th>
+              <th data-i18n="anaes_th_volume">Volume (ml)</th>
             </tr>
           </thead>
           <tbody id="reversal-results">
-            <tr><td colspan="3">Enter weight to calculate reversal doses.</td></tr>
+            <tr><td colspan="3" data-i18n="anaes_placeholder_rev">Enter weight to calculate reversal doses.</td></tr>
           </tbody>
         </table>
       </div>
 
       <div class="tool-card" aria-live="polite" style="margin-top:14px;">
-        <h2>Combined IM Syringe</h2>
+        <h2 data-i18n="anaes_combined_title">Combined IM Syringe</h2>
         <p id="combined-result">Enter weight to calculate total IM volume for fentanyl + midazolam + medetomidine.</p>
       </div>
 
       <div class="tool-card" aria-live="polite" style="margin-top:14px;">
-        <h2>Journaltekst (Norsk)</h2>
+        <h2 data-i18n="anaes_journal_title">Journaltekst (Norsk)</h2>
         <textarea id="journal-text" rows="8" readonly style="width:100%; border:1px solid var(--line); border-radius:10px; padding:10px; font:inherit;">Enter weight to generate patient journal summary.</textarea>
+      </div>
+
+      <div class="tool-card" style="margin-top:14px;">
+        <h2>Calculation information</h2>
+        <p>Assumptions used in this calculator:</p>
+        <ul>
+          <li>Induction: fentanyl 0.025 mg/kg (0.05 mg/ml), midazolam 1.0 mg/kg (5 mg/ml), medetomidine 0.2 mg/kg (1 mg/ml)</li>
+          <li>Reversal: naloxone 0.03 mg/kg (0.4 mg/ml), flumazenil 0.1 mg/kg (0.1 mg/ml), atipamezole 1.0 mg/kg (5 mg/ml)</li>
+          <li>Volume (ml) = (dose mg/kg x body weight kg) / concentration mg/ml</li>
+          <li>Combined IM volume = fentanyl + midazolam + medetomidine volumes</li>
+        </ul>
       </div>
     </section>
   </main>
@@ -84,6 +144,13 @@
   <script>
     (function () {
       'use strict';
+
+      function t(key, fallback) {
+        if (window.JegVetLang && typeof window.JegVetLang.t === 'function') {
+          return window.JegVetLang.t(key, fallback);
+        }
+        return fallback || key;
+      }
 
       var drugs = [
         { key: 'fentanyl', label: 'Fentanyl', doseMgKg: 0.025, concentrationMgMl: 0.05, group: 'induction' },
@@ -106,8 +173,8 @@
       }
 
       function renderPlaceholder() {
-        anaestheticResultsEl.innerHTML = '<tr><td colspan="3">Enter weight to calculate doses.</td></tr>';
-        reversalResultsEl.innerHTML = '<tr><td colspan="3">Enter weight to calculate reversal doses.</td></tr>';
+        anaestheticResultsEl.innerHTML = '<tr><td colspan="3">' + t('anaes_placeholder_dose', 'Enter weight to calculate doses.') + '</td></tr>';
+        reversalResultsEl.innerHTML = '<tr><td colspan="3">' + t('anaes_placeholder_rev', 'Enter weight to calculate reversal doses.') + '</td></tr>';
       }
 
       function render() {
@@ -116,17 +183,17 @@
         if (!weightInput.value) {
           errorEl.textContent = '';
           renderPlaceholder();
-          combinedResultEl.textContent = 'Enter weight to calculate total IM volume for fentanyl + midazolam + medetomidine.';
-          journalTextEl.value = 'Enter weight to generate patient journal summary.';
+          combinedResultEl.textContent = t('anaes_combined_placeholder', 'Enter weight to calculate total IM volume for fentanyl + midazolam + medetomidine.');
+          journalTextEl.value = t('anaes_journal_placeholder', 'Enter weight to generate patient journal summary.');
           return;
         }
 
         if (!isFinite(weightGrams) || weightGrams <= 0) {
-          errorEl.textContent = 'Weight must be greater than 0 g.';
-          anaestheticResultsEl.innerHTML = '<tr><td colspan="3">No results.</td></tr>';
-          reversalResultsEl.innerHTML = '<tr><td colspan="3">No results.</td></tr>';
-          combinedResultEl.textContent = 'No result.';
-          journalTextEl.value = 'No journal text.';
+          errorEl.textContent = t('anaes_error_positive', 'Weight must be greater than 0 g.');
+          anaestheticResultsEl.innerHTML = '<tr><td colspan="3">' + t('anaes_no_results', 'No results.') + '</td></tr>';
+          reversalResultsEl.innerHTML = '<tr><td colspan="3">' + t('anaes_no_results', 'No results.') + '</td></tr>';
+          combinedResultEl.textContent = t('anaes_no_result', 'No result.');
+          journalTextEl.value = t('anaes_no_journal', 'No journal text.');
           return;
         }
 
@@ -165,7 +232,7 @@
 
         anaestheticResultsEl.innerHTML = anaestheticRows.join('');
         reversalResultsEl.innerHTML = reversalRows.join('');
-        combinedResultEl.textContent = 'Total IM volume (fentanyl + midazolam + medetomidine): ' + format(combinedImMl, 2) + ' ml';
+        combinedResultEl.textContent = t('anaes_total_label', 'Total IM volume (fentanyl + midazolam + medetomidine):') + ' ' + format(combinedImMl, 2) + ' ml';
 
         journalTextEl.value =
           'Pasienten ble plassert i rolige omgivelser preoperativt for å minimere stress og ble deretter preoksygenert med 100 % O2 før anestesiinduksjon. ' +
@@ -176,6 +243,7 @@
       }
 
       weightInput.addEventListener('input', render);
+      document.addEventListener('jegvet:langchange', render);
     })();
   </script>
 </body>

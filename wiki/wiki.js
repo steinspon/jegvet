@@ -5,6 +5,13 @@
     activeIndex: -1
   };
 
+  function t(key, fallback) {
+    if (window.JegVetLang && typeof window.JegVetLang.t === 'function') {
+      return window.JegVetLang.t(key, fallback);
+    }
+    return fallback || key;
+  }
+
 
   function escapeHtml(text) {
     return text
@@ -627,12 +634,12 @@
       link.classList.toggle('active', link.getAttribute('data-file') === file);
     });
 
-    article.innerHTML = '<p>Loading...</p>';
+    article.innerHTML = '<p>' + escapeHtml(t('wiki_loading_short', 'Loading...')) + '</p>';
 
     try {
       var markdown = await loadMarkdown(file);
       article.innerHTML = markdownToHtml(markdown, file);
-      document.title = title + ' | Wiki | JegVet';
+      document.title = title + ' | ' + t('wiki_title_suffix', 'Wiki') + ' | JegVet';
       var nextUrl = new URL(window.location.href);
       nextUrl.searchParams.set('page', file);
       if (hitQuery) {
@@ -656,7 +663,7 @@
         updateFindCount();
       }
     } catch (error) {
-      article.innerHTML = '<p>Unable to load this entry. Check file path and try again.</p>';
+      article.innerHTML = '<p>' + escapeHtml(t('wiki_load_error', 'Unable to load this entry. Check file path and try again.')) + '</p>';
     }
   }
 
@@ -703,11 +710,11 @@
       } else if (pages.length) {
         loadPage(pages[0].file, pages[0].title, navLinks, { keepHash: false });
       } else {
-        article.innerHTML = '<p>No wiki pages are configured yet.</p>';
+        article.innerHTML = '<p>' + escapeHtml(t('wiki_no_pages', 'No wiki pages are configured yet.')) + '</p>';
       }
     } catch (error) {
-      nav.innerHTML = '<p>Could not load wiki navigation.</p>';
-      article.innerHTML = '<p>Could not load wiki content.</p>';
+      nav.innerHTML = '<p>' + escapeHtml(t('wiki_nav_error', 'Could not load wiki navigation.')) + '</p>';
+      article.innerHTML = '<p>' + escapeHtml(t('wiki_content_error', 'Could not load wiki content.')) + '</p>';
     }
   }
 

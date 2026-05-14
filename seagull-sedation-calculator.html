@@ -1,0 +1,201 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Seagull Sedation Calculator | JegVet</title>
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="JegVet" />
+  <link rel="icon" type="image/png" sizes="32x32" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel='manifest' href='manifest.webmanifest' />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="auth-guard.js" defer></script>
+  <script src="app-shell.js" defer></script>
+  <script>
+    window.PAGE_I18N = {
+      en: {
+        page_title_seagull: 'Seagull Sedation Calculator | JegVet',
+        seagull_title: 'Seagull Sedation',
+        seagull_subtitle: 'Simple procedure sedation (e.g. X-rays). Enter bird weight in grams.',
+        seagull_weight_label: 'Weight (g)',
+        seagull_section_title: 'Sedation (IM, same syringe)',
+        seagull_th_drug: 'Drug (conc.)',
+        seagull_th_dose: 'Dose (mg/kg)',
+        seagull_th_vol: 'Volume (ml)',
+        seagull_table_placeholder: 'Enter weight to calculate doses.',
+        seagull_combined_title: 'Combined IM Syringe',
+        seagull_combined_placeholder: 'Enter weight to calculate total IM volume for midazolam + (+) butophanol.',
+        seagull_protocol_title: 'Protocol Notes',
+        seagull_protocol_text: 'Inject IM in chest muscle. Both drugs are combined in the same syringe. Expected sedation onset is within 15 minutes.',
+        seagull_error_positive: 'Weight must be greater than 0 g.',
+        seagull_no_results: 'No results.',
+        seagull_no_result: 'No result.',
+        seagull_total_label: 'Total IM volume (midazolam + (+) butophanol):'
+      },
+      no: {
+        page_title_seagull: 'MÃ¥kesedasjon | JegVet',
+        seagull_title: 'MÃ¥kesedasjon',
+        seagull_subtitle: 'Sedasjon for enkle prosedyrer (f.eks. rÃ¸ntgen). Oppgi fuglens vekt i gram.',
+        seagull_weight_label: 'Vekt (g)',
+        seagull_section_title: 'Sedasjon (IM, samme sprÃ¸yte)',
+        seagull_th_drug: 'Legemiddel (kons.)',
+        seagull_th_dose: 'Dose (mg/kg)',
+        seagull_th_vol: 'Volum (ml)',
+        seagull_table_placeholder: 'Oppgi vekt for Ã¥ beregne doser.',
+        seagull_combined_title: 'Kombinert IM-sprÃ¸yte',
+        seagull_combined_placeholder: 'Oppgi vekt for Ã¥ beregne total IM-volum for midazolam + (+) butophanol.',
+        seagull_protocol_title: 'Protokollnotater',
+        seagull_protocol_text: 'Sett IM i brystmuskulatur. Begge legemidler trekkes i samme sprÃ¸yte. Forventet sedasjon innen 15 minutter.',
+        seagull_error_positive: 'Vekten mÃ¥ vÃ¦re stÃ¸rre enn 0 g.',
+        seagull_no_results: 'Ingen resultater.',
+        seagull_no_result: 'Ingen resultat.',
+        seagull_total_label: 'Totalt IM-volum (midazolam + (+) butophanol):'
+      }
+    };
+  </script>
+</head>
+<body data-i18n-title="page_title_seagull">
+  <main class="page page-top">
+    <section class="layout-card layout-card-wide">
+      <a href="index.html" class="brand-link" aria-label="Go to homepage">
+        <img src="logo_day.png" alt="JegVet logo" class="brand-logo" />
+      </a>
+
+      <h1 class="section-title" data-i18n="seagull_title">Seagull Sedation</h1>
+      <p class="section-subtitle" data-i18n="seagull_subtitle">Simple procedure sedation (e.g. X-rays). Enter bird weight in grams.</p>
+
+      <form class="calc-form">
+        <div class="calc-field">
+          <label for="weight-grams" data-i18n="seagull_weight_label">Weight (g)</label>
+          <input id="weight-grams" type="number" min="0" step="1" required />
+        </div>
+      </form>
+
+      <p id="calc-error" class="calc-error" aria-live="polite"></p>
+
+      <h2 class="section-subtitle" style="margin: 8px 0;" data-i18n="seagull_section_title">Sedation (IM, same syringe)</h2>
+      <div class="calc-table-wrap">
+        <table class="calc-table" aria-label="Seagull sedation dose results">
+          <thead>
+            <tr>
+              <th data-i18n="seagull_th_drug">Drug (conc.)</th>
+              <th data-i18n="seagull_th_dose">Dose (mg/kg)</th>
+              <th data-i18n="seagull_th_vol">Volume (ml)</th>
+            </tr>
+          </thead>
+          <tbody id="sedation-results">
+            <tr><td colspan="3" data-i18n="seagull_table_placeholder">Enter weight to calculate doses.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tool-card" aria-live="polite" style="margin-top:14px;">
+        <h2 data-i18n="seagull_combined_title">Combined IM Syringe</h2>
+        <p id="combined-result">Enter weight to calculate total IM volume for midazolam + (+) butophanol.</p>
+      </div>
+
+      <div class="tool-card" style="margin-top:14px;">
+        <h2 data-i18n="seagull_protocol_title">Protocol Notes</h2>
+        <p data-i18n="seagull_protocol_text">Inject IM in chest muscle. Both drugs are combined in the same syringe. Expected sedation onset is within 15 minutes.</p>
+      </div>
+
+      <div class="tool-card" style="margin-top:14px;">
+        <h2>Calculation information</h2>
+        <p>Assumptions used in this calculator:</p>
+        <ul>
+          <li>Midazolam dose: 1.00 mg/kg</li>
+          <li>Midazolam concentration: 5.00 mg/ml</li>
+          <li>(+) Butophanol dose: 1.00 mg/kg</li>
+          <li>(+) Butophanol concentration: 10.00 mg/ml</li>
+          <li>Volume (ml) = (dose mg/kg x body weight kg) / concentration mg/ml</li>
+          <li>Combined IM volume = midazolam volume + butophanol volume</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      'use strict';
+
+      function t(key, fallback) {
+        if (window.JegVetLang && typeof window.JegVetLang.t === 'function') {
+          return window.JegVetLang.t(key, fallback);
+        }
+        return fallback || key;
+      }
+
+      var drugs = [
+        { label: 'Midazolam', doseMgKg: 1.0, concentrationMgMl: 5.0 },
+        { label: '(+) Butophanol', doseMgKg: 1.0, concentrationMgMl: 10.0 }
+      ];
+
+      var weightInput = document.getElementById('weight-grams');
+      var errorEl = document.getElementById('calc-error');
+      var sedationResultsEl = document.getElementById('sedation-results');
+      var combinedResultEl = document.getElementById('combined-result');
+
+      function format(value, decimals) {
+        return value.toFixed(decimals);
+      }
+
+      function renderPlaceholder() {
+        sedationResultsEl.innerHTML = '<tr><td colspan="3">' + t('seagull_table_placeholder', 'Enter weight to calculate doses.') + '</td></tr>';
+      }
+
+      function render() {
+        var weightGrams = Number(weightInput.value);
+
+        if (!weightInput.value) {
+          errorEl.textContent = '';
+          renderPlaceholder();
+          combinedResultEl.textContent = t('seagull_combined_placeholder', 'Enter weight to calculate total IM volume for midazolam + (+) butophanol.');
+          return;
+        }
+
+        if (!isFinite(weightGrams) || weightGrams <= 0) {
+          errorEl.textContent = t('seagull_error_positive', 'Weight must be greater than 0 g.');
+          sedationResultsEl.innerHTML = '<tr><td colspan="3">' + t('seagull_no_results', 'No results.') + '</td></tr>';
+          combinedResultEl.textContent = t('seagull_no_result', 'No result.');
+          return;
+        }
+
+        errorEl.textContent = '';
+        var weightKg = weightGrams / 1000;
+        var rows = [];
+        var totalMl = 0;
+
+        for (var i = 0; i < drugs.length; i += 1) {
+          var drug = drugs[i];
+          var mg = drug.doseMgKg * weightKg;
+          var ml = mg / drug.concentrationMgMl;
+          totalMl += ml;
+
+          rows.push(
+            '<tr>' +
+              '<td>' + drug.label + ' (' + format(drug.concentrationMgMl, 2) + ' mg/ml)</td>' +
+              '<td>' + format(drug.doseMgKg, 2) + '</td>' +
+              '<td>' + format(ml, 2) + '</td>' +
+            '</tr>'
+          );
+        }
+
+        sedationResultsEl.innerHTML = rows.join('');
+        combinedResultEl.textContent = t('seagull_total_label', 'Total IM volume (midazolam + (+) butophanol):') + ' ' + format(totalMl, 2) + ' ml';
+      }
+
+      weightInput.addEventListener('input', render);
+      document.addEventListener('jegvet:langchange', render);
+    })();
+  </script>
+</body>
+</html>
+
+

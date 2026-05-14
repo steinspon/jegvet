@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Ketofol Mixing Calculator | JegVet</title>
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="JegVet" />
+  <link rel="icon" type="image/png" sizes="32x32" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel='manifest' href='manifest.webmanifest' />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="auth-guard.js" defer></script>
+  <script src="app-shell.js" defer></script>
+  <script>
+    window.PAGE_I18N = {
+      en: {
+        page_title_ketofol: 'Ketofol Mixing Calculator | JegVet',
+        ketofol_title: 'Ketofol Mixing Calculator',
+        ketofol_subtitle: 'Propofol + ketamine (Belatamine) in same syringe for dog/cat IV.',
+        ketofol_weight: 'Patient weight (kg)',
+        ketofol_mix_section: 'Syringe Mixing Volumes',
+        ketofol_mix_th_size: 'Syringe size (ml)',
+        ketofol_mix_th_propofol: 'Propofol 10 mg/ml (ml)',
+        ketofol_mix_th_ketamine: 'Belatamine 100 mg/ml (ml)',
+        ketofol_dose_section: 'Dose Calculation (0.1 ml/kg slow IV)',
+        ketofol_dose_placeholder: 'Enter weight to calculate dose volume.',
+        ketofol_error_positive: 'Weight must be greater than 0 kg.',
+        ketofol_no_result: 'No result.',
+        ketofol_total_label: 'Total ketofol dose volume:',
+        ketofol_prop_label: 'Propofol volume within dose:',
+        ketofol_ket_label: 'Ketamine volume within dose:',
+        ketofol_note: 'NB! Many patients may need lower dose.'
+      },
+      no: {
+        page_title_ketofol: 'Ketofol blandekalkulator | JegVet',
+        ketofol_title: 'Ketofol blandekalkulator',
+        ketofol_subtitle: 'Propofol + ketamin (Belatamine) i samme sproyte for hund/katt IV.',
+        ketofol_weight: 'Pasientvekt (kg)',
+        ketofol_mix_section: 'Blandevolum i sproyte',
+        ketofol_mix_th_size: 'Sproytestorrelse (ml)',
+        ketofol_mix_th_propofol: 'Propofol 10 mg/ml (ml)',
+        ketofol_mix_th_ketamine: 'Belatamine 100 mg/ml (ml)',
+        ketofol_dose_section: 'Doseberegning (0,1 ml/kg langsom IV)',
+        ketofol_dose_placeholder: 'Oppgi vekt for aa beregne dosevolum.',
+        ketofol_error_positive: 'Vekten maa vaere stoerre enn 0 kg.',
+        ketofol_no_result: 'Ingen resultat.',
+        ketofol_total_label: 'Totalt ketofol-dosevolum:',
+        ketofol_prop_label: 'Propofolvolum i dose:',
+        ketofol_ket_label: 'Ketaminvolum i dose:',
+        ketofol_note: 'NB! Mange pasienter kan trenge lavere dose.'
+      }
+    };
+  </script>
+</head>
+<body data-i18n-title="page_title_ketofol">
+  <main class="page page-top">
+    <section class="layout-card layout-card-wide">
+      <a href="index.html" class="brand-link" aria-label="Go to homepage">
+        <img src="logo_day.png" alt="JegVet logo" class="brand-logo" />
+      </a>
+
+      <h1 class="section-title" data-i18n="ketofol_title">Ketofol Mixing Calculator</h1>
+      <p class="section-subtitle" data-i18n="ketofol_subtitle">Propofol + ketamine (Belatamine) in same syringe for dog/cat IV.</p>
+
+      <h2 class="section-subtitle" style="margin:8px 0;" data-i18n="ketofol_mix_section">Syringe Mixing Volumes</h2>
+      <div class="calc-table-wrap">
+        <table class="calc-table" aria-label="Ketofol mixing volumes">
+          <thead>
+            <tr>
+              <th data-i18n="ketofol_mix_th_size">Syringe size (ml)</th>
+              <th data-i18n="ketofol_mix_th_propofol">Propofol 10 mg/ml (ml)</th>
+              <th data-i18n="ketofol_mix_th_ketamine">Belatamine 100 mg/ml (ml)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1.0</td><td>0.90</td><td>0.10</td></tr>
+            <tr><td>2.0</td><td>1.80</td><td>0.20</td></tr>
+            <tr><td>5.0</td><td>4.50</td><td>0.50</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 class="section-subtitle" style="margin:14px 0 8px;" data-i18n="ketofol_dose_section">Dose Calculation (0.1 ml/kg slow IV)</h2>
+      <form class="calc-form" id="ketofol-form">
+        <div class="calc-field">
+          <label for="weight-kg" data-i18n="ketofol_weight">Patient weight (kg)</label>
+          <input id="weight-kg" type="number" min="0" step="0.01" required />
+        </div>
+      </form>
+
+      <p id="calc-error" class="calc-error" aria-live="polite"></p>
+
+      <div class="tool-card" aria-live="polite">
+        <h2 data-i18n="ketofol_dose_section">Dose Calculation (0.1 ml/kg slow IV)</h2>
+        <p id="ketofol-dose-result" data-i18n="ketofol_dose_placeholder">Enter weight to calculate dose volume.</p>
+        <p id="ketofol-dose-note" data-i18n="ketofol_note">NB! Many patients may need lower dose.</p>
+      </div>
+
+      <div class="tool-card" style="margin-top:14px;">
+        <h2>Calculation information</h2>
+        <p>Assumptions used in this calculator:</p>
+        <ul>
+          <li>Mix ratio: 0.9 ml propofol + 0.1 ml ketamine per 1 ml mixture</li>
+          <li>Equivalent for 2 ml syringe: 1.8 ml propofol + 0.2 ml ketamine</li>
+          <li>Equivalent for 5 ml syringe: 4.5 ml propofol + 0.5 ml ketamine</li>
+          <li>Propofol concentration: 10 mg/ml</li>
+          <li>Belatamine (ketamine) concentration: 100 mg/ml</li>
+          <li>Dose target: 0.1 ml/kg slow IV for induction/maintenance</li>
+          <li>Total ketofol dose volume (ml) = body weight (kg) x 0.1 ml/kg</li>
+          <li>Propofol volume within dose = total volume x 0.9</li>
+          <li>Ketamine volume within dose = total volume x 0.1</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var formEl = document.getElementById('ketofol-form');
+      var weightInput = document.getElementById('weight-kg');
+      var errorEl = document.getElementById('calc-error');
+      var resultEl = document.getElementById('ketofol-dose-result');
+
+      function t(key, fallback) {
+        if (window.JegVetLang && typeof window.JegVetLang.t === 'function') {
+          return window.JegVetLang.t(key, fallback);
+        }
+        return fallback || key;
+      }
+
+      function format(value, decimals) {
+        return value.toFixed(decimals);
+      }
+
+      function render() {
+        var weightKg = Number(weightInput.value);
+
+        if (!weightInput.value) {
+          errorEl.textContent = '';
+          resultEl.textContent = t('ketofol_dose_placeholder', 'Enter weight to calculate dose volume.');
+          return;
+        }
+
+        if (!isFinite(weightKg) || weightKg <= 0) {
+          errorEl.textContent = t('ketofol_error_positive', 'Weight must be greater than 0 kg.');
+          resultEl.textContent = t('ketofol_no_result', 'No result.');
+          return;
+        }
+
+        errorEl.textContent = '';
+        var totalMl = weightKg * 0.1;
+        var propMl = totalMl * 0.9;
+        var ketMl = totalMl * 0.1;
+
+        resultEl.textContent =
+          t('ketofol_total_label', 'Total ketofol dose volume:') + ' ' + format(totalMl, 2) + ' ml' +
+          ' | ' + t('ketofol_prop_label', 'Propofol volume within dose:') + ' ' + format(propMl, 2) + ' ml' +
+          ' | ' + t('ketofol_ket_label', 'Ketamine volume within dose:') + ' ' + format(ketMl, 2) + ' ml';
+      }
+
+      weightInput.addEventListener('input', render);
+      if (formEl) {
+        formEl.addEventListener('submit', function (event) {
+          event.preventDefault();
+          render();
+        });
+      }
+      document.addEventListener('jegvet:langchange', render);
+    })();
+  </script>
+</body>
+</html>
+

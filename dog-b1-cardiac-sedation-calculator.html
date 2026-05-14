@@ -1,0 +1,197 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Dog B1 Cardiac Sedation Calculator | JegVet</title>
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="JegVet" />
+  <link rel="icon" type="image/png" sizes="32x32" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel='manifest' href='manifest.webmanifest' />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="auth-guard.js" defer></script>
+  <script src="app-shell.js" defer></script>
+  <script>
+    window.PAGE_I18N = {
+      en: {
+        page_title_b1_dog: 'Dog B1 Cardiac Sedation Calculator | JegVet',
+        b1_title: 'Sedation/Premedication, Dog B1 Cardiac Disease',
+        b1_subtitle: 'Methadone 0.35 mg/kg + dexmedetomidine 0.0025 mg/kg in same syringe, IM.',
+        b1_weight: 'Weight (kg)',
+        b1_section: 'Sedation/Premedication (IM, same syringe)',
+        b1_th_drug: 'Drug (conc.)',
+        b1_th_dose: 'Dose (mg/kg)',
+        b1_th_volume: 'Volume (ml)',
+        b1_placeholder: 'Enter weight to calculate doses.',
+        b1_combined_title: 'Combined IM Syringe',
+        b1_combined_placeholder: 'Enter weight to calculate total IM volume for methadone + dexmedetomidine.',
+        b1_error_positive: 'Weight must be greater than 0 kg.',
+        b1_no_results: 'No results.',
+        b1_no_result: 'No result.',
+        b1_total_label: 'Total IM volume (methadone + dexmedetomidine):'
+      },
+      no: {
+        page_title_b1_dog: 'Sedasjonskalkulator hund B1 hjerte | JegVet',
+        b1_title: 'Sedasjon/premedikasjon, hund B1 hjertesykdom',
+        b1_subtitle: 'Methadone 0,35 mg/kg + dexmedetomidine 0,0025 mg/kg i samme sproyte, IM.',
+        b1_weight: 'Vekt (kg)',
+        b1_section: 'Sedasjon/premedikasjon (IM, samme sproyte)',
+        b1_th_drug: 'Legemiddel (kons.)',
+        b1_th_dose: 'Dose (mg/kg)',
+        b1_th_volume: 'Volum (ml)',
+        b1_placeholder: 'Oppgi vekt for aa beregne doser.',
+        b1_combined_title: 'Kombinert IM-sproyte',
+        b1_combined_placeholder: 'Oppgi vekt for aa beregne total IM-volum for methadone + dexmedetomidine.',
+        b1_error_positive: 'Vekten maa vaere stoerre enn 0 kg.',
+        b1_no_results: 'Ingen resultater.',
+        b1_no_result: 'Ingen resultat.',
+        b1_total_label: 'Totalt IM-volum (methadone + dexmedetomidine):'
+      }
+    };
+  </script>
+</head>
+<body data-i18n-title="page_title_b1_dog">
+  <main class="page page-top">
+    <section class="layout-card layout-card-wide">
+      <a href="index.html" class="brand-link" aria-label="Go to homepage">
+        <img src="logo_day.png" alt="JegVet logo" class="brand-logo" />
+      </a>
+
+      <h1 class="section-title" data-i18n="b1_title">Sedation/Premedication, Dog B1 Cardiac Disease</h1>
+      <p class="section-subtitle" data-i18n="b1_subtitle">Methadone 0.35 mg/kg + dexmedetomidine 0.0025 mg/kg in same syringe, IM.</p>
+
+      <form class="calc-form">
+        <div class="calc-field">
+          <label for="weight-kg" data-i18n="b1_weight">Weight (kg)</label>
+          <input id="weight-kg" type="number" min="0" step="0.01" required />
+        </div>
+      </form>
+
+      <p id="calc-error" class="calc-error" aria-live="polite"></p>
+
+      <h2 class="section-subtitle" style="margin: 8px 0;" data-i18n="b1_section">Sedation/Premedication (IM, same syringe)</h2>
+      <div class="calc-table-wrap">
+        <table class="calc-table" aria-label="Dog B1 sedation dose results">
+          <thead>
+            <tr>
+              <th data-i18n="b1_th_drug">Drug (conc.)</th>
+              <th data-i18n="b1_th_dose">Dose (mg/kg)</th>
+              <th data-i18n="b1_th_volume">Volume (ml)</th>
+            </tr>
+          </thead>
+          <tbody id="sedation-results">
+            <tr><td colspan="3" data-i18n="b1_placeholder">Enter weight to calculate doses.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tool-card" aria-live="polite" style="margin-top:14px;">
+        <h2 data-i18n="b1_combined_title">Combined IM Syringe</h2>
+        <p id="combined-result" data-i18n="b1_combined_placeholder">Enter weight to calculate total IM volume for methadone + dexmedetomidine.</p>
+      </div>
+
+      <div class="tool-card" style="margin-top:14px;">
+        <h2>Calculation information</h2>
+        <p>Assumptions used in this calculator:</p>
+        <ul>
+          <li>Methadone dose: 0.35 mg/kg</li>
+          <li>Methadone concentration: 10 mg/ml</li>
+          <li>Dexmedetomidine dose: 0.0025 mg/kg</li>
+          <li>Dexmedetomidine concentration: 0.5 mg/ml</li>
+          <li>Volume (ml) = (dose mg/kg x body weight kg) / concentration mg/ml</li>
+          <li>Combined IM volume = methadone volume + dexmedetomidine volume</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var drugs = [
+        { label: 'Methadone', doseMgKg: 0.35, concentrationMgMl: 10.0 },
+        { label: 'Dexmedetomidine', doseMgKg: 0.0025, concentrationMgMl: 0.5 }
+      ];
+
+      var weightInput = document.getElementById('weight-kg');
+      var errorEl = document.getElementById('calc-error');
+      var resultsEl = document.getElementById('sedation-results');
+      var combinedResultEl = document.getElementById('combined-result');
+
+      function t(key, fallback) {
+        if (window.JegVetLang && typeof window.JegVetLang.t === 'function') {
+          return window.JegVetLang.t(key, fallback);
+        }
+        return fallback || key;
+      }
+
+      function format(value, decimals) {
+        return value.toFixed(decimals);
+      }
+
+      function formatDose(value) {
+        if (value < 0.01) {
+          return value.toFixed(4);
+        }
+        return value.toFixed(2);
+      }
+
+      function renderPlaceholder() {
+        resultsEl.innerHTML = '<tr><td colspan="3">' + t('b1_placeholder', 'Enter weight to calculate doses.') + '</td></tr>';
+      }
+
+      function render() {
+        var weightKg = Number(weightInput.value);
+
+        if (!weightInput.value) {
+          errorEl.textContent = '';
+          renderPlaceholder();
+          combinedResultEl.textContent = t('b1_combined_placeholder', 'Enter weight to calculate total IM volume for methadone + dexmedetomidine.');
+          return;
+        }
+
+        if (!isFinite(weightKg) || weightKg <= 0) {
+          errorEl.textContent = t('b1_error_positive', 'Weight must be greater than 0 kg.');
+          resultsEl.innerHTML = '<tr><td colspan="3">' + t('b1_no_results', 'No results.') + '</td></tr>';
+          combinedResultEl.textContent = t('b1_no_result', 'No result.');
+          return;
+        }
+
+        errorEl.textContent = '';
+        var rows = [];
+        var totalMl = 0;
+
+        for (var i = 0; i < drugs.length; i += 1) {
+          var drug = drugs[i];
+          var mg = drug.doseMgKg * weightKg;
+          var ml = mg / drug.concentrationMgMl;
+          totalMl += ml;
+
+          rows.push(
+            '<tr>' +
+              '<td>' + drug.label + ' (' + format(drug.concentrationMgMl, 2) + ' mg/ml)</td>' +
+              '<td>' + formatDose(drug.doseMgKg) + '</td>' +
+              '<td>' + format(ml, 2) + '</td>' +
+            '</tr>'
+          );
+        }
+
+        resultsEl.innerHTML = rows.join('');
+        combinedResultEl.textContent = t('b1_total_label', 'Total IM volume (methadone + dexmedetomidine):') + ' ' + format(totalMl, 2) + ' ml';
+      }
+
+      weightInput.addEventListener('input', render);
+      document.addEventListener('jegvet:langchange', render);
+    })();
+  </script>
+</body>
+</html>
+

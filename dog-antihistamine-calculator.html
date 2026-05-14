@@ -1,0 +1,226 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Dog Antihistamine Calculator | JegVet</title>
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="JegVet" />
+  <link rel="icon" type="image/png" sizes="32x32" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel='manifest' href='manifest.webmanifest' />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="auth-guard.js" defer></script>
+  <script src="app-shell.js" defer></script>
+  <script>
+    window.PAGE_I18N = {
+      en: {
+        page_title_dog_antihistamine: 'Dog Antihistamine Calculator | JegVet',
+        dog_antihistamine_title: 'Dog Antihistamine Calculator',
+        dog_antihistamine_subtitle: 'Atarax and Aerius dose support for dogs.',
+        dog_antihistamine_weight: 'Dog weight (kg)',
+        dog_antihistamine_results_title: 'Dose Results',
+        dog_antihistamine_placeholder: 'Enter weight to calculate doses.',
+        dog_antihistamine_error_positive: 'Weight must be greater than 0 kg.',
+        dog_antihistamine_no_result: 'No result.',
+        dog_antihistamine_atarax_heading: 'Atarax',
+        dog_antihistamine_atarax_rule: '2.2 mg/kg every 8 hours (TID)',
+        dog_antihistamine_aerius_heading: 'Aerius',
+        dog_antihistamine_aerius_rule: '0.5 mg/kg every 12 hours (BID)',
+        dog_antihistamine_per_dose: 'Per dose:',
+        dog_antihistamine_per_day: 'Per day total:',
+        dog_antihistamine_tab10_exact: '10 mg tablets per dose (exact):',
+        dog_antihistamine_tab10_quarter: '10 mg tablets per dose (nearest 1/4 tab):',
+        dog_antihistamine_tab25_exact: '25 mg tablets per dose (exact):',
+        dog_antihistamine_tab25_quarter: '25 mg tablets per dose (nearest 1/4 tab):',
+        dog_antihistamine_tab5_exact: '5 mg tablets per dose (exact):',
+        dog_antihistamine_tab5_quarter: '5 mg tablets per dose (nearest 1/4 tab):'
+      },
+      no: {
+        page_title_dog_antihistamine: 'Antihistamin kalkulator hund | JegVet',
+        dog_antihistamine_title: 'Antihistamin kalkulator hund',
+        dog_antihistamine_subtitle: 'Dosehjelp for Atarax og Aerius til hund.',
+        dog_antihistamine_weight: 'Hundens vekt (kg)',
+        dog_antihistamine_results_title: 'Doseresultat',
+        dog_antihistamine_placeholder: 'Oppgi vekt for aa beregne doser.',
+        dog_antihistamine_error_positive: 'Vekten maa vaere stoerre enn 0 kg.',
+        dog_antihistamine_no_result: 'Ingen resultat.',
+        dog_antihistamine_atarax_heading: 'Atarax',
+        dog_antihistamine_atarax_rule: '2,2 mg/kg hver 8. time (TID)',
+        dog_antihistamine_aerius_heading: 'Aerius',
+        dog_antihistamine_aerius_rule: '0,5 mg/kg hver 12. time (BID)',
+        dog_antihistamine_per_dose: 'Per dose:',
+        dog_antihistamine_per_day: 'Total per doegn:',
+        dog_antihistamine_tab10_exact: '10 mg tabletter per dose (eksakt):',
+        dog_antihistamine_tab10_quarter: '10 mg tabletter per dose (naermeste 1/4 tablett):',
+        dog_antihistamine_tab25_exact: '25 mg tabletter per dose (eksakt):',
+        dog_antihistamine_tab25_quarter: '25 mg tabletter per dose (naermeste 1/4 tablett):',
+        dog_antihistamine_tab5_exact: '5 mg tabletter per dose (eksakt):',
+        dog_antihistamine_tab5_quarter: '5 mg tabletter per dose (naermeste 1/4 tablett):'
+      }
+    };
+  </script>
+</head>
+<body data-i18n-title="page_title_dog_antihistamine">
+  <main class="page page-top">
+    <section class="layout-card layout-card-wide">
+      <a href="index.html" class="brand-link" aria-label="Go to homepage">
+        <img src="logo_day.png" alt="JegVet logo" class="brand-logo" />
+      </a>
+
+      <h1 class="section-title" data-i18n="dog_antihistamine_title">Dog Antihistamine Calculator</h1>
+      <p class="section-subtitle" data-i18n="dog_antihistamine_subtitle">Atarax and Aerius dose support for dogs.</p>
+
+      <form class="calc-form" id="dog-antihistamine-form">
+        <div class="calc-field">
+          <label for="weight-kg" data-i18n="dog_antihistamine_weight">Dog weight (kg)</label>
+          <input id="weight-kg" type="number" min="0" step="0.01" required />
+        </div>
+      </form>
+
+      <p id="calc-error" class="calc-error" aria-live="polite"></p>
+
+      <div class="tool-card" aria-live="polite">
+        <h2 data-i18n="dog_antihistamine_results_title">Dose Results</h2>
+        <p id="dose-placeholder" data-i18n="dog_antihistamine_placeholder">Enter weight to calculate doses.</p>
+
+        <div id="dose-results" style="display:none;">
+          <h3 data-i18n="dog_antihistamine_atarax_heading">Atarax</h3>
+          <p id="atarax-rule" data-i18n="dog_antihistamine_atarax_rule">2.2 mg/kg every 8 hours (TID)</p>
+          <table class="calc-table" aria-label="Atarax dose details">
+            <tbody>
+              <tr><th data-i18n="dog_antihistamine_per_dose">Per dose:</th><td id="atarax-per-dose"></td></tr>
+              <tr><th data-i18n="dog_antihistamine_per_day">Per day total:</th><td id="atarax-per-day"></td></tr>
+              <tr><th data-i18n="dog_antihistamine_tab10_exact">10 mg tablets per dose (exact):</th><td id="atarax-10-exact"></td></tr>
+              <tr><th data-i18n="dog_antihistamine_tab10_quarter">10 mg tablets per dose (nearest 1/4 tab):</th><td id="atarax-10-quarter"></td></tr>
+              <tr><th data-i18n="dog_antihistamine_tab25_exact">25 mg tablets per dose (exact):</th><td id="atarax-25-exact"></td></tr>
+              <tr><th data-i18n="dog_antihistamine_tab25_quarter">25 mg tablets per dose (nearest 1/4 tab):</th><td id="atarax-25-quarter"></td></tr>
+            </tbody>
+          </table>
+
+          <h3 style="margin-top:14px;" data-i18n="dog_antihistamine_aerius_heading">Aerius</h3>
+          <p id="aerius-rule" data-i18n="dog_antihistamine_aerius_rule">0.5 mg/kg every 12 hours (BID)</p>
+          <table class="calc-table" aria-label="Aerius dose details">
+            <tbody>
+              <tr><th data-i18n="dog_antihistamine_per_dose">Per dose:</th><td id="aerius-per-dose"></td></tr>
+              <tr><th data-i18n="dog_antihistamine_per_day">Per day total:</th><td id="aerius-per-day"></td></tr>
+              <tr><th data-i18n="dog_antihistamine_tab5_exact">5 mg tablets per dose (exact):</th><td id="aerius-5-exact"></td></tr>
+              <tr><th data-i18n="dog_antihistamine_tab5_quarter">5 mg tablets per dose (nearest 1/4 tab):</th><td id="aerius-5-quarter"></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="tool-card" style="margin-top:14px;">
+        <h2>Calculation information</h2>
+        <p>Assumptions used in this calculator:</p>
+        <ul>
+          <li>Species: dog</li>
+          <li>Atarax dose: 2.2 mg/kg every 8 hours (TID)</li>
+          <li>Aerius dose: 0.5 mg/kg every 12 hours (BID)</li>
+          <li>Atarax strengths: 10 mg and 25 mg tablets</li>
+          <li>Aerius strength: 5 mg tablet</li>
+          <li>Atarax mg per dose = body weight (kg) x 2.2</li>
+          <li>Aerius mg per dose = body weight (kg) x 0.5</li>
+          <li>Exact tablets per dose = mg per dose / tablet strength</li>
+          <li>Nearest quarter-tablet values are shown as a practical guide</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var formEl = document.getElementById('dog-antihistamine-form');
+      var weightInput = document.getElementById('weight-kg');
+      var errorEl = document.getElementById('calc-error');
+      var placeholderEl = document.getElementById('dose-placeholder');
+      var resultsEl = document.getElementById('dose-results');
+
+      function t(key, fallback) {
+        if (window.JegVetLang && typeof window.JegVetLang.t === 'function') {
+          return window.JegVetLang.t(key, fallback);
+        }
+        return fallback || key;
+      }
+
+      function format(value, decimals) {
+        return value.toFixed(decimals);
+      }
+
+      function roundQuarter(value) {
+        return Math.round(value * 4) / 4;
+      }
+
+      function setText(id, text) {
+        var el = document.getElementById(id);
+        if (el) {
+          el.textContent = text;
+        }
+      }
+
+      function clearResult() {
+        placeholderEl.textContent = t('dog_antihistamine_placeholder', 'Enter weight to calculate doses.');
+        placeholderEl.style.display = '';
+        resultsEl.style.display = 'none';
+      }
+
+      function render() {
+        var weightKg = Number(weightInput.value);
+
+        if (!weightInput.value) {
+          errorEl.textContent = '';
+          clearResult();
+          return;
+        }
+
+        if (!isFinite(weightKg) || weightKg <= 0) {
+          errorEl.textContent = t('dog_antihistamine_error_positive', 'Weight must be greater than 0 kg.');
+          placeholderEl.textContent = t('dog_antihistamine_no_result', 'No result.');
+          placeholderEl.style.display = '';
+          resultsEl.style.display = 'none';
+          return;
+        }
+
+        errorEl.textContent = '';
+
+        var ataraxDose = weightKg * 2.2;
+        var aeriusDose = weightKg * 0.5;
+
+        setText('atarax-per-dose', format(ataraxDose, 2) + ' mg');
+        setText('atarax-per-day', format(ataraxDose * 3, 2) + ' mg');
+        setText('atarax-10-exact', format(ataraxDose / 10, 2) + ' tablets');
+        setText('atarax-10-quarter', format(roundQuarter(ataraxDose / 10), 2) + ' tablets');
+        setText('atarax-25-exact', format(ataraxDose / 25, 2) + ' tablets');
+        setText('atarax-25-quarter', format(roundQuarter(ataraxDose / 25), 2) + ' tablets');
+
+        setText('aerius-per-dose', format(aeriusDose, 2) + ' mg');
+        setText('aerius-per-day', format(aeriusDose * 2, 2) + ' mg');
+        setText('aerius-5-exact', format(aeriusDose / 5, 2) + ' tablets');
+        setText('aerius-5-quarter', format(roundQuarter(aeriusDose / 5), 2) + ' tablets');
+
+        placeholderEl.style.display = 'none';
+        resultsEl.style.display = '';
+      }
+
+      weightInput.addEventListener('input', render);
+      if (formEl) {
+        formEl.addEventListener('submit', function (event) {
+          event.preventDefault();
+          render();
+        });
+      }
+      document.addEventListener('jegvet:langchange', render);
+    })();
+  </script>
+</body>
+</html>
+

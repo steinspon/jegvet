@@ -1,0 +1,196 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Euthanasia Calculator | JegVet</title>
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="JegVet" />
+  <link rel="icon" type="image/png" sizes="32x32" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel='manifest' href='manifest.webmanifest' />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="auth-guard.js" defer></script>
+  <script src="app-shell.js" defer></script>
+  <script>
+    window.PAGE_I18N = {
+      en: {
+        page_title_euth: 'Euthanasia Calculator | JegVet',
+        euth_title: 'Euthanasia',
+        euth_subtitle: 'Select animal and enter weight in kg. Doses are calculated from your protocol sheet.',
+        euth_animal_label: 'Animal',
+        euth_animal_dog: 'Dog',
+        euth_animal_cat: 'Cat',
+        euth_weight_label: 'Weight (kg)',
+        euth_th_drug: 'Drug',
+        euth_th_dose: 'Dose (ml/kg)',
+        euth_th_volume: 'Calculated volume (ml)',
+        euth_placeholder: 'Enter weight to calculate doses.',
+        euth_error_positive: 'Weight must be greater than 0 kg.',
+        euth_no_results: 'No results.'
+      },
+      no: {
+        page_title_euth: 'Eutanasikalkulator | JegVet',
+        euth_title: 'Eutanasi',
+        euth_subtitle: 'Velg dyreart og oppgi vekt i kg. Doser beregnes fra protokollarket.',
+        euth_animal_label: 'Dyreart',
+        euth_animal_dog: 'Hund',
+        euth_animal_cat: 'Katt',
+        euth_weight_label: 'Vekt (kg)',
+        euth_th_drug: 'Legemiddel',
+        euth_th_dose: 'Dose (ml/kg)',
+        euth_th_volume: 'Beregnet volum (ml)',
+        euth_placeholder: 'Oppgi vekt for a beregne doser.',
+        euth_error_positive: 'Vekten ma vaere storre enn 0 kg.',
+        euth_no_results: 'Ingen resultater.'
+      }
+    };
+  </script>
+</head>
+<body data-i18n-title="page_title_euth">
+  <main class="page page-top">
+    <section class="layout-card layout-card-wide">
+      <a href="index.html" class="brand-link" aria-label="Go to homepage">
+        <img src="logo_day.png" alt="JegVet logo" class="brand-logo" />
+      </a>
+
+      <h1 class="section-title" data-i18n="euth_title">Euthanasia</h1>
+      <p class="section-subtitle" data-i18n="euth_subtitle">Select animal and enter weight in kg. Doses are calculated from your protocol sheet.</p>
+
+      <form class="calc-form" id="euthanasia-form">
+        <div class="calc-field">
+          <label for="animal" data-i18n="euth_animal_label">Animal</label>
+          <select id="animal" style="display:block; width:100%; min-height:48px; padding:13px 14px; border:1px solid var(--line); border-radius:10px; font-family:inherit; font-size:16px; line-height:1.25;">
+            <option value="dog" data-i18n="euth_animal_dog">Dog</option>
+            <option value="cat" data-i18n="euth_animal_cat">Cat</option>
+          </select>
+        </div>
+        <div class="calc-field">
+          <label for="weight-kg" data-i18n="euth_weight_label">Weight (kg)</label>
+          <input id="weight-kg" type="number" min="0" step="0.01" required />
+        </div>
+      </form>
+
+      <p id="calc-error" class="calc-error" aria-live="polite"></p>
+
+      <div class="calc-table-wrap">
+        <table class="calc-table" aria-label="Euthanasia dose results">
+          <thead>
+            <tr>
+              <th data-i18n="euth_th_drug">Drug</th>
+              <th data-i18n="euth_th_dose">Dose (ml/kg)</th>
+              <th data-i18n="euth_th_volume">Calculated volume (ml)</th>
+            </tr>
+          </thead>
+          <tbody id="euthanasia-results">
+            <tr><td colspan="3" data-i18n="euth_placeholder">Enter weight to calculate doses.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tool-card" style="margin-top:14px;">
+        <h2>Calculation information</h2>
+        <p>Assumptions used in this calculator:</p>
+        <ul>
+          <li>Dog Zoletil mix dose: 0.08 ml/kg</li>
+          <li>Cat Zoletil mix dose: 0.10 ml/kg</li>
+          <li>Euthasol / Exagon dose: 0.35 ml/kg</li>
+          <li>Volume (ml) = dose (ml/kg) x body weight (kg)</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var animalInput = document.getElementById('animal');
+      var weightInput = document.getElementById('weight-kg');
+      var formEl = document.getElementById('euthanasia-form');
+      var errorEl = document.getElementById('calc-error');
+      var resultsEl = document.getElementById('euthanasia-results');
+
+      function t(key, fallback) {
+        if (window.JegVetLang && typeof window.JegVetLang.t === 'function') {
+          return window.JegVetLang.t(key, fallback);
+        }
+        return fallback || key;
+      }
+
+      function format(value, decimals) {
+        return value.toFixed(decimals);
+      }
+
+      function getZoletilDoseMlKg(animal) {
+        return animal === 'cat' ? 0.10 : 0.08;
+      }
+
+      function renderPlaceholder() {
+        resultsEl.innerHTML = '<tr><td colspan="3">' + t('euth_placeholder', 'Enter weight to calculate doses.') + '</td></tr>';
+      }
+
+      function render() {
+        var animal = animalInput.value || 'dog';
+        var weightKg = Number(weightInput.value);
+
+        if (!weightInput.value) {
+          errorEl.textContent = '';
+          renderPlaceholder();
+          return;
+        }
+
+        if (!isFinite(weightKg) || weightKg <= 0) {
+          errorEl.textContent = t('euth_error_positive', 'Weight must be greater than 0 kg.');
+          resultsEl.innerHTML = '<tr><td colspan="3">' + t('euth_no_results', 'No results.') + '</td></tr>';
+          return;
+        }
+
+        errorEl.textContent = '';
+        var zoletilDose = getZoletilDoseMlKg(animal);
+        var euthasolDose = 0.35;
+
+        var zoletilVolume = zoletilDose * weightKg;
+        var euthasolVolume = euthasolDose * weightKg;
+
+        resultsEl.innerHTML =
+          '<tr>' +
+            '<td>Zoletil mix</td>' +
+            '<td>' + format(zoletilDose, 2) + '</td>' +
+            '<td>' + format(zoletilVolume, 2) + '</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td>Euthasol / Exagon</td>' +
+            '<td>' + format(euthasolDose, 2) + '</td>' +
+            '<td>' + format(euthasolVolume, 2) + '</td>' +
+          '</tr>';
+      }
+
+      animalInput.addEventListener('change', render);
+      weightInput.addEventListener('input', render);
+      if (formEl) {
+        formEl.addEventListener('submit', function (event) {
+          event.preventDefault();
+          render();
+        });
+      }
+      document.addEventListener('jegvet:langchange', render);
+      document.addEventListener('jegvet:langchange', function () {
+        var dogLabel = t('euth_animal_dog', 'Dog');
+        var catLabel = t('euth_animal_cat', 'Cat');
+        if (animalInput.options.length >= 2) {
+          animalInput.options[0].text = dogLabel;
+          animalInput.options[1].text = catLabel;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
+

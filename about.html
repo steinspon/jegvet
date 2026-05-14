@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>About | JegVet</title>
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="JegVet" />
+  <link rel="icon" type="image/png" sizes="32x32" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel='manifest' href='manifest.webmanifest' />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="auth-guard.js" defer></script>
+  <script src="app-shell.js" defer></script>
+  <script>
+    window.PAGE_I18N = {
+      en: {
+        page_title_about: 'About | JegVet',
+        about_title: 'About JegVet',
+        about_intro: 'JegVet is created by veterinarian Lene Teigland Wilkinson.',
+        about_role: 'Veterinarian',
+        about_name: 'Lene Teigland Wilkinson',
+        about_clinic_label: 'Clinic',
+        about_clinic_name: 'Evidensia Trondheim Dyresykehus',
+        about_focus_title: 'Special focus areas',
+        about_focus_1: 'Advanced dentistry / Odontology',
+        about_focus_2: 'Skin and ear conditions / Dermatology',
+        about_focus_3: 'Exotic animals, birds, rabbits and rodents',
+        about_focus_4: 'Soft tissue surgery',
+        about_focus_5: 'Emergency and intensive care',
+        about_more: 'Read more about Lene on Evidensia',
+        about_photo_credit: 'Profile photo source: Evidensia Trondheim Dyresykehus'
+      },
+      no: {
+        page_title_about: 'Info | JegVet',
+        about_title: 'Om JegVet',
+        about_intro: 'JegVet er laget av veterinÃ¦r Lene Teigland Wilkinson.',
+        about_role: 'VeterinÃ¦r',
+        about_name: 'Lene Teigland Wilkinson',
+        about_clinic_label: 'Dyreklinikk',
+        about_clinic_name: 'Evidensia Trondheim Dyresykehus',
+        about_focus_title: 'SÃ¦rskilte fagomrÃ¥der',
+        about_focus_1: 'Avansert tannbehandling / Odontologi',
+        about_focus_2: 'Hudproblemer og Ã¸reproblemer / Dermatologi',
+        about_focus_3: 'Eksotiske dyr, fugl, kanin og gnager',
+        about_focus_4: 'BlÃ¸tvevskirurgi',
+        about_focus_5: 'Akutt- og intensivbehandling',
+        about_more: 'Les mer om Lene hos Evidensia',
+        about_photo_credit: 'Profilfoto-kilde: Evidensia Trondheim Dyresykehus'
+      }
+    };
+  </script>
+</head>
+<body data-i18n-title="page_title_about">
+  <main class="page page-top">
+    <section class="layout-card layout-card-wide">
+      <a href="index.html" class="brand-link" data-i18n-aria-label="nav_home">
+        <img src="logo_day.png" alt="JegVet logo" class="brand-logo" />
+      </a>
+
+      <h1 class="section-title" data-i18n="about_title">About JegVet</h1>
+      <p class="section-subtitle" data-i18n="about_intro">JegVet is created by veterinarian Lene Teigland Wilkinson.</p>
+
+      <section class="about-profile">
+        <figure class="about-photo-wrap">
+          <img src="assets/lene-wilkinson.jpg" alt="Veterinarian Lene Teigland Wilkinson" class="about-photo" />
+          <figcaption class="about-photo-caption" data-i18n="about_photo_credit">Profile photo source: Evidensia Trondheim Dyresykehus</figcaption>
+        </figure>
+
+        <div class="tool-card">
+          <p class="about-role" data-i18n="about_role">Veterinarian</p>
+          <h2 class="about-name" data-i18n="about_name">Lene Teigland Wilkinson</h2>
+          <p><strong data-i18n="about_clinic_label">Clinic</strong>: <span data-i18n="about_clinic_name">Evidensia Trondheim Dyresykehus</span></p>
+          <h3 data-i18n="about_focus_title">Special focus areas</h3>
+          <ul class="about-list">
+            <li data-i18n="about_focus_1">Advanced dentistry / Odontology</li>
+            <li data-i18n="about_focus_2">Skin and ear conditions / Dermatology</li>
+            <li data-i18n="about_focus_3">Exotic animals, birds, rabbits and rodents</li>
+            <li data-i18n="about_focus_4">Soft tissue surgery</li>
+            <li data-i18n="about_focus_5">Emergency and intensive care</li>
+          </ul>
+          <a class="action-button" href="https://evidensia.no/dyreklinikk/trondheim-dyresykehus/medarbeidere/lene-teigland-wilkinson/" target="_blank" rel="noopener noreferrer" data-i18n="about_more">Read more about Lene on Evidensia</a>
+        </div>
+      </section>
+    </section>
+  </main>
+</body>
+</html>
+

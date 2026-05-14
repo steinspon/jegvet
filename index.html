@@ -8,17 +8,40 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="JegVet" />
-  <link rel="icon" type="image/png" sizes="32x32" href="logo_day_small.png?v=3" />
-  <link rel="apple-touch-icon" sizes="180x180" href="logo_day_small.png?v=3" />
-  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="logo_day_small.png?v=3" />
+  <link rel="icon" type="image/png" sizes="32x32" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
   <link rel='manifest' href='manifest.webmanifest' />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <script src="auth-guard.js" defer></script>
+  <script src="app-shell.js" defer></script>
+  <script>
+    window.PAGE_I18N = {
+      en: {
+        page_title_home: 'JegVet',
+        home_search_placeholder: 'Search...',
+        home_search_aria: 'Search',
+        home_browse_reference: 'Browse Reference',
+        home_tools: 'Tools & Calculators',
+        home_wiki_desc: 'Protocols, references and practical notes',
+        home_tools_desc: 'Dose and treatment calculators'
+      },
+      no: {
+        page_title_home: 'JegVet',
+        home_search_placeholder: 'Søk...',
+        home_search_aria: 'Søk',
+        home_browse_reference: 'Bla i oppslagsverk',
+        home_tools: 'Verktøy og kalkulatorer',
+        home_wiki_desc: 'Protokoller, oppslagsverk og praktiske notater',
+        home_tools_desc: 'Dose- og behandlingskalkulatorer'
+      }
+    };
+  </script>
 </head>
-<body>
+<body data-i18n-title="page_title_home">
   <main class="page">
     <section class="layout-card">
       <a href="index.html" class="brand-link" aria-label="Go to homepage">
@@ -32,11 +55,37 @@
           class="search-input"
           placeholder="Search..."
           aria-label="Search"
+          data-i18n-placeholder="home_search_placeholder"
+          data-i18n-aria-label="home_search_aria"
           required
         />
-        <a href="wiki.html" class="action-button">Browse Reference</a>
-        <a href="tools.html" class="action-button">Tools &amp; Calculators</a>
       </form>
+
+      <section class="home-cards" aria-label="Primary navigation cards">
+        <a href="wiki.html" class="home-feature-card">
+          <div class="home-feature-card-bg"></div>
+          <div class="home-feature-card-blob" aria-hidden="true"></div>
+          <div class="home-feature-card-content">
+            <svg viewBox="0 0 24 24" aria-hidden="true" class="home-feature-icon">
+              <path d="M5 4.5A2.5 2.5 0 0 1 7.5 2H20v18h-12a2.5 2.5 0 0 0-2 .98V4.5zm0 0V22H4V4.5A2.5 2.5 0 0 1 6.5 2h1.35A2.49 2.49 0 0 0 5 4.5zM9 7h8v1.6H9V7zm0 3.2h8v1.6H9v-1.6zm0 3.2h5.5V15H9v-1.6z" />
+            </svg>
+            <h2 data-i18n="home_browse_reference">Browse Reference</h2>
+            <p data-i18n="home_wiki_desc">Protocols, references and practical notes</p>
+          </div>
+        </a>
+
+        <a href="tools.html" class="home-feature-card">
+          <div class="home-feature-card-bg"></div>
+          <div class="home-feature-card-blob" aria-hidden="true"></div>
+          <div class="home-feature-card-content">
+            <svg viewBox="0 0 24 24" aria-hidden="true" class="home-feature-icon">
+              <path d="M21 7h-6.2a3.3 3.3 0 0 0-6.6 0H3v2h5.2a3.3 3.3 0 0 0 6.6 0H21V7zm-9.5 2.2A1.8 1.8 0 1 1 11.5 5.6a1.8 1.8 0 0 1 0 3.6zM21 15h-5.2a3.3 3.3 0 0 0-6.6 0H3v2h6.2a3.3 3.3 0 0 0 6.6 0H21v-2zm-8.5 2.2a1.8 1.8 0 1 1 0-3.6 1.8 1.8 0 0 1 0 3.6z" />
+            </svg>
+            <h2 data-i18n="home_tools">Tools &amp; Calculators</h2>
+            <p data-i18n="home_tools_desc">Dose and treatment calculators</p>
+          </div>
+        </a>
+      </section>
     </section>
   </main>
 </body>

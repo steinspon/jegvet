@@ -8,34 +8,71 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="JegVet" />
-  <link rel="icon" type="image/png" sizes="32x32" href="logo_day_small.png?v=3" />
-  <link rel="apple-touch-icon" sizes="180x180" href="logo_day_small.png?v=3" />
-  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="logo_day_small.png?v=3" />
+  <link rel="icon" type="image/png" sizes="32x32" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
   <link rel='manifest' href='manifest.webmanifest' />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <script src="auth-guard.js" defer></script>
+  <script src="app-shell.js" defer></script>
+  <script>
+    window.PAGE_I18N = {
+      en: {
+        page_title_tools: 'Tools & Calculators | JegVet',
+        tools_suspension: 'Suspension',
+        tools_water: 'Medicated Drinking Water',
+        tools_rabbit: 'Anaesthetic, Rabbit',
+        tools_guinea: 'Anaesthetic, Guinea pig',
+        tools_chinchilla: 'Anaesthetic, Chinchilla',
+        tools_seagull: 'Seagull Sedation',
+        tools_euthanasia: 'Euthanasia',
+        tools_dog_antihistamine: 'Dog Antihistamine',
+        tools_b1_dog: 'Dog B1 Cardiac Sedation',
+        tools_cat_heart: 'Cat Heart Protocol Sedation',
+        tools_ketofol: 'Ketofol Mixing'
+      },
+      no: {
+        page_title_tools: 'Verktoy og kalkulatorer | JegVet',
+        tools_suspension: 'Suspensjon',
+        tools_water: 'Medisinert drikkevann',
+        tools_rabbit: 'Anestesi, kanin',
+        tools_guinea: 'Anestesi, marsvin',
+        tools_chinchilla: 'Anestesi, chinchilla',
+        tools_seagull: 'Maakesedasjon',
+        tools_euthanasia: 'Eutanasi',
+        tools_dog_antihistamine: 'Hund antihistamin',
+        tools_b1_dog: 'Hund B1 hjertesedasjon',
+        tools_cat_heart: 'Katt hjerteprotokoll sedasjon',
+        tools_ketofol: 'Ketofol blanding'
+      }
+    };
+  </script>
 </head>
-<body>
+<body data-i18n-title="page_title_tools">
   <main class="page page-top">
-    <section class="layout-card layout-card-wide">
+    <section class="layout-card">
       <a href="index.html" class="brand-link" aria-label="Go to homepage">
         <img src="logo_day.png" alt="JegVet logo" class="brand-logo" />
       </a>
 
       <section class="tools-list" aria-label="Tools list">
-        <a href="suspension-calculator.html" class="action-button">Suspension</a>
-        <a href="medicated-drinking-water-calculator.html" class="action-button">Medicated Drinking Water</a>
-        <a href="anaesthetic-rabbit-calculator.html" class="action-button">Anaesthetic, Rabbit</a>
-        <a href="anaesthetic-guinea-pig-calculator.html" class="action-button">Anaesthetic, Guinea pig</a>
-        <a href="anaesthetic-chinchilla-calculator.html" class="action-button">Anaesthetic, Chinchilla</a>
+        <a href="anaesthetic-chinchilla-calculator.html" class="action-button" data-i18n="tools_chinchilla">Anaesthetic, Chinchilla</a>
+        <a href="anaesthetic-guinea-pig-calculator.html" class="action-button" data-i18n="tools_guinea">Anaesthetic, Guinea pig</a>
+        <a href="anaesthetic-rabbit-calculator.html" class="action-button" data-i18n="tools_rabbit">Anaesthetic, Rabbit</a>
+        <a href="cat-heart-protocol-sedation-calculator.html" class="action-button" data-i18n="tools_cat_heart">Cat Heart Protocol Sedation</a>
+        <a href="dog-antihistamine-calculator.html" class="action-button" data-i18n="tools_dog_antihistamine">Dog Antihistamine</a>
+        <a href="dog-b1-cardiac-sedation-calculator.html" class="action-button" data-i18n="tools_b1_dog">Dog B1 Cardiac Sedation</a>
+        <a href="euthanasia-calculator.html" class="action-button" data-i18n="tools_euthanasia">Euthanasia</a>
+        <a href="ketofol-mixing-calculator.html" class="action-button" data-i18n="tools_ketofol">Ketofol Mixing</a>
+        <a href="medicated-drinking-water-calculator.html" class="action-button" data-i18n="tools_water">Medicated Drinking Water</a>
+        <a href="seagull-sedation-calculator.html" class="action-button" data-i18n="tools_seagull">Seagull Sedation</a>
+        <a href="suspension-calculator.html" class="action-button" data-i18n="tools_suspension">Suspension</a>
       </section>
     </section>
   </main>
 </body>
 </html>
-
-
 

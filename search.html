@@ -8,18 +8,43 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="JegVet" />
-  <link rel="icon" type="image/png" sizes="32x32" href="logo_day_small.png?v=3" />
-  <link rel="apple-touch-icon" sizes="180x180" href="logo_day_small.png?v=3" />
-  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="logo_day_small.png?v=3" />
+  <link rel="icon" type="image/png" sizes="32x32" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
   <link rel='manifest' href='manifest.webmanifest' />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <script src="auth-guard.js" defer></script>
+  <script src="app-shell.js" defer></script>
   <script src="wiki/data/wiki-fallback.js" defer></script>
+  <script>
+    window.PAGE_I18N = {
+      en: {
+        page_title_search: 'Search | JegVet',
+        search_placeholder: 'Search...',
+        search_aria: 'Search',
+        search_waiting: 'Search results will appear here.',
+        search_type_prompt: 'Type a search term and press Enter.',
+        search_result_singular: '{count} result for "{query}"',
+        search_result_plural: '{count} results for "{query}"',
+        search_empty: 'No matches found.'
+      },
+      no: {
+        page_title_search: 'SÃ¸k | JegVet',
+        search_placeholder: 'SÃ¸k...',
+        search_aria: 'SÃ¸k',
+        search_waiting: 'SÃ¸keresultater vises her.',
+        search_type_prompt: 'Skriv et sÃ¸keord og trykk Enter.',
+        search_result_singular: '{count} treff for "{query}"',
+        search_result_plural: '{count} treff for "{query}"',
+        search_empty: 'Ingen treff funnet.'
+      }
+    };
+  </script>
 </head>
-<body>
+<body data-i18n-title="page_title_search">
   <main class="page page-top">
     <section class="layout-card layout-card-wide">
       <a href="index.html" class="brand-link" aria-label="Go to homepage">
@@ -33,11 +58,13 @@
           class="search-input"
           placeholder="Search..."
           aria-label="Search"
+          data-i18n-placeholder="search_placeholder"
+          data-i18n-aria-label="search_aria"
         />
       </form>
 
       <section aria-live="polite" class="search-results-wrap">
-        <p id="search-summary" class="search-summary">Search results will appear here.</p>
+        <p id="search-summary" class="search-summary" data-i18n="search_waiting">Search results will appear here.</p>
         <div id="search-results"></div>
       </section>
     </section>
@@ -46,6 +73,23 @@
   <script>
     (function () {
       'use strict';
+
+      function t(key, fallback) {
+        if (window.JegVetLang && typeof window.JegVetLang.t === 'function') {
+          return window.JegVetLang.t(key, fallback);
+        }
+        return fallback || key;
+      }
+
+      function template(key, fallback, params) {
+        if (window.JegVetLang && typeof window.JegVetLang.template === 'function') {
+          return window.JegVetLang.template(key, fallback, params);
+        }
+        var text = fallback || key;
+        return text.replace(/\{([a-zA-Z0-9_]+)\}/g, function (_, paramKey) {
+          return Object.prototype.hasOwnProperty.call(params, paramKey) ? String(params[paramKey]) : '';
+        });
+      }
 
       function escapeHtml(text) {
         return text
@@ -372,15 +416,19 @@
 
       function renderResults(results, query, summaryEl, resultsEl) {
         if (!query) {
-          summaryEl.textContent = 'Type a search term and press Enter.';
+          summaryEl.textContent = t('search_type_prompt', 'Type a search term and press Enter.');
           resultsEl.innerHTML = '';
           return;
         }
 
-        summaryEl.textContent = results.length + ' result' + (results.length === 1 ? '' : 's') + ' for "' + query + '"';
+        summaryEl.textContent = template(
+          results.length === 1 ? 'search_result_singular' : 'search_result_plural',
+          results.length === 1 ? '{count} result for "{query}"' : '{count} results for "{query}"',
+          { count: results.length, query: query }
+        );
 
         if (!results.length) {
-          resultsEl.innerHTML = '<p class="search-empty">No matches found.</p>';
+          resultsEl.innerHTML = '<p class="search-empty">' + escapeHtml(t('search_empty', 'No matches found.')) + '</p>';
           return;
         }
 
@@ -422,9 +470,15 @@
             displayUrl: 'wiki.html'
           },
           {
+            title: 'About',
+            body: 'about jegvet lene teigland wilkinson veterinarian trondheim evidensia',
+            url: 'about.html',
+            displayUrl: 'about.html'
+          },
+          {
             kind: 'tool',
             title: 'Tools & Calculators',
-            body: 'tools calculators calculator anaesthetic anesthesia rabbit guinea pig chinchilla suspension medicated drinking water',
+            body: 'tools calculators calculator anaesthetic anesthesia rabbit guinea pig chinchilla suspension medicated drinking water seagull sedation euthanasia zoletil euthasol exagon dog cat midazolam butophanol xray antihistamine atarax aerius',
             url: 'tools.html',
             displayUrl: 'tools.html'
           },
@@ -462,6 +516,48 @@
             body: 'anaesthetic anesthesia chinchilla fentanyl midazolam medetomidine naloxone flumazenil atipamezole',
             url: 'anaesthetic-chinchilla-calculator.html',
             displayUrl: 'anaesthetic-chinchilla-calculator.html'
+          },
+          {
+            kind: 'tool',
+            title: 'Seagull Sedation',
+            body: 'seagull sedation calculator bird avian midazolam butophanol butorphanol xray intramuscular im chest muscle',
+            url: 'seagull-sedation-calculator.html',
+            displayUrl: 'seagull-sedation-calculator.html'
+          },
+          {
+            kind: 'tool',
+            title: 'Euthanasia Calculator',
+            body: 'euthanasia calculator zoletil mix euthasol exagon dog cat animal weight kg',
+            url: 'euthanasia-calculator.html',
+            displayUrl: 'euthanasia-calculator.html'
+          },
+          {
+            kind: 'tool',
+            title: 'Dog Antihistamine Calculator',
+            body: 'dog antihistamine calculator atarax aerius hydroxyzine desloratadine 10 mg 25 mg 5 mg tablet q8h q12h tid bid',
+            url: 'dog-antihistamine-calculator.html',
+            displayUrl: 'dog-antihistamine-calculator.html'
+          },
+          {
+            kind: 'tool',
+            title: 'Dog B1 Cardiac Sedation Calculator',
+            body: 'dog b1 cardiac disease sedation premedication methadone dexmedetomidine intramuscular im calculator',
+            url: 'dog-b1-cardiac-sedation-calculator.html',
+            displayUrl: 'dog-b1-cardiac-sedation-calculator.html'
+          },
+          {
+            kind: 'tool',
+            title: 'Ketofol Mixing Calculator',
+            body: 'ketofol mixing calculator propofol ketamine belatamine syringe dog cat intravenous iv induction maintenance',
+            url: 'ketofol-mixing-calculator.html',
+            displayUrl: 'ketofol-mixing-calculator.html'
+          },
+          {
+            kind: 'tool',
+            title: 'Cat Heart Protocol Sedation Calculator',
+            body: 'cat heart protocol sedation premedication midazolam methadone intravenous iv calculator',
+            url: 'cat-heart-protocol-sedation-calculator.html',
+            displayUrl: 'cat-heart-protocol-sedation-calculator.html'
           }
         ];
         var folderMap = {};
@@ -471,7 +567,14 @@
           'medicated-drinking-water-calculator.html',
           'anaesthetic-rabbit-calculator.html',
           'anaesthetic-guinea-pig-calculator.html',
-          'anaesthetic-chinchilla-calculator.html'
+          'anaesthetic-chinchilla-calculator.html',
+          'seagull-sedation-calculator.html',
+          'euthanasia-calculator.html',
+          'dog-antihistamine-calculator.html',
+          'dog-b1-cardiac-sedation-calculator.html',
+          'ketofol-mixing-calculator.html',
+          'cat-heart-protocol-sedation-calculator.html',
+          'about.html'
         ];
 
         for (var t = 0; t < toolPages.length; t += 1) {
@@ -487,7 +590,7 @@
             corpus.push({
               kind: 'tool',
               title: title,
-              body: bodyText + ' tools calculator calculators anaesthetic anesthesia rabbit guinea pig chinchilla',
+              body: bodyText + ' tools calculator calculators anaesthetic anesthesia rabbit guinea pig chinchilla seagull sedation euthanasia dog cat bird avian',
               url: toolFile,
               displayUrl: toolFile
             });
@@ -597,10 +700,13 @@
       } else {
         runSearch();
       }
+      document.addEventListener('jegvet:langchange', runSearch);
     })();
   </script>
 </body>
 </html>
+
+
 
 
 

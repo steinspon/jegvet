@@ -8,36 +8,69 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="JegVet" />
-  <link rel="icon" type="image/png" sizes="32x32" href="logo_day_small.png?v=3" />
-  <link rel="apple-touch-icon" sizes="180x180" href="logo_day_small.png?v=3" />
-  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="logo_day_small.png?v=3" />
+  <link rel="icon" type="image/png" sizes="32x32" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
   <link rel='manifest' href='manifest.webmanifest' />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <script src="auth-guard.js" defer></script>
+  <script src="app-shell.js" defer></script>
+  <script>
+    window.PAGE_I18N = {
+      en: {
+        page_title_suspension: 'Suspension Calculator | JegVet',
+        susp_title: 'Suspension Calculator',
+        susp_subtitle: 'Enter tablet strength and target dose. Results are shown for whole-ml water additions that keep dose volume between 0.05 ml and 0.50 ml.',
+        susp_tablet_label: 'Tablet strength (mg)',
+        susp_dose_label: 'Required dose for patient (mg)',
+        susp_th_water: 'Water To Add Per Tablet (ml)',
+        susp_th_conc: 'Resulting Concentration (mg/ml)',
+        susp_th_dose_vol: 'Dose Volume For Required Dose (ml)',
+        susp_placeholder: 'Enter values to generate suspension options.',
+        susp_no_results: 'No results.',
+        susp_error_positive: 'Both values must be greater than 0.',
+        susp_no_whole_options: 'No whole-ml water options keep dose volume between 0.05 ml and 0.50 ml for these values.'
+      },
+      no: {
+        page_title_suspension: 'Suspensjonskalkulator | JegVet',
+        susp_title: 'Suspensjonskalkulator',
+        susp_subtitle: 'Oppgi tablettstyrke og mÃ¥ldose. Resultater vises for hele ml vann som gir dosevolum mellom 0,05 ml og 0,50 ml.',
+        susp_tablet_label: 'Tablettstyrke (mg)',
+        susp_dose_label: 'NÃ¸dvendig dose for pasienten (mg)',
+        susp_th_water: 'Vann per tablett (ml)',
+        susp_th_conc: 'Konsentrasjon (mg/ml)',
+        susp_th_dose_vol: 'Dosevolum for nÃ¸dvendig dose (ml)',
+        susp_placeholder: 'Oppgi verdier for Ã¥ beregne alternativer.',
+        susp_no_results: 'Ingen resultater.',
+        susp_error_positive: 'Begge verdier mÃ¥ vÃ¦re stÃ¸rre enn 0.',
+        susp_no_whole_options: 'Ingen alternativer med hele ml vann gir dosevolum mellom 0,05 ml og 0,50 ml for disse verdiene.'
+      }
+    };
+  </script>
 </head>
-<body>
+<body data-i18n-title="page_title_suspension">
   <main class="page page-top">
     <section class="layout-card layout-card-wide">
       <a href="index.html" class="brand-link" aria-label="Go to homepage">
         <img src="logo_day.png" alt="JegVet logo" class="brand-logo" />
       </a>
 
-      <h1 class="section-title">Suspension Calculator</h1>
-      <p class="section-subtitle">
+      <h1 class="section-title" data-i18n="susp_title">Suspension Calculator</h1>
+      <p class="section-subtitle" data-i18n="susp_subtitle">
         Enter tablet strength and target dose. Results are shown for whole-ml water additions that keep dose volume between 0.05 ml and 0.50 ml.
       </p>
 
       <form id="calc-form" class="calc-form">
         <div class="calc-field">
-          <label for="tablet-mg">Tablet strength (mg)</label>
+          <label for="tablet-mg" data-i18n="susp_tablet_label">Tablet strength (mg)</label>
           <input id="tablet-mg" name="tablet-mg" type="number" step="0.01" min="0" required />
         </div>
 
         <div class="calc-field">
-          <label for="dose-mg">Required dose for patient (mg)</label>
+          <label for="dose-mg" data-i18n="susp_dose_label">Required dose for patient (mg)</label>
           <input id="dose-mg" name="dose-mg" type="number" step="0.01" min="0" required />
         </div>
       </form>
@@ -48,17 +81,29 @@
         <table class="calc-table" aria-label="Suspension results">
           <thead>
             <tr>
-              <th>Water To Add Per Tablet (ml)</th>
-              <th>Resulting Concentration (mg/ml)</th>
-              <th>Dose Volume For Required Dose (ml)</th>
+              <th data-i18n="susp_th_water">Water To Add Per Tablet (ml)</th>
+              <th data-i18n="susp_th_conc">Resulting Concentration (mg/ml)</th>
+              <th data-i18n="susp_th_dose_vol">Dose Volume For Required Dose (ml)</th>
             </tr>
           </thead>
           <tbody id="calc-results">
             <tr>
-              <td colspan="3">Enter values to generate suspension options.</td>
+              <td colspan="3" data-i18n="susp_placeholder">Enter values to generate suspension options.</td>
             </tr>
           </tbody>
         </table>
+      </div>
+
+      <div class="tool-card" style="margin-top:14px;">
+        <h2>Calculation information</h2>
+        <p>Assumptions used in this calculator:</p>
+        <ul>
+          <li>Target dose volume window: 0.05 ml to 0.50 ml</li>
+          <li>Water additions are tested in whole ml increments (1 ml steps)</li>
+          <li>Concentration (mg/ml) = tablet strength (mg) / water added (ml)</li>
+          <li>Dose volume (ml) = required dose (mg) / concentration (mg/ml)</li>
+          <li>Only options within the target dose volume window are displayed</li>
+        </ul>
       </div>
     </section>
   </main>
@@ -66,6 +111,13 @@
   <script>
     (function () {
       'use strict';
+
+      function t(key, fallback) {
+        if (window.JegVetLang && typeof window.JegVetLang.t === 'function') {
+          return window.JegVetLang.t(key, fallback);
+        }
+        return fallback || key;
+      }
 
       var MIN_DOSE_VOLUME = 0.05;
       var MAX_DOSE_VOLUME = 0.50;
@@ -98,13 +150,13 @@
 
         if (!tabletInput.value || !doseInput.value) {
           setError('');
-          renderPlaceholder('Enter values to generate suspension options.');
+          renderPlaceholder(t('susp_placeholder', 'Enter values to generate suspension options.'));
           return;
         }
 
         if (!isFinite(tabletMg) || !isFinite(doseMg) || tabletMg <= 0 || doseMg <= 0) {
-          setError('Both values must be greater than 0.');
-          renderPlaceholder('No results.');
+          setError(t('susp_error_positive', 'Both values must be greater than 0.'));
+          renderPlaceholder(t('susp_no_results', 'No results.'));
           return;
         }
 
@@ -129,7 +181,7 @@
         }
 
         if (!rows.length) {
-          renderPlaceholder('No whole-ml water options keep dose volume between 0.05 ml and 0.50 ml for these values.');
+          renderPlaceholder(t('susp_no_whole_options', 'No whole-ml water options keep dose volume between 0.05 ml and 0.50 ml for these values.'));
           return;
         }
 
@@ -138,10 +190,13 @@
 
       tabletInput.addEventListener('input', renderResults);
       doseInput.addEventListener('input', renderResults);
+      document.addEventListener('jegvet:langchange', renderResults);
     })();
   </script>
 </body>
 </html>
+
+
 
 
 
