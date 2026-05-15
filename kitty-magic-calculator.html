@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Kitty Magic Calculator | JegVet</title>
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="JegVet" />
+  <link rel="icon" type="image/png" sizes="32x32" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel='manifest' href='manifest.webmanifest' />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="auth-guard.js" defer></script>
+  <script src="app-shell.js" defer></script>
+  <script>
+    window.PAGE_I18N = {
+      en: {
+        page_title_kitty_magic: 'Kitty Magic Calculator | JegVet',
+        kitty_magic_title: 'Kitty Magic calculator',
+        kitty_magic_subtitle: 'Kitty Magic sedation protocol for cats.',
+        kitty_magic_weight: 'Cat weight (kg)',
+        kitty_magic_mood: 'Cat mood',
+        kitty_magic_bcs: 'Body condition score (BCS)',
+        kitty_magic_mood_snill: 'Friendly and social cat (low-normal dose)',
+        kitty_magic_mood_redd: 'Scared or nervous cat (slightly higher dose)',
+        kitty_magic_mood_sint: 'Very angry cat (high dose)',
+        kitty_magic_bcs_slank: 'Lean cat (BCS 3-4/9)',
+        kitty_magic_bcs_litt_tjukk: 'Slightly overweight cat (BCS 5-6/9)',
+        kitty_magic_bcs_overvektig: 'Overweight cat (BCS 7-9/9)',
+        kitty_magic_results: 'Dose Results (IM)',
+        kitty_magic_th_drug: 'Drug',
+        kitty_magic_th_dose: 'Dose (mg/kg)',
+        kitty_magic_th_volume: 'Volume (ml)',
+        kitty_magic_placeholder: 'Select BCS, mood, and weight to calculate doses.',
+        kitty_magic_combined_title: 'Combined IM syringe',
+        kitty_magic_combined_placeholder: 'Select BCS, mood, and weight to calculate total syringe volume.',
+        kitty_magic_info_title: 'Important information',
+        kitty_magic_info_line1: 'This sedation is intended for healthy cats where there is no suspicion of heart disease.',
+        kitty_magic_info_line2: 'All components in the protocol are drawn up in the same syringe and the full volume is given intramuscularly.',
+        kitty_magic_calc_info_title: 'Calculation information',
+        kitty_magic_calc_intro: 'Assumptions used in this calculator:',
+        kitty_magic_calc_item1: 'Dexmedetomidine concentration: 0.5 mg/ml',
+        kitty_magic_calc_item2: 'Methadone concentration: 10 mg/ml',
+        kitty_magic_calc_item3: 'Ketamine concentration: 100 mg/ml',
+        kitty_magic_calc_bcs1_title: 'Lean cat (BCS 3-4/9)',
+        kitty_magic_calc_bcs1_item1: '1.50-5.00 kg: dexmedetomidine 0.02 mg/kg, methadone 0.3 mg/kg, ketamine 3.5 mg/kg',
+        kitty_magic_calc_bcs1_item2: '5.01-12.00 kg: dexmedetomidine 0.012 mg/kg, methadone 0.3 mg/kg, ketamine 2.8 mg/kg',
+        kitty_magic_calc_bcs2_title: 'Slightly overweight cat (BCS 5-6/9)',
+        kitty_magic_calc_bcs2_item1: '1.50-4.00 kg: dexmedetomidine 0.02 mg/kg, methadone 0.3 mg/kg, ketamine 3.5 mg/kg',
+        kitty_magic_calc_bcs2_item2: '4.01-5.00 kg: dexmedetomidine 0.015 mg/kg, methadone 0.3 mg/kg, ketamine 3.0 mg/kg',
+        kitty_magic_calc_bcs2_item3: '5.01-12.00 kg: dexmedetomidine 0.012 mg/kg, methadone 0.3 mg/kg, ketamine 2.8 mg/kg',
+        kitty_magic_calc_bcs3_title: 'Overweight cat (BCS 7-9/9)',
+        kitty_magic_calc_bcs3_item1: '1.50-7.10 kg: dexmedetomidine 0.015 mg/kg, methadone 0.3 mg/kg, ketamine 2.5 mg/kg',
+        kitty_magic_calc_bcs3_item2: '7.11-12.00 kg: dexmedetomidine 0.010 mg/kg, methadone 0.25 mg/kg, ketamine 2.0 mg/kg',
+        kitty_magic_calc_item14: 'Ketamine mood top-up: scared or nervous +0.5 mg/kg; very angry +0.7 mg/kg',
+        kitty_magic_calc_item15: 'Final ketamine dose = base ketamine dose by BCS/weight + mood top-up',
+        kitty_magic_calc_item16: 'Volume (ml) = (dose mg/kg x body weight kg) / concentration mg/ml',
+        kitty_magic_calc_item17: 'Total IM syringe volume = dexmedetomidine volume + methadone volume + ketamine volume',
+        kitty_magic_error_positive: 'Weight must be greater than 0 kg.',
+        kitty_magic_error_select: 'Please select both mood and BCS category.',
+        kitty_magic_error_range: 'Weight must be between 1.50 and 12.00 kg for selected BCS category.',
+        kitty_magic_no_result: 'No result.',
+        kitty_magic_total: 'Total volume in same syringe:'
+      },
+      no: {
+        page_title_kitty_magic: 'Kitty Magic kalkulator | JegVet',
+        kitty_magic_title: 'Kitty Magic kalkulator',
+        kitty_magic_subtitle: 'Kitty Magic sedasjonsprotokoll for katt.',
+        kitty_magic_weight: 'Kattens vekt (kg)',
+        kitty_magic_mood: 'Kattens humør',
+        kitty_magic_bcs: 'Body condition score (BCS)',
+        kitty_magic_mood_snill: 'Snill & sosial katt (lav-normal dose)',
+        kitty_magic_mood_redd: 'Redd eller nervøs katt (litt høyere dose)',
+        kitty_magic_mood_sint: 'Veldig sint katt (høy dose)',
+        kitty_magic_bcs_slank: 'Slank katt (BCS 3-4/9)',
+        kitty_magic_bcs_litt_tjukk: 'Litt tjukk katt (BCS 5-6/9)',
+        kitty_magic_bcs_overvektig: 'Overvektig katt (BCS 7-9/9)',
+        kitty_magic_results: 'Doseresultat (IM)',
+        kitty_magic_th_drug: 'Legemiddel',
+        kitty_magic_th_dose: 'Dose (mg/kg)',
+        kitty_magic_th_volume: 'Volum (ml)',
+        kitty_magic_placeholder: 'Velg BCS, humør og vekt for å beregne doser.',
+        kitty_magic_combined_title: 'Kombinert IM-sprøyte',
+        kitty_magic_combined_placeholder: 'Velg BCS, humør og vekt for å beregne totalt sprøytevolum.',
+        kitty_magic_info_title: 'Viktig informasjon',
+        kitty_magic_info_line1: 'Denne sedasjonen er ment for friske katter hvor det ikke er mistanke om hjertesykdom.',
+        kitty_magic_info_line2: 'Alle komponentene i protokollen trekkes opp i samme sprøyte og hele volumet gis intramuskulært.',
+        kitty_magic_calc_info_title: 'Informasjon om beregning',
+        kitty_magic_calc_intro: 'Forutsetninger brukt i denne kalkulatoren:',
+        kitty_magic_calc_item1: 'Dexmedetomidin konsentrasjon: 0,5 mg/ml',
+        kitty_magic_calc_item2: 'Methadone konsentrasjon: 10 mg/ml',
+        kitty_magic_calc_item3: 'Ketamin konsentrasjon: 100 mg/ml',
+        kitty_magic_calc_bcs1_title: 'Slank katt (BCS 3-4/9)',
+        kitty_magic_calc_bcs1_item1: '1,50-5,00 kg: dexmedetomidin 0,02 mg/kg, methadone 0,3 mg/kg, ketamin 3,5 mg/kg',
+        kitty_magic_calc_bcs1_item2: '5,01-12,00 kg: dexmedetomidin 0,012 mg/kg, methadone 0,3 mg/kg, ketamin 2,8 mg/kg',
+        kitty_magic_calc_bcs2_title: 'Litt tjukk katt (BCS 5-6/9)',
+        kitty_magic_calc_bcs2_item1: '1,50-4,00 kg: dexmedetomidin 0,02 mg/kg, methadone 0,3 mg/kg, ketamin 3,5 mg/kg',
+        kitty_magic_calc_bcs2_item2: '4,01-5,00 kg: dexmedetomidin 0,015 mg/kg, methadone 0,3 mg/kg, ketamin 3,0 mg/kg',
+        kitty_magic_calc_bcs2_item3: '5,01-12,00 kg: dexmedetomidin 0,012 mg/kg, methadone 0,3 mg/kg, ketamin 2,8 mg/kg',
+        kitty_magic_calc_bcs3_title: 'Overvektig katt (BCS 7-9/9)',
+        kitty_magic_calc_bcs3_item1: '1,50-7,10 kg: dexmedetomidin 0,015 mg/kg, methadone 0,3 mg/kg, ketamin 2,5 mg/kg',
+        kitty_magic_calc_bcs3_item2: '7,11-12,00 kg: dexmedetomidin 0,010 mg/kg, methadone 0,25 mg/kg, ketamin 2,0 mg/kg',
+        kitty_magic_calc_item14: 'Humør-top-up for ketamin: redd eller nervøs +0,5 mg/kg; veldig sint +0,7 mg/kg',
+        kitty_magic_calc_item15: 'Endelig ketamindose = basis ketamindose etter BCS/vekt + humør-top-up',
+        kitty_magic_calc_item16: 'Volum (ml) = (dose mg/kg x kroppsvekt kg) / konsentrasjon mg/ml',
+        kitty_magic_calc_item17: 'Totalt IM-sprøytevolum = dexmedetomidinvolum + methadonevolum + ketaminvolum',
+        kitty_magic_error_positive: 'Vekten må være større enn 0 kg.',
+        kitty_magic_error_select: 'Velg både humørkategori og BCS-kategori.',
+        kitty_magic_error_range: 'Vekten må være mellom 1,50 og 12,00 kg for valgt BCS-kategori.',
+        kitty_magic_no_result: 'Ingen resultat.',
+        kitty_magic_total: 'Totalt volum i samme sprøyte:'
+      }
+    };
+  </script>
+</head>
+<body data-i18n-title="page_title_kitty_magic">
+  <main class="page page-top">
+    <section class="layout-card layout-card-wide">
+      <a href="index.html" class="brand-link" aria-label="Go to homepage">
+        <img src="logo_day.png" alt="JegVet logo" class="brand-logo" />
+      </a>
+
+      <h1 class="section-title" data-i18n="kitty_magic_title">Kitty Magic calculator</h1>
+      <p class="section-subtitle" data-i18n="kitty_magic_subtitle">Kitty Magic sedation protocol for cats.</p>
+
+      <form class="calc-form" id="kitty-magic-form">
+        <div class="calc-field">
+          <label for="weight-kg" data-i18n="kitty_magic_weight">Cat weight (kg)</label>
+          <input id="weight-kg" type="number" min="0" step="0.01" required />
+        </div>
+        <div class="calc-field">
+          <label for="mood-choice" data-i18n="kitty_magic_mood">Cat mood</label>
+          <select id="mood-choice" required>
+            <option value="">-</option>
+            <option value="snill" data-i18n="kitty_magic_mood_snill">Friendly and social cat (low-normal dose)</option>
+            <option value="redd" data-i18n="kitty_magic_mood_redd">Scared or nervous cat (slightly higher dose)</option>
+            <option value="sint" data-i18n="kitty_magic_mood_sint">Very angry cat (high dose)</option>
+          </select>
+        </div>
+        <div class="calc-field">
+          <label for="bcs-choice" data-i18n="kitty_magic_bcs">Body condition score (BCS)</label>
+          <select id="bcs-choice" required>
+            <option value="">-</option>
+            <option value="slank" data-i18n="kitty_magic_bcs_slank">Lean cat (BCS 3-4/9)</option>
+            <option value="litt_tjukk" data-i18n="kitty_magic_bcs_litt_tjukk">Slightly overweight cat (BCS 5-6/9)</option>
+            <option value="overvektig" data-i18n="kitty_magic_bcs_overvektig">Overweight cat (BCS 7-9/9)</option>
+          </select>
+        </div>
+      </form>
+
+      <p id="calc-error" class="calc-error" aria-live="polite"></p>
+
+      <h2 class="section-subtitle" style="margin: 8px 0;" data-i18n="kitty_magic_results">Dose Results (IM)</h2>
+      <div class="calc-table-wrap">
+        <table class="calc-table" aria-label="Kitty Magic dose results">
+          <thead>
+            <tr>
+              <th data-i18n="kitty_magic_th_drug">Drug</th>
+              <th data-i18n="kitty_magic_th_dose">Dose (mg/kg)</th>
+              <th data-i18n="kitty_magic_th_volume">Volume (ml)</th>
+            </tr>
+          </thead>
+          <tbody id="dose-results">
+            <tr><td colspan="3" data-i18n="kitty_magic_placeholder">Select BCS, mood, and weight to calculate doses.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tool-card" aria-live="polite" style="margin-top:14px;">
+        <h2 data-i18n="kitty_magic_combined_title">Combined IM syringe</h2>
+        <p id="combined-result" data-i18n="kitty_magic_combined_placeholder">Select BCS, mood, and weight to calculate total syringe volume.</p>
+      </div>
+
+      <div class="tool-card" style="margin-top:14px;">
+        <h2 data-i18n="kitty_magic_info_title">Important information</h2>
+        <p data-i18n="kitty_magic_info_line1">This sedation is intended for healthy cats where there is no suspicion of heart disease.</p>
+        <p data-i18n="kitty_magic_info_line2">All components in the protocol are drawn up in the same syringe and the full volume is given intramuscularly.</p>
+      </div>
+
+      <div class="tool-card" style="margin-top:14px;">
+        <h2 data-i18n="kitty_magic_calc_info_title">Calculation information</h2>
+        <p data-i18n="kitty_magic_calc_intro">Assumptions used in this calculator:</p>
+        <ul>
+          <li data-i18n="kitty_magic_calc_item1">Dexmedetomidine concentration: 0.5 mg/ml</li>
+          <li data-i18n="kitty_magic_calc_item2">Methadone concentration: 10 mg/ml</li>
+          <li data-i18n="kitty_magic_calc_item3">Ketamine concentration: 100 mg/ml</li>
+        </ul>
+
+        <p style="margin: 10px 0 6px;"><strong data-i18n="kitty_magic_calc_bcs1_title">Lean cat (BCS 3-4/9)</strong></p>
+        <ul>
+          <li data-i18n="kitty_magic_calc_bcs1_item1">1.50-5.00 kg: dexmedetomidine 0.02 mg/kg, methadone 0.3 mg/kg, ketamine 3.5 mg/kg</li>
+          <li data-i18n="kitty_magic_calc_bcs1_item2">5.01-12.00 kg: dexmedetomidine 0.012 mg/kg, methadone 0.3 mg/kg, ketamine 2.8 mg/kg</li>
+        </ul>
+
+        <p style="margin: 10px 0 6px;"><strong data-i18n="kitty_magic_calc_bcs2_title">Slightly overweight cat (BCS 5-6/9)</strong></p>
+        <ul>
+          <li data-i18n="kitty_magic_calc_bcs2_item1">1.50-4.00 kg: dexmedetomidine 0.02 mg/kg, methadone 0.3 mg/kg, ketamine 3.5 mg/kg</li>
+          <li data-i18n="kitty_magic_calc_bcs2_item2">4.01-5.00 kg: dexmedetomidine 0.015 mg/kg, methadone 0.3 mg/kg, ketamine 3.0 mg/kg</li>
+          <li data-i18n="kitty_magic_calc_bcs2_item3">5.01-12.00 kg: dexmedetomidine 0.012 mg/kg, methadone 0.3 mg/kg, ketamine 2.8 mg/kg</li>
+        </ul>
+
+        <p style="margin: 10px 0 6px;"><strong data-i18n="kitty_magic_calc_bcs3_title">Overweight cat (BCS 7-9/9)</strong></p>
+        <ul>
+          <li data-i18n="kitty_magic_calc_bcs3_item1">1.50-7.10 kg: dexmedetomidine 0.015 mg/kg, methadone 0.3 mg/kg, ketamine 2.5 mg/kg</li>
+          <li data-i18n="kitty_magic_calc_bcs3_item2">7.11-12.00 kg: dexmedetomidine 0.010 mg/kg, methadone 0.25 mg/kg, ketamine 2.0 mg/kg</li>
+        </ul>
+
+        <ul>
+          <li data-i18n="kitty_magic_calc_item14">Ketamine mood top-up: scared or nervous +0.5 mg/kg; very angry +0.7 mg/kg</li>
+          <li data-i18n="kitty_magic_calc_item15">Final ketamine dose = base ketamine dose by BCS/weight + mood top-up</li>
+          <li data-i18n="kitty_magic_calc_item16">Volume (ml) = (dose mg/kg x body weight kg) / concentration mg/ml</li>
+          <li data-i18n="kitty_magic_calc_item17">Total IM syringe volume = dexmedetomidine volume + methadone volume + ketamine volume</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var weightInput = document.getElementById('weight-kg');
+      var moodSelect = document.getElementById('mood-choice');
+      var bcsSelect = document.getElementById('bcs-choice');
+      var errorEl = document.getElementById('calc-error');
+      var resultsEl = document.getElementById('dose-results');
+      var combinedEl = document.getElementById('combined-result');
+      var formEl = document.getElementById('kitty-magic-form');
+
+      var CONCENTRATION = {
+        dex: 0.5,
+        methadone: 10,
+        ketamine: 100
+      };
+
+      function t(key, fallback) {
+        if (window.JegVetLang && typeof window.JegVetLang.t === 'function') {
+          return window.JegVetLang.t(key, fallback);
+        }
+        return fallback || key;
+      }
+
+      function format(value) {
+        return value.toFixed(2);
+      }
+
+      function ketamineTopUp(mood) {
+        if (mood === 'redd') {
+          return 0.5;
+        }
+        if (mood === 'sint') {
+          return 0.7;
+        }
+        return 0;
+      }
+
+      function resolveBaseDose(weightKg, bcs) {
+        if (bcs === 'slank') {
+          if (weightKg >= 1.5 && weightKg <= 5.0) {
+            return { dex: 0.02, methadone: 0.3, ketamine: 3.5 };
+          }
+          if (weightKg >= 5.01 && weightKg <= 12.0) {
+            return { dex: 0.012, methadone: 0.3, ketamine: 2.8 };
+          }
+          return null;
+        }
+
+        if (bcs === 'litt_tjukk') {
+          if (weightKg >= 1.5 && weightKg <= 4.0) {
+            return { dex: 0.02, methadone: 0.3, ketamine: 3.5 };
+          }
+          if (weightKg >= 4.01 && weightKg <= 5.0) {
+            return { dex: 0.015, methadone: 0.3, ketamine: 3.0 };
+          }
+          if (weightKg >= 5.01 && weightKg <= 12.0) {
+            return { dex: 0.012, methadone: 0.3, ketamine: 2.8 };
+          }
+          return null;
+        }
+
+        if (bcs === 'overvektig') {
+          if (weightKg >= 1.5 && weightKg <= 7.1) {
+            return { dex: 0.015, methadone: 0.3, ketamine: 2.5 };
+          }
+          if (weightKg >= 7.11 && weightKg <= 12.0) {
+            return { dex: 0.01, methadone: 0.25, ketamine: 2.0 };
+          }
+          return null;
+        }
+
+        return null;
+      }
+
+      function renderPlaceholder(message) {
+        resultsEl.innerHTML = '<tr><td colspan="3">' + message + '</td></tr>';
+        combinedEl.textContent = message;
+      }
+
+      function render() {
+        var weightKg = Number(weightInput.value);
+        var mood = moodSelect.value;
+        var bcs = bcsSelect.value;
+
+        if (!weightInput.value && !mood && !bcs) {
+          errorEl.textContent = '';
+          renderPlaceholder(t('kitty_magic_placeholder', 'Select BCS, mood, and weight to calculate doses.'));
+          return;
+        }
+
+        if (!isFinite(weightKg) || weightKg <= 0) {
+          errorEl.textContent = t('kitty_magic_error_positive', 'Weight must be greater than 0 kg.');
+          renderPlaceholder(t('kitty_magic_no_result', 'No result.'));
+          return;
+        }
+
+        if (!mood || !bcs) {
+          errorEl.textContent = t('kitty_magic_error_select', 'Please select both mood and BCS category.');
+          renderPlaceholder(t('kitty_magic_no_result', 'No result.'));
+          return;
+        }
+
+        var baseDose = resolveBaseDose(weightKg, bcs);
+        if (!baseDose) {
+          errorEl.textContent = t('kitty_magic_error_range', 'Weight must be between 1.50 and 12.00 kg for selected BCS category.');
+          renderPlaceholder(t('kitty_magic_no_result', 'No result.'));
+          return;
+        }
+
+        errorEl.textContent = '';
+
+        var topUp = ketamineTopUp(mood);
+        var finalKetamineDose = baseDose.ketamine + topUp;
+        var dexMl = (baseDose.dex * weightKg) / CONCENTRATION.dex;
+        var methadoneMl = (baseDose.methadone * weightKg) / CONCENTRATION.methadone;
+        var ketamineMl = (finalKetamineDose * weightKg) / CONCENTRATION.ketamine;
+        var totalMl = dexMl + methadoneMl + ketamineMl;
+
+        resultsEl.innerHTML = [
+          '<tr><td>Dexmedetomidine (0,5 mg/ml)</td><td>' + format(baseDose.dex) + '</td><td>' + format(dexMl) + '</td></tr>',
+          '<tr><td>Methadone (10 mg/ml)</td><td>' + format(baseDose.methadone) + '</td><td>' + format(methadoneMl) + '</td></tr>',
+          '<tr><td>Ketamine (100 mg/ml)</td><td>' + format(finalKetamineDose) + '</td><td>' + format(ketamineMl) + '</td></tr>'
+        ].join('');
+
+        combinedEl.textContent = t('kitty_magic_total', 'Total volume in same syringe:') + ' ' + format(totalMl) + ' ml';
+      }
+
+      weightInput.addEventListener('input', render);
+      moodSelect.addEventListener('change', render);
+      bcsSelect.addEventListener('change', render);
+      document.addEventListener('jegvet:langchange', render);
+      if (formEl) {
+        formEl.addEventListener('submit', function (event) {
+          event.preventDefault();
+          render();
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
