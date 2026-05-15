@@ -30,9 +30,9 @@
         dog_premed_pain: 'Methadone category',
         dog_premed_alpha_med: 'Medetomidine 1 mg/ml',
         dog_premed_alpha_dex: 'Dexmedetomidine 0.5 mg/ml',
-        dog_premed_mood_low: 'Veldig gammel og rolig hund (low dose)',
-        dog_premed_mood_mid: 'Chill & happy hund (middle dose)',
-        dog_premed_mood_high: 'Stresset eller sint hund (high dose)',
+        dog_premed_mood_low: 'Very old and calm dog (low dose)',
+        dog_premed_mood_mid: 'Chill & happy dog (normal dose)',
+        dog_premed_mood_high: 'Very stressed or angry dog (high dose)',
         dog_premed_pain_low: 'Litt smertefull (0.2 mg/kg)',
         dog_premed_pain_high: 'Veldig smertefull/sint (0.3 mg/kg)',
         dog_premed_results: 'Dose Results (IM)',
@@ -58,8 +58,8 @@
         dog_premed_alpha_med: 'Medetomidin 1 mg/ml',
         dog_premed_alpha_dex: 'Dexmedetomidin 0,5 mg/ml',
         dog_premed_mood_low: 'Veldig gammel og rolig hund (lav dose)',
-        dog_premed_mood_mid: 'Chill & happy hund (middels dose)',
-        dog_premed_mood_high: 'Stresset eller sint hund (hoy dose)',
+        dog_premed_mood_mid: 'Chill & happy hund (normal dose)',
+        dog_premed_mood_high: 'Veldig stresset eller sint hund (hoy dose)',
         dog_premed_pain_low: 'Litt smertefull (0,2 mg/kg)',
         dog_premed_pain_high: 'Veldig smertefull/sint (0,3 mg/kg)',
         dog_premed_results: 'Doseresultat (IM)',
@@ -104,9 +104,9 @@
           <label for="mood-choice" data-i18n="dog_premed_mood">Dog mood category</label>
           <select id="mood-choice" required>
             <option value="">-</option>
-            <option value="low" data-i18n="dog_premed_mood_low">Veldig gammel og rolig hund (low dose)</option>
-            <option value="mid" data-i18n="dog_premed_mood_mid">Chill &amp; happy hund (middle dose)</option>
-            <option value="high" data-i18n="dog_premed_mood_high">Stresset eller sint hund (high dose)</option>
+            <option value="low" data-i18n="dog_premed_mood_low">Very old and calm dog (low dose)</option>
+            <option value="mid" data-i18n="dog_premed_mood_mid">Chill &amp; happy dog (normal dose)</option>
+            <option value="high" data-i18n="dog_premed_mood_high">Very stressed or angry dog (high dose)</option>
           </select>
         </div>
         <div class="calc-field">
@@ -225,11 +225,11 @@
         var totalMl = alphaVolumeMl + methadoneVolumeMl;
 
         resultsEl.innerHTML = [
-          '<tr><td>' + alphaDef.label + ' (' + format(alphaDef.concentrationMgMl, 2) + ' mg/ml)</td><td>' + format(alphaDoseUgKg, 0) + ' ug/kg</td><td>' + format(alphaVolumeMl, 3) + '</td></tr>',
-          '<tr><td>Methadone (10.00 mg/ml)</td><td>' + format(methadoneDoseMgKg, 1) + ' mg/kg</td><td>' + format(methadoneVolumeMl, 3) + '</td></tr>'
+          '<tr><td>' + alphaDef.label + ' (' + format(alphaDef.concentrationMgMl, 2) + ' mg/ml)</td><td>' + format(alphaDoseUgKg, 0) + ' ug/kg</td><td>' + format(alphaVolumeMl, 2) + '</td></tr>',
+          '<tr><td>Methadone (10.00 mg/ml)</td><td>' + format(methadoneDoseMgKg, 1) + ' mg/kg</td><td>' + format(methadoneVolumeMl, 2) + '</td></tr>'
         ].join('');
 
-        combinedEl.textContent = t('dog_premed_total', 'Total volume in same syringe:') + ' ' + format(totalMl, 3) + ' ml';
+        combinedEl.textContent = t('dog_premed_total', 'Total volume in same syringe:') + ' ' + format(totalMl, 2) + ' ml';
       }
 
       weightInput.addEventListener('input', render);
