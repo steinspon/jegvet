@@ -84,6 +84,14 @@
       return { error: '', user: user, db: firestore };
     }
 
+    function normalizeEmail(email) {
+      return String(email || '').trim().toLowerCase();
+    }
+
+    function randomId() {
+      return Math.random().toString(36).slice(2) + Date.now().toString(36);
+    }
+
     window.JegVetAuth = {
       getState: function () {
         return {
@@ -195,6 +203,157 @@
           return Promise.reject(new Error('Entry ID is required.'));
         }
         return ctx.db.collection('journalEntries').doc(entryId).delete();
+      },
+      createTeam: function (name) {
+        var ctx = ensureAuthAndDb();
+        if (ctx.error) {
+          return Promise.reject(new Error(ctx.error));
+        }
+        var cleanName = String(name || '').trim();
+        if (!cleanName) {
+          return Promise.reject(new Error('Team name is required.'));
+        }
+
+        var teamRef = ctx.db.collection('teams').doc();
+        var now = window.firebase.firestore.FieldValue.serverTimestamp();
+        var batch = ctx.db.batch();
+        batch.set(teamRef, {
+          name: cleanName,
+          ownerUid: ctx.user.uid,
+          createdAt: now
+        });
+        batch.set(teamRef.collection('members').doc(ctx.user.uid), {
+          uid: ctx.user.uid,
+          role: 'owner',
+          joinedAt: now
+        });
+        return batch.commit().then(function () {
+          return { id: teamRef.id, name: cleanName };
+        });
+      },
+      listTeams: function () {
+        var ctx = ensureAuthAndDb();
+        if (ctx.error) {
+          return Promise.reject(new Error(ctx.error));
+        }
+        return ctx.db.collectionGroup('members')
+          .where('uid', '==', ctx.user.uid)
+          .get()
+          .then(function (snapshot) {
+            var refs = [];
+            var roles = {};
+            snapshot.forEach(function (doc) {
+              var teamRef = doc.ref.parent.parent;
+              if (teamRef) {
+                refs.push(teamRef);
+                roles[teamRef.id] = (doc.data() || {}).role || 'viewer';
+              }
+            });
+            if (!refs.length) {
+              return [];
+            }
+            return Promise.all(refs.map(function (teamRef) {
+              return teamRef.get().then(function (teamDoc) {
+                var data = teamDoc.data() || {};
+                return {
+                  id: teamDoc.id,
+                  name: data.name || 'Unnamed team',
+                  ownerUid: data.ownerUid || '',
+                  role: roles[teamDoc.id] || 'viewer'
+                };
+              });
+            }));
+          });
+      },
+      createTeamInvite: function (teamId, inviteeEmail, role) {
+        var ctx = ensureAuthAndDb();
+        if (ctx.error) {
+          return Promise.reject(new Error(ctx.error));
+        }
+        var cleanEmail = normalizeEmail(inviteeEmail);
+        var cleanRole = role === 'viewer' ? 'viewer' : 'editor';
+        if (!teamId) {
+          return Promise.reject(new Error('Team ID is required.'));
+        }
+        if (!cleanEmail) {
+          return Promise.reject(new Error('Invite email is required.'));
+        }
+        return ctx.db.collection('teamInvites').add({
+          teamId: teamId,
+          inviteeEmail: cleanEmail,
+          role: cleanRole,
+          status: 'pending',
+          createdByUid: ctx.user.uid,
+          createdAt: window.firebase.firestore.FieldValue.serverTimestamp(),
+          token: randomId()
+        });
+      },
+      listPendingInvites: function () {
+        var ctx = ensureAuthAndDb();
+        if (ctx.error) {
+          return Promise.reject(new Error(ctx.error));
+        }
+        var email = normalizeEmail(ctx.user.email || '');
+        if (!email) {
+          return Promise.resolve([]);
+        }
+        return ctx.db.collection('teamInvites')
+          .where('inviteeEmail', '==', email)
+          .where('status', '==', 'pending')
+          .get()
+          .then(function (snapshot) {
+            var rows = [];
+            snapshot.forEach(function (doc) {
+              var data = doc.data() || {};
+              rows.push({
+                id: doc.id,
+                teamId: data.teamId || '',
+                role: data.role || 'viewer',
+                inviteeEmail: data.inviteeEmail || '',
+                createdAt: data.createdAt || null
+              });
+            });
+            return rows;
+          });
+      },
+      acceptTeamInvite: function (inviteId) {
+        var ctx = ensureAuthAndDb();
+        if (ctx.error) {
+          return Promise.reject(new Error(ctx.error));
+        }
+        if (!inviteId) {
+          return Promise.reject(new Error('Invite ID is required.'));
+        }
+        var userEmail = normalizeEmail(ctx.user.email || '');
+        var inviteRef = ctx.db.collection('teamInvites').doc(inviteId);
+        return ctx.db.runTransaction(function (tx) {
+          return tx.get(inviteRef).then(function (inviteDoc) {
+            if (!inviteDoc.exists) {
+              throw new Error('Invite does not exist.');
+            }
+            var invite = inviteDoc.data() || {};
+            if (invite.status !== 'pending') {
+              throw new Error('Invite is not pending.');
+            }
+            if (normalizeEmail(invite.inviteeEmail) !== userEmail) {
+              throw new Error('This invite is for a different email.');
+            }
+            if (!invite.teamId) {
+              throw new Error('Invite has no team.');
+            }
+            var memberRef = ctx.db.collection('teams').doc(invite.teamId).collection('members').doc(ctx.user.uid);
+            tx.set(memberRef, {
+              uid: ctx.user.uid,
+              role: invite.role === 'owner' ? 'editor' : (invite.role || 'viewer'),
+              joinedAt: window.firebase.firestore.FieldValue.serverTimestamp()
+            }, { merge: true });
+            tx.update(inviteRef, {
+              status: 'accepted',
+              acceptedByUid: ctx.user.uid,
+              acceptedAt: window.firebase.firestore.FieldValue.serverTimestamp()
+            });
+          });
+        });
       },
       signOut: function () {
         return auth.signOut();

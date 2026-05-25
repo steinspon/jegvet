@@ -13,6 +13,7 @@
       nav_back: 'Back',
       nav_search: 'Search',
       nav_about: 'About',
+      nav_teams: 'Teams',
       nav_journal: 'Journal',
       nav_profile: 'Profile',
       nav_login: 'Sign In',
@@ -29,6 +30,7 @@
       nav_back: 'Tilbake',
       nav_search: 'S\u00F8k',
       nav_about: 'Info',
+      nav_teams: 'Team',
       nav_journal: 'Journal',
       nav_profile: 'Profil',
       nav_login: 'Logg inn',
@@ -315,6 +317,9 @@
     if (kind === 'journal') {
       return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h11a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a3 3 0 0 1 0-6h10V5H6a1 1 0 0 0-1 1v11.2A3 3 0 0 1 6 17h11v2H6a1 1 0 0 0 0 2h11V3H6z"/></svg>';
     }
+    if (kind === 'teams') {
+      return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm8 0a3 3 0 1 1 0-6 3 3 0 0 1 0 6zM8 13c2.67 0 8 1.34 8 4v2H0v-2c0-2.66 5.33-4 8-4zm8 0c.29 0 .62.02.97.05C18.88 13.32 24 14.3 24 17v2h-6v-2c0-1.55-.9-2.86-2.47-3.77.16-.1.31-.17.47-.23z"/></svg>';
+    }
     return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20zm0 8a1 1 0 0 0-1 1v5h2v-5a1 1 0 0 0-1-1zm0-4a1.25 1.25 0 1 0 0 2.5A1.25 1.25 0 0 0 12 6z"/></svg>';
   }
 
@@ -322,6 +327,7 @@
     var btn = document.getElementById('app-auth-button');
     var profileBtn = document.getElementById('app-profile-button');
     var journalBtn = document.getElementById('app-journal-button');
+    var teamsBtn = document.getElementById('app-teams-button');
     if (!btn) {
       return;
     }
@@ -340,6 +346,9 @@
     }
     if (journalBtn) {
       journalBtn.hidden = !loggedIn;
+    }
+    if (teamsBtn) {
+      teamsBtn.hidden = !loggedIn;
     }
     if (btn) {
       btn.hidden = loggedIn;
@@ -362,6 +371,7 @@
         '<a class="app-nav-button" href="#" id="app-nav-back" data-i18n-aria-label="nav_back">' + createIcon('back') + '<span data-i18n="nav_back">Back</span></a>' +
         '<a class="app-nav-button" href="search.html" data-i18n-aria-label="nav_search">' + createIcon('search') + '<span data-i18n="nav_search">Search</span></a>' +
         '<a class="app-nav-button" href="about.html" data-i18n-aria-label="nav_about">' + createIcon('info') + '<span data-i18n="nav_about">About</span></a>' +
+        '<a class="app-nav-button" href="teams.html" id="app-teams-button" data-i18n-aria-label="nav_teams" hidden>' + createIcon('teams') + '<span data-i18n="nav_teams">Teams</span></a>' +
         '<a class="app-nav-button" href="journal.html" id="app-journal-button" data-i18n-aria-label="nav_journal" hidden>' + createIcon('journal') + '<span data-i18n="nav_journal">Journal</span></a>' +
         '<a class="app-nav-button" href="profile.html" id="app-profile-button" data-i18n-aria-label="nav_profile" hidden>' + createIcon('profile') + '<span data-i18n="nav_profile">Profile</span></a>' +
         '<a class="app-nav-button" href="login.html" id="app-auth-button" data-i18n-aria-label="nav_login">' + createIcon('auth') + '<span data-i18n="nav_login">Sign In</span></a>' +
