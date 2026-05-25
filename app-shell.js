@@ -1,7 +1,10 @@
 (function () {
   'use strict';
 
-  var STORAGE_KEY = 'jegvet-lang';
+  var LANG_STORAGE_KEY = 'jegvet-lang';
+  var THEME_OVERRIDE_STORAGE_KEY = 'jegvet-theme-override';
+  var THEME_DAY = 'day';
+  var THEME_NIGHT = 'night';
   var SUPPORTED = { en: true, no: true };
 
   var common = {
@@ -10,24 +13,34 @@
       nav_back: 'Back',
       nav_search: 'Search',
       nav_about: 'About',
+      switch_lang_aria: 'Language switch',
       switch_on: 'EN',
-      switch_off: 'NO'
+      switch_off: 'NO',
+      switch_theme_aria: 'Theme switch',
+      switch_theme_on: 'DAY',
+      switch_theme_off: 'NIGHT'
     },
     no: {
       nav_home: 'Hjem',
       nav_back: 'Tilbake',
-      nav_search: 'Søk',
+      nav_search: 'S\u00F8k',
       nav_about: 'Info',
+      switch_lang_aria: 'Spr\u00E5kvelger',
       switch_on: 'EN',
-      switch_off: 'NO'
+      switch_off: 'NO',
+      switch_theme_aria: 'Temavelger',
+      switch_theme_on: 'DAG',
+      switch_theme_off: 'NATT'
     }
   };
 
   var currentLang = detectInitialLang();
+  var activeTheme = THEME_DAY;
+  var themeTimerId = null;
 
   function detectInitialLang() {
     try {
-      var saved = window.localStorage.getItem(STORAGE_KEY);
+      var saved = window.localStorage.getItem(LANG_STORAGE_KEY);
       if (saved && SUPPORTED[saved]) {
         return saved;
       }
@@ -119,23 +132,160 @@
     }
     currentLang = nextLang;
     try {
-      window.localStorage.setItem(STORAGE_KEY, currentLang);
+      window.localStorage.setItem(LANG_STORAGE_KEY, currentLang);
     } catch (error) {
       // Ignore storage write issues.
     }
     document.documentElement.setAttribute('lang', currentLang === 'no' ? 'nb' : 'en');
-    document.body.setAttribute('data-lang', currentLang);
+    if (document.body) {
+      document.body.setAttribute('data-lang', currentLang);
+    }
     syncToggle();
     applyTranslations(document);
     document.dispatchEvent(new CustomEvent('jegvet:langchange', { detail: { lang: currentLang } }));
   }
 
   function syncToggle() {
-    var toggle = document.getElementById('lang-toggle');
-    if (!toggle) {
+    var langToggle = document.getElementById('lang-toggle');
+    if (langToggle) {
+      langToggle.checked = currentLang === 'no';
+    }
+    var themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+      themeToggle.checked = activeTheme === THEME_NIGHT;
+    }
+  }
+
+  function isNightTime(now) {
+    var hour = now.getHours();
+    return hour >= 19 || hour < 6;
+  }
+
+  function getAutoTheme(now) {
+    return isNightTime(now) ? THEME_NIGHT : THEME_DAY;
+  }
+
+  function getNextAutoThemeTime(now) {
+    var next = new Date(now.getTime());
+    var hour = now.getHours();
+
+    if (hour < 6) {
+      next.setHours(6, 0, 0, 0);
+      return next;
+    }
+    if (hour < 19) {
+      next.setHours(19, 0, 0, 0);
+      return next;
+    }
+
+    next.setDate(next.getDate() + 1);
+    next.setHours(6, 0, 0, 0);
+    return next;
+  }
+
+  function clearThemeOverrideStorage() {
+    try {
+      window.localStorage.removeItem(THEME_OVERRIDE_STORAGE_KEY);
+    } catch (error) {
+      // Ignore storage issues.
+    }
+  }
+
+  function saveThemeOverride(mode, expiresAt) {
+    try {
+      window.localStorage.setItem(
+        THEME_OVERRIDE_STORAGE_KEY,
+        JSON.stringify({ mode: mode, expiresAt: expiresAt })
+      );
+    } catch (error) {
+      // Ignore storage issues.
+    }
+  }
+
+  function readThemeOverride(now) {
+    try {
+      var raw = window.localStorage.getItem(THEME_OVERRIDE_STORAGE_KEY);
+      if (!raw) {
+        return null;
+      }
+
+      var parsed = JSON.parse(raw);
+      if (!parsed || (parsed.mode !== THEME_DAY && parsed.mode !== THEME_NIGHT)) {
+        clearThemeOverrideStorage();
+        return null;
+      }
+
+      var expiresAt = Number(parsed.expiresAt);
+      if (!Number.isFinite(expiresAt) || now.getTime() >= expiresAt) {
+        clearThemeOverrideStorage();
+        return null;
+      }
+
+      return parsed;
+    } catch (error) {
+      clearThemeOverrideStorage();
+      return null;
+    }
+  }
+
+  function updateMetaThemeColor() {
+    var metaTheme = document.querySelector('meta[name="theme-color"]');
+    if (!metaTheme) {
       return;
     }
-    toggle.checked = currentLang === 'no';
+    metaTheme.setAttribute('content', activeTheme === THEME_NIGHT ? '#132432' : '#ffffff');
+  }
+
+  function setTheme(mode) {
+    if (mode !== THEME_DAY && mode !== THEME_NIGHT) {
+      return;
+    }
+
+    activeTheme = mode;
+    document.documentElement.setAttribute('data-theme', activeTheme);
+    if (document.body) {
+      document.body.setAttribute('data-theme', activeTheme);
+    }
+
+    syncToggle();
+    updateMetaThemeColor();
+    document.dispatchEvent(new CustomEvent('jegvet:themechange', { detail: { theme: activeTheme } }));
+  }
+
+  function scheduleNextThemeAutoSwitch() {
+    if (themeTimerId !== null) {
+      window.clearTimeout(themeTimerId);
+      themeTimerId = null;
+    }
+
+    var now = new Date();
+    var nextSwitchAt = getNextAutoThemeTime(now);
+    var delay = Math.max(0, nextSwitchAt.getTime() - now.getTime());
+
+    themeTimerId = window.setTimeout(function () {
+      clearThemeOverrideStorage();
+      setTheme(getAutoTheme(new Date()));
+      scheduleNextThemeAutoSwitch();
+    }, delay + 50);
+  }
+
+  function applyThemeFromClockAndOverride() {
+    var now = new Date();
+    var override = readThemeOverride(now);
+    if (override) {
+      setTheme(override.mode);
+    } else {
+      setTheme(getAutoTheme(now));
+    }
+    scheduleNextThemeAutoSwitch();
+  }
+
+  function onThemeToggleChange(isNightChecked) {
+    var mode = isNightChecked ? THEME_NIGHT : THEME_DAY;
+    var nextAutoSwitchAt = getNextAutoThemeTime(new Date());
+    saveThemeOverride(mode, nextAutoSwitchAt.getTime());
+    setTheme(mode);
+    scheduleNextThemeAutoSwitch();
   }
 
   function createIcon(kind) {
@@ -167,11 +317,19 @@
         '<a class="app-nav-button" href="#" id="app-nav-back" data-i18n-aria-label="nav_back">' + createIcon('back') + '<span data-i18n="nav_back">Back</span></a>' +
         '<a class="app-nav-button" href="search.html" data-i18n-aria-label="nav_search">' + createIcon('search') + '<span data-i18n="nav_search">Search</span></a>' +
         '<a class="app-nav-button" href="about.html" data-i18n-aria-label="nav_about">' + createIcon('info') + '<span data-i18n="nav_about">About</span></a>' +
-        '<div class="switch" aria-label="Language switch">' +
-          '<input id="lang-toggle" class="check-toggle check-toggle-round-flat" type="checkbox" />' +
-          '<label for="lang-toggle"></label>' +
-          '<span class="on" data-i18n="switch_on">EN</span>' +
-          '<span class="off" data-i18n="switch_off">NO</span>' +
+        '<div class="app-topbar-switches">' +
+          '<div class="switch switch-theme" data-switch-size="small" data-i18n-aria-label="switch_theme_aria" aria-label="Theme switch">' +
+            '<input id="theme-toggle" class="check-toggle check-toggle-round-flat" type="checkbox" />' +
+            '<label for="theme-toggle"></label>' +
+            '<span class="on" data-i18n="switch_theme_on">DAY</span>' +
+            '<span class="off" data-i18n="switch_theme_off">NIGHT</span>' +
+          '</div>' +
+          '<div class="switch switch-lang" data-switch-size="small" data-i18n-aria-label="switch_lang_aria" aria-label="Language switch">' +
+            '<input id="lang-toggle" class="check-toggle check-toggle-round-flat" type="checkbox" />' +
+            '<label for="lang-toggle"></label>' +
+            '<span class="on" data-i18n="switch_on">EN</span>' +
+            '<span class="off" data-i18n="switch_off">NO</span>' +
+          '</div>' +
         '</div>' +
       '</div>';
 
@@ -182,10 +340,17 @@
     body.classList.add('has-app-shell');
     body.insertBefore(wrap, body.firstChild);
 
-    var toggle = document.getElementById('lang-toggle');
-    if (toggle) {
-      toggle.addEventListener('change', function () {
-        setLang(toggle.checked ? 'no' : 'en');
+    var langToggle = document.getElementById('lang-toggle');
+    if (langToggle) {
+      langToggle.addEventListener('change', function () {
+        setLang(langToggle.checked ? 'no' : 'en');
+      });
+    }
+
+    var themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+      themeToggle.addEventListener('change', function () {
+        onThemeToggleChange(themeToggle.checked);
       });
     }
 
@@ -200,6 +365,7 @@
         }
       });
     }
+
     syncToggle();
   }
 
@@ -218,6 +384,7 @@
   function init() {
     buildTopBar();
     syncTopBarWidthMode();
+    applyThemeFromClockAndOverride();
     setLang(currentLang);
   }
 
@@ -237,4 +404,3 @@
     init();
   }
 })();
-

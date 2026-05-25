@@ -12,6 +12,21 @@
     return fallback || key;
   }
 
+  function foldNordic(text) {
+    return String(text || '')
+      .replace(/[Ææ]/g, 'ae')
+      .replace(/[Øø]/g, 'o')
+      .replace(/[Åå]/g, 'aa');
+  }
+
+  function normalizeForSearch(text) {
+    var value = foldNordic(text).toLowerCase();
+    if (typeof value.normalize === 'function') {
+      value = value.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
+    return value;
+  }
+
 
   function escapeHtml(text) {
     return text
@@ -86,8 +101,7 @@
     var headingIdCounts = {};
 
     function slugify(text) {
-      var base = text
-        .toLowerCase()
+      var base = normalizeForSearch(text)
         .replace(/[^a-z0-9\s-]/g, '')
         .trim()
         .replace(/\s+/g, '-');
@@ -296,7 +310,7 @@
     }
 
     try {
-      var response = await fetch('wiki/data/content-manifest.json?v=' + Date.now());
+      var response = await fetch('wiki/data/content-manifest.json');
       if (!response.ok) {
         throw new Error('Could not load content-manifest.json');
       }
@@ -314,7 +328,7 @@
 
   async function loadMarkdown(file) {
     try {
-      var response = await fetch('wiki/content/' + file + '?v=' + Date.now());
+      var response = await fetch('wiki/content/' + file);
       if (!response.ok) {
         throw new Error('Could not load ' + file);
       }

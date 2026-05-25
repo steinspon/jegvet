@@ -32,11 +32,11 @@
         search_empty: 'No matches found.'
       },
       no: {
-        page_title_search: 'S√∏k | JegVet',
-        search_placeholder: 'S√∏k...',
-        search_aria: 'S√∏k',
-        search_waiting: 'S√∏keresultater vises her.',
-        search_type_prompt: 'Skriv et s√∏keord og trykk Enter.',
+        page_title_search: 'S\u00F8k | JegVet',
+        search_placeholder: 'S\u00F8k...',
+        search_aria: 'S\u00F8k',
+        search_waiting: 'S\u00F8keresultater vises her.',
+        search_type_prompt: 'Skriv et s\u00F8keord og trykk Enter.',
         search_result_singular: '{count} treff for "{query}"',
         search_result_plural: '{count} treff for "{query}"',
         search_empty: 'Ingen treff funnet.'
@@ -73,6 +73,9 @@
   <script>
     (function () {
       'use strict';
+      var corpusPromise = null;
+      var corpusCacheKey = 'jegvet-search-corpus-v1';
+      var corpusCacheTtlMs = 6 * 60 * 60 * 1000;
 
       function t(key, fallback) {
         if (window.JegVetLang && typeof window.JegVetLang.t === 'function') {
@@ -100,6 +103,21 @@
           .replace(/'/g, '&#39;');
       }
 
+
+      function foldNordic(text) {
+        return String(text || '')
+          .replace(/[∆Ê]/g, 'ae')
+          .replace(/[ÿ¯]/g, 'o')
+          .replace(/[≈Â]/g, 'aa');
+      }
+
+      function normalizeForSearch(text) {
+        var value = foldNordic(text).toLowerCase();
+        if (typeof value.normalize === 'function') {
+          value = value.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        }
+        return value;
+      }
       function stripMarkdown(markdown) {
         return markdown
           .replace(/```[\s\S]*?```/g, ' ')
@@ -126,15 +144,13 @@
       }
 
       function tokenize(text) {
-        return text
-          .toLowerCase()
+        return normalizeForSearch(text)
           .split(/[^a-z0-9]+/)
           .filter(Boolean);
       }
 
       function slugify(text) {
-        return text
-          .toLowerCase()
+        return normalizeForSearch(text)
           .replace(/[^a-z0-9\s-]/g, '')
           .trim()
           .replace(/\s+/g, '-') || 'section';
@@ -300,7 +316,7 @@
         }
 
         try {
-          var response = await fetch('wiki/data/content-manifest.json?v=' + Date.now());
+          var response = await fetch('wiki/data/content-manifest.json');
           if (!response.ok) {
             throw new Error('Could not load content-manifest.json');
           }
@@ -318,7 +334,7 @@
 
       async function loadMarkdown(file) {
         try {
-          var response = await fetch('wiki/content/' + file + '?v=' + Date.now());
+          var response = await fetch('wiki/content/' + file);
           if (!response.ok) {
             throw new Error('Could not load ' + file);
           }
@@ -332,7 +348,7 @@
       }
 
       async function loadHtmlDocument(file) {
-        var response = await fetch(file + '?v=' + Date.now());
+        var response = await fetch(file);
         if (!response.ok) {
           throw new Error('Could not load ' + file);
         }
@@ -366,8 +382,8 @@
       }
 
       function scoreDocument(doc, query, queryTokens) {
-        var title = doc.title.toLowerCase();
-        var body = doc.body.toLowerCase();
+        var title = doc.normTitle;
+        var body = doc.normBody;
         var score = 0;
         var hasExactTitleMatch = title.indexOf(query) !== -1;
         var hasExactBodyMatch = body.indexOf(query) !== -1;
@@ -397,8 +413,8 @@
       }
 
       function isMatch(doc, query, queryTokens) {
-        var title = doc.title.toLowerCase();
-        var body = doc.body.toLowerCase();
+        var title = doc.normTitle;
+        var body = doc.normBody;
         var haystack = title + ' ' + body;
         var hasExactPhrase = haystack.indexOf(query) !== -1;
 
@@ -649,15 +665,78 @@
             }
           }
         }
+        return corpus.map(function (doc) {
+          var title = doc.title || '';
+          var body = doc.body || '';
+          return {
+            kind: doc.kind || '',
+            title: title,
+            body: body,
+            url: doc.url,
+            displayUrl: doc.displayUrl,
+            normTitle: normalizeForSearch(title),
+            normBody: normalizeForSearch(body)
+          };
+        });
+      }
 
-        return corpus;
+      function readCachedCorpus() {
+        try {
+          var raw = window.sessionStorage.getItem(corpusCacheKey);
+          if (!raw) {
+            return null;
+          }
+          var parsed = JSON.parse(raw);
+          if (!parsed || !Array.isArray(parsed.corpus)) {
+            return null;
+          }
+          if (!parsed.expiresAt || Date.now() > parsed.expiresAt) {
+            window.sessionStorage.removeItem(corpusCacheKey);
+            return null;
+          }
+          return parsed.corpus;
+        } catch (error) {
+          return null;
+        }
+      }
+
+      function writeCachedCorpus(corpus) {
+        try {
+          window.sessionStorage.setItem(corpusCacheKey, JSON.stringify({
+            expiresAt: Date.now() + corpusCacheTtlMs,
+            corpus: corpus
+          }));
+        } catch (error) {
+          // Ignore storage errors.
+        }
+      }
+
+      function getCorpus() {
+        if (corpusPromise) {
+          return corpusPromise;
+        }
+
+        var cached = readCachedCorpus();
+        if (cached) {
+          corpusPromise = Promise.resolve(cached);
+          return corpusPromise;
+        }
+
+        corpusPromise = buildCorpus().then(function (corpus) {
+          writeCachedCorpus(corpus);
+          return corpus;
+        }).catch(function (error) {
+          corpusPromise = null;
+          throw error;
+        });
+        return corpusPromise;
       }
 
       async function runSearch() {
         var params = new URLSearchParams(window.location.search);
         var query = (params.get('q') || '').trim();
-        var queryLower = query.toLowerCase();
-        var queryTokens = tokenize(queryLower);
+        var queryNormalized = normalizeForSearch(query);
+        var queryTokens = tokenize(queryNormalized);
 
         var input = document.querySelector('input[name="q"]');
         var summary = document.getElementById('search-summary');
@@ -672,17 +751,17 @@
           return;
         }
 
-        var corpus = await buildCorpus();
+        var corpus = await getCorpus();
         var ranked = corpus
           .map(function (doc) {
-            var score = scoreDocument(doc, queryLower, queryTokens);
+            var score = scoreDocument(doc, queryNormalized, queryTokens);
             return {
               title: doc.title,
               url: doc.url,
               displayUrl: doc.displayUrl,
               snippet: buildSnippet(doc.body, queryTokens),
               score: score,
-              isMatch: isMatch(doc, queryLower, queryTokens)
+              isMatch: isMatch(doc, queryNormalized, queryTokens)
             };
           })
           .filter(function (doc) {
@@ -705,6 +784,13 @@
   </script>
 </body>
 </html>
+
+
+
+
+
+
+
 
 
 
