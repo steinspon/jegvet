@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Settings | JegVet</title>
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="JegVet" />
+  <link rel="icon" type="image/png" sizes="32x32" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel='manifest' href='manifest.webmanifest' />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="auth-guard.js" defer></script>
+  <script src="app-shell.js" defer></script>
+</head>
+<body>
+  <main class="page page-top">
+    <section class="layout-card">
+      <h1>Settings</h1>
+      <p class="helper-text">Customize language and appearance.</p>
+
+      <section class="journal-list-wrap">
+        <h2>Theme</h2>
+        <div class="switch switch-theme" data-switch-size="small" aria-label="Theme switch">
+          <input id="theme-toggle" class="check-toggle check-toggle-round-flat" type="checkbox" />
+          <label for="theme-toggle"></label>
+          <span class="on">DAY</span>
+          <span class="off">NIGHT</span>
+        </div>
+      </section>
+
+      <section class="journal-list-wrap">
+        <h2>Language</h2>
+        <div class="switch switch-lang" data-switch-size="small" aria-label="Language switch">
+          <input id="lang-toggle" class="check-toggle check-toggle-round-flat" type="checkbox" />
+          <label for="lang-toggle"></label>
+          <span class="on">EN</span>
+          <span class="off">NO</span>
+        </div>
+      </section>
+    </section>
+  </main>
+</body>
+</html>

@@ -65,12 +65,16 @@
 
       var teams = [];
 
-      function setMessage(text, isError) {
+      function setMessage(text, isError, link) {
         var el = document.getElementById('teams-message');
         if (!el) {
           return;
         }
-        el.textContent = text || '';
+        if (link) {
+          el.innerHTML = escapeHtml(text || '') + ' <a href="' + escapeHtml(link) + '" target="_blank" rel="noopener noreferrer">Create required index</a>';
+        } else {
+          el.textContent = text || '';
+        }
         el.classList.toggle('auth-error', !!isError);
       }
 
@@ -138,7 +142,13 @@
           renderTeamSelect();
           renderTeamsList();
         }).catch(function (error) {
-          setMessage('Could not load teams: ' + (error && error.message ? error.message : 'unknown error'), true);
+          var msg = error && error.message ? String(error.message) : 'unknown error';
+          var linkMatch = msg.match(/https:\/\/\S+/);
+          if (/requires a COLLECTION_GROUP_ASC index/i.test(msg) && linkMatch) {
+            setMessage('One-time admin setup needed before Teams can be used.', true, linkMatch[0]);
+            return;
+          }
+          setMessage('Could not load teams: ' + msg, true);
         });
       }
 

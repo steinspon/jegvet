@@ -13,6 +13,7 @@
       nav_back: 'Back',
       nav_search: 'Search',
       nav_about: 'About',
+      nav_settings: 'Settings',
       nav_teams: 'Teams',
       nav_journal: 'Journal',
       nav_profile: 'Profile',
@@ -30,6 +31,7 @@
       nav_back: 'Tilbake',
       nav_search: 'S\u00F8k',
       nav_about: 'Info',
+      nav_settings: 'Innstillinger',
       nav_teams: 'Team',
       nav_journal: 'Journal',
       nav_profile: 'Profil',
@@ -320,6 +322,9 @@
     if (kind === 'teams') {
       return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm8 0a3 3 0 1 1 0-6 3 3 0 0 1 0 6zM8 13c2.67 0 8 1.34 8 4v2H0v-2c0-2.66 5.33-4 8-4zm8 0c.29 0 .62.02.97.05C18.88 13.32 24 14.3 24 17v2h-6v-2c0-1.55-.9-2.86-2.47-3.77.16-.1.31-.17.47-.23z"/></svg>';
     }
+    if (kind === 'settings') {
+      return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.14 12.94a7.5 7.5 0 0 0 .05-.94 7.5 7.5 0 0 0-.05-.94l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.2 7.2 0 0 0-1.63-.94l-.36-2.54a.5.5 0 0 0-.49-.42h-3.84a.5.5 0 0 0-.49.42l-.36 2.54a7.2 7.2 0 0 0-1.63.94l-2.39-.96a.5.5 0 0 0-.6.22L2.71 8.84a.5.5 0 0 0 .12.64l2.03 1.58a7.5 7.5 0 0 0-.05.94c0 .32.02.63.05.94L2.83 14.52a.5.5 0 0 0-.12.64l1.92 3.32a.5.5 0 0 0 .6.22l2.39-.96c.5.39 1.05.71 1.63.94l.36 2.54a.5.5 0 0 0 .49.42h3.84a.5.5 0 0 0 .49-.42l.36-2.54c.58-.23 1.13-.55 1.63-.94l2.39.96a.5.5 0 0 0 .6-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.58zM12 15.2A3.2 3.2 0 1 1 12 8.8a3.2 3.2 0 0 1 0 6.4z"/></svg>';
+    }
     return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20zm0 8a1 1 0 0 0-1 1v5h2v-5a1 1 0 0 0-1-1zm0-4a1.25 1.25 0 1 0 0 2.5A1.25 1.25 0 0 0 12 6z"/></svg>';
   }
 
@@ -371,24 +376,11 @@
         '<a class="app-nav-button" href="#" id="app-nav-back" data-i18n-aria-label="nav_back">' + createIcon('back') + '<span data-i18n="nav_back">Back</span></a>' +
         '<a class="app-nav-button" href="search.html" data-i18n-aria-label="nav_search">' + createIcon('search') + '<span data-i18n="nav_search">Search</span></a>' +
         '<a class="app-nav-button" href="about.html" data-i18n-aria-label="nav_about">' + createIcon('info') + '<span data-i18n="nav_about">About</span></a>' +
+        '<a class="app-nav-button" href="settings.html" data-i18n-aria-label="nav_settings">' + createIcon('settings') + '<span data-i18n="nav_settings">Settings</span></a>' +
         '<a class="app-nav-button" href="teams.html" id="app-teams-button" data-i18n-aria-label="nav_teams" hidden>' + createIcon('teams') + '<span data-i18n="nav_teams">Teams</span></a>' +
         '<a class="app-nav-button" href="journal.html" id="app-journal-button" data-i18n-aria-label="nav_journal" hidden>' + createIcon('journal') + '<span data-i18n="nav_journal">Journal</span></a>' +
         '<a class="app-nav-button" href="profile.html" id="app-profile-button" data-i18n-aria-label="nav_profile" hidden>' + createIcon('profile') + '<span data-i18n="nav_profile">Profile</span></a>' +
         '<a class="app-nav-button" href="login.html" id="app-auth-button" data-i18n-aria-label="nav_login">' + createIcon('auth') + '<span data-i18n="nav_login">Sign In</span></a>' +
-        '<div class="app-topbar-switches">' +
-          '<div class="switch switch-theme" data-switch-size="small" data-i18n-aria-label="switch_theme_aria" aria-label="Theme switch">' +
-            '<input id="theme-toggle" class="check-toggle check-toggle-round-flat" type="checkbox" />' +
-            '<label for="theme-toggle"></label>' +
-            '<span class="on" data-i18n="switch_theme_on">DAY</span>' +
-            '<span class="off" data-i18n="switch_theme_off">NIGHT</span>' +
-          '</div>' +
-          '<div class="switch switch-lang" data-switch-size="small" data-i18n-aria-label="switch_lang_aria" aria-label="Language switch">' +
-            '<input id="lang-toggle" class="check-toggle check-toggle-round-flat" type="checkbox" />' +
-            '<label for="lang-toggle"></label>' +
-            '<span class="on" data-i18n="switch_on">EN</span>' +
-            '<span class="off" data-i18n="switch_off">NO</span>' +
-          '</div>' +
-        '</div>' +
       '</div>';
 
     var body = document.body;
@@ -397,20 +389,6 @@
     }
     body.classList.add('has-app-shell');
     body.insertBefore(wrap, body.firstChild);
-
-    var langToggle = document.getElementById('lang-toggle');
-    if (langToggle) {
-      langToggle.addEventListener('change', function () {
-        setLang(langToggle.checked ? 'no' : 'en');
-      });
-    }
-
-    var themeToggle = document.getElementById('theme-toggle');
-    if (themeToggle) {
-      themeToggle.addEventListener('change', function () {
-        onThemeToggleChange(themeToggle.checked);
-      });
-    }
 
     var backBtn = document.getElementById('app-nav-back');
     if (backBtn) {
@@ -427,6 +405,25 @@
     document.addEventListener('jegvet:authchange', updateAuthButton);
     syncToggle();
     updateAuthButton();
+  }
+
+  function bindPreferenceControls() {
+    var langToggle = document.getElementById('lang-toggle');
+    if (langToggle && !langToggle.getAttribute('data-bound')) {
+      langToggle.setAttribute('data-bound', 'true');
+      langToggle.addEventListener('change', function () {
+        setLang(langToggle.checked ? 'no' : 'en');
+      });
+    }
+
+    var themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle && !themeToggle.getAttribute('data-bound')) {
+      themeToggle.setAttribute('data-bound', 'true');
+      themeToggle.addEventListener('change', function () {
+        onThemeToggleChange(themeToggle.checked);
+      });
+    }
+    syncToggle();
   }
 
   function syncTopBarWidthMode() {
@@ -446,6 +443,7 @@
     syncTopBarWidthMode();
     applyThemeFromClockAndOverride();
     setLang(currentLang);
+    bindPreferenceControls();
   }
 
   window.JegVetLang = {
