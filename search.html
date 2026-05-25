@@ -104,19 +104,39 @@
       }
 
 
-      function foldNordic(text) {
-        return String(text || '')
-          .replace(/[Ææ]/g, 'ae')
-          .replace(/[Øø]/g, 'o')
-          .replace(/[Åå]/g, 'aa');
+      function foldNordic(text, mode) {
+        var value = String(text || '');
+        if (mode === 'keyboard') {
+          return value
+            .replace(/[\u00C6\u00E6]/g, 'ae')
+            .replace(/[\u00D8\u00F8]/g, 'oe')
+            .replace(/[\u00C5\u00E5]/g, 'aa');
+        }
+        if (mode === 'simple') {
+          return value
+            .replace(/[\u00C6\u00E6]/g, 'e')
+            .replace(/[\u00D8\u00F8]/g, 'o')
+            .replace(/[\u00C5\u00E5]/g, 'a');
+        }
+        return value
+          .replace(/[\u00C6\u00E6]/g, 'ae')
+          .replace(/[\u00D8\u00F8]/g, 'o')
+          .replace(/[\u00C5\u00E5]/g, 'aa');
       }
-
-      function normalizeForSearch(text) {
-        var value = foldNordic(text).toLowerCase();
+      function normalizeForSearch(text, mode) {
+        var value = foldNordic(text, mode).toLowerCase();
         if (typeof value.normalize === 'function') {
           value = value.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
         }
         return value;
+      }
+      function buildSearchVariants(text) {
+        var variants = [
+          normalizeForSearch(text, 'canonical'),
+          normalizeForSearch(text, 'keyboard'),
+          normalizeForSearch(text, 'simple')
+        ].filter(Boolean);
+        return Array.from(new Set(variants));
       }
       function stripMarkdown(markdown) {
         return markdown
@@ -147,6 +167,46 @@
         return normalizeForSearch(text)
           .split(/[^a-z0-9]+/)
           .filter(Boolean);
+      }
+
+      function tokenVariants(token) {
+        var variants = new Set([token]);
+        if (token.indexOf('oe') !== -1) {
+          variants.add(token.replace(/oe/g, 'o'));
+        }
+        if (token.indexOf('ae') !== -1) {
+          variants.add(token.replace(/ae/g, 'e'));
+        }
+        if (token.indexOf('aa') !== -1) {
+          variants.add(token.replace(/aa/g, 'a'));
+        }
+        return Array.from(variants);
+      }
+
+      var querySynonyms = {
+        katt: ['cat', 'feline', 'cats'],
+        cat: ['katt', 'feline', 'cats'],
+        feline: ['katt', 'cat', 'cats'],
+        hund: ['dog', 'canine', 'dogs'],
+        dog: ['hund', 'canine', 'dogs'],
+        canine: ['hund', 'dog', 'dogs'],
+        nyre: ['kidney', 'renal', 'ckd'],
+        kidney: ['nyre', 'renal', 'ckd'],
+        renal: ['nyre', 'kidney', 'ckd'],
+        oppkast: ['vomiting', 'emesis'],
+        vomiting: ['oppkast', 'emesis'],
+        emesis: ['oppkast', 'vomiting'],
+        kronisk: ['chronic'],
+        chronic: ['kronisk']
+      };
+
+      function synonymVariants(token) {
+        var variants = new Set([token]);
+        var related = querySynonyms[token] || [];
+        for (var i = 0; i < related.length; i += 1) {
+          variants.add(related[i]);
+        }
+        return Array.from(variants);
       }
 
       function slugify(text) {
@@ -381,12 +441,12 @@
         return sections;
       }
 
-      function scoreDocument(doc, query, queryTokens) {
+      function scoreDocument(doc, queryVariants, queryTokenGroups) {
         var title = doc.normTitle;
         var body = doc.normBody;
         var score = 0;
-        var hasExactTitleMatch = title.indexOf(query) !== -1;
-        var hasExactBodyMatch = body.indexOf(query) !== -1;
+        var hasExactTitleMatch = queryVariants.some(function (query) { return title.indexOf(query) !== -1; });
+        var hasExactBodyMatch = queryVariants.some(function (query) { return body.indexOf(query) !== -1; });
 
         if (hasExactTitleMatch) {
           score += 80;
@@ -395,9 +455,19 @@
           score += 30;
         }
 
-        queryTokens.forEach(function (token) {
-          var titleHits = (title.match(new RegExp(token, 'g')) || []).length;
-          var bodyHits = (body.match(new RegExp(token, 'g')) || []).length;
+        queryTokenGroups.forEach(function (tokenGroup) {
+          var titleHits = 0;
+          var bodyHits = 0;
+          tokenGroup.forEach(function (token) {
+            var tHits = (title.match(new RegExp(token, 'g')) || []).length;
+            var bHits = (body.match(new RegExp(token, 'g')) || []).length;
+            if (tHits > titleHits) {
+              titleHits = tHits;
+            }
+            if (bHits > bodyHits) {
+              bodyHits = bHits;
+            }
+          });
           score += (titleHits * 25) + (bodyHits * 4);
         });
 
@@ -412,18 +482,22 @@
         return score;
       }
 
-      function isMatch(doc, query, queryTokens) {
+      function isMatch(doc, queryVariants, queryTokenGroups) {
         var title = doc.normTitle;
         var body = doc.normBody;
         var haystack = title + ' ' + body;
-        var hasExactPhrase = haystack.indexOf(query) !== -1;
+        var hasExactPhrase = queryVariants.some(function (query) { return haystack.indexOf(query) !== -1; });
 
         if (hasExactPhrase) {
           return true;
         }
 
-        for (var i = 0; i < queryTokens.length; i += 1) {
-          if (haystack.indexOf(queryTokens[i]) === -1) {
+        for (var i = 0; i < queryTokenGroups.length; i += 1) {
+          var tokenGroup = queryTokenGroups[i];
+          var groupHasMatch = tokenGroup.some(function (token) {
+            return haystack.indexOf(token) !== -1;
+          });
+          if (!groupHasMatch) {
             return false;
           }
         }
@@ -735,8 +809,19 @@
       async function runSearch() {
         var params = new URLSearchParams(window.location.search);
         var query = (params.get('q') || '').trim();
-        var queryNormalized = normalizeForSearch(query);
+        var queryVariants = buildSearchVariants(query);
+        var queryNormalized = queryVariants[0] || '';
         var queryTokens = tokenize(queryNormalized);
+        var queryTokenGroups = queryTokens.map(function (token) {
+          var synonymTerms = synonymVariants(token);
+          var expanded = [];
+          synonymTerms.forEach(function (term) {
+            tokenVariants(term).forEach(function (variant) {
+              expanded.push(variant);
+            });
+          });
+          return Array.from(new Set(expanded));
+        });
 
         var input = document.querySelector('input[name="q"]');
         var summary = document.getElementById('search-summary');
@@ -754,14 +839,14 @@
         var corpus = await getCorpus();
         var ranked = corpus
           .map(function (doc) {
-            var score = scoreDocument(doc, queryNormalized, queryTokens);
+            var score = scoreDocument(doc, queryVariants, queryTokenGroups);
             return {
               title: doc.title,
               url: doc.url,
               displayUrl: doc.displayUrl,
               snippet: buildSnippet(doc.body, queryTokens),
               score: score,
-              isMatch: isMatch(doc, queryNormalized, queryTokens)
+              isMatch: isMatch(doc, queryVariants, queryTokenGroups)
             };
           })
           .filter(function (doc) {
