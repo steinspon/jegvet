@@ -1,71 +1,412 @@
-﻿(function () {
+(function () {
   'use strict';
 
-  var STORAGE_KEY = 'jegvet_authenticated';
-  var PASSWORD = 'jegvet1987';
+  var FIREBASE_VERSION = '12.13.0';
+  var LOGIN_PAGE = 'login.html';
+  var firebaseConfig = {
+    apiKey: 'AIzaSyAF-D7MsW4aXEJLPOMHWr-58tXm7BflvGw',
+    authDomain: 'jegvet-fecaa.firebaseapp.com',
+    projectId: 'jegvet-fecaa',
+    storageBucket: 'jegvet-fecaa.firebasestorage.app',
+    messagingSenderId: '682246319643',
+    appId: '1:682246319643:web:94f779100c4ae3ee4152be',
+    measurementId: 'G-2K5MF2PRM0'
+  };
 
-  function isAuthenticated() {
-    return localStorage.getItem(STORAGE_KEY) === 'true';
-  }
+  var authState = {
+    ready: false,
+    user: null
+  };
 
-  function setAuthenticated() {
-    localStorage.setItem(STORAGE_KEY, 'true');
-  }
-
-  function buildOverlay() {
-    var overlay = document.createElement('div');
-    overlay.className = 'auth-overlay';
-    overlay.innerHTML =
-      '<div class="auth-dialog" role="dialog" aria-modal="true" aria-labelledby="auth-title">' +
-      '<h2 id="auth-title">Enter Password</h2>' +
-      '<form id="auth-form" novalidate>' +
-      '<label for="auth-password" class="sr-only">Password</label>' +
-      '<input id="auth-password" type="password" autocomplete="current-password" placeholder="Password" required />' +
-      '<button type="submit">Unlock</button>' +
-      '<p id="auth-error" class="auth-error" aria-live="polite"></p>' +
-      '</form>' +
-      '</div>';
-
-    return overlay;
+  function isLoginPage() {
+    var path = (window.location.pathname || '').toLowerCase();
+    return path.endsWith('/' + LOGIN_PAGE) || path.endsWith(LOGIN_PAGE);
   }
 
   function lockPage() {
+    if (!document.body) {
+      return;
+    }
     document.body.classList.add('is-locked');
-    var overlay = buildOverlay();
-    document.body.appendChild(overlay);
+  }
 
-    var form = document.getElementById('auth-form');
-    var passwordInput = document.getElementById('auth-password');
-    var errorEl = document.getElementById('auth-error');
+  function unlockPage() {
+    if (!document.body) {
+      return;
+    }
+    document.body.classList.remove('is-locked');
+  }
 
-    setTimeout(function () {
-      passwordInput.focus();
-    }, 0);
+  function dispatchAuthChange() {
+    document.dispatchEvent(new CustomEvent('jegvet:authchange', {
+      detail: {
+        ready: authState.ready,
+        user: authState.user
+      }
+    }));
+  }
 
-    form.addEventListener('submit', function (event) {
-      event.preventDefault();
-      if (passwordInput.value === PASSWORD) {
-        setAuthenticated();
-        document.body.classList.remove('is-locked');
-        overlay.remove();
+  function exposeAuthApi(auth) {
+    var firestore = null;
+    if (window.firebase && typeof window.firebase.firestore === 'function') {
+      firestore = window.firebase.firestore();
+    }
+
+    function getCurrentUser() {
+      return auth.currentUser || null;
+    }
+
+    function settingsKeyFor(uid) {
+      return 'jegvet:user:' + uid + ':settings';
+    }
+
+    function readUserSettings(uid) {
+      try {
+        var raw = window.localStorage.getItem(settingsKeyFor(uid));
+        if (!raw) {
+          return {};
+        }
+        var parsed = JSON.parse(raw);
+        return parsed && typeof parsed === 'object' ? parsed : {};
+      } catch (error) {
+        return {};
+      }
+    }
+
+    function ensureAuthAndDb() {
+      var user = getCurrentUser();
+      if (!user) {
+        return { error: 'No signed-in user.', user: null, db: null };
+      }
+      if (!firestore) {
+        return { error: 'Firestore is not available.', user: null, db: null };
+      }
+      return { error: '', user: user, db: firestore };
+    }
+
+    window.JegVetAuth = {
+      getState: function () {
+        return {
+          ready: authState.ready,
+          user: authState.user
+        };
+      },
+      getUser: function () {
+        return getCurrentUser();
+      },
+      updateDisplayName: function (displayName) {
+        var user = getCurrentUser();
+        if (!user) {
+          return Promise.reject(new Error('No signed-in user.'));
+        }
+        return user.updateProfile({ displayName: String(displayName || '').trim() })
+          .then(function () {
+            authState.user = getCurrentUser();
+            dispatchAuthChange();
+          });
+      },
+      getUserSetting: function (key, fallbackValue) {
+        var user = getCurrentUser();
+        if (!user || !user.uid) {
+          return fallbackValue;
+        }
+        var settings = readUserSettings(user.uid);
+        if (!Object.prototype.hasOwnProperty.call(settings, key)) {
+          return fallbackValue;
+        }
+        return settings[key];
+      },
+      setUserSetting: function (key, value) {
+        var user = getCurrentUser();
+        if (!user || !user.uid) {
+          return false;
+        }
+        try {
+          var settings = readUserSettings(user.uid);
+          settings[key] = value;
+          window.localStorage.setItem(settingsKeyFor(user.uid), JSON.stringify(settings));
+          return true;
+        } catch (error) {
+          return false;
+        }
+      },
+      listJournalEntries: function () {
+        var ctx = ensureAuthAndDb();
+        if (ctx.error) {
+          return Promise.reject(new Error(ctx.error));
+        }
+        return ctx.db.collection('journalEntries')
+          .where('uid', '==', ctx.user.uid)
+          .get()
+          .then(function (snapshot) {
+            var rows = [];
+            snapshot.forEach(function (doc) {
+              var data = doc.data() || {};
+              rows.push({
+                id: doc.id,
+                title: data.title || '',
+                content: data.content || '',
+                createdAt: data.createdAt || null,
+                updatedAt: data.updatedAt || null
+              });
+            });
+            rows.sort(function (a, b) {
+              var aSec = a.updatedAt && typeof a.updatedAt.seconds === 'number' ? a.updatedAt.seconds : 0;
+              var bSec = b.updatedAt && typeof b.updatedAt.seconds === 'number' ? b.updatedAt.seconds : 0;
+              return bSec - aSec;
+            });
+            return rows;
+          });
+      },
+      createJournalEntry: function (title, content) {
+        var ctx = ensureAuthAndDb();
+        if (ctx.error) {
+          return Promise.reject(new Error(ctx.error));
+        }
+        var now = window.firebase.firestore.FieldValue.serverTimestamp();
+        return ctx.db.collection('journalEntries').add({
+          uid: ctx.user.uid,
+          title: String(title || '').trim() || 'Untitled',
+          content: String(content || ''),
+          createdAt: now,
+          updatedAt: now
+        });
+      },
+      updateJournalEntry: function (entryId, title, content) {
+        var ctx = ensureAuthAndDb();
+        if (ctx.error) {
+          return Promise.reject(new Error(ctx.error));
+        }
+        if (!entryId) {
+          return Promise.reject(new Error('Entry ID is required.'));
+        }
+        return ctx.db.collection('journalEntries').doc(entryId).update({
+          title: String(title || '').trim() || 'Untitled',
+          content: String(content || ''),
+          updatedAt: window.firebase.firestore.FieldValue.serverTimestamp()
+        });
+      },
+      deleteJournalEntry: function (entryId) {
+        var ctx = ensureAuthAndDb();
+        if (ctx.error) {
+          return Promise.reject(new Error(ctx.error));
+        }
+        if (!entryId) {
+          return Promise.reject(new Error('Entry ID is required.'));
+        }
+        return ctx.db.collection('journalEntries').doc(entryId).delete();
+      },
+      signOut: function () {
+        return auth.signOut();
+      }
+    };
+  }
+
+  function loadScript(src) {
+    return new Promise(function (resolve, reject) {
+      var existing = document.querySelector('script[src="' + src + '"]');
+      if (existing) {
+        if (existing.getAttribute('data-loaded') === 'true') {
+          resolve();
+          return;
+        }
+        existing.addEventListener('load', function () { resolve(); }, { once: true });
+        existing.addEventListener('error', function () { reject(new Error('Failed to load ' + src)); }, { once: true });
         return;
       }
 
-      errorEl.textContent = 'Incorrect password.';
-      passwordInput.value = '';
-      passwordInput.focus();
+      var script = document.createElement('script');
+      script.src = src;
+      script.defer = true;
+      script.addEventListener('load', function () {
+        script.setAttribute('data-loaded', 'true');
+        resolve();
+      }, { once: true });
+      script.addEventListener('error', function () {
+        reject(new Error('Failed to load ' + src));
+      }, { once: true });
+      document.head.appendChild(script);
     });
   }
 
-  function init() {
-    if (!isAuthenticated()) {
-      lockPage();
+  function getNextUrl() {
+    var params = new URLSearchParams(window.location.search);
+    var next = params.get('next');
+    if (!next) {
+      return 'index.html';
     }
+    if (/^https?:\/\//i.test(next) || next.indexOf('//') === 0) {
+      return 'index.html';
+    }
+    return next;
+  }
+
+  function redirectToLogin() {
+    var current = window.location.pathname.split('/').pop() || 'index.html';
+    var query = window.location.search || '';
+    var hash = window.location.hash || '';
+    var next = encodeURIComponent(current + query + hash);
+    window.location.replace(LOGIN_PAGE + '?next=' + next);
+  }
+
+  function setMessage(text, isError) {
+    var el = document.getElementById('login-message');
+    if (!el) {
+      return;
+    }
+    el.textContent = text || '';
+    el.classList.toggle('auth-error', !!isError);
+  }
+
+  function attachLoginForm(auth) {
+    var form = document.getElementById('login-form');
+    if (!form) {
+      return;
+    }
+
+    var emailInput = document.getElementById('login-email');
+    var passwordInput = document.getElementById('login-password');
+    var submitBtn = document.getElementById('login-submit');
+    var googleBtn = document.getElementById('login-google');
+    var modeBtn = document.getElementById('login-mode-toggle');
+    var createMode = false;
+
+    function applyModeUi() {
+      submitBtn.textContent = createMode ? 'Create account' : 'Sign in with email';
+      modeBtn.textContent = createMode ? 'I already have an account' : 'Create account';
+    }
+
+    function setFriendlyError(code) {
+      if (code === 'auth/invalid-credential' || code === 'auth/wrong-password' || code === 'auth/user-not-found') {
+        setMessage('Invalid email or password.', true);
+      } else if (code === 'auth/email-already-in-use') {
+        setMessage('This email already has an account. Sign in instead.', true);
+      } else if (code === 'auth/weak-password') {
+        setMessage('Password is too weak. Use at least 6 characters.', true);
+      } else if (code === 'auth/popup-closed-by-user') {
+        setMessage('Google sign-in was cancelled.', true);
+      } else if (code === 'auth/unauthorized-domain') {
+        setMessage('This domain is not authorized in Firebase Auth settings.', true);
+      } else if (code === 'auth/too-many-requests') {
+        setMessage('Too many attempts. Try again later.', true);
+      } else if (code === 'auth/network-request-failed') {
+        setMessage('Network error. Check your connection.', true);
+      } else {
+        setMessage('Sign-in failed. ' + (code || 'unknown error'), true);
+      }
+    }
+
+    applyModeUi();
+
+    if (modeBtn) {
+      modeBtn.addEventListener('click', function () {
+        createMode = !createMode;
+        applyModeUi();
+        setMessage('', false);
+      });
+    }
+
+    if (googleBtn) {
+      googleBtn.addEventListener('click', function () {
+        googleBtn.disabled = true;
+        setMessage('Opening Google sign-in...', false);
+        var provider = new window.firebase.auth.GoogleAuthProvider();
+        auth.signInWithPopup(provider)
+          .catch(function (error) {
+            var code = error && error.code ? String(error.code) : '';
+            setFriendlyError(code);
+          })
+          .finally(function () {
+            googleBtn.disabled = false;
+          });
+      });
+    }
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      if (!emailInput || !passwordInput) {
+        return;
+      }
+
+      var email = String(emailInput.value || '').trim();
+      var password = String(passwordInput.value || '');
+      if (!email || !password) {
+        setMessage('Enter email and password.', true);
+        return;
+      }
+
+      submitBtn.disabled = true;
+      setMessage(createMode ? 'Creating account...' : 'Signing in...', false);
+
+      var authPromise = createMode
+        ? auth.createUserWithEmailAndPassword(email, password)
+        : auth.signInWithEmailAndPassword(email, password);
+
+      authPromise
+        .then(function () {
+          setMessage(createMode ? 'Account created.' : 'Signed in.', false);
+        })
+        .catch(function (error) {
+          var code = error && error.code ? String(error.code) : '';
+          setFriendlyError(code);
+        })
+        .finally(function () {
+          submitBtn.disabled = false;
+        });
+    });
+  }
+
+  function handleAuthState(user) {
+    authState.ready = true;
+    authState.user = user || null;
+    dispatchAuthChange();
+
+    if (user) {
+      unlockPage();
+      if (isLoginPage()) {
+        window.location.replace(getNextUrl());
+      }
+      return;
+    }
+
+    if (isLoginPage()) {
+      unlockPage();
+      return;
+    }
+
+    redirectToLogin();
+  }
+
+  function startAuth() {
+    lockPage();
+
+    Promise.all([
+      loadScript('https://www.gstatic.com/firebasejs/' + FIREBASE_VERSION + '/firebase-app-compat.js'),
+      loadScript('https://www.gstatic.com/firebasejs/' + FIREBASE_VERSION + '/firebase-auth-compat.js'),
+      loadScript('https://www.gstatic.com/firebasejs/' + FIREBASE_VERSION + '/firebase-firestore-compat.js')
+    ]).then(function () {
+      if (!window.firebase || !window.firebase.initializeApp) {
+        throw new Error('Firebase SDK not available');
+      }
+
+      if (!window.firebase.apps || !window.firebase.apps.length) {
+        window.firebase.initializeApp(firebaseConfig);
+      }
+
+      var auth = window.firebase.auth();
+      exposeAuthApi(auth);
+      attachLoginForm(auth);
+      auth.onAuthStateChanged(handleAuthState);
+    }).catch(function (error) {
+      lockPage();
+      setMessage('Auth setup failed. ' + (error && error.message ? error.message : ''), true);
+      console.error(error);
+    });
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', startAuth);
   } else {
-    init();
+    startAuth();
   }
 })();

@@ -244,6 +244,10 @@ body {
   position: relative;
 }
 
+.app-nav-button[hidden] {
+  display: none !important;
+}
+
 .app-nav-button:hover,
 .app-nav-button:focus-visible {
   transform: translateY(-2px);
@@ -544,6 +548,40 @@ input.check-toggle-round-flat:checked + label:after {
   font-size: 19px;
 }
 
+.google-signin-button {
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+  display: flex;
+  padding: 0.5rem 1.4rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+  vertical-align: middle;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  gap: 0.75rem;
+  color: rgb(65, 63, 63);
+  background-color: #fff;
+  cursor: pointer;
+  transition: all .6s ease;
+}
+
+.google-signin-button svg {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+}
+
+.google-signin-button:hover,
+.google-signin-button:focus-visible {
+  transform: scale(1.02);
+}
+
 #auth-form button,
 .wiki-find-btn {
   border-radius: 8px;
@@ -557,6 +595,59 @@ input.check-toggle-round-flat:checked + label:after {
 
 .wiki-find-btn {
   padding: 8px 12px;
+}
+
+#journal-content {
+  min-height: 180px;
+  resize: vertical;
+}
+
+.journal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.journal-actions .action-button {
+  flex: 1 1 220px;
+}
+
+.journal-actions .button {
+  flex: 1 1 160px;
+  min-height: 46px;
+}
+
+.journal-list-wrap {
+  margin-top: 14px;
+}
+
+#journal-message {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.journal-item {
+  padding: 0;
+}
+
+.journal-item-button {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  padding: 14px;
+  cursor: pointer;
+}
+
+.journal-item-button:hover,
+.journal-item-button:focus-visible {
+  background: var(--topbar-hover-bg);
+  outline: none;
+}
+
+.journal-item-active {
+  border-color: var(--brand-teal);
 }
 
 .button::before,

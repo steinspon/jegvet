@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Profile | JegVet</title>
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="JegVet" />
+  <link rel="icon" type="image/png" sizes="32x32" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel='manifest' href='manifest.webmanifest' />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="auth-guard.js" defer></script>
+  <script src="app-shell.js" defer></script>
+</head>
+<body>
+  <main class="page page-top">
+    <section class="layout-card">
+      <a href="index.html" class="brand-link" aria-label="Go to homepage">
+        <img src="logo_day.png" alt="JegVet logo" class="brand-logo" />
+      </a>
+
+      <h1>Your Profile</h1>
+      <p class="helper-text">Update your username for your account.</p>
+
+      <form id="profile-form" class="main-form" novalidate>
+        <label for="profile-email">Email</label>
+        <input id="profile-email" type="text" class="search-input" readonly />
+
+        <label for="profile-username">Username</label>
+        <input id="profile-username" type="text" class="search-input" placeholder="Your username" maxlength="64" />
+
+        <button id="profile-save" type="submit" class="action-button">Save profile</button>
+        <button id="profile-logout" type="button" class="button">Log out</button>
+        <p id="profile-message" class="auth-error" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      'use strict';
+
+      function setMessage(text, isError) {
+        var el = document.getElementById('profile-message');
+        if (!el) {
+          return;
+        }
+        el.textContent = text || '';
+        el.classList.toggle('auth-error', !!isError);
+      }
+
+      function syncFromUser() {
+        if (!window.JegVetAuth || typeof window.JegVetAuth.getUser !== 'function') {
+          return;
+        }
+        var user = window.JegVetAuth.getUser();
+        if (!user) {
+          return;
+        }
+        var email = document.getElementById('profile-email');
+        var username = document.getElementById('profile-username');
+        if (email) {
+          email.value = user.email || '';
+        }
+        if (username) {
+          username.value = user.displayName || '';
+        }
+      }
+
+      function onSubmit(event) {
+        event.preventDefault();
+        if (!window.JegVetAuth || typeof window.JegVetAuth.updateDisplayName !== 'function') {
+          setMessage('Auth is not ready yet.', true);
+          return;
+        }
+        var usernameInput = document.getElementById('profile-username');
+        var saveBtn = document.getElementById('profile-save');
+        var username = String(usernameInput ? usernameInput.value : '').trim();
+
+        if (!username) {
+          setMessage('Username cannot be empty.', true);
+          return;
+        }
+
+        saveBtn.disabled = true;
+        setMessage('Saving profile...', false);
+        window.JegVetAuth.updateDisplayName(username)
+          .then(function () {
+            setMessage('Profile saved.', false);
+          })
+          .catch(function (error) {
+            setMessage('Could not save profile: ' + (error && error.message ? error.message : 'unknown error'), true);
+          })
+          .finally(function () {
+            saveBtn.disabled = false;
+          });
+      }
+
+      function init() {
+        var form = document.getElementById('profile-form');
+        var logoutBtn = document.getElementById('profile-logout');
+        if (form) {
+          form.addEventListener('submit', onSubmit);
+        }
+        if (logoutBtn) {
+          logoutBtn.addEventListener('click', function () {
+            if (!window.JegVetAuth || typeof window.JegVetAuth.signOut !== 'function') {
+              setMessage('Auth is not ready yet.', true);
+              return;
+            }
+            logoutBtn.disabled = true;
+            setMessage('Signing out...', false);
+            window.JegVetAuth.signOut()
+              .catch(function (error) {
+                setMessage('Could not sign out: ' + (error && error.message ? error.message : 'unknown error'), true);
+                logoutBtn.disabled = false;
+              });
+          });
+        }
+        syncFromUser();
+        document.addEventListener('jegvet:authchange', syncFromUser);
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+  </script>
+</body>
+</html>

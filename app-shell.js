@@ -13,6 +13,10 @@
       nav_back: 'Back',
       nav_search: 'Search',
       nav_about: 'About',
+      nav_journal: 'Journal',
+      nav_profile: 'Profile',
+      nav_login: 'Sign In',
+      nav_logout: 'Sign Out',
       switch_lang_aria: 'Language switch',
       switch_on: 'EN',
       switch_off: 'NO',
@@ -25,6 +29,10 @@
       nav_back: 'Tilbake',
       nav_search: 'S\u00F8k',
       nav_about: 'Info',
+      nav_journal: 'Journal',
+      nav_profile: 'Profil',
+      nav_login: 'Logg inn',
+      nav_logout: 'Logg ut',
       switch_lang_aria: 'Spr\u00E5kvelger',
       switch_on: 'EN',
       switch_off: 'NO',
@@ -298,7 +306,44 @@
     if (kind === 'back') {
       return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10.2 6.2-5.8 5.8 5.8 5.8 1.4-1.4-3.4-3.4H20v-2H8.2l3.4-3.4-1.4-1.4z"/></svg>';
     }
+    if (kind === 'auth') {
+      return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 12c4.4 0 8 2.2 8 5v1H4v-1c0-2.8 3.6-5 8-5z"/></svg>';
+    }
+    if (kind === 'profile') {
+      return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11zm0 13c5.25 0 9.5 2.57 9.5 5.75V22h-19v-1.25C2.5 17.57 6.75 15 12 15z"/></svg>';
+    }
+    if (kind === 'journal') {
+      return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h11a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a3 3 0 0 1 0-6h10V5H6a1 1 0 0 0-1 1v11.2A3 3 0 0 1 6 17h11v2H6a1 1 0 0 0 0 2h11V3H6z"/></svg>';
+    }
     return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20zm0 8a1 1 0 0 0-1 1v5h2v-5a1 1 0 0 0-1-1zm0-4a1.25 1.25 0 1 0 0 2.5A1.25 1.25 0 0 0 12 6z"/></svg>';
+  }
+
+  function updateAuthButton() {
+    var btn = document.getElementById('app-auth-button');
+    var profileBtn = document.getElementById('app-profile-button');
+    var journalBtn = document.getElementById('app-journal-button');
+    if (!btn) {
+      return;
+    }
+    var state = window.JegVetAuth && typeof window.JegVetAuth.getState === 'function'
+      ? window.JegVetAuth.getState()
+      : { ready: false, user: null };
+    var loggedIn = !!(state && state.user);
+    btn.setAttribute('data-auth-mode', loggedIn ? 'logout' : 'login');
+    btn.setAttribute('aria-label', loggedIn ? t('nav_logout', 'Sign Out') : t('nav_login', 'Sign In'));
+    var label = btn.querySelector('span');
+    if (label) {
+      label.textContent = loggedIn ? t('nav_logout', 'Sign Out') : t('nav_login', 'Sign In');
+    }
+    if (profileBtn) {
+      profileBtn.hidden = !loggedIn;
+    }
+    if (journalBtn) {
+      journalBtn.hidden = !loggedIn;
+    }
+    if (btn) {
+      btn.hidden = loggedIn;
+    }
   }
 
   function buildTopBar() {
@@ -317,6 +362,9 @@
         '<a class="app-nav-button" href="#" id="app-nav-back" data-i18n-aria-label="nav_back">' + createIcon('back') + '<span data-i18n="nav_back">Back</span></a>' +
         '<a class="app-nav-button" href="search.html" data-i18n-aria-label="nav_search">' + createIcon('search') + '<span data-i18n="nav_search">Search</span></a>' +
         '<a class="app-nav-button" href="about.html" data-i18n-aria-label="nav_about">' + createIcon('info') + '<span data-i18n="nav_about">About</span></a>' +
+        '<a class="app-nav-button" href="journal.html" id="app-journal-button" data-i18n-aria-label="nav_journal" hidden>' + createIcon('journal') + '<span data-i18n="nav_journal">Journal</span></a>' +
+        '<a class="app-nav-button" href="profile.html" id="app-profile-button" data-i18n-aria-label="nav_profile" hidden>' + createIcon('profile') + '<span data-i18n="nav_profile">Profile</span></a>' +
+        '<a class="app-nav-button" href="login.html" id="app-auth-button" data-i18n-aria-label="nav_login">' + createIcon('auth') + '<span data-i18n="nav_login">Sign In</span></a>' +
         '<div class="app-topbar-switches">' +
           '<div class="switch switch-theme" data-switch-size="small" data-i18n-aria-label="switch_theme_aria" aria-label="Theme switch">' +
             '<input id="theme-toggle" class="check-toggle check-toggle-round-flat" type="checkbox" />' +
@@ -366,7 +414,9 @@
       });
     }
 
+    document.addEventListener('jegvet:authchange', updateAuthButton);
     syncToggle();
+    updateAuthButton();
   }
 
   function syncTopBarWidthMode() {
