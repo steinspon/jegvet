@@ -397,7 +397,18 @@
         if (window.history.length > 1) {
           window.history.back();
         } else {
-          window.location.href = 'index.html';
+          var referrer = document.referrer || '';
+          var canUseReferrer = false;
+          if (referrer) {
+            try {
+              var referrerUrl = new URL(referrer, window.location.href);
+              canUseReferrer = referrerUrl.origin === window.location.origin;
+            } catch (error) {
+              canUseReferrer = false;
+            }
+          }
+
+          window.location.href = canUseReferrer ? referrer : 'index.html';
         }
       });
     }

@@ -252,13 +252,7 @@
           return getLabel(views[node.target], lang);
         }
         if (node.type === 'tool') {
-          var otherLang = lang === 'no' ? 'en' : 'no';
-          var primary = getLabel(node, lang);
-          var translated = getLabel(node, otherLang);
-          if (!translated || translated === primary) {
-            return primary;
-          }
-          return primary + ' (' + translated + ')';
+          return getLabel(node, lang);
         }
         return getLabel(node, lang);
       }
@@ -307,20 +301,6 @@
         pathEl.textContent = pathLabels.join(' / ');
 
         toolsListEl.innerHTML = '';
-
-        if (viewHistory.length > 0) {
-          var previousId = viewHistory[viewHistory.length - 1];
-          var backLabel = t('tools_back_to').replace('{name}', getLabel(views[previousId], lang));
-          var backButton = document.createElement('button');
-          backButton.type = 'button';
-          backButton.className = 'action-button';
-          backButton.textContent = backLabel;
-          backButton.addEventListener('click', function () {
-            currentViewId = viewHistory.pop();
-            render();
-          });
-          toolsListEl.appendChild(backButton);
-        }
 
         if (!current.children || current.children.length === 0) {
           var emptyState = document.createElement('p');
