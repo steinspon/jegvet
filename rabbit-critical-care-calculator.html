@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Rabbit Critical Care Calculator | JegVet</title>
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="JegVet" />
+  <link rel="icon" type="image/png" sizes="32x32" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel='manifest' href='manifest.webmanifest' />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="auth-guard.js" defer></script>
+  <script src="app-shell.js" defer></script>
+  <script>
+    window.PAGE_I18N = {
+      en: {
+        page_title_cc: 'Rabbit Critical Care Calculator | JegVet',
+        cc_title: 'Rabbit Critical Care Calculator',
+        cc_subtitle: 'Force-feeding planning at total dose 80 ml/kg/day.',
+        cc_indication_title: '1. Clinical Indication and Goal',
+        cc_indication_text_1: 'Start Critical Care force-feeding promptly with anorexia/reduced appetite secondary to upper airway obstruction, pain or early GI stasis.',
+        cc_indication_text_2: 'Goal: preserve continuous GI motility. Typical duration is 1-3 days, or until normal voluntary feeding returns.',
+        cc_indication_text_3: 'Do not start force-feeding with confirmed mechanical complete gastric/intestinal obstruction (physical ileus), especially if blood glucose is > 15 mmol/L.',
+        cc_prep_title: '2. Preparation and Storage',
+        cc_prep_item1: 'Mix 1 part Critical Care powder with 2-3 parts lukewarm water to a smooth slurry.',
+        cc_prep_item2: 'Avoid boiling water, since high heat reduces vitamin and probiotic quality.',
+        cc_prep_item3: 'Prepared slurry: keep refrigerated in closed container, max 24 hours. Stir before each feeding. Discard leftovers after 24 hours.',
+        cc_prep_item4: 'Opened powder: up to 30 days at room temperature (well sealed), or up to 6 months in freezer.',
+        cc_warning_title: '3. Important Feeding Technique Warning',
+        cc_warning_text_1: 'Be very gentle and slow when inserting/removing the syringe. With a 1 ml syringe, a rabbit may need up to 120 insertions/day.',
+        cc_warning_text_2: 'Use diastema gently. Give small portions (up to 0.5 ml) and confirm swallowing before each next portion.',
+        cc_weight: 'Weight (kg)',
+        cc_error: 'Weight must be greater than 0 kg.',
+        cc_placeholder: 'Enter weight to generate feeding plans.',
+        cc_no_results: 'No results.',
+        cc_th_plan: 'Feeding plan',
+        cc_th_amount: 'Amount per feeding (ml)',
+        cc_th_freq: 'Frequency',
+        cc_th_adv: 'Clinical advantage',
+        cc_plan_standard: 'Option 1 (Standard)',
+        cc_plan_gentle: 'Option 2 (Gentle plan)',
+        cc_freq_4x: '4 times per day',
+        cc_freq_8x: '8 times per day',
+        cc_adv_4x: 'Fewer feeding sessions for caregiver.',
+        cc_adv_8x: 'Smaller meal volumes; lower risk of overfilling/stress.',
+        cc_summary_title: 'Patient Summary',
+        cc_summary_placeholder: 'Enter weight for calculation.',
+        cc_summary_text: 'Total daily need: {total} ml prepared slurry. With 1 ml syringe this is about {count} insertions/day. Be very gentle.',
+        cc_cheat_title: 'Backend Cheat Sheet'
+      },
+      no: {
+        page_title_cc: 'Critical Care-kalkulator kanin | JegVet',
+        cc_title: 'Critical Care-kalkulator',
+        cc_subtitle: 'Planlegging av tvangsfôring ved totaldose 80 ml/kg/døgn.',
+        cc_indication_title: '1. Klinisk indikasjon og mål',
+        cc_indication_text_1: 'Start tvangsfôring med Critical Care raskt ved anoreksi/nedsatt appetitt sekundært til øvre luftveisobstruksjon, smerte eller begynnende GI-stase.',
+        cc_indication_text_2: 'Mål: opprettholde kontinuerlig GI-motilitet. Vanlig varighet er 1-3 døgn, eller til normal frivillig fôring er tilbake.',
+        cc_indication_text_3: 'Ikke start tvangsfôring ved bekreftet mekanisk, fullstendig blokkering i mage/tarm (fysisk ileus), særlig ved blodglukose > 15 mmol/L.',
+        cc_prep_title: '2. Tilberedning og oppbevaring',
+        cc_prep_item1: 'Bland 1 del Critical Care-pulver med 2-3 deler lunkent vann til jevn grøt.',
+        cc_prep_item2: 'Unngå kokende vann, da høy temperatur reduserer kvaliteten på vitaminer og probiotika.',
+        cc_prep_item3: 'Ferdig grøt: oppbevares lukket i kjøleskap, maks 24 timer. Rør før hver fôring. Kast rester etter 24 timer.',
+        cc_prep_item4: 'Åpnet pulver: opptil 30 dager i romtemperatur (godt lukket), eller opptil 6 måneder i fryser.',
+        cc_warning_title: '3. Viktig advarsel om fôringsteknikk',
+        cc_warning_text_1: 'Vær svært forsiktig og rolig ved inn/ut av sprøyte i munnen. Med 1 ml-sprøyte kan kaninen trenge opptil 120 innføringer/døgn.',
+        cc_warning_text_2: 'Før sprøytespissen skånsomt i diastema. Gi små porsjoner (opptil 0,5 ml) og bekreft svelging før neste porsjon.',
+        cc_weight: 'Vekt (kg)',
+        cc_error: 'Vekten må være større enn 0 kg.',
+        cc_placeholder: 'Oppgi vekt for å generere fôringsplan.',
+        cc_no_results: 'Ingen resultater.',
+        cc_th_plan: 'Fôringsplan',
+        cc_th_amount: 'Mengde per fôring (ml)',
+        cc_th_freq: 'Hyppighet',
+        cc_th_adv: 'Klinisk fordel',
+        cc_plan_standard: 'Alternativ 1 (Standard)',
+        cc_plan_gentle: 'Alternativ 2 (Skånsom plan)',
+        cc_freq_4x: '4 ganger i døgnet',
+        cc_freq_8x: '8 ganger i døgnet',
+        cc_adv_4x: 'Færre fôringsrunder for eier.',
+        cc_adv_8x: 'Mindre volum per måltid; lavere risiko for overfylling/stress.',
+        cc_summary_title: 'Oppsummering for pasienten',
+        cc_summary_placeholder: 'Oppgi vekt for beregning.',
+        cc_summary_text: 'Totalt døgnbehov: {total} ml ferdigblandet grøt. Med 1 ml-sprøyte tilsvarer dette ca. {count} innføringer/døgn. Vær svært skånsom.',
+        cc_cheat_title: 'Cheat-sheet backend-logikk'
+      }
+    };
+  </script>
+</head>
+<body data-i18n-title="page_title_cc">
+  <main class="page page-top">
+    <section class="layout-card layout-card-wide">
+      <a href="index.html" class="brand-link" aria-label="Go to homepage">
+        <img src="logo_day.png" alt="JegVet logo" class="brand-logo" />
+      </a>
+
+      <h1 class="section-title" data-i18n="cc_title">Rabbit Critical Care Calculator</h1>
+      <p class="section-subtitle" data-i18n="cc_subtitle">Force-feeding planning at total dose 80 ml/kg/day.</p>
+
+      <div class="tool-card">
+        <h2 data-i18n="cc_indication_title">1. Clinical Indication and Goal</h2>
+        <p data-i18n="cc_indication_text_1">Start Critical Care force-feeding promptly with anorexia/reduced appetite secondary to upper airway obstruction, pain or early GI stasis.</p>
+        <p data-i18n="cc_indication_text_2">Goal: preserve continuous GI motility. Typical duration is 1-3 days, or until normal voluntary feeding returns.</p>
+        <p data-i18n="cc_indication_text_3">Do not start force-feeding with confirmed mechanical complete gastric/intestinal obstruction (physical ileus), especially if blood glucose is > 15 mmol/L.</p>
+      </div>
+
+      <div class="tool-card u-mt-14">
+        <h2 data-i18n="cc_prep_title">2. Preparation and Storage</h2>
+        <ul>
+          <li data-i18n="cc_prep_item1">Mix 1 part Critical Care powder with 2-3 parts lukewarm water to a smooth slurry.</li>
+          <li data-i18n="cc_prep_item2">Avoid boiling water, since high heat reduces vitamin and probiotic quality.</li>
+          <li data-i18n="cc_prep_item3">Prepared slurry: keep refrigerated in closed container, max 24 hours. Stir before each feeding. Discard leftovers after 24 hours.</li>
+          <li data-i18n="cc_prep_item4">Opened powder: up to 30 days at room temperature (well sealed), or up to 6 months in freezer.</li>
+        </ul>
+      </div>
+
+      <div class="tool-card u-mt-14">
+        <h2 data-i18n="cc_warning_title">3. Important Feeding Technique Warning</h2>
+        <p data-i18n="cc_warning_text_1">Be very gentle and slow when inserting/removing the syringe. With a 1 ml syringe, a rabbit may need up to 120 insertions/day.</p>
+        <p data-i18n="cc_warning_text_2">Use diastema gently. Give small portions (up to 0.5 ml) and confirm swallowing before each next portion.</p>
+      </div>
+
+      <form class="calc-form u-mt-14" id="cc-form">
+        <div class="calc-field">
+          <label for="weight-kg" data-i18n="cc_weight">Weight (kg)</label>
+          <input id="weight-kg" type="number" min="0" step="0.01" required />
+        </div>
+      </form>
+
+      <p id="calc-error" class="calc-error" aria-live="polite"></p>
+
+      <div class="calc-table-wrap">
+        <table class="calc-table" aria-label="Critical care feeding plans">
+          <thead>
+            <tr>
+              <th data-i18n="cc_th_plan">Feeding plan</th>
+              <th data-i18n="cc_th_amount">Amount per feeding (ml)</th>
+              <th data-i18n="cc_th_freq">Frequency</th>
+              <th data-i18n="cc_th_adv">Clinical advantage</th>
+            </tr>
+          </thead>
+          <tbody id="cc-results">
+            <tr><td colspan="4" data-i18n="cc_placeholder">Enter weight to generate feeding plans.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tool-card u-mt-14" aria-live="polite">
+        <h2 data-i18n="cc_summary_title">Patient Summary</h2>
+        <p id="cc-summary" data-i18n="cc_summary_placeholder">Enter weight for calculation.</p>
+      </div>
+
+      <div class="tool-card u-mt-14">
+        <h2 data-i18n="cc_cheat_title">Backend Cheat Sheet</h2>
+        <ul>
+          <li>`CC_total_dogn_ml = Vekt_kg * 80`</li>
+          <li>`CC_per_maling_4x_ml = Vekt_kg * 20`</li>
+          <li>`CC_per_maling_8x_ml = Vekt_kg * 10`</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var weightInput = document.getElementById('weight-kg');
+      var formEl = document.getElementById('cc-form');
+      var errorEl = document.getElementById('calc-error');
+      var resultsEl = document.getElementById('cc-results');
+      var summaryEl = document.getElementById('cc-summary');
+
+      function t(key, fallback) {
+        if (window.JegVetLang && typeof window.JegVetLang.t === 'function') {
+          return window.JegVetLang.t(key, fallback);
+        }
+        return fallback || key;
+      }
+
+      function getLocale() {
+        var bodyLang = document.body && document.body.getAttribute('data-lang');
+        return bodyLang === 'no' ? 'nb-NO' : 'en-US';
+      }
+
+      function format(value, decimals) {
+        return Number(value).toLocaleString(getLocale(), {
+          minimumFractionDigits: decimals,
+          maximumFractionDigits: decimals
+        });
+      }
+
+      function renderPlaceholder() {
+        resultsEl.innerHTML = '<tr><td colspan="4">' + t('cc_placeholder', 'Enter weight to generate feeding plans.') + '</td></tr>';
+        summaryEl.textContent = t('cc_summary_placeholder', 'Enter weight for calculation.');
+      }
+
+      function render() {
+        var w = Number(weightInput.value);
+
+        if (!weightInput.value) {
+          errorEl.textContent = '';
+          renderPlaceholder();
+          return;
+        }
+
+        if (!isFinite(w) || w <= 0) {
+          errorEl.textContent = t('cc_error', 'Weight must be greater than 0 kg.');
+          resultsEl.innerHTML = '<tr><td colspan="4">' + t('cc_no_results', 'No results.') + '</td></tr>';
+          summaryEl.textContent = t('cc_no_results', 'No results.');
+          return;
+        }
+
+        errorEl.textContent = '';
+
+        var totalMl = w * 80;
+        var plan4Ml = w * 20;
+        var plan8Ml = w * 10;
+        var syringeInsertions = Math.ceil(totalMl);
+
+        resultsEl.innerHTML =
+          '<tr>' +
+            '<td>' + t('cc_plan_standard', 'Option 1 (Standard)') + '</td>' +
+            '<td>' + format(plan4Ml, 2) + '</td>' +
+            '<td>' + t('cc_freq_4x', '4 times per day') + '</td>' +
+            '<td>' + t('cc_adv_4x', 'Fewer feeding sessions for caregiver.') + '</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td>' + t('cc_plan_gentle', 'Option 2 (Gentle plan)') + '</td>' +
+            '<td>' + format(plan8Ml, 2) + '</td>' +
+            '<td>' + t('cc_freq_8x', '8 times per day') + '</td>' +
+            '<td>' + t('cc_adv_8x', 'Smaller meal volumes; lower risk of overfilling/stress.') + '</td>' +
+          '</tr>';
+
+        summaryEl.textContent = t('cc_summary_text', 'Total daily need: {total} ml prepared slurry. With 1 ml syringe this is about {count} insertions/day. Be very gentle.')
+          .replace('{total}', format(totalMl, 2))
+          .replace('{count}', String(syringeInsertions));
+      }
+
+      weightInput.addEventListener('input', render);
+      document.addEventListener('jegvet:langchange', render);
+      if (formEl) {
+        formEl.addEventListener('submit', function (event) {
+          event.preventDefault();
+          render();
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Rabbit Upper Airway Disease | JegVet</title>
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="JegVet" />
+  <link rel="icon" type="image/png" sizes="32x32" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel='manifest' href='manifest.webmanifest' />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="auth-guard.js" defer></script>
+  <script src="app-shell.js" defer></script>
+  <script>
+    window.PAGE_I18N = {
+      en: {
+        page_title_rabbit_airway: 'Rabbit Upper Airway Disease | JegVet',
+        rabbit_airway_title: 'Rabbit Upper Airway Disease',
+        rabbit_airway_subtitle: 'Reference guide with built-in treatment calculator.',
+        rabbit_airway_section1_title: '1. Typical Clinical Findings',
+        rabbit_airway_section1_intro: 'Rabbits often hide disease. Visible upper airway signs usually indicate an established process.',
+        rabbit_airway_section1_item1: 'Breathing pattern: Increased respiratory rate/effort. Open-mouth breathing is an emergency sign.',
+        rabbit_airway_section1_item2: 'Nasal discharge: Serous to mucopurulent/caseous. Check forepaws for sticky, dirty fur.',
+        rabbit_airway_section1_item3: 'Auscultation: Upper airway noise may transmit into thorax and mimic primary lung sounds.',
+        rabbit_airway_section1_item4: 'Dental exam: Evaluate roots and asymmetry; root disease may extend into nasal cavity/tear duct.',
+        rabbit_airway_section1_item5: 'Ophthalmology: Epiphora/dacryocystitis can be secondary to root disease or intranasal inflammation.',
+        rabbit_airway_section2_title: '2. Diagnostics',
+        rabbit_airway_section2_intro: 'If recurrent disease or poor response, investigate for anatomical differentials.',
+        rabbit_airway_section2_item1: 'CT skull/thorax: Gold standard for root pathology, nasal destruction, bullae changes, masses and deep abscesses.',
+        rabbit_airway_section2_item2: 'Radiography (4-5 views): Moderate sensitivity, useful for gross root and thoracic changes.',
+        rabbit_airway_section2_item3: 'Superficial nasal swab: Low clinical value due to contamination.',
+        rabbit_airway_section2_item4: 'Deep nasal flush under sedation: Split sample to culture + PCR; PCR helps during ongoing antibiotics.',
+        rabbit_airway_section3_title: '3. Treatment Calculator',
+        rabbit_airway_section3_intro: 'Enter weight with 2 decimal precision. Doses are calculated automatically.',
+        rabbit_airway_weight: 'Weight (kg)',
+        rabbit_airway_error: 'Weight must be greater than 0 kg.',
+        rabbit_airway_placeholder: 'Enter weight to calculate treatment doses.',
+        rabbit_airway_no_results: 'No results.',
+        rabbit_airway_th_drug: 'Drug',
+        rabbit_airway_th_strength: 'Strength',
+        rabbit_airway_th_dose: 'Dose (mg/kg)',
+        rabbit_airway_th_mg: 'Calculated dose (mg)',
+        rabbit_airway_th_ml: 'Calculated volume (ml)',
+        rabbit_airway_th_instr: 'Preparation and frequency',
+        rabbit_airway_cheat_title: 'Backend Cheat Sheet',
+        rabbit_airway_baytril_instr: 'PO or SC every 12 hours (BID), 14-28 days.',
+        rabbit_airway_bactrim_instr: 'PO every 12 hours (BID), 14-28 days. Shake well before use.',
+        rabbit_airway_doxy_instr_under: 'Crush 1 x 100 mg tablet in 10 ml water. Give every 12 hours (BID). Prepare fresh daily.',
+        rabbit_airway_doxy_instr_over: 'Crush 1 x 100 mg tablet in 4 ml water. Give every 12 hours (BID). Prepare fresh daily.',
+        rabbit_airway_meloxicam_instr: 'Day 1-4: BID. From day 5: SID with same volume.',
+        rabbit_airway_famotidine_instr: 'SID during full meloxicam course + 3 additional days.',
+        rabbit_airway_bisolvon_instr: 'BID. Warning: More secretions first 24-48 h. Monitor for dyspnea. Combine with steam 10-15 min, 2-3 times/day.'
+      },
+      no: {
+        page_title_rabbit_airway: 'Øvre luftveissykdom kanin | JegVet',
+        rabbit_airway_title: 'Øvre luftveissykdom Kanin',
+        rabbit_airway_subtitle: 'Oppslagsverk med innebygget behandlingskalkulator.',
+        rabbit_airway_section1_title: '1. Typiske funn ved klinisk undersøkelse',
+        rabbit_airway_section1_intro: 'Kaniner skjuler ofte sykdom. Synlige tegn på øvre luftveissykdom betyr ofte at prosessen har pågått en stund.',
+        rabbit_airway_section1_item1: 'Respirasjonsmønster: Økt frekvens/anstrengelse. Open-mouth breathing er et akutt faresignal.',
+        rabbit_airway_section1_item2: 'Neseutflod: Serøs til mukopurulent/kaseøs. Sjekk framben for sammenklistret, skitten pels.',
+        rabbit_airway_section1_item3: 'Auskultasjon: Øvre luftveislyder kan forplante seg i thorax og forveksles med primære lungelyder.',
+        rabbit_airway_section1_item4: 'Tannundersøkelse: Vurder røtter og asymmetri; rotpatologi kan spre seg til nesehule/tårekanal.',
+        rabbit_airway_section1_item5: 'Oftalmologi: Epifora/dakryocystitt kan være sekundært til tannrøtter eller intranasal inflammasjon.',
+        rabbit_airway_section2_title: '2. Diagnostikk',
+        rabbit_airway_section2_intro: 'Ved residiv eller manglende respons bør anatomiske differensialdiagnoser utredes.',
+        rabbit_airway_section2_item1: 'CT skalle/thorax: Gullstandard for rotpatologi, bendestruksjon, bullae-forandringer, masser og dype abscesser.',
+        rabbit_airway_section2_item2: 'Røntgen (4-5 projeksjoner): Moderat sensitivitet, nyttig ved grov tannrot- og thoraxpatologi.',
+        rabbit_airway_section2_item3: 'Overfladisk nesesvab: Lav klinisk verdi pga. kontaminasjon.',
+        rabbit_airway_section2_item4: 'Dyp neseskylling under sedasjon: Del prøve til dyrking + PCR; PCR er nyttig ved pågående antibiotika.',
+        rabbit_airway_section3_title: '3. Behandlingsalternativer med kalkulator',
+        rabbit_airway_section3_intro: 'Oppgi vekt med to desimaler. Doser beregnes automatisk.',
+        rabbit_airway_weight: 'Vekt (kg)',
+        rabbit_airway_error: 'Vekten må være større enn 0 kg.',
+        rabbit_airway_placeholder: 'Oppgi vekt for å beregne behandlingsdoser.',
+        rabbit_airway_no_results: 'Ingen resultater.',
+        rabbit_airway_th_drug: 'Medikament',
+        rabbit_airway_th_strength: 'Styrke',
+        rabbit_airway_th_dose: 'Dose (mg/kg)',
+        rabbit_airway_th_mg: 'Beregnet dose (mg)',
+        rabbit_airway_th_ml: 'Beregnet volum (ml)',
+        rabbit_airway_th_instr: 'Tilberedning og frekvens',
+        rabbit_airway_cheat_title: 'Cheat-sheet backend-logikk',
+        rabbit_airway_baytril_instr: 'PO eller SC hver 12. time (BID), 14-28 dager.',
+        rabbit_airway_bactrim_instr: 'PO hver 12. time (BID), 14-28 dager. Rist flasken godt før bruk.',
+        rabbit_airway_doxy_instr_under: 'Knus 1 tablett à 100 mg i 10 ml vann. Gis hver 12. time (BID). Lag ny blanding daglig.',
+        rabbit_airway_doxy_instr_over: 'Knus 1 tablett à 100 mg i 4 ml vann. Gis hver 12. time (BID). Lag ny blanding daglig.',
+        rabbit_airway_meloxicam_instr: 'Dag 1-4: BID. Fra dag 5: SID med samme volum.',
+        rabbit_airway_famotidine_instr: 'SID under hele meloxicam-kuren + 3 dager ekstra.',
+        rabbit_airway_bisolvon_instr: 'BID. OBS: Økt sekret første 24-48 t. Overvåk for dyspné. Kombiner med damping 10-15 min, 2-3 ganger daglig.'
+      }
+    };
+  </script>
+</head>
+<body data-i18n-title="page_title_rabbit_airway">
+  <main class="page page-top">
+    <section class="layout-card layout-card-wide">
+      <a href="index.html" class="brand-link" aria-label="Go to homepage">
+        <img src="logo_day.png" alt="JegVet logo" class="brand-logo" />
+      </a>
+
+      <h1 class="section-title" data-i18n="rabbit_airway_title">Rabbit Upper Airway Disease</h1>
+      <p class="section-subtitle" data-i18n="rabbit_airway_subtitle">Reference guide with built-in treatment calculator.</p>
+
+      <details class="tool-card" id="rabbit-airway-section-1">
+        <summary><strong data-i18n="rabbit_airway_section1_title">1. Typical Clinical Findings</strong></summary>
+        <p data-i18n="rabbit_airway_section1_intro">Rabbits often hide disease. Visible upper airway signs usually indicate an established process.</p>
+        <ul>
+          <li data-i18n="rabbit_airway_section1_item1">Breathing pattern: Increased respiratory rate/effort. Open-mouth breathing is an emergency sign.</li>
+          <li data-i18n="rabbit_airway_section1_item2">Nasal discharge: Serous to mucopurulent/caseous. Check forepaws for sticky, dirty fur.</li>
+          <li data-i18n="rabbit_airway_section1_item3">Auscultation: Upper airway noise may transmit into thorax and mimic primary lung sounds.</li>
+          <li data-i18n="rabbit_airway_section1_item4">Dental exam: Evaluate roots and asymmetry; root disease may extend into nasal cavity/tear duct.</li>
+          <li data-i18n="rabbit_airway_section1_item5">Ophthalmology: Epiphora/dacryocystitis can be secondary to root disease or intranasal inflammation.</li>
+        </ul>
+      </details>
+
+      <details class="tool-card u-mt-14" id="rabbit-airway-section-2">
+        <summary><strong data-i18n="rabbit_airway_section2_title">2. Diagnostics</strong></summary>
+        <p data-i18n="rabbit_airway_section2_intro">If recurrent disease or poor response, investigate for anatomical differentials.</p>
+        <ul>
+          <li data-i18n="rabbit_airway_section2_item1">CT skull/thorax: Gold standard for root pathology, nasal destruction, bullae changes, masses and deep abscesses.</li>
+          <li data-i18n="rabbit_airway_section2_item2">Radiography (4-5 views): Moderate sensitivity, useful for gross root and thoracic changes.</li>
+          <li data-i18n="rabbit_airway_section2_item3">Superficial nasal swab: Low clinical value due to contamination.</li>
+          <li data-i18n="rabbit_airway_section2_item4">Deep nasal flush under sedation: Split sample to culture + PCR; PCR helps during ongoing antibiotics.</li>
+        </ul>
+      </details>
+
+      <details class="tool-card u-mt-14" id="rabbit-airway-section-3" open>
+        <summary><strong data-i18n="rabbit_airway_section3_title">3. Treatment Calculator</strong></summary>
+        <p data-i18n="rabbit_airway_section3_intro">Enter weight with 2 decimal precision. Doses are calculated automatically.</p>
+
+        <form class="calc-form" id="rabbit-airway-form">
+          <div class="calc-field">
+            <label for="weight-kg" data-i18n="rabbit_airway_weight">Weight (kg)</label>
+            <input id="weight-kg" type="number" min="0" step="0.01" required />
+          </div>
+        </form>
+
+        <p id="calc-error" class="calc-error" aria-live="polite"></p>
+
+        <div class="calc-table-wrap">
+          <table class="calc-table" aria-label="Rabbit airway treatment calculator">
+            <thead>
+              <tr>
+                <th data-i18n="rabbit_airway_th_drug">Drug</th>
+                <th data-i18n="rabbit_airway_th_strength">Strength</th>
+                <th data-i18n="rabbit_airway_th_dose">Dose (mg/kg)</th>
+                <th data-i18n="rabbit_airway_th_mg">Calculated dose (mg)</th>
+                <th data-i18n="rabbit_airway_th_ml">Calculated volume (ml)</th>
+                <th data-i18n="rabbit_airway_th_instr">Preparation and frequency</th>
+              </tr>
+            </thead>
+            <tbody id="rabbit-airway-results">
+              <tr><td colspan="6" data-i18n="rabbit_airway_placeholder">Enter weight to calculate treatment doses.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="tool-card u-mt-14">
+          <h2 data-i18n="rabbit_airway_cheat_title">Backend Cheat Sheet</h2>
+          <ul>
+            <li>`Baytril_volum_ml = Vekt_kg * 0.20`</li>
+            <li>`Bactrim_volum_ml = Vekt_kg * 0.625`</li>
+            <li>`Meloxicam_volum_ml = Vekt_kg * 0.40`</li>
+            <li>`Famotidine_volum_ml = Vekt_kg * 0.20`</li>
+            <li>`Bisolvon_volum_ml = Vekt_kg * 0.625`</li>
+            <li>`Doxy_volum_ml = (Vekt_kg * 0.50) if Vekt_kg &lt; 1.50 else (Vekt_kg * 0.20)`</li>
+          </ul>
+        </div>
+      </details>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var weightInput = document.getElementById('weight-kg');
+      var errorEl = document.getElementById('calc-error');
+      var resultsEl = document.getElementById('rabbit-airway-results');
+      var formEl = document.getElementById('rabbit-airway-form');
+
+      function t(key, fallback) {
+        if (window.JegVetLang && typeof window.JegVetLang.t === 'function') {
+          return window.JegVetLang.t(key, fallback);
+        }
+        return fallback || key;
+      }
+
+      function getLocale() {
+        var bodyLang = document.body && document.body.getAttribute('data-lang');
+        return bodyLang === 'no' ? 'nb-NO' : 'en-US';
+      }
+
+      function format(value, decimals) {
+        return Number(value).toLocaleString(getLocale(), {
+          minimumFractionDigits: decimals,
+          maximumFractionDigits: decimals
+        });
+      }
+
+      function renderPlaceholder() {
+        resultsEl.innerHTML = '<tr><td colspan="6">' + t('rabbit_airway_placeholder', 'Enter weight to calculate treatment doses.') + '</td></tr>';
+      }
+
+      function render() {
+        var w = Number(weightInput.value);
+
+        if (!weightInput.value) {
+          errorEl.textContent = '';
+          renderPlaceholder();
+          return;
+        }
+
+        if (!isFinite(w) || w <= 0) {
+          errorEl.textContent = t('rabbit_airway_error', 'Weight must be greater than 0 kg.');
+          resultsEl.innerHTML = '<tr><td colspan="6">' + t('rabbit_airway_no_results', 'No results.') + '</td></tr>';
+          return;
+        }
+
+        errorEl.textContent = '';
+
+        var baytrilMg = w * 20;
+        var baytrilMl = w * 0.20;
+        var bactrimMg = w * 30;
+        var bactrimMl = w * 0.625;
+        var doxyMg = w * 5;
+        var doxyMl = w < 1.5 ? w * 0.50 : w * 0.20;
+        var meloxicamMg = w * 0.6;
+        var meloxicamMl = w * 0.40;
+        var famotidineMg = w * 0.5;
+        var famotidineMl = w * 0.20;
+        var bisolvonMg = w * 1;
+        var bisolvonMl = w * 0.625;
+        var doxyInstr = w < 1.5 ? t('rabbit_airway_doxy_instr_under') : t('rabbit_airway_doxy_instr_over');
+
+        resultsEl.innerHTML =
+          '<tr>' +
+            '<td>Baytril (Enrofloxacin)</td>' +
+            '<td>100 mg/ml</td>' +
+            '<td>20.00</td>' +
+            '<td>' + format(baytrilMg, 2) + '</td>' +
+            '<td>' + format(baytrilMl, 2) + '</td>' +
+            '<td>' + t('rabbit_airway_baytril_instr') + '</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td>Bactrim (TMP-SMX)</td>' +
+            '<td>48 mg/ml total</td>' +
+            '<td>30.00</td>' +
+            '<td>' + format(bactrimMg, 2) + '</td>' +
+            '<td>' + format(bactrimMl, 2) + '</td>' +
+            '<td>' + t('rabbit_airway_bactrim_instr') + '</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td>Doxycycline</td>' +
+            '<td>100 mg tablet</td>' +
+            '<td>5.00</td>' +
+            '<td>' + format(doxyMg, 2) + '</td>' +
+            '<td>' + format(doxyMl, 2) + '</td>' +
+            '<td>' + doxyInstr + '</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td>Meloxicam</td>' +
+            '<td>1.5 mg/ml</td>' +
+            '<td>0.60</td>' +
+            '<td>' + format(meloxicamMg, 2) + '</td>' +
+            '<td>' + format(meloxicamMl, 2) + '</td>' +
+            '<td>' + t('rabbit_airway_meloxicam_instr') + '</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td>Famotidine (Pepcid)</td>' +
+            '<td>10 mg tablet in 4 ml</td>' +
+            '<td>0.50</td>' +
+            '<td>' + format(famotidineMg, 2) + '</td>' +
+            '<td>' + format(famotidineMl, 2) + '</td>' +
+            '<td>' + t('rabbit_airway_famotidine_instr') + '</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td>Bisolvon (Bromhexine)</td>' +
+            '<td>1.6 mg/ml</td>' +
+            '<td>1.00</td>' +
+            '<td>' + format(bisolvonMg, 2) + '</td>' +
+            '<td>' + format(bisolvonMl, 2) + '</td>' +
+            '<td>' + t('rabbit_airway_bisolvon_instr') + '</td>' +
+          '</tr>';
+      }
+
+      weightInput.addEventListener('input', render);
+      document.addEventListener('jegvet:langchange', render);
+      if (formEl) {
+        formEl.addEventListener('submit', function (event) {
+          event.preventDefault();
+          render();
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

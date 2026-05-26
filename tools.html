@@ -22,35 +22,15 @@
     window.PAGE_I18N = {
       en: {
         page_title_tools: 'Tools & Calculators | JegVet',
-        tools_suspension: 'Suspension',
-        tools_water: 'Medicated Drinking Water',
-        tools_rabbit: 'Anaesthetic, Rabbit',
-        tools_guinea: 'Anaesthetic, Guinea pig',
-        tools_chinchilla: 'Anaesthetic, Chinchilla',
-        tools_seagull: 'Seagull Sedation',
-        tools_euthanasia: 'Euthanasia',
-        tools_dog_antihistamine: 'Dog Antihistamine',
-        tools_dog_premed: 'Dog Premed',
-        tools_b1_dog: 'Dog B1 Cardiac Sedation',
-        tools_cat_heart: 'Cat Heart Protocol Sedation',
-        tools_ketofol: 'Ketofol Mixing',
-        tools_kitty_magic: 'Kitty Magic calculator'
+        tools_title: 'Tools & Calculators',
+        tools_empty_group: 'No calculators in this subgroup yet.',
+        tools_back_to: 'Back to {name}'
       },
       no: {
         page_title_tools: 'Verktoy og kalkulatorer | JegVet',
-        tools_suspension: 'Suspensjon',
-        tools_water: 'Medisinert drikkevann',
-        tools_rabbit: 'Anestesi, kanin',
-        tools_guinea: 'Anestesi, marsvin',
-        tools_chinchilla: 'Anestesi, chinchilla',
-        tools_seagull: 'Maakesedasjon',
-        tools_euthanasia: 'Eutanasi',
-        tools_dog_antihistamine: 'Hund antihistamin',
-        tools_dog_premed: 'Hund premed',
-        tools_b1_dog: 'Hund B1 hjertesedasjon',
-        tools_cat_heart: 'Katt hjerteprotokoll sedasjon',
-        tools_ketofol: 'Ketofol blanding',
-        tools_kitty_magic: 'Kitty Magic kalkulator'
+        tools_title: 'Verktoy og kalkulatorer',
+        tools_empty_group: 'Ingen kalkulatorer i denne undergruppen ennå.',
+        tools_back_to: 'Tilbake til {name}'
       }
     };
   </script>
@@ -62,23 +42,354 @@
         <img src="logo_day.png" alt="JegVet logo" class="brand-logo" />
       </a>
 
-      <section class="tools-list" aria-label="Tools list">
-        <a href="anaesthetic-chinchilla-calculator.html" class="action-button" data-i18n="tools_chinchilla">Anaesthetic, Chinchilla</a>
-        <a href="anaesthetic-guinea-pig-calculator.html" class="action-button" data-i18n="tools_guinea">Anaesthetic, Guinea pig</a>
-        <a href="anaesthetic-rabbit-calculator.html" class="action-button" data-i18n="tools_rabbit">Anaesthetic, Rabbit</a>
-        <a href="cat-heart-protocol-sedation-calculator.html" class="action-button" data-i18n="tools_cat_heart">Cat Heart Protocol Sedation</a>
-        <a href="dog-antihistamine-calculator.html" class="action-button" data-i18n="tools_dog_antihistamine">Dog Antihistamine</a>
-        <a href="dog-premed-calculator.html" class="action-button" data-i18n="tools_dog_premed">Dog Premed</a>
-        <a href="dog-b1-cardiac-sedation-calculator.html" class="action-button" data-i18n="tools_b1_dog">Dog B1 Cardiac Sedation</a>
-        <a href="euthanasia-calculator.html" class="action-button" data-i18n="tools_euthanasia">Euthanasia</a>
-        <a href="ketofol-mixing-calculator.html" class="action-button" data-i18n="tools_ketofol">Ketofol Mixing</a>
-        <a href="kitty-magic-calculator.html" class="action-button" data-i18n="tools_kitty_magic">Kitty Magic calculator</a>
-        <a href="medicated-drinking-water-calculator.html" class="action-button" data-i18n="tools_water">Medicated Drinking Water</a>
-        <a href="seagull-sedation-calculator.html" class="action-button" data-i18n="tools_seagull">Seagull Sedation</a>
-        <a href="suspension-calculator.html" class="action-button" data-i18n="tools_suspension">Suspension</a>
+      <section aria-label="Tools list">
+        <h1 class="section-title" id="tools-current-title" data-i18n="tools_title">Tools & Calculators</h1>
+        <p class="section-subtitle tools-path" id="tools-current-path"></p>
+        <div class="tools-list" id="tools-list"></div>
       </section>
     </section>
   </main>
+  <script>
+    (function () {
+      'use strict';
+
+      var views = {
+        root: {
+          type: 'group',
+          labels: { en: 'Tools & Calculators', no: 'Verktoy og kalkulatorer' },
+          children: ['group_exotics', 'group_dog', 'group_cat', 'group_meds', 'group_euthanasia']
+        },
+        group_exotics: {
+          type: 'group',
+          labels: { en: 'Exotics', no: 'Exotics' },
+          children: ['sub_reptiles', 'sub_birds', 'sub_rabbit', 'sub_guinea', 'sub_chinchilla', 'sub_rat', 'sub_other_rodents']
+        },
+        group_dog: {
+          type: 'group',
+          labels: { en: 'Dog', no: 'Hund' },
+          children: ['tool_dog_antihistamine', 'tool_dog_b1', 'tool_dog_premed', 'tool_ketofol']
+        },
+        group_cat: {
+          type: 'group',
+          labels: { en: 'Cat', no: 'Katt' },
+          children: ['tool_cat_heart', 'tool_ketofol', 'tool_kitty_magic']
+        },
+        group_meds: {
+          type: 'group',
+          labels: { en: 'Medicine Dilutions and Solutions', no: 'Medisinfortynninger og-løsninger' },
+          children: ['tool_suspension', 'tool_medicated_water']
+        },
+        group_euthanasia: {
+          type: 'group',
+          labels: { en: 'Euthanasia', no: 'Avliving' },
+          children: ['tool_euthanasia', 'tool_rat_euthanasia']
+        },
+        sub_reptiles: {
+          type: 'group',
+          labels: { en: 'Reptiles', no: 'Reptiler' },
+          children: []
+        },
+        sub_birds: {
+          type: 'group',
+          labels: { en: 'Birds', no: 'Fugl' },
+          children: ['sub_birds_wild', 'sub_birds_pet']
+        },
+        sub_birds_wild: {
+          type: 'group',
+          labels: { en: 'Wild birds', no: 'Ville fugler' },
+          children: ['tool_seagull']
+        },
+        sub_birds_pet: {
+          type: 'group',
+          labels: { en: 'Pet birds', no: 'Burfugl' },
+          children: []
+        },
+        sub_rabbit: {
+          type: 'group',
+          labels: { en: 'Rabbit', no: 'Kanin' },
+          children: ['tool_rabbit', 'tool_rabbit_upper_airway', 'tool_rabbit_critical_care']
+        },
+        sub_guinea: {
+          type: 'group',
+          labels: { en: 'Guinea pig', no: 'Marsvin' },
+          children: ['tool_guinea']
+        },
+        sub_chinchilla: {
+          type: 'group',
+          labels: { en: 'Chinchilla', no: 'Chinchilla' },
+          children: ['tool_chinchilla']
+        },
+        sub_rat: {
+          type: 'group',
+          labels: { en: 'Rat', no: 'Rotte' },
+          children: ['jump_to_meds', 'tool_rat_euthanasia']
+        },
+        sub_other_rodents: {
+          type: 'group',
+          labels: { en: 'Other rodents', no: 'Andre gnagere' },
+          children: ['jump_to_meds']
+        },
+        jump_to_meds: {
+          type: 'jump',
+          target: 'group_meds'
+        },
+        tool_chinchilla: {
+          type: 'tool',
+          href: 'anaesthetic-chinchilla-calculator.html',
+          labels: { en: 'Anaesthetic, Chinchilla', no: 'Anestesi, chinchilla' }
+        },
+        tool_guinea: {
+          type: 'tool',
+          href: 'anaesthetic-guinea-pig-calculator.html',
+          labels: { en: 'Anaesthetic, Guinea pig', no: 'Anestesi, marsvin' }
+        },
+        tool_rabbit: {
+          type: 'tool',
+          href: 'anaesthetic-rabbit-calculator.html',
+          labels: { en: 'Anaesthetic, Rabbit', no: 'Anestesi, kanin' }
+        },
+        tool_rabbit_upper_airway: {
+          type: 'tool',
+          href: 'rabbit-upper-airway-disease-calculator.html',
+          labels: { en: 'Rabbit Upper Airway Disease', no: 'Øvre luftveissykdom Kanin' }
+        },
+        tool_rabbit_critical_care: {
+          type: 'tool',
+          href: 'rabbit-critical-care-calculator.html',
+          labels: { en: 'Rabbit Critical Care Calculator', no: 'Critical Care-kalkulator' }
+        },
+        tool_cat_heart: {
+          type: 'tool',
+          href: 'cat-heart-protocol-sedation-calculator.html',
+          labels: { en: 'Cat Heart Protocol Sedation', no: 'Katt hjerteprotokoll sedasjon' }
+        },
+        tool_dog_antihistamine: {
+          type: 'tool',
+          href: 'dog-antihistamine-calculator.html',
+          labels: { en: 'Dog Antihistamine', no: 'Hund antihistamin' }
+        },
+        tool_dog_premed: {
+          type: 'tool',
+          href: 'dog-premed-calculator.html',
+          labels: { en: 'Dog Premed', no: 'Hund premed' }
+        },
+        tool_dog_b1: {
+          type: 'tool',
+          href: 'dog-b1-cardiac-sedation-calculator.html',
+          labels: { en: 'Dog B1 Cardiac Sedation', no: 'Hund B1 hjertesedasjon' }
+        },
+        tool_euthanasia: {
+          type: 'tool',
+          href: 'euthanasia-calculator.html',
+          labels: { en: 'Euthanasia', no: 'Avliving' }
+        },
+        tool_rat_euthanasia: {
+          type: 'tool',
+          href: 'rat-euthanasia-calculator.html',
+          labels: { en: 'Rat Euthanasia Protocol', no: 'Avliving rotte' }
+        },
+        tool_ketofol: {
+          type: 'tool',
+          href: 'ketofol-mixing-calculator.html',
+          labels: { en: 'Ketofol Mixing', no: 'Ketofol blanding' }
+        },
+        tool_kitty_magic: {
+          type: 'tool',
+          href: 'kitty-magic-calculator.html',
+          labels: { en: 'Kitty Magic calculator', no: 'Kitty Magic kalkulator' }
+        },
+        tool_medicated_water: {
+          type: 'tool',
+          href: 'medicated-drinking-water-calculator.html',
+          labels: { en: 'Medicated Drinking Water', no: 'Medisinert drikkevann' }
+        },
+        tool_seagull: {
+          type: 'tool',
+          href: 'seagull-sedation-calculator.html',
+          labels: { en: 'Seagull Sedation', no: 'Måke sedasjon' }
+        },
+        tool_suspension: {
+          type: 'tool',
+          href: 'suspension-calculator.html',
+          labels: { en: 'Suspension', no: 'Løsning for mikstur' }
+        }
+      };
+
+      var rootId = 'root';
+      var currentViewId = rootId;
+      var viewHistory = [];
+      var toolsListEl = null;
+      var titleEl = null;
+      var pathEl = null;
+
+      function getLang() {
+        var bodyLang = document.body && document.body.getAttribute('data-lang');
+        if (bodyLang === 'no' || bodyLang === 'en') {
+          return bodyLang;
+        }
+        var htmlLang = (document.documentElement.getAttribute('lang') || '').toLowerCase();
+        return htmlLang.indexOf('nb') === 0 || htmlLang.indexOf('no') === 0 ? 'no' : 'en';
+      }
+
+      function t(key) {
+        var lang = getLang();
+        var page = window.PAGE_I18N && window.PAGE_I18N[lang] ? window.PAGE_I18N[lang] : null;
+        if (page && Object.prototype.hasOwnProperty.call(page, key)) {
+          return page[key];
+        }
+        return key;
+      }
+
+      function getLabel(node, lang) {
+        if (!node || !node.labels) {
+          return '';
+        }
+        return node.labels[lang] || node.labels.en || '';
+      }
+
+      function getItemLabel(node, lang) {
+        if (node.type === 'jump') {
+          return getLabel(views[node.target], lang);
+        }
+        if (node.type === 'tool') {
+          var otherLang = lang === 'no' ? 'en' : 'no';
+          var primary = getLabel(node, lang);
+          var translated = getLabel(node, otherLang);
+          if (!translated || translated === primary) {
+            return primary;
+          }
+          return primary + ' (' + translated + ')';
+        }
+        return getLabel(node, lang);
+      }
+
+      function getSortLabel(node, lang) {
+        if (node.type === 'jump') {
+          return getLabel(views[node.target], lang);
+        }
+        return getLabel(node, lang);
+      }
+
+      function getPath() {
+        var pathIds = [rootId];
+        for (var i = 0; i < viewHistory.length; i += 1) {
+          pathIds.push(viewHistory[i]);
+        }
+        pathIds.push(currentViewId);
+
+        var uniquePath = [];
+        for (var j = 0; j < pathIds.length; j += 1) {
+          if (j === 0 || pathIds[j] !== pathIds[j - 1]) {
+            uniquePath.push(pathIds[j]);
+          }
+        }
+        return uniquePath;
+      }
+
+      function render() {
+        var lang = getLang();
+        var current = views[currentViewId];
+        var path = getPath();
+        var pathLabels = [];
+
+        if (!current) {
+          return;
+        }
+
+        titleEl.textContent = currentViewId === rootId ? t('tools_title') : getLabel(current, lang);
+
+        for (var i = 0; i < path.length; i += 1) {
+          if (path[i] === rootId) {
+            continue;
+          }
+          pathLabels.push(getLabel(views[path[i]], lang));
+        }
+        pathEl.textContent = pathLabels.join(' / ');
+
+        toolsListEl.innerHTML = '';
+
+        if (viewHistory.length > 0) {
+          var previousId = viewHistory[viewHistory.length - 1];
+          var backLabel = t('tools_back_to').replace('{name}', getLabel(views[previousId], lang));
+          var backButton = document.createElement('button');
+          backButton.type = 'button';
+          backButton.className = 'action-button';
+          backButton.textContent = backLabel;
+          backButton.addEventListener('click', function () {
+            currentViewId = viewHistory.pop();
+            render();
+          });
+          toolsListEl.appendChild(backButton);
+        }
+
+        if (!current.children || current.children.length === 0) {
+          var emptyState = document.createElement('p');
+          emptyState.className = 'section-subtitle';
+          emptyState.textContent = t('tools_empty_group');
+          toolsListEl.appendChild(emptyState);
+          return;
+        }
+
+        var nodeIds = [];
+        for (var c = 0; c < current.children.length; c += 1) {
+          var nodeId = current.children[c];
+          if (views[nodeId]) {
+            nodeIds.push(nodeId);
+          }
+        }
+
+        nodeIds.sort(function (aId, bId) {
+          return getSortLabel(views[aId], lang).localeCompare(getSortLabel(views[bId], lang), lang === 'no' ? 'nb' : 'en');
+        });
+
+        for (var n = 0; n < nodeIds.length; n += 1) {
+          var itemId = nodeIds[n];
+          var item = views[itemId];
+          var label = getItemLabel(item, lang);
+
+          if (item.type === 'tool') {
+            var link = document.createElement('a');
+            link.href = item.href;
+            link.className = 'action-button';
+            link.textContent = label;
+            toolsListEl.appendChild(link);
+            continue;
+          }
+
+          var targetId = item.type === 'jump' ? item.target : itemId;
+          if (!targetId) {
+            continue;
+          }
+
+          var groupButton = document.createElement('button');
+          groupButton.type = 'button';
+          groupButton.className = 'action-button';
+          groupButton.textContent = label;
+          groupButton.addEventListener('click', createOpenHandler(targetId));
+          toolsListEl.appendChild(groupButton);
+        }
+      }
+
+      function createOpenHandler(targetId) {
+        return function () {
+          viewHistory.push(currentViewId);
+          currentViewId = targetId;
+          render();
+        };
+      }
+
+      document.addEventListener('DOMContentLoaded', function () {
+        toolsListEl = document.getElementById('tools-list');
+        titleEl = document.getElementById('tools-current-title');
+        pathEl = document.getElementById('tools-current-path');
+        render();
+      });
+
+      document.addEventListener('jegvet:langchange', function () {
+        render();
+      });
+    })();
+  </script>
 </body>
 </html>
 

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Rat Euthanasia Protocol Calculator | JegVet</title>
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="JegVet" />
+  <link rel="icon" type="image/png" sizes="32x32" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel='manifest' href='manifest.webmanifest' />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="auth-guard.js" defer></script>
+  <script src="app-shell.js" defer></script>
+  <script>
+    window.PAGE_I18N = {
+      en: {
+        page_title_rat_euth: 'Rat Euthanasia Protocol Calculator | JegVet',
+        rat_euth_title: 'Rat Euthanasia Protocol',
+        rat_euth_subtitle: 'Select rat size. The protocol doses are shown in ml and integrated into the step-by-step workflow.',
+        rat_size_label: 'Rat size',
+        rat_size_small: 'Small female rat (<500 g)',
+        rat_size_standard: 'Standard rat (~700 g)',
+        rat_size_large: 'Large/overweight rat (>850 g)',
+        rat_final_drug_label: 'Final euthanasia drug',
+        rat_final_drug_exagon: 'Exagon 400 mg/ml',
+        rat_final_drug_euthasol: 'Euthasol 400 mg/ml',
+        rat_route_label: 'Route for final injection',
+        rat_route_ic: 'Intra-cardiac',
+        rat_route_ih: 'Intra-hepatic',
+        rat_th_drug: 'Drug',
+        rat_th_volume: 'Protocol volume (ml)',
+        rat_protocol_title: 'Protocol Steps',
+        rat_journal_title: 'Journal Text',
+        rat_journal_subtitle: 'Review and copy this text into the patient journal.',
+        rat_copy_btn: 'Copy journal text',
+        rat_copy_ok: 'Journal text copied.',
+        rat_copy_fail: 'Could not copy automatically. Please copy manually.',
+        rat_step_1_title: '1. Local anaesthesia',
+        rat_step_1_text: 'Spray Xylocain 100 mg/ml, 2-3 sprays, on the dorsal neck/shoulder skin area. Optional alternative: Emla cream 25 mg/g + 25 mg/g (increase waiting time to 10-20 minutes).',
+        rat_step_2_title: '2. Sedation and anaesthesia',
+        rat_step_2_text: 'Give subcutaneously in one syringe (blue needle) in the prepared area.',
+        rat_step_3_title: '3. Induction',
+        rat_step_3_text: 'Expected induction time: 2-5 minutes.',
+        rat_step_4_title: '4. Euthanasia',
+        rat_step_4_text: 'When all reflexes are absent, inject final euthanasia drug. Aspirate blood before injection to confirm intravascular position. If localization is uncertain (especially intra-hepatic), volume may be increased slightly.',
+        rat_footnote_title: 'Footnote',
+        rat_footnote_text: 'Zoletil-mix is prepared by reconstituting one vial of Zoletil vet powder with 10 ml xylazine + 0.5 ml butorphanol.'
+      },
+      no: {
+        page_title_rat_euth: 'Avliving rotte | JegVet',
+        rat_euth_title: 'Avliving rotte',
+        rat_euth_subtitle: 'Velg storrelse pa rotten. Protokolldoser vises i ml og er integrert i trinnene under.',
+        rat_size_label: 'Storrelse pa rotten',
+        rat_size_small: 'Liten hunnrotte (<500 g)',
+        rat_size_standard: 'Standard rotte (~700 g)',
+        rat_size_large: 'Stor/overvektig rotte (>850 g)',
+        rat_final_drug_label: 'Legemiddel til avliving',
+        rat_final_drug_exagon: 'Exagon 400 mg/ml',
+        rat_final_drug_euthasol: 'Euthasol 400 mg/ml',
+        rat_route_label: 'Injeksjonsvei for siste injeksjon',
+        rat_route_ic: 'Intra-cardiac',
+        rat_route_ih: 'Intra-hepatic',
+        rat_th_drug: 'Legemiddel',
+        rat_th_volume: 'Protokollvolum (ml)',
+        rat_protocol_title: 'Protokolltrinn',
+        rat_journal_title: 'Journaltekst',
+        rat_journal_subtitle: 'Kontroller og kopier teksten til journal.',
+        rat_copy_btn: 'Kopier journaltekst',
+        rat_copy_ok: 'Journaltekst kopiert.',
+        rat_copy_fail: 'Kunne ikke kopiere automatisk. Kopier manuelt.',
+        rat_step_1_title: '1. Lokalbedovelse',
+        rat_step_1_text: 'Spray Xylocain 100 mg/ml, 2-3 spray, pa huden i dorsal nakke-/skulderomradet. Alternativ: Emla krem 25 mg/g + 25 mg/g (ok ventetid til 10-20 minutter).',
+        rat_step_2_title: '2. Sedasjon og anestesi',
+        rat_step_2_text: 'Gis subkutant i samme sproyte (bla kanyle) i omradet valgt i steg 1.',
+        rat_step_3_title: '3. Innsovning',
+        rat_step_3_text: 'Forventet innsovningstid: 2-5 minutter.',
+        rat_step_4_title: '4. Avliving',
+        rat_step_4_text: 'Nar alle reflekser er fravaerende, injiser legemiddel til avliving. Aspirer blod for injeksjon for a bekrefte intravaskulaer posisjon. Ved usikker lokalisasjon (saerlig intra-hepatic) kan volumet okes noe.',
+        rat_footnote_title: 'Fotnote',
+        rat_footnote_text: 'Zoletil-mix lages ved a lose opp ett hetteglass Zoletil vet pulver med 10 ml xylazin + 0,5 ml butorfanol.'
+      }
+    };
+  </script>
+</head>
+<body data-i18n-title="page_title_rat_euth">
+  <main class="page page-top">
+    <section class="layout-card layout-card-wide">
+      <a href="index.html" class="brand-link" aria-label="Go to homepage">
+        <img src="logo_day.png" alt="JegVet logo" class="brand-logo" />
+      </a>
+
+      <h1 class="section-title" data-i18n="rat_euth_title">Rat Euthanasia Protocol</h1>
+      <p class="section-subtitle" data-i18n="rat_euth_subtitle">Select rat size. The protocol doses are shown in ml and integrated into the step-by-step workflow.</p>
+
+      <form class="calc-form" id="rat-euth-form">
+        <div class="calc-field">
+          <label for="rat-size" data-i18n="rat_size_label">Rat size</label>
+          <select id="rat-size">
+            <option value="small" data-i18n="rat_size_small">Small female rat (&lt;500 g)</option>
+            <option value="standard" data-i18n="rat_size_standard">Standard rat (~700 g)</option>
+            <option value="large" data-i18n="rat_size_large">Large/overweight rat (&gt;850 g)</option>
+          </select>
+        </div>
+        <div class="calc-field">
+          <label for="final-drug" data-i18n="rat_final_drug_label">Final euthanasia drug</label>
+          <select id="final-drug">
+            <option value="exagon" data-i18n="rat_final_drug_exagon">Exagon 400 mg/ml</option>
+            <option value="euthasol" data-i18n="rat_final_drug_euthasol">Euthasol 400 mg/ml</option>
+          </select>
+        </div>
+        <div class="calc-field">
+          <label for="final-route" data-i18n="rat_route_label">Route for final injection</label>
+          <select id="final-route">
+            <option value="intra-cardiac" data-i18n="rat_route_ic">Intra-cardiac</option>
+            <option value="intra-hepatic" data-i18n="rat_route_ih">Intra-hepatic</option>
+          </select>
+        </div>
+      </form>
+
+      <div class="calc-table-wrap">
+        <table class="calc-table" aria-label="Rat euthanasia protocol doses">
+          <thead>
+            <tr>
+              <th data-i18n="rat_th_drug">Drug</th>
+              <th data-i18n="rat_th_volume">Protocol volume (ml)</th>
+            </tr>
+          </thead>
+          <tbody id="rat-dose-results"></tbody>
+        </table>
+      </div>
+
+      <div class="tool-card u-mt-14">
+        <h2 data-i18n="rat_protocol_title">Protocol Steps</h2>
+        <p><strong data-i18n="rat_step_1_title">1. Local anaesthesia</strong><br /><span data-i18n="rat_step_1_text">Spray Xylocain 100 mg/ml, 2-3 sprays, on the dorsal neck/shoulder skin area. Optional alternative: Emla cream 25 mg/g + 25 mg/g (increase waiting time to 10-20 minutes).</span></p>
+        <p><strong data-i18n="rat_step_2_title">2. Sedation and anaesthesia</strong><br /><span data-i18n="rat_step_2_text">Give subcutaneously in one syringe (blue needle) in the prepared area.</span><br /><span id="rat-step-2-dose"></span></p>
+        <p><strong data-i18n="rat_step_3_title">3. Induction</strong><br /><span data-i18n="rat_step_3_text">Expected induction time: 2-5 minutes.</span></p>
+        <p><strong data-i18n="rat_step_4_title">4. Euthanasia</strong><br /><span data-i18n="rat_step_4_text">When all reflexes are absent, inject final euthanasia drug. Aspirate blood before injection to confirm intravascular position. If localization is uncertain (especially intra-hepatic), volume may be increased slightly.</span><br /><span id="rat-step-4-dose"></span></p>
+        <p><strong data-i18n="rat_footnote_title">Footnote</strong><br /><span data-i18n="rat_footnote_text">Zoletil-mix is prepared by reconstituting one vial of Zoletil vet powder with 10 ml xylazine + 0.5 ml butorphanol.</span></p>
+      </div>
+
+      <div class="tool-card u-mt-14">
+        <h2 data-i18n="rat_journal_title">Journal Text</h2>
+        <p data-i18n="rat_journal_subtitle">Review and copy this text into the patient journal.</p>
+        <textarea id="rat-journal-text" class="calc-journal-textarea" rows="12" readonly></textarea>
+        <div class="journal-actions u-mt-14">
+          <button type="button" id="rat-copy-journal" class="action-button" data-i18n="rat_copy_btn">Copy journal text</button>
+        </div>
+        <p id="rat-copy-status" class="section-subtitle u-section-gap-sm" aria-live="polite"></p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var sizeInput = document.getElementById('rat-size');
+      var finalDrugInput = document.getElementById('final-drug');
+      var finalRouteInput = document.getElementById('final-route');
+      var resultsEl = document.getElementById('rat-dose-results');
+      var step2El = document.getElementById('rat-step-2-dose');
+      var step4El = document.getElementById('rat-step-4-dose');
+      var journalEl = document.getElementById('rat-journal-text');
+      var copyButton = document.getElementById('rat-copy-journal');
+      var copyStatusEl = document.getElementById('rat-copy-status');
+
+      var doseMap = {
+        small: { dexMl: 0.5, zoletilMl: 0.5, finalMl: 0.5 },
+        standard: { dexMl: 0.7, zoletilMl: 0.7, finalMl: 0.5 },
+        large: { dexMl: 1.0, zoletilMl: 1.0, finalMl: 0.5 }
+      };
+
+      function t(key, fallback) {
+        if (window.JegVetLang && typeof window.JegVetLang.t === 'function') {
+          return window.JegVetLang.t(key, fallback);
+        }
+        return fallback || key;
+      }
+
+      function getLang() {
+        var bodyLang = document.body && document.body.getAttribute('data-lang');
+        if (bodyLang === 'no' || bodyLang === 'en') {
+          return bodyLang;
+        }
+        var htmlLang = (document.documentElement.getAttribute('lang') || '').toLowerCase();
+        return htmlLang.indexOf('nb') === 0 || htmlLang.indexOf('no') === 0 ? 'no' : 'en';
+      }
+
+      function formatMl(value) {
+        return value.toFixed(1);
+      }
+
+      function getSizeText() {
+        var lang = getLang();
+        var key = 'rat_size_' + (sizeInput.value || 'standard');
+        var fallback = sizeInput.options[sizeInput.selectedIndex] ? sizeInput.options[sizeInput.selectedIndex].text : '';
+        if (lang === 'no') {
+          return t(key, fallback);
+        }
+        return t(key, fallback);
+      }
+
+      function getFinalDrugText() {
+        return finalDrugInput.options[finalDrugInput.selectedIndex]
+          ? finalDrugInput.options[finalDrugInput.selectedIndex].text
+          : 'Exagon 400 mg/ml';
+      }
+
+      function getFinalRouteText() {
+        return finalRouteInput.options[finalRouteInput.selectedIndex]
+          ? finalRouteInput.options[finalRouteInput.selectedIndex].text
+          : 'Intra-cardiac';
+      }
+
+      function renderTable(dose) {
+        var finalDrugText = getFinalDrugText();
+        resultsEl.innerHTML =
+          '<tr><td>Dexmedetomidin 0,5 mg/ml</td><td>' + formatMl(dose.dexMl) + ' ml</td></tr>' +
+          '<tr><td>Zoletil-mix</td><td>' + formatMl(dose.zoletilMl) + ' ml</td></tr>' +
+          '<tr><td>' + finalDrugText + '</td><td>' + formatMl(dose.finalMl) + ' ml (ca.)</td></tr>';
+      }
+
+      function renderProtocolHints(dose) {
+        step2El.textContent =
+          'Dexmedetomidin 0,5 mg/ml: ' + formatMl(dose.dexMl) +
+          ' ml + Zoletil-mix: ' + formatMl(dose.zoletilMl) + ' ml SC.';
+
+        step4El.textContent =
+          getFinalDrugText() + ': ca. ' + formatMl(dose.finalMl) +
+          ' ml via ' + getFinalRouteText() + '.';
+      }
+
+      function buildJournalText(dose) {
+        var lang = getLang();
+        var sizeText = getSizeText();
+        var finalDrugText = getFinalDrugText();
+        var finalRouteText = getFinalRouteText();
+
+        if (lang === 'no') {
+          return [
+            'Avliving rotte (protokoll)',
+            'Størrelse på rotten: ' + sizeText + '.',
+            '',
+            'Steg 1 - Lokalbedøvelse:',
+            '- Xylocain 100 mg/ml, 2-3 spray pa dorsal nakke-/skulderomrade.',
+            '- Alternativ: Emla krem 25 mg/g + 25 mg/g (virketid 10-20 min).',
+            '',
+            'Steg 2 - Sedasjon og anestesi (SC, samme sproyte):',
+            '- Dexmedetomidin 0,5 mg/ml: ' + formatMl(dose.dexMl) + ' ml.',
+            '- Zoletil-mix: ' + formatMl(dose.zoletilMl) + ' ml.',
+            '- Zoletil-mix laget med Zoletil vet pulver + 10 ml xylazin + 0,5 ml butorfanol.',
+            '',
+            'Steg 3 - Innsovning:',
+            '- Forventet innsovningstid 2-5 minutter.',
+            '',
+            'Steg 4 - Avliving:',
+            '- ' + finalDrugText + ': ca. ' + formatMl(dose.finalMl) + ' ml, ' + finalRouteText + '.',
+            '- Gitt nar alle reflekser var fravaerende.',
+            '- Blod aspirert for injeksjon for a bekrefte intravaskulaer posisjon.'
+          ].join('\n');
+        }
+
+        return [
+          'Rat euthanasia protocol',
+          'Rat size: ' + sizeText + '.',
+          '',
+          'Step 1 - Local anaesthesia:',
+          '- Xylocain 100 mg/ml, 2-3 sprays on dorsal neck/shoulder area.',
+          '- Alternative: Emla cream 25 mg/g + 25 mg/g (10-20 min effect time).',
+          '',
+          'Step 2 - Sedation and anaesthesia (SC, same syringe):',
+          '- Dexmedetomidine 0.5 mg/ml: ' + formatMl(dose.dexMl) + ' ml.',
+          '- Zoletil-mix: ' + formatMl(dose.zoletilMl) + ' ml.',
+          '- Zoletil-mix prepared with Zoletil vet powder + 10 ml xylazine + 0.5 ml butorphanol.',
+          '',
+          'Step 3 - Induction:',
+          '- Expected induction time 2-5 minutes.',
+          '',
+          'Step 4 - Euthanasia:',
+          '- ' + finalDrugText + ': approx. ' + formatMl(dose.finalMl) + ' ml, ' + finalRouteText + '.',
+          '- Given when all reflexes were absent.',
+          '- Blood aspirated before injection to confirm intravascular position.'
+        ].join('\n');
+      }
+
+      function render() {
+        var key = sizeInput.value || 'standard';
+        var dose = doseMap[key] || doseMap.standard;
+        renderTable(dose);
+        renderProtocolHints(dose);
+        journalEl.value = buildJournalText(dose);
+        copyStatusEl.textContent = '';
+      }
+
+      async function copyJournalText() {
+        var text = journalEl.value || '';
+        if (!text) {
+          return;
+        }
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(text);
+          } else {
+            journalEl.focus();
+            journalEl.select();
+            document.execCommand('copy');
+          }
+          copyStatusEl.textContent = t('rat_copy_ok', 'Journal text copied.');
+        } catch (error) {
+          copyStatusEl.textContent = t('rat_copy_fail', 'Could not copy automatically. Please copy manually.');
+        }
+      }
+
+      sizeInput.addEventListener('change', render);
+      finalDrugInput.addEventListener('change', render);
+      finalRouteInput.addEventListener('change', render);
+      copyButton.addEventListener('click', copyJournalText);
+      document.addEventListener('jegvet:langchange', render);
+      render();
+    })();
+  </script>
+</body>
+</html>
