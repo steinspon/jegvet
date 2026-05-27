@@ -23,8 +23,8 @@
       en: {
         rabbit_title_page: 'Anaesthetic Calculator, Rabbit | JegVet',
         rabbit_title: 'Anaesthetic Calculator, Rabbit',
-        anaes_subtitle: 'Enter patient weight in grams. Tables are optimized for phone portrait view.',
-        anaes_weight: 'Weight (g)',
+        anaes_subtitle: 'Enter patient weight in kg. Tables are optimized for phone portrait view.',
+        anaes_weight: 'Weight (kg)',
         anaes_section_anaes: 'Anaesthetic (IM, same syringe)',
         anaes_section_rev: 'Reversal (IV/IM, separate syringes)',
         anaes_th_drug: 'Drug (conc.)',
@@ -36,7 +36,7 @@
         anaes_combined_placeholder: 'Enter weight to calculate total IM volume for fentanyl + midazolam + medetomidine.',
         anaes_journal_title: 'Journaltekst (Norsk)',
         anaes_journal_placeholder: 'Enter weight to generate patient journal summary.',
-        anaes_error_positive: 'Weight must be greater than 0 g.',
+        anaes_error_positive: 'Weight must be greater than 0 kg.',
         anaes_no_results: 'No results.',
         anaes_no_result: 'No result.',
         anaes_no_journal: 'No journal text.',
@@ -45,8 +45,8 @@
       no: {
         rabbit_title_page: 'Anestesikalkulator, kanin | JegVet',
         rabbit_title: 'Anestesikalkulator, kanin',
-        anaes_subtitle: 'Oppgi pasientens vekt i gram. Tabellene er optimalisert for mobil i portrett.',
-        anaes_weight: 'Vekt (g)',
+        anaes_subtitle: 'Oppgi pasientens vekt i kg. Tabellene er optimalisert for mobil i portrett.',
+        anaes_weight: 'Vekt (kg)',
         anaes_section_anaes: 'Anestesi (IM, samme sprøyte)',
         anaes_section_rev: 'Reversering (IV/IM, separate sprøyter)',
         anaes_th_drug: 'Legemiddel (kons.)',
@@ -58,7 +58,7 @@
         anaes_combined_placeholder: 'Oppgi vekt for å beregne totalt IM-volum for fentanyl + midazolam + medetomidin.',
         anaes_journal_title: 'Journaltekst (Norsk)',
         anaes_journal_placeholder: 'Oppgi vekt for å generere journalsammendrag.',
-        anaes_error_positive: 'Vekten må være større enn 0 g.',
+        anaes_error_positive: 'Vekten må være større enn 0 kg.',
         anaes_no_results: 'Ingen resultater.',
         anaes_no_result: 'Ingen resultat.',
         anaes_no_journal: 'Ingen journaltekst.',
@@ -75,12 +75,12 @@
       </a>
 
       <h1 class="section-title" data-i18n="rabbit_title">Anaesthetic Calculator, Rabbit</h1>
-      <p class="section-subtitle" data-i18n="anaes_subtitle">Enter patient weight in grams. Tables are optimized for phone portrait view.</p>
+      <p class="section-subtitle" data-i18n="anaes_subtitle">Enter patient weight in kg. Tables are optimized for phone portrait view.</p>
 
       <form class="calc-form">
         <div class="calc-field">
-          <label for="weight-grams" data-i18n="anaes_weight">Weight (g)</label>
-          <input id="weight-grams" type="number" min="0" step="1" required />
+          <label for="weight-kg" data-i18n="anaes_weight">Weight (kg)</label>
+          <input id="weight-kg" type="number" min="0" step="0.01" required />
         </div>
       </form>
 
@@ -161,7 +161,7 @@
         { key: 'atipamezole', label: 'Atipamezole', doseMgKg: 0.75, concentrationMgMl: 5, group: 'reversal' }
       ];
 
-      var weightInput = document.getElementById('weight-grams');
+      var weightInput = document.getElementById('weight-kg');
       var errorEl = document.getElementById('calc-error');
       var anaestheticResultsEl = document.getElementById('anaesthetic-results');
       var reversalResultsEl = document.getElementById('reversal-results');
@@ -178,7 +178,7 @@
       }
 
       function render() {
-        var weightGrams = Number(weightInput.value);
+        var weightKg = Number(weightInput.value);
 
         if (!weightInput.value) {
           errorEl.textContent = '';
@@ -188,8 +188,8 @@
           return;
         }
 
-        if (!isFinite(weightGrams) || weightGrams <= 0) {
-          errorEl.textContent = t('anaes_error_positive', 'Weight must be greater than 0 g.');
+        if (!isFinite(weightKg) || weightKg <= 0) {
+          errorEl.textContent = t('anaes_error_positive', 'Weight must be greater than 0 kg.');
           anaestheticResultsEl.innerHTML = '<tr><td colspan="3">' + t('anaes_no_results', 'No results.') + '</td></tr>';
           reversalResultsEl.innerHTML = '<tr><td colspan="3">' + t('anaes_no_results', 'No results.') + '</td></tr>';
           combinedResultEl.textContent = t('anaes_no_result', 'No result.');
@@ -198,7 +198,6 @@
         }
 
         errorEl.textContent = '';
-        var weightKg = weightGrams / 1000;
         var anaestheticRows = [];
         var reversalRows = [];
         var resultByKey = {};
@@ -237,7 +236,7 @@
         journalTextEl.value =
           'Pasienten ble plassert i rolige omgivelser preoperativt for å minimere stress og ble deretter preoksygenert med 100 % O2 før anestesiinduksjon. ' +
           'Narkoseprotokoll kanin: fentanyl 0,01 mg/kg + midazolam 0,75 mg/kg + medetomidine 0,15 mg/kg gis IM. ' +
-          'Beregnet for ' + format(weightGrams, 0) + ' g: fentanyl ' + format(resultByKey.fentanyl.ml, 2) + ' ml, midazolam ' + format(resultByKey.midazolam.ml, 2) + ' ml, medetomidine ' + format(resultByKey.medetomidine.ml, 2) + ' ml (totalt IM ' + format(combinedImMl, 2) + ' ml). ' +
+          'Beregnet for ' + format(weightKg, 2) + ' kg: fentanyl ' + format(resultByKey.fentanyl.ml, 2) + ' ml, midazolam ' + format(resultByKey.midazolam.ml, 2) + ' ml, medetomidine ' + format(resultByKey.medetomidine.ml, 2) + ' ml (totalt IM ' + format(combinedImMl, 2) + ' ml). ' +
           'Det ble lagt inn perifert intravenøst kateter for vaskulær tilgang dersom anatomisk og klinisk mulig. Vedlikehold av narkose med isofluran gass 1-3%. Manuell monitorering av pasienten kontinuelig. ' +
           'Reversert med: naloxone 0,01 mg/kg (' + format(resultByKey.naloxone.ml, 2) + ' ml), flumazenil 0,075 mg/kg (' + format(resultByKey.flumazenil.ml, 2) + ' ml), atipamezole 0,75 mg/kg (' + format(resultByKey.atipamezole.ml, 2) + ' ml). Gis IV i veneflon eller IM.';
       }
