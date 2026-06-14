@@ -14,11 +14,6 @@
       nav_search: 'Search',
       nav_about: 'About',
       nav_settings: 'Settings',
-      nav_teams: 'Teams',
-      nav_journal: 'Journal',
-      nav_profile: 'Profile',
-      nav_login: 'Sign In',
-      nav_logout: 'Sign Out',
       switch_lang_aria: 'Language switch',
       switch_on: 'EN',
       switch_off: 'NO',
@@ -32,11 +27,6 @@
       nav_search: 'S\u00F8k',
       nav_about: 'Info',
       nav_settings: 'Innstillinger',
-      nav_teams: 'Team',
-      nav_journal: 'Journal',
-      nav_profile: 'Profil',
-      nav_login: 'Logg inn',
-      nav_logout: 'Logg ut',
       switch_lang_aria: 'Spr\u00E5kvelger',
       switch_on: 'EN',
       switch_off: 'NO',
@@ -310,54 +300,10 @@
     if (kind === 'back') {
       return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10.2 6.2-5.8 5.8 5.8 5.8 1.4-1.4-3.4-3.4H20v-2H8.2l3.4-3.4-1.4-1.4z"/></svg>';
     }
-    if (kind === 'auth') {
-      return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 12c4.4 0 8 2.2 8 5v1H4v-1c0-2.8 3.6-5 8-5z"/></svg>';
-    }
-    if (kind === 'profile') {
-      return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11zm0 13c5.25 0 9.5 2.57 9.5 5.75V22h-19v-1.25C2.5 17.57 6.75 15 12 15z"/></svg>';
-    }
-    if (kind === 'journal') {
-      return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h11a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a3 3 0 0 1 0-6h10V5H6a1 1 0 0 0-1 1v11.2A3 3 0 0 1 6 17h11v2H6a1 1 0 0 0 0 2h11V3H6z"/></svg>';
-    }
-    if (kind === 'teams') {
-      return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm8 0a3 3 0 1 1 0-6 3 3 0 0 1 0 6zM8 13c2.67 0 8 1.34 8 4v2H0v-2c0-2.66 5.33-4 8-4zm8 0c.29 0 .62.02.97.05C18.88 13.32 24 14.3 24 17v2h-6v-2c0-1.55-.9-2.86-2.47-3.77.16-.1.31-.17.47-.23z"/></svg>';
-    }
     if (kind === 'settings') {
       return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.14 12.94a7.5 7.5 0 0 0 .05-.94 7.5 7.5 0 0 0-.05-.94l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.2 7.2 0 0 0-1.63-.94l-.36-2.54a.5.5 0 0 0-.49-.42h-3.84a.5.5 0 0 0-.49.42l-.36 2.54a7.2 7.2 0 0 0-1.63.94l-2.39-.96a.5.5 0 0 0-.6.22L2.71 8.84a.5.5 0 0 0 .12.64l2.03 1.58a7.5 7.5 0 0 0-.05.94c0 .32.02.63.05.94L2.83 14.52a.5.5 0 0 0-.12.64l1.92 3.32a.5.5 0 0 0 .6.22l2.39-.96c.5.39 1.05.71 1.63.94l.36 2.54a.5.5 0 0 0 .49.42h3.84a.5.5 0 0 0 .49-.42l.36-2.54c.58-.23 1.13-.55 1.63-.94l2.39.96a.5.5 0 0 0 .6-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.58zM12 15.2A3.2 3.2 0 1 1 12 8.8a3.2 3.2 0 0 1 0 6.4z"/></svg>';
     }
     return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20zm0 8a1 1 0 0 0-1 1v5h2v-5a1 1 0 0 0-1-1zm0-4a1.25 1.25 0 1 0 0 2.5A1.25 1.25 0 0 0 12 6z"/></svg>';
-  }
-
-  function updateAuthButton() {
-    var btn = document.getElementById('app-auth-button');
-    var profileBtn = document.getElementById('app-profile-button');
-    var journalBtn = document.getElementById('app-journal-button');
-    var teamsBtn = document.getElementById('app-teams-button');
-    if (!btn) {
-      return;
-    }
-    var state = window.JegVetAuth && typeof window.JegVetAuth.getState === 'function'
-      ? window.JegVetAuth.getState()
-      : { ready: false, user: null };
-    var loggedIn = !!(state && state.user);
-    btn.setAttribute('data-auth-mode', loggedIn ? 'logout' : 'login');
-    btn.setAttribute('aria-label', loggedIn ? t('nav_logout', 'Sign Out') : t('nav_login', 'Sign In'));
-    var label = btn.querySelector('span');
-    if (label) {
-      label.textContent = loggedIn ? t('nav_logout', 'Sign Out') : t('nav_login', 'Sign In');
-    }
-    if (profileBtn) {
-      profileBtn.hidden = !loggedIn;
-    }
-    if (journalBtn) {
-      journalBtn.hidden = !loggedIn;
-    }
-    if (teamsBtn) {
-      teamsBtn.hidden = !loggedIn;
-    }
-    if (btn) {
-      btn.hidden = loggedIn;
-    }
   }
 
   function buildTopBar() {
@@ -377,10 +323,6 @@
         '<a class="app-nav-button" href="search.html" data-i18n-aria-label="nav_search">' + createIcon('search') + '<span data-i18n="nav_search">Search</span></a>' +
         '<a class="app-nav-button" href="about.html" data-i18n-aria-label="nav_about">' + createIcon('info') + '<span data-i18n="nav_about">About</span></a>' +
         '<a class="app-nav-button" href="settings.html" data-i18n-aria-label="nav_settings">' + createIcon('settings') + '<span data-i18n="nav_settings">Settings</span></a>' +
-        '<a class="app-nav-button" href="teams.html" id="app-teams-button" data-i18n-aria-label="nav_teams" hidden>' + createIcon('teams') + '<span data-i18n="nav_teams">Teams</span></a>' +
-        '<a class="app-nav-button" href="journal.html" id="app-journal-button" data-i18n-aria-label="nav_journal" hidden>' + createIcon('journal') + '<span data-i18n="nav_journal">Journal</span></a>' +
-        '<a class="app-nav-button" href="profile.html" id="app-profile-button" data-i18n-aria-label="nav_profile" hidden>' + createIcon('profile') + '<span data-i18n="nav_profile">Profile</span></a>' +
-        '<a class="app-nav-button" href="login.html" id="app-auth-button" data-i18n-aria-label="nav_login">' + createIcon('auth') + '<span data-i18n="nav_login">Sign In</span></a>' +
       '</div>';
 
     var body = document.body;
@@ -413,9 +355,7 @@
       });
     }
 
-    document.addEventListener('jegvet:authchange', updateAuthButton);
     syncToggle();
-    updateAuthButton();
   }
 
   function bindPreferenceControls() {
