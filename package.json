@@ -1,0 +1,11 @@
+{
+  "name": "jegvet",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Bilingual veterinary reference and dosing toolkit (static web app).",
+  "type": "commonjs",
+  "scripts": {
+    "test": "node --test"
+  },
+  "license": "UNLICENSED"
+}
