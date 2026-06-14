@@ -14,6 +14,8 @@
       nav_search: 'Search',
       nav_about: 'About',
       nav_settings: 'Settings',
+      footer_disclaimer: 'For veterinary professionals. Always verify doses against current product information and clinical judgement. JegVet is provided "as is", without warranty.',
+      footer_about: 'About',
       switch_lang_aria: 'Language switch',
       switch_on: 'EN',
       switch_off: 'NO',
@@ -27,6 +29,8 @@
       nav_search: 'S\u00F8k',
       nav_about: 'Info',
       nav_settings: 'Innstillinger',
+      footer_disclaimer: 'Til bruk for veterin\u00E6rpersonell. Kontroller alltid doser mot oppdatert preparatomtale og klinisk skj\u00F8nn. JegVet leveres \u00ABsom det er\u00BB, uten garanti.',
+      footer_about: 'Om',
       switch_lang_aria: 'Spr\u00E5kvelger',
       switch_on: 'EN',
       switch_off: 'NO',
@@ -163,8 +167,47 @@
     return hour >= 19 || hour < 6;
   }
 
+  function getSystemThemePreference() {
+    try {
+      if (window.matchMedia) {
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          return THEME_NIGHT;
+        }
+        if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+          return THEME_DAY;
+        }
+      }
+    } catch (error) {
+      // matchMedia unavailable; fall back to the clock.
+    }
+    return null;
+  }
+
   function getAutoTheme(now) {
+    var systemPreference = getSystemThemePreference();
+    if (systemPreference) {
+      return systemPreference;
+    }
     return isNightTime(now) ? THEME_NIGHT : THEME_DAY;
+  }
+
+  function watchSystemTheme() {
+    try {
+      var media = window.matchMedia('(prefers-color-scheme: dark)');
+      var handler = function () {
+        var now = new Date();
+        if (!readThemeOverride(now)) {
+          setTheme(getAutoTheme(now));
+        }
+      };
+      if (media.addEventListener) {
+        media.addEventListener('change', handler);
+      } else if (media.addListener) {
+        media.addListener(handler);
+      }
+    } catch (error) {
+      // Ignore environments without matchMedia change events.
+    }
   }
 
   function getNextAutoThemeTime(now) {
@@ -316,7 +359,7 @@
     wrap.innerHTML =
       '<div class="app-topbar">' +
         '<a class="app-topbar-brand" href="index.html" data-i18n-aria-label="nav_home">' +
-          '<img src="logo_day_small_fixed.png" alt="JegVet logo" />' +
+          '<img src="logo_day_small_fixed.png" alt="JegVet logo" width="38" height="38" />' +
         '</a>' +
         '<a class="app-nav-button" href="index.html" data-i18n-aria-label="nav_home">' + createIcon('home') + '<span data-i18n="nav_home">Home</span></a>' +
         '<a class="app-nav-button" href="#" id="app-nav-back" data-i18n-aria-label="nav_back">' + createIcon('back') + '<span data-i18n="nav_back">Back</span></a>' +
@@ -389,12 +432,98 @@
     }
   }
 
+  function buildFooter() {
+    if (document.querySelector('.app-footer')) {
+      return;
+    }
+    var body = document.body;
+    if (!body) {
+      return;
+    }
+    var footer = document.createElement('footer');
+    footer.className = 'app-footer';
+    footer.innerHTML =
+      '<p class="app-footer-disclaimer" data-i18n="footer_disclaimer"></p>' +
+      '<p class="app-footer-links"><a href="about.html" data-i18n="footer_about">About</a></p>';
+    body.appendChild(footer);
+  }
+
+  function ensureMetaTags() {
+    var head = document.head;
+    if (!head) {
+      return;
+    }
+    var existingDesc = document.querySelector('meta[name="description"]');
+    var description = existingDesc
+      ? existingDesc.getAttribute('content')
+      : 'JegVet - bilingual veterinary reference and dosing calculators for clinical use.';
+    var title = document.title || 'JegVet';
+
+    function addMeta(attr, key, value) {
+      if (!value || document.querySelector('meta[' + attr + '="' + key + '"]')) {
+        return;
+      }
+      var meta = document.createElement('meta');
+      meta.setAttribute(attr, key);
+      meta.setAttribute('content', value);
+      head.appendChild(meta);
+    }
+
+    addMeta('name', 'description', description);
+    addMeta('property', 'og:title', title);
+    addMeta('property', 'og:description', description);
+    addMeta('property', 'og:type', 'website');
+    addMeta('property', 'og:site_name', 'JegVet');
+    addMeta('name', 'twitter:card', 'summary');
+
+    if (!document.querySelector('link[rel="canonical"]')) {
+      var canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      canonical.setAttribute('href', window.location.href.split('#')[0].split('?')[0]);
+      head.appendChild(canonical);
+    }
+  }
+
+  function registerServiceWorker() {
+    if (!('serviceWorker' in navigator) || window.location.protocol === 'file:') {
+      return;
+    }
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('service-worker.js').catch(function () {
+        // Offline support is a progressive enhancement; ignore registration errors.
+      });
+    });
+  }
+
+  function bindSearchShortcut() {
+    document.addEventListener('keydown', function (event) {
+      if (event.key !== '/' || event.ctrlKey || event.metaKey || event.altKey) {
+        return;
+      }
+      var target = event.target || {};
+      var tag = target.tagName || '';
+      if (/^(INPUT|TEXTAREA|SELECT)$/.test(tag) || target.isContentEditable) {
+        return;
+      }
+      var input = document.querySelector('input[type="search"], input[name="q"]');
+      if (input) {
+        event.preventDefault();
+        input.focus();
+      }
+    });
+  }
+
   function init() {
+    ensureMetaTags();
     buildTopBar();
+    buildFooter();
     syncTopBarWidthMode();
     applyThemeFromClockAndOverride();
+    watchSystemTheme();
     setLang(currentLang);
     bindPreferenceControls();
+    bindSearchShortcut();
+    registerServiceWorker();
   }
 
   window.JegVetLang = {

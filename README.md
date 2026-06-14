@@ -23,14 +23,38 @@ index.html              Home page
 tools.html              Calculator browser (grouped by species)
 *-calculator.html       Individual calculators (self-contained)
 wiki.html / wiki/       Reference content and renderer
-search.html             Site search
+search.html             Site search UI
 about.html              About page
 settings.html           Language and theme settings
-app-shell.js            Shared top bar, i18n and theme logic
+offline.html            Offline fallback page (served by the service worker)
+app-shell.js            Shared top bar, footer, i18n, theme, meta + SW registration
+tools-data.js           Single source of truth for the tool catalogue
+search-engine.js        Dependency-free BM25 + fuzzy search engine
+service-worker.js       Offline support and caching
 styles.css              Global styles (light/dark themes)
 assets/                 Images
 scripts/                Dev tooling for rebuilding the wiki manifest (PowerShell)
+test/                   Unit tests (run with `npm test`)
 ```
+
+## Testing
+
+The search engine is covered by unit tests using the built-in Node test runner
+(no dependencies to install):
+
+```bash
+npm test          # or: node --test
+```
+
+Tests run automatically on pushes and pull requests via GitHub Actions
+(`.github/workflows/ci.yml`).
+
+## Progressive web app
+
+The app registers a service worker (`service-worker.js`) that precaches the
+application shell and serves cached content offline, falling back to
+`offline.html` for uncached navigations. The service worker only activates over
+http(s); opening files directly via `file://` simply skips it.
 
 ## Running locally
 

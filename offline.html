@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Offline | JegVet</title>
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="description" content="You are offline. JegVet pages you have already visited remain available." />
+  <link rel="icon" type="image/png" sizes="32x32" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel='manifest' href='manifest.webmanifest' />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="app-shell.js" defer></script>
+  <script>
+    window.PAGE_I18N = {
+      en: {
+        page_title_offline: 'Offline | JegVet',
+        offline_title: 'You are offline',
+        offline_body: 'The page you requested is not available offline. Pages you have already opened are still cached and ready to use.',
+        offline_home: 'Go to home'
+      },
+      no: {
+        page_title_offline: 'Frakoblet | JegVet',
+        offline_title: 'Du er frakoblet',
+        offline_body: 'Siden du ba om er ikke tilgjengelig frakoblet. Sider du allerede har åpnet er fortsatt bufret og klare til bruk.',
+        offline_home: 'Gå til hjem'
+      }
+    };
+  </script>
+</head>
+<body data-i18n-title="page_title_offline">
+  <main class="page page-top">
+    <section class="layout-card">
+      <a href="index.html" class="brand-link" aria-label="Go to homepage">
+        <img src="logo_day.png" alt="JegVet logo" class="brand-logo" width="1536" height="1024" />
+      </a>
+      <h1 class="section-title" data-i18n="offline_title">You are offline</h1>
+      <p class="section-subtitle" data-i18n="offline_body">The page you requested is not available offline. Pages you have already opened are still cached and ready to use.</p>
+      <a class="action-button" href="index.html" data-i18n="offline_home">Go to home</a>
+    </section>
+  </main>
+</body>
+</html>

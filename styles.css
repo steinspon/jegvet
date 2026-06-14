@@ -127,6 +127,47 @@
   box-sizing: border-box;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.app-footer {
+  margin: 28px auto 0;
+  padding: 18px 20px max(20px, env(safe-area-inset-bottom));
+  width: 100%;
+  max-width: 760px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.app-footer-disclaimer {
+  margin: 0 0 8px;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.app-footer-links {
+  margin: 0;
+  font-size: 12px;
+}
+
+.app-footer-links a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.app-footer-links a:hover,
+.app-footer-links a:focus-visible {
+  text-decoration: underline;
+}
+
 html,
 body {
   margin: 0;
