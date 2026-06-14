@@ -379,8 +379,7 @@ input.check-toggle-round-flat:checked + label:after {
 .layout-card,
 .tool-card,
 .wiki-nav,
-.wiki-article,
-.auth-dialog {
+.wiki-article {
   border-radius: 16px;
   background: var(--card-bg);
   box-shadow: var(--card-shadow);
@@ -512,7 +511,6 @@ input.check-toggle-round-flat:checked + label:after {
 
 .button,
 .action-button,
-#auth-form button,
 .wiki-find-btn {
   align-items: center;
   border: 1px solid var(--button-border);
@@ -548,111 +546,18 @@ input.check-toggle-round-flat:checked + label:after {
   font-size: 19px;
 }
 
-.google-signin-button {
-  width: 100%;
-  max-width: 320px;
-  margin: 0 auto;
-  display: flex;
-  padding: 0.5rem 1.4rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  font-weight: 700;
-  text-align: center;
-  text-transform: uppercase;
-  vertical-align: middle;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0.5rem;
-  border: 1px solid rgba(0, 0, 0, 0.25);
-  gap: 0.75rem;
-  color: rgb(65, 63, 63);
-  background-color: #fff;
-  cursor: pointer;
-  transition: all .6s ease;
-}
-
-.google-signin-button svg {
-  width: 24px;
-  height: 24px;
-  flex: 0 0 24px;
-}
-
-.google-signin-button:hover,
-.google-signin-button:focus-visible {
-  transform: scale(1.02);
-}
-
-#auth-form button,
 .wiki-find-btn {
   border-radius: 8px;
   font-size: 14px;
-}
-
-#auth-form button {
-  min-height: 46px;
-  padding: 11px 14px;
-}
-
-.wiki-find-btn {
   padding: 8px 12px;
-}
-
-#journal-content {
-  min-height: 180px;
-  resize: vertical;
-}
-
-.journal-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.journal-actions .action-button {
-  flex: 1 1 220px;
-}
-
-.journal-actions .button {
-  flex: 1 1 160px;
-  min-height: 46px;
 }
 
 .journal-list-wrap {
   margin-top: 14px;
 }
 
-#journal-message {
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-
-.journal-item {
-  padding: 0;
-}
-
-.journal-item-button {
-  width: 100%;
-  border: 0;
-  background: transparent;
-  color: inherit;
-  text-align: left;
-  padding: 14px;
-  cursor: pointer;
-}
-
-.journal-item-button:hover,
-.journal-item-button:focus-visible {
-  background: var(--topbar-hover-bg);
-  outline: none;
-}
-
-.journal-item-active {
-  border-color: var(--brand-teal);
-}
-
 .button::before,
 .action-button::before,
-#auth-form button::before,
 .wiki-find-btn::before {
   content: "";
   position: absolute;
@@ -670,7 +575,6 @@ input.check-toggle-round-flat:checked + label:after {
 
 .button::after,
 .action-button::after,
-#auth-form button::after,
 .wiki-find-btn::after {
   content: "";
   position: absolute;
@@ -690,8 +594,6 @@ input.check-toggle-round-flat:checked + label:after {
 .button:focus-visible,
 .action-button:hover,
 .action-button:focus-visible,
-#auth-form button:hover,
-#auth-form button:focus-visible,
 .wiki-find-btn:hover,
 .wiki-find-btn:focus-visible {
   color: #ffffff;
@@ -702,8 +604,6 @@ input.check-toggle-round-flat:checked + label:after {
 .button:focus-visible::before,
 .action-button:hover::before,
 .action-button:focus-visible::before,
-#auth-form button:hover::before,
-#auth-form button:focus-visible::before,
 .wiki-find-btn:hover::before,
 .wiki-find-btn:focus-visible::before {
   top: -35%;
@@ -715,8 +615,6 @@ input.check-toggle-round-flat:checked + label:after {
 .button:focus-visible::after,
 .action-button:hover::after,
 .action-button:focus-visible::after,
-#auth-form button:hover::after,
-#auth-form button:focus-visible::after,
 .wiki-find-btn:hover::after,
 .wiki-find-btn:focus-visible::after {
   top: -45%;
@@ -726,7 +624,6 @@ input.check-toggle-round-flat:checked + label:after {
 
 .button:active,
 .action-button:active,
-#auth-form button:active,
 .wiki-find-btn:active {
   transform: translateY(1px);
   border-color: var(--brand-teal-dark);
@@ -735,8 +632,6 @@ input.check-toggle-round-flat:checked + label:after {
 .button:focus-visible,
 .action-button:focus-visible,
 .search-input:focus-visible,
-#auth-password:focus-visible,
-#auth-form button:focus-visible,
 .wiki-find-input:focus-visible,
 .wiki-find-btn:focus-visible,
 .wiki-folder-toggle:focus-visible,
@@ -746,75 +641,22 @@ input.check-toggle-round-flat:checked + label:after {
 
 .button:focus-visible,
 .action-button:focus-visible,
-#auth-form button:focus-visible,
 .wiki-find-btn:focus-visible {
   box-shadow: 0 0 0 3px var(--button-focus-ring);
 }
 
 .search-input:focus-visible,
-#auth-password:focus-visible,
 .wiki-find-input:focus-visible,
 .wiki-folder-toggle:focus-visible,
 .wiki-nav a:focus-visible {
   box-shadow: 0 0 0 3px var(--focus-ring);
 }
 
-body.is-locked .page {
-  filter: blur(8px);
-  pointer-events: none;
-  user-select: none;
-}
-
-.auth-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 999;
-  display: grid;
-  place-items: center;
-  background: var(--overlay-bg);
-  padding: 16px;
-}
-
-.auth-dialog {
-  width: min(92vw, 360px);
-  padding: 20px;
-}
-
-.auth-dialog h2 {
-  margin: 0 0 14px;
-  font-size: 20px;
-  text-align: center;
-}
-
-#auth-form {
-  display: grid;
-  gap: 12px;
-}
-
-#auth-password {
-  width: 100%;
-  padding: 12px 14px;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: var(--input-bg);
-  box-shadow: var(--input-inset-shadow);
-  font: inherit;
-}
-
-#auth-password:focus,
 .wiki-find-input:focus,
 .calc-field input:focus {
   border-color: var(--focus-border);
   box-shadow: var(--input-inset-shadow), 0 0 0 3px var(--focus-ring);
   outline: none;
-}
-
-.auth-error {
-  margin: 0;
-  min-height: 20px;
-  color: #b42318;
-  font-size: 14px;
-  text-align: center;
 }
 
 .sr-only {

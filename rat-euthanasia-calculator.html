@@ -55,8 +55,8 @@
       no: {
         page_title_rat_euth: 'Avliving rotte | JegVet',
         rat_euth_title: 'Avliving rotte',
-        rat_euth_subtitle: 'Velg storrelse pa rotten. Protokolldoser vises i ml og er integrert i trinnene under.',
-        rat_size_label: 'Storrelse pa rotten',
+        rat_euth_subtitle: 'Velg størrelse på rotten. Protokolldoser vises i ml og er integrert i trinnene under.',
+        rat_size_label: 'Størrelse på rotten',
         rat_size_small: 'Liten hunnrotte (<500 g)',
         rat_size_standard: 'Standard rotte (~700 g)',
         rat_size_large: 'Stor/overvektig rotte (>850 g)',
@@ -74,16 +74,16 @@
         rat_copy_btn: 'Kopier journaltekst',
         rat_copy_ok: 'Journaltekst kopiert.',
         rat_copy_fail: 'Kunne ikke kopiere automatisk. Kopier manuelt.',
-        rat_step_1_title: '1. Lokalbedovelse',
-        rat_step_1_text: 'Spray Xylocain 100 mg/ml, 2-3 spray, pa huden i dorsal nakke-/skulderomradet. Alternativ: Emla krem 25 mg/g + 25 mg/g (ok ventetid til 10-20 minutter).',
+        rat_step_1_title: '1. Lokalbedøvelse',
+        rat_step_1_text: 'Spray Xylocain 100 mg/ml, 2-3 spray, på huden i dorsal nakke-/skulderområdet. Alternativ: Emla krem 25 mg/g + 25 mg/g (øk ventetid til 10-20 minutter).',
         rat_step_2_title: '2. Sedasjon og anestesi',
-        rat_step_2_text: 'Gis subkutant i samme sproyte (bla kanyle) i omradet valgt i steg 1.',
+        rat_step_2_text: 'Gis subkutant i samme sprøyte (blå kanyle) i området valgt i steg 1.',
         rat_step_3_title: '3. Innsovning',
         rat_step_3_text: 'Forventet innsovningstid: 2-5 minutter.',
         rat_step_4_title: '4. Avliving',
-        rat_step_4_text: 'Nar alle reflekser er fravaerende, injiser legemiddel til avliving. Aspirer blod for injeksjon for a bekrefte intravaskulaer posisjon. Ved usikker lokalisasjon (saerlig intra-hepatic) kan volumet okes noe.',
+        rat_step_4_text: 'Når alle reflekser er fraværende, injiser legemiddel til avliving. Aspirer blod før injeksjon for å bekrefte intravaskulær posisjon. Ved usikker lokalisasjon (særlig intra-hepatic) kan volumet økes noe.',
         rat_footnote_title: 'Fotnote',
-        rat_footnote_text: 'Zoletil-mix lages ved a lose opp ett hetteglass Zoletil vet pulver med 10 ml xylazin + 0,5 ml butorfanol.'
+        rat_footnote_text: 'Zoletil-mix lages ved å løse opp ett hetteglass Zoletil vet pulver med 10 ml xylazin + 0,5 ml butorfanol.'
       }
     };
   </script>
@@ -248,10 +248,10 @@
             'Størrelse på rotten: ' + sizeText + '.',
             '',
             'Steg 1 - Lokalbedøvelse:',
-            '- Xylocain 100 mg/ml, 2-3 spray pa dorsal nakke-/skulderomrade.',
+            '- Xylocain 100 mg/ml, 2-3 spray på dorsal nakke-/skulderområde.',
             '- Alternativ: Emla krem 25 mg/g + 25 mg/g (virketid 10-20 min).',
             '',
-            'Steg 2 - Sedasjon og anestesi (SC, samme sproyte):',
+            'Steg 2 - Sedasjon og anestesi (SC, samme sprøyte):',
             '- Dexmedetomidin 0,5 mg/ml: ' + formatMl(dose.dexMl) + ' ml.',
             '- Zoletil-mix: ' + formatMl(dose.zoletilMl) + ' ml.',
             '- Zoletil-mix laget med Zoletil vet pulver + 10 ml xylazin + 0,5 ml butorfanol.',
@@ -261,8 +261,8 @@
             '',
             'Steg 4 - Avliving:',
             '- ' + finalDrugText + ': ca. ' + formatMl(dose.finalMl) + ' ml, ' + finalRouteText + '.',
-            '- Gitt nar alle reflekser var fravaerende.',
-            '- Blod aspirert for injeksjon for a bekrefte intravaskulaer posisjon.'
+            '- Gitt når alle reflekser var fraværende.',
+            '- Blod aspirert før injeksjon for å bekrefte intravaskulær posisjon.'
           ].join('\n');
         }
 

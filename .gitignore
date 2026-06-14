@@ -1,0 +1,16 @@
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+*~
+.idea/
+.vscode/
+
+# Local web server / tooling logs
+*.log
+
+# Temporary and backup files
+*.tmp
+*.bak
+*.orig
+*.utf8
