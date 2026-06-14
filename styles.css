@@ -1,4 +1,5 @@
 :root {
+  color-scheme: light;
   --bg: #f4f9fd;
   --surface: #fbfdff;
   --surface-strong: #ffffff;
@@ -48,6 +49,7 @@
   --about-photo-border: #cbe0eb;
   --about-photo-shadow: 0 8px 16px rgba(54, 83, 107, 0.16);
   --label-text: #3f4b57;
+  --error-text: #b42318;
   --table-wrap-bg: linear-gradient(180deg, #fcfeff 0%, #f2f8fc 100%);
   --table-bg: #ffffff;
   --table-line: #e6ebf0;
@@ -62,6 +64,7 @@
 }
 
 :root[data-theme="night"] {
+  color-scheme: dark;
   --bg: #12202c;
   --surface: #162836;
   --surface-strong: #1a3142;
@@ -110,6 +113,7 @@
   --about-photo-border: #32546c;
   --about-photo-shadow: 0 10px 20px rgba(5, 14, 22, 0.5);
   --label-text: #c0d3e2;
+  --error-text: #ff8a80;
   --table-wrap-bg: linear-gradient(180deg, #183245 0%, #142838 100%);
   --table-bg: #1b3345;
   --table-line: #2c4b60;
@@ -848,6 +852,7 @@ input.check-toggle-round-flat:checked + label:after {
   border: 1px solid var(--line);
   border-radius: 10px;
   background: var(--input-bg);
+  color: var(--input-text);
   box-shadow: var(--input-inset-shadow);
   font: inherit;
 }
@@ -1187,6 +1192,7 @@ input.check-toggle-round-flat:checked + label:after {
   border: 1px solid var(--line);
   border-radius: 10px;
   background: var(--input-bg);
+  color: var(--input-text);
   box-shadow: var(--input-inset-shadow);
   font-family: inherit;
   font-size: 16px;
@@ -1195,7 +1201,7 @@ input.check-toggle-round-flat:checked + label:after {
 
 .calc-error {
   margin: 0;
-  color: #b42318;
+  color: var(--error-text);
   min-height: 20px;
 }
 
@@ -1215,6 +1221,7 @@ input.check-toggle-round-flat:checked + label:after {
 .calc-table th,
 .calc-table td {
   padding: 10px 12px;
+  color: var(--text);
   border-bottom: 1px solid var(--table-line);
   text-align: left;
   font-size: 14px;
