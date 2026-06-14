@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="styles.css" />
   <script src="app-shell.js" defer></script>
   <script src="wiki/data/wiki-fallback.js" defer></script>
+  <script src="search-engine.js" defer></script>
   <script>
     window.PAGE_I18N = {
       en: {
@@ -26,16 +27,18 @@
         search_aria: 'Search',
         search_waiting: 'Search results will appear here.',
         search_type_prompt: 'Type a search term and press Enter.',
+        search_searching: 'Searching...',
         search_result_singular: '{count} result for "{query}"',
         search_result_plural: '{count} results for "{query}"',
         search_empty: 'No matches found.'
       },
       no: {
-        page_title_search: 'S\u00F8k | JegVet',
-        search_placeholder: 'S\u00F8k...',
-        search_aria: 'S\u00F8k',
-        search_waiting: 'S\u00F8keresultater vises her.',
-        search_type_prompt: 'Skriv et s\u00F8keord og trykk Enter.',
+        page_title_search: 'Søk | JegVet',
+        search_placeholder: 'Søk...',
+        search_aria: 'Søk',
+        search_waiting: 'Søkeresultater vises her.',
+        search_type_prompt: 'Skriv et søkeord og trykk Enter.',
+        search_searching: 'Søker...',
         search_result_singular: '{count} treff for "{query}"',
         search_result_plural: '{count} treff for "{query}"',
         search_empty: 'Ingen treff funnet.'
@@ -73,9 +76,15 @@
   <script>
     (function () {
       'use strict';
-      var corpusPromise = null;
-      var corpusCacheKey = 'jegvet-search-corpus-v2';
-      var corpusCacheTtlMs = 6 * 60 * 60 * 1000;
+
+      // Documents are gathered at runtime from the live content (core pages, the
+      // shared tool catalogue and the wiki) and matched with the JegVetSearch
+      // engine. Nothing here lists individual calculators, so the index cannot
+      // drift out of sync when calculators or wiki pages are added.
+
+      var docsCacheKey = 'jegvet-search-docs-v3';
+      var docsCacheTtlMs = 6 * 60 * 60 * 1000;
+      var docsPromise = null;
 
       function t(key, fallback) {
         if (window.JegVetLang && typeof window.JegVetLang.t === 'function') {
@@ -95,7 +104,7 @@
       }
 
       function escapeHtml(text) {
-        return text
+        return String(text == null ? '' : text)
           .replace(/&/g, '&amp;')
           .replace(/</g, '&lt;')
           .replace(/>/g, '&gt;')
@@ -103,43 +112,24 @@
           .replace(/'/g, '&#39;');
       }
 
+      function escapeRegExp(text) {
+        return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      }
 
-      function foldNordic(text, mode) {
-        var value = String(text || '');
-        if (mode === 'keyboard') {
-          return value
-            .replace(/[\u00C6\u00E6]/g, 'ae')
-            .replace(/[\u00D8\u00F8]/g, 'oe')
-            .replace(/[\u00C5\u00E5]/g, 'aa');
+      function highlight(escapedText, rawTokens) {
+        var terms = (rawTokens || []).filter(Boolean).map(escapeRegExp);
+        if (!terms.length) {
+          return escapedText;
         }
-        if (mode === 'simple') {
-          return value
-            .replace(/[\u00C6\u00E6]/g, 'e')
-            .replace(/[\u00D8\u00F8]/g, 'o')
-            .replace(/[\u00C5\u00E5]/g, 'a');
+        try {
+          return escapedText.replace(new RegExp('(' + terms.join('|') + ')', 'gi'), '<mark>$1</mark>');
+        } catch (error) {
+          return escapedText;
         }
-        return value
-          .replace(/[\u00C6\u00E6]/g, 'ae')
-          .replace(/[\u00D8\u00F8]/g, 'o')
-          .replace(/[\u00C5\u00E5]/g, 'aa');
       }
-      function normalizeForSearch(text, mode) {
-        var value = foldNordic(text, mode).toLowerCase();
-        if (typeof value.normalize === 'function') {
-          value = value.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-        }
-        return value;
-      }
-      function buildSearchVariants(text) {
-        var variants = [
-          normalizeForSearch(text, 'canonical'),
-          normalizeForSearch(text, 'keyboard'),
-          normalizeForSearch(text, 'simple')
-        ].filter(Boolean);
-        return Array.from(new Set(variants));
-      }
+
       function stripMarkdown(markdown) {
-        return markdown
+        return String(markdown || '')
           .replace(/```[\s\S]*?```/g, ' ')
           .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, ' $1 ')
           .replace(/\[([^\]]+)\]\(([^)]+)\)/g, ' $1 ')
@@ -149,7 +139,7 @@
       }
 
       function stripHtml(html) {
-        return html
+        return String(html || '')
           .replace(/<script[\s\S]*?<\/script>/gi, ' ')
           .replace(/<style[\s\S]*?<\/style>/gi, ' ')
           .replace(/<[^>]+>/g, ' ')
@@ -163,86 +153,11 @@
           .trim();
       }
 
-      function tokenize(text) {
-        return normalizeForSearch(text)
-          .split(/[^a-z0-9]+/)
-          .filter(Boolean);
-      }
-
-      function tokenVariants(token) {
-        var variants = new Set([token]);
-        if (token.indexOf('oe') !== -1) {
-          variants.add(token.replace(/oe/g, 'o'));
-        }
-        if (token.indexOf('ae') !== -1) {
-          variants.add(token.replace(/ae/g, 'e'));
-        }
-        if (token.indexOf('aa') !== -1) {
-          variants.add(token.replace(/aa/g, 'a'));
-        }
-        return Array.from(variants);
-      }
-
-      var querySynonyms = {
-        katt: ['cat', 'feline', 'cats'],
-        cat: ['katt', 'feline', 'cats'],
-        feline: ['katt', 'cat', 'cats'],
-        hund: ['dog', 'canine', 'dogs'],
-        dog: ['hund', 'canine', 'dogs'],
-        canine: ['hund', 'dog', 'dogs'],
-        nyre: ['kidney', 'renal', 'ckd'],
-        kidney: ['nyre', 'renal', 'ckd'],
-        renal: ['nyre', 'kidney', 'ckd'],
-        oppkast: ['vomiting', 'emesis'],
-        vomiting: ['oppkast', 'emesis'],
-        emesis: ['oppkast', 'vomiting'],
-        kronisk: ['chronic'],
-        chronic: ['kronisk']
-      };
-
-      function synonymVariants(token) {
-        var variants = new Set([token]);
-        var related = querySynonyms[token] || [];
-        for (var i = 0; i < related.length; i += 1) {
-          variants.add(related[i]);
-        }
-        return Array.from(variants);
-      }
-
       function slugify(text) {
-        return normalizeForSearch(text)
+        return window.JegVetSearch.normalize(text)
           .replace(/[^a-z0-9\s-]/g, '')
           .trim()
           .replace(/\s+/g, '-') || 'section';
-      }
-
-      function buildSnippet(text, queryTokens) {
-        if (!text) {
-          return '';
-        }
-        var lower = text.toLowerCase();
-        var firstIndex = -1;
-        queryTokens.forEach(function (token) {
-          var i = lower.indexOf(token);
-          if (i !== -1 && (firstIndex === -1 || i < firstIndex)) {
-            firstIndex = i;
-          }
-        });
-
-        if (firstIndex === -1) {
-          return text.slice(0, 170) + (text.length > 170 ? '...' : '');
-        }
-
-        var start = Math.max(0, firstIndex - 70);
-        var end = Math.min(text.length, firstIndex + 140);
-        var snippet = text.slice(start, end).trim();
-        if (start > 0) {
-          snippet = '...' + snippet;
-        }
-        if (end < text.length) {
-          snippet += '...';
-        }
-        return snippet;
       }
 
       function normalizeManifestFromLegacyNav(navData) {
@@ -256,7 +171,6 @@
             });
           });
         });
-
         return {
           title: navData.title || 'Veterinary Reference Wiki',
           pages: pages
@@ -279,43 +193,31 @@
 
       function humanizeFileName(fileName) {
         return fileName
-          .replace(/\.md$/i, '')
+          .replace(/\.(md|html)$/i, '')
           .replace(/[-_]+/g, ' ')
           .replace(/\s+/g, ' ')
           .trim()
           .split(' ')
           .map(function (part) {
-            if (!part) {
-              return '';
-            }
-            return part.charAt(0).toUpperCase() + part.slice(1);
+            return part ? part.charAt(0).toUpperCase() + part.slice(1) : '';
           })
           .join(' ');
       }
 
       function getGitHubRepoContext() {
         if (window.WIKI_GITHUB_REPO && window.WIKI_GITHUB_REPO.owner && window.WIKI_GITHUB_REPO.repo) {
-          return {
-            owner: window.WIKI_GITHUB_REPO.owner,
-            repo: window.WIKI_GITHUB_REPO.repo
-          };
+          return { owner: window.WIKI_GITHUB_REPO.owner, repo: window.WIKI_GITHUB_REPO.repo };
         }
-
         var host = window.location.hostname || '';
         if (!/\.github\.io$/i.test(host)) {
           return null;
         }
-
         var owner = host.split('.')[0];
         var parts = window.location.pathname.split('/').filter(Boolean);
         if (!parts.length) {
           return null;
         }
-
-        return {
-          owner: owner,
-          repo: parts[0]
-        };
+        return { owner: owner, repo: parts[0] };
       }
 
       async function loadManifestFromGitHub() {
@@ -323,7 +225,6 @@
         if (!repoContext) {
           throw new Error('No GitHub repository context');
         }
-
         var apiBase = 'https://api.github.com/repos/' + encodeURIComponent(repoContext.owner) + '/' + encodeURIComponent(repoContext.repo);
         var repoResponse = await fetch(apiBase, { headers: { Accept: 'application/vnd.github+json' } });
         if (!repoResponse.ok) {
@@ -331,7 +232,6 @@
         }
         var repoData = await repoResponse.json();
         var branch = repoData.default_branch || 'main';
-
         var treeResponse = await fetch(apiBase + '/git/trees/' + encodeURIComponent(branch) + '?recursive=1', {
           headers: { Accept: 'application/vnd.github+json' }
         });
@@ -340,7 +240,6 @@
         }
         var treeData = await treeResponse.json();
         var items = treeData.tree || [];
-
         var pages = items
           .filter(function (item) {
             return item.type === 'blob' && /^wiki\/content\/.+\.md$/i.test(item.path);
@@ -350,31 +249,20 @@
             var slashIndex = relative.lastIndexOf('/');
             var folder = slashIndex === -1 ? 'General' : relative.slice(0, slashIndex);
             var fileName = slashIndex === -1 ? relative : relative.slice(slashIndex + 1);
-
-            return {
-              file: relative,
-              title: humanizeFileName(fileName),
-              folder: folder
-            };
+            return { file: relative, title: humanizeFileName(fileName), folder: folder };
           })
           .sort(function (a, b) {
             return a.file.localeCompare(b.file, undefined, { sensitivity: 'base' });
           });
-
-        return {
-          title: 'Veterinary Reference Wiki',
-          generatedAt: new Date().toISOString(),
-          pages: pages
-        };
+        return { title: 'Veterinary Reference Wiki', pages: pages };
       }
 
       async function loadManifestData() {
         try {
           return await loadManifestFromGitHub();
         } catch (githubError) {
-          // Fall through to static manifest/fallback for local dev or API failures.
+          // Fall through to the static manifest/fallback for local dev or API failures.
         }
-
         try {
           var response = await fetch('wiki/data/content-manifest.json');
           if (!response.ok) {
@@ -416,11 +304,10 @@
       }
 
       function splitMarkdownSections(markdown) {
-        var lines = markdown.replace(/\r/g, '').split('\n');
+        var lines = String(markdown || '').replace(/\r/g, '').split('\n');
         var sections = [];
         var currentTitle = 'Overview';
         var currentLines = [];
-
         lines.forEach(function (line) {
           var match = line.match(/^#{1,3}\s+(.+)/);
           if (match) {
@@ -433,84 +320,202 @@
           }
           currentLines.push(line);
         });
-
         if (currentLines.length) {
           sections.push({ heading: currentTitle, body: currentLines.join('\n') });
         }
-
         return sections;
       }
 
-      function scoreDocument(doc, queryVariants, queryTokenGroups) {
-        var title = doc.normTitle;
-        var body = doc.normBody;
-        var score = 0;
-        var hasExactTitleMatch = queryVariants.some(function (query) { return title.indexOf(query) !== -1; });
-        var hasExactBodyMatch = queryVariants.some(function (query) { return body.indexOf(query) !== -1; });
+      async function gatherDocs() {
+        var docs = [];
 
-        if (hasExactTitleMatch) {
-          score += 80;
-        }
-        if (hasExactBodyMatch) {
-          score += 30;
-        }
+        // Stable application pages.
+        var htmlTargets = [
+          { url: 'index.html', kind: '', extra: '', fallbackTitle: 'JegVet' },
+          { url: 'wiki.html', kind: '', extra: '', fallbackTitle: 'Veterinary Reference Wiki' },
+          { url: 'tools.html', kind: 'tool', extra: '', fallbackTitle: 'Tools & Calculators' },
+          { url: 'about.html', kind: '', extra: '', fallbackTitle: 'About' }
+        ];
 
-        queryTokenGroups.forEach(function (tokenGroup) {
-          var titleHits = 0;
-          var bodyHits = 0;
-          tokenGroup.forEach(function (token) {
-            var tHits = (title.match(new RegExp(token, 'g')) || []).length;
-            var bHits = (body.match(new RegExp(token, 'g')) || []).length;
-            if (tHits > titleHits) {
-              titleHits = tHits;
-            }
-            if (bHits > bodyHits) {
-              bodyHits = bHits;
-            }
-          });
-          score += (titleHits * 25) + (bodyHits * 4);
+        // Calculators discovered from the shared catalogue (single source of
+        // truth). Each tool's bilingual label is folded into its body so e.g.
+        // "avliving" finds the euthanasia tool even if the page text is English.
+        var views = window.JEGVET_TOOLS_VIEWS || {};
+        Object.keys(views).forEach(function (key) {
+          var node = views[key];
+          if (node && node.type === 'tool' && node.href) {
+            var labels = node.labels || {};
+            var labelText = [labels.en, labels.no].filter(Boolean).join(' ');
+            htmlTargets.push({ url: node.href, kind: 'tool', extra: labelText, fallbackTitle: '' });
+          }
         });
 
-        // Prefer precise section matches above broad page-level matches.
-        if (doc.kind === 'section' && hasExactBodyMatch) {
-          score += 18;
-        }
-        if (doc.kind === 'page' && !hasExactTitleMatch && hasExactBodyMatch) {
-          score -= 8;
-        }
-
-        return score;
-      }
-
-      function isMatch(doc, queryVariants, queryTokenGroups) {
-        var title = doc.normTitle;
-        var body = doc.normBody;
-        var haystack = title + ' ' + body;
-        var hasExactPhrase = queryVariants.some(function (query) { return haystack.indexOf(query) !== -1; });
-
-        if (hasExactPhrase) {
-          return true;
-        }
-
-        for (var i = 0; i < queryTokenGroups.length; i += 1) {
-          var tokenGroup = queryTokenGroups[i];
-          var groupHasMatch = tokenGroup.some(function (token) {
-            return haystack.indexOf(token) !== -1;
-          });
-          if (!groupHasMatch) {
-            return false;
+        for (var i = 0; i < htmlTargets.length; i += 1) {
+          var target = htmlTargets[i];
+          var fallbackTitle = target.fallbackTitle || humanizeFileName(target.url);
+          try {
+            var html = await loadHtmlDocument(target.url);
+            var titleMatch = html.match(/<title>([\s\S]*?)<\/title>/i);
+            var title = titleMatch ? stripHtml(titleMatch[1]) : fallbackTitle;
+            var bodyText = stripHtml(html);
+            docs.push({
+              kind: target.kind,
+              title: title,
+              body: (bodyText + ' ' + target.extra).trim(),
+              url: target.url,
+              displayUrl: target.url
+            });
+          } catch (error) {
+            // Even when a page can't be fetched (e.g. opened via file://), keep
+            // it findable through its title and catalogue label.
+            docs.push({
+              kind: target.kind,
+              title: fallbackTitle,
+              body: target.extra,
+              url: target.url,
+              displayUrl: target.url
+            });
           }
         }
-        return true;
-      }
 
-      function renderResults(results, query, summaryEl, resultsEl) {
-        if (!query) {
-          summaryEl.textContent = t('search_type_prompt', 'Type a search term and press Enter.');
-          resultsEl.innerHTML = '';
-          return;
+        // Wiki reference content (pages and per-heading sections).
+        try {
+          var manifest = await loadManifestData();
+          var pages = (manifest && manifest.pages) || [];
+          for (var p = 0; p < pages.length; p += 1) {
+            var page = pages[p];
+            var markdown;
+            try {
+              markdown = await loadMarkdown(page.file);
+            } catch (markdownError) {
+              continue;
+            }
+            var pageBody = stripMarkdown(markdown);
+            if (pageBody) {
+              docs.push({
+                kind: 'page',
+                title: page.title,
+                body: pageBody + ' ' + humanizeFolder(page.folder),
+                url: 'wiki.html?page=' + encodeURIComponent(page.file),
+                displayUrl: 'wiki.html?page=' + page.file
+              });
+            }
+            var sections = splitMarkdownSections(markdown);
+            for (var s = 0; s < sections.length; s += 1) {
+              var section = sections[s];
+              var cleaned = stripMarkdown(section.body);
+              if (!cleaned) {
+                continue;
+              }
+              var hash = slugify(section.heading);
+              docs.push({
+                kind: 'section',
+                title: page.title + ' - ' + section.heading,
+                body: cleaned + ' ' + humanizeFolder(page.folder),
+                url: 'wiki.html?page=' + encodeURIComponent(page.file) + '#' + encodeURIComponent(hash),
+                displayUrl: 'wiki.html?page=' + page.file + '#' + hash
+              });
+            }
+          }
+        } catch (wikiError) {
+          // Wiki content is optional; tools and pages remain searchable.
         }
 
+        return docs;
+      }
+
+      function readCachedDocs() {
+        try {
+          var raw = window.sessionStorage.getItem(docsCacheKey);
+          if (!raw) {
+            return null;
+          }
+          var parsed = JSON.parse(raw);
+          if (!parsed || !Array.isArray(parsed.docs)) {
+            return null;
+          }
+          if (!parsed.expiresAt || Date.now() > parsed.expiresAt) {
+            window.sessionStorage.removeItem(docsCacheKey);
+            return null;
+          }
+          return parsed.docs;
+        } catch (error) {
+          return null;
+        }
+      }
+
+      function writeCachedDocs(docs) {
+        try {
+          window.sessionStorage.setItem(docsCacheKey, JSON.stringify({
+            expiresAt: Date.now() + docsCacheTtlMs,
+            docs: docs
+          }));
+        } catch (error) {
+          // Ignore storage errors (private mode, quota, etc.).
+        }
+      }
+
+      function getDocs() {
+        if (docsPromise) {
+          return docsPromise;
+        }
+        var cached = readCachedDocs();
+        if (cached) {
+          docsPromise = Promise.resolve(cached);
+          return docsPromise;
+        }
+        docsPromise = gatherDocs().then(function (docs) {
+          writeCachedDocs(docs);
+          return docs;
+        }).catch(function (error) {
+          docsPromise = null;
+          throw error;
+        });
+        return docsPromise;
+      }
+
+      function withHitQuery(url, q) {
+        if (!q || url.indexOf('wiki.html') !== 0) {
+          return url;
+        }
+        var hashIndex = url.indexOf('#');
+        var hash = hashIndex === -1 ? '' : url.slice(hashIndex);
+        var base = hashIndex === -1 ? url : url.slice(0, hashIndex);
+        var sep = base.indexOf('?') === -1 ? '?' : '&';
+        return base + sep + 'hit=' + encodeURIComponent(q) + hash;
+      }
+
+      function buildSnippet(text, rawTokens) {
+        if (!text) {
+          return '';
+        }
+        var lower = text.toLowerCase();
+        var firstIndex = -1;
+        rawTokens.forEach(function (token) {
+          if (!token) {
+            return;
+          }
+          var i = lower.indexOf(token);
+          if (i !== -1 && (firstIndex === -1 || i < firstIndex)) {
+            firstIndex = i;
+          }
+        });
+        if (firstIndex === -1) {
+          return text.slice(0, 170) + (text.length > 170 ? '...' : '');
+        }
+        var start = Math.max(0, firstIndex - 70);
+        var end = Math.min(text.length, firstIndex + 140);
+        var snippet = text.slice(start, end).trim();
+        if (start > 0) {
+          snippet = '...' + snippet;
+        }
+        if (end < text.length) {
+          snippet += '...';
+        }
+        return snippet;
+      }
+
+      function renderResults(results, query, rawTokens, summaryEl, resultsEl) {
         summaryEl.textContent = template(
           results.length === 1 ? 'search_result_singular' : 'search_result_plural',
           results.length === 1 ? '{count} result for "{query}"' : '{count} results for "{query}"',
@@ -522,385 +527,55 @@
           return;
         }
 
-        function withHitQuery(url, q) {
-          if (!q || url.indexOf('wiki.html') !== 0) {
-            return url;
-          }
-          var hashIndex = url.indexOf('#');
-          var hash = hashIndex === -1 ? '' : url.slice(hashIndex);
-          var base = hashIndex === -1 ? url : url.slice(0, hashIndex);
-          var sep = base.indexOf('?') === -1 ? '?' : '&';
-          return base + sep + 'hit=' + encodeURIComponent(q) + hash;
-        }
-
-        resultsEl.innerHTML = results.slice(0, 20).map(function (result) {
+        resultsEl.innerHTML = results.map(function (result) {
           var targetUrl = withHitQuery(result.url, query);
+          var snippet = buildSnippet(result.body, rawTokens);
           return (
             '<article class="search-result">' +
-              '<a class="search-result-url" href="' + targetUrl + '">' + escapeHtml(result.displayUrl) + '</a>' +
-              '<h2 class="search-result-title"><a href="' + targetUrl + '">' + escapeHtml(result.title) + '</a></h2>' +
-              '<p class="search-result-snippet">' + escapeHtml(result.snippet) + '</p>' +
+              '<a class="search-result-url" href="' + escapeHtml(targetUrl) + '">' + escapeHtml(result.displayUrl) + '</a>' +
+              '<h2 class="search-result-title"><a href="' + escapeHtml(targetUrl) + '">' + highlight(escapeHtml(result.title), rawTokens) + '</a></h2>' +
+              '<p class="search-result-snippet">' + highlight(escapeHtml(snippet), rawTokens) + '</p>' +
             '</article>'
           );
         }).join('');
       }
 
-      async function buildCorpus() {
-        var corpus = [
-          {
-            title: 'Home',
-            body: 'Search Browse Reference Tools Calculators Veterinary Reference Wiki JegVet',
-            url: 'index.html',
-            displayUrl: 'index.html'
-          },
-          {
-            title: 'Veterinary Reference Wiki',
-            body: 'Internal knowledge base for protocols reminders and client communication notes',
-            url: 'wiki.html',
-            displayUrl: 'wiki.html'
-          },
-          {
-            title: 'About',
-            body: 'about jegvet lene teigland wilkinson veterinarian trondheim evidensia',
-            url: 'about.html',
-            displayUrl: 'about.html'
-          },
-          {
-            kind: 'tool',
-            title: 'Tools & Calculators',
-            body: 'tools calculators calculator anaesthetic anesthesia rabbit guinea pig chinchilla suspension medicated drinking water seagull sedation euthanasia zoletil euthasol exagon dog cat midazolam butophanol xray antihistamine atarax aerius',
-            url: 'tools.html',
-            displayUrl: 'tools.html'
-          },
-          {
-            kind: 'tool',
-            title: 'Suspension Calculator',
-            body: 'suspension calculator tablet strength target dose mg ml water',
-            url: 'suspension-calculator.html',
-            displayUrl: 'suspension-calculator.html'
-          },
-          {
-            kind: 'tool',
-            title: 'Medicated Drinking Water Calculator',
-            body: 'medicated drinking water calculator concentration mg/l tablet strength',
-            url: 'medicated-drinking-water-calculator.html',
-            displayUrl: 'medicated-drinking-water-calculator.html'
-          },
-          {
-            kind: 'tool',
-            title: 'Anaesthetic Calculator, Rabbit',
-            body: 'anaesthetic anesthesia rabbit fentanyl midazolam medetomidine naloxone flumazenil atipamezole',
-            url: 'anaesthetic-rabbit-calculator.html',
-            displayUrl: 'anaesthetic-rabbit-calculator.html'
-          },
-          {
-            kind: 'tool',
-            title: 'Rabbit Upper Airway Disease',
-            body: 'rabbit kanin upper airway luftveissykdom baytril enrofloxacin bactrim doksycyklin meloxicam famotidin bisolvon dose calculator',
-            url: 'rabbit-upper-airway-disease-calculator.html',
-            displayUrl: 'rabbit-upper-airway-disease-calculator.html'
-          },
-          {
-            kind: 'tool',
-            title: 'Rabbit Critical Care Calculator',
-            body: 'rabbit kanin critical care tvangsforing force feeding 80 ml/kg per day per feeding plan gi stasis anorexia',
-            url: 'rabbit-critical-care-calculator.html',
-            displayUrl: 'rabbit-critical-care-calculator.html'
-          },
-          {
-            kind: 'tool',
-            title: 'Anaesthetic Calculator, Guinea pig',
-            body: 'anaesthetic anesthesia guinea pig cavy fentanyl midazolam medetomidine naloxone flumazenil atipamezole',
-            url: 'anaesthetic-guinea-pig-calculator.html',
-            displayUrl: 'anaesthetic-guinea-pig-calculator.html'
-          },
-          {
-            kind: 'tool',
-            title: 'Anaesthetic Calculator, Chinchilla',
-            body: 'anaesthetic anesthesia chinchilla fentanyl midazolam medetomidine naloxone flumazenil atipamezole',
-            url: 'anaesthetic-chinchilla-calculator.html',
-            displayUrl: 'anaesthetic-chinchilla-calculator.html'
-          },
-          {
-            kind: 'tool',
-            title: 'Seagull Sedation',
-            body: 'seagull sedation calculator bird avian midazolam butophanol butorphanol xray intramuscular im chest muscle',
-            url: 'seagull-sedation-calculator.html',
-            displayUrl: 'seagull-sedation-calculator.html'
-          },
-          {
-            kind: 'tool',
-            title: 'Euthanasia Calculator',
-            body: 'euthanasia calculator zoletil mix euthasol exagon dog cat animal weight kg',
-            url: 'euthanasia-calculator.html',
-            displayUrl: 'euthanasia-calculator.html'
-          },
-          {
-            kind: 'tool',
-            title: 'Rat Euthanasia Protocol Calculator',
-            body: 'rat euthanasia avliving rotte protocol dexmedetomidin dexmedetomidine zoletil exagon euthasol intra-cardiac intra-hepatic',
-            url: 'rat-euthanasia-calculator.html',
-            displayUrl: 'rat-euthanasia-calculator.html'
-          },
-          {
-            kind: 'tool',
-            title: 'Dog Antihistamine Calculator',
-            body: 'dog antihistamine calculator atarax aerius hydroxyzine desloratadine 10 mg 25 mg 5 mg tablet q8h q12h tid bid',
-            url: 'dog-antihistamine-calculator.html',
-            displayUrl: 'dog-antihistamine-calculator.html'
-          },
-          {
-            kind: 'tool',
-            title: 'Dog B1 Cardiac Sedation Calculator',
-            body: 'dog b1 cardiac disease sedation premedication methadone dexmedetomidine intramuscular im calculator',
-            url: 'dog-b1-cardiac-sedation-calculator.html',
-            displayUrl: 'dog-b1-cardiac-sedation-calculator.html'
-          },
-          {
-            kind: 'tool',
-            title: 'Ketofol Mixing Calculator',
-            body: 'ketofol mixing calculator propofol ketamine belatamine syringe dog cat intravenous iv induction maintenance',
-            url: 'ketofol-mixing-calculator.html',
-            displayUrl: 'ketofol-mixing-calculator.html'
-          },
-          {
-            kind: 'tool',
-            title: 'Cat Heart Protocol Sedation Calculator',
-            body: 'cat heart protocol sedation premedication midazolam methadone intravenous iv calculator',
-            url: 'cat-heart-protocol-sedation-calculator.html',
-            displayUrl: 'cat-heart-protocol-sedation-calculator.html'
-          },
-          {
-            kind: 'tool',
-            title: 'Kitty Magic Calculator',
-            body: 'kitty magic calculator cat feline katt sedasjon sedation protocol intramuscular im bcs body condition score mood dose syringe',
-            url: 'kitty-magic-calculator.html',
-            displayUrl: 'kitty-magic-calculator.html'
-          },
-          {
-            kind: 'tool',
-            title: 'Dog Premed Calculator',
-            body: 'dog premed premedication hund sedation medetomidine dexmedetomidine methadone intramuscular im syringe calculator',
-            url: 'dog-premed-calculator.html',
-            displayUrl: 'dog-premed-calculator.html'
-          }
-        ];
-        var folderMap = {};
-        // Derive the list of tool pages to full-text index from the shared tool
-        // catalogue (tools-data.js) so the search index can never drift out of
-        // sync with the Tools page. Any calculator added there is indexed here
-        // automatically.
-        var toolPages = ['tools.html', 'about.html'];
-        var toolViews = window.JEGVET_TOOLS_VIEWS || {};
-        Object.keys(toolViews).forEach(function (key) {
-          var node = toolViews[key];
-          if (node && node.type === 'tool' && node.href && toolPages.indexOf(node.href) === -1) {
-            toolPages.push(node.href);
-          }
-        });
-
-        for (var t = 0; t < toolPages.length; t += 1) {
-          var toolFile = toolPages[t];
-          try {
-            var html = await loadHtmlDocument(toolFile);
-            var titleMatch = html.match(/<title>([\s\S]*?)<\/title>/i);
-            var title = titleMatch ? stripHtml(titleMatch[1]) : humanizeFileName(toolFile.replace(/\.html$/i, ''));
-            var bodyText = stripHtml(html);
-            if (!bodyText) {
-              continue;
-            }
-            corpus.push({
-              kind: 'tool',
-              title: title,
-              body: bodyText + ' tools calculator calculators anaesthetic anesthesia rabbit guinea pig chinchilla seagull sedation euthanasia dog cat bird avian',
-              url: toolFile,
-              displayUrl: toolFile
-            });
-          } catch (error) {
-            // Skip missing/failed tool pages and continue indexing.
-          }
-        }
-
-        var manifest = await loadManifestData();
-        for (var p = 0; p < manifest.pages.length; p += 1) {
-          var page = manifest.pages[p];
-          var markdown = await loadMarkdown(page.file);
-          var pageBody = stripMarkdown(markdown);
-
-          if (pageBody) {
-            corpus.push({
-              kind: 'page',
-              title: page.title,
-              body: pageBody + ' ' + humanizeFolder(page.folder),
-              url: 'wiki.html?page=' + encodeURIComponent(page.file),
-              displayUrl: 'wiki.html?page=' + page.file
-            });
-          }
-
-          var sections = splitMarkdownSections(markdown);
-          for (var i = 0; i < sections.length; i += 1) {
-            var sec = sections[i];
-            var cleaned = stripMarkdown(sec.body);
-            if (!cleaned) {
-              continue;
-            }
-            var hash = slugify(sec.heading);
-            corpus.push({
-              kind: 'section',
-              title: page.title + ' - ' + sec.heading,
-              body: cleaned + ' ' + humanizeFolder(page.folder),
-              url: 'wiki.html?page=' + encodeURIComponent(page.file) + '#' + encodeURIComponent(hash),
-              displayUrl: 'wiki.html?page=' + page.file + '#' + hash
-            });
-          }
-
-          if (page.folder && page.folder !== 'General') {
-            var parts = page.folder.split('/').filter(Boolean);
-            for (var f = 0; f < parts.length; f += 1) {
-              var folderPath = parts.slice(0, f + 1).join('/');
-              if (!folderMap[folderPath]) {
-                folderMap[folderPath] = true;
-                var humanFolder = humanizeFolder(folderPath);
-                corpus.push({
-                  title: humanFolder + ' Folder',
-                  body: humanFolder + ' ' + folderPath.replace(/\//g, ' '),
-                  url: 'wiki.html?page=' + encodeURIComponent(page.file),
-                  displayUrl: 'wiki.html#folder=' + folderPath
-                });
-              }
-            }
-          }
-        }
-        return corpus.map(function (doc) {
-          var title = doc.title || '';
-          var body = doc.body || '';
-          return {
-            kind: doc.kind || '',
-            title: title,
-            body: body,
-            url: doc.url,
-            displayUrl: doc.displayUrl,
-            normTitle: normalizeForSearch(title),
-            normBody: normalizeForSearch(body)
-          };
-        });
-      }
-
-      function readCachedCorpus() {
-        try {
-          var raw = window.sessionStorage.getItem(corpusCacheKey);
-          if (!raw) {
-            return null;
-          }
-          var parsed = JSON.parse(raw);
-          if (!parsed || !Array.isArray(parsed.corpus)) {
-            return null;
-          }
-          if (!parsed.expiresAt || Date.now() > parsed.expiresAt) {
-            window.sessionStorage.removeItem(corpusCacheKey);
-            return null;
-          }
-          return parsed.corpus;
-        } catch (error) {
-          return null;
-        }
-      }
-
-      function writeCachedCorpus(corpus) {
-        try {
-          window.sessionStorage.setItem(corpusCacheKey, JSON.stringify({
-            expiresAt: Date.now() + corpusCacheTtlMs,
-            corpus: corpus
-          }));
-        } catch (error) {
-          // Ignore storage errors.
-        }
-      }
-
-      function getCorpus() {
-        if (corpusPromise) {
-          return corpusPromise;
-        }
-
-        var cached = readCachedCorpus();
-        if (cached) {
-          corpusPromise = Promise.resolve(cached);
-          return corpusPromise;
-        }
-
-        corpusPromise = buildCorpus().then(function (corpus) {
-          writeCachedCorpus(corpus);
-          return corpus;
-        }).catch(function (error) {
-          corpusPromise = null;
-          throw error;
-        });
-        return corpusPromise;
-      }
-
       async function runSearch() {
         var params = new URLSearchParams(window.location.search);
         var query = (params.get('q') || '').trim();
-        var queryVariants = buildSearchVariants(query);
-        var queryNormalized = queryVariants[0] || '';
-        var queryTokens = tokenize(queryNormalized);
-        var queryTokenGroups = queryTokens.map(function (token) {
-          var synonymTerms = synonymVariants(token);
-          var expanded = [];
-          synonymTerms.forEach(function (term) {
-            tokenVariants(term).forEach(function (variant) {
-              expanded.push(variant);
-            });
-          });
-          return Array.from(new Set(expanded));
-        });
-
         var input = document.querySelector('input[name="q"]');
         var summary = document.getElementById('search-summary');
         var resultsEl = document.getElementById('search-results');
+        var rawTokens = query.toLowerCase().split(/\s+/).filter(Boolean);
 
         if (input) {
           input.value = query;
         }
 
-        if (!queryTokens.length) {
-          renderResults([], '', summary, resultsEl);
+        if (!query) {
+          summary.textContent = t('search_type_prompt', 'Type a search term and press Enter.');
+          resultsEl.innerHTML = '';
           return;
         }
 
-        var corpus = await getCorpus();
-        var ranked = corpus
-          .map(function (doc) {
-            var score = scoreDocument(doc, queryVariants, queryTokenGroups);
-            return {
-              title: doc.title,
-              url: doc.url,
-              displayUrl: doc.displayUrl,
-              snippet: buildSnippet(doc.body, queryTokens),
-              score: score,
-              isMatch: isMatch(doc, queryVariants, queryTokenGroups)
-            };
-          })
-          .filter(function (doc) {
-            return doc.score > 0 && doc.isMatch;
-          })
-          .sort(function (a, b) {
-            return b.score - a.score;
-          });
+        if (!window.JegVetSearch) {
+          summary.textContent = t('search_empty', 'No matches found.');
+          resultsEl.innerHTML = '';
+          return;
+        }
 
-        // A page can be indexed twice (once as a curated entry and once from
-        // its fetched content). Collapse results that point at the same
-        // destination, keeping the highest-scoring one.
-        var seenUrls = {};
-        ranked = ranked.filter(function (doc) {
-          if (seenUrls[doc.url]) {
-            return false;
-          }
-          seenUrls[doc.url] = true;
-          return true;
-        });
+        summary.textContent = t('search_searching', 'Searching...');
 
-        renderResults(ranked, query, summary, resultsEl);
+        var docs;
+        try {
+          docs = await getDocs();
+        } catch (error) {
+          docs = [];
+        }
+
+        var index = window.JegVetSearch.buildIndex(docs);
+        var results = window.JegVetSearch.search(index, query, { limit: 20 });
+        renderResults(results, query, rawTokens, summary, resultsEl);
       }
 
       if (document.readyState === 'loading') {
@@ -913,16 +588,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
