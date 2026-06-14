@@ -69,11 +69,12 @@
     </section>
   </main>
 
+  <script src="tools-data.js"></script>
   <script>
     (function () {
       'use strict';
       var corpusPromise = null;
-      var corpusCacheKey = 'jegvet-search-corpus-v1';
+      var corpusCacheKey = 'jegvet-search-corpus-v2';
       var corpusCacheTtlMs = 6 * 60 * 60 * 1000;
 
       function t(key, fallback) {
@@ -668,27 +669,35 @@
             body: 'cat heart protocol sedation premedication midazolam methadone intravenous iv calculator',
             url: 'cat-heart-protocol-sedation-calculator.html',
             displayUrl: 'cat-heart-protocol-sedation-calculator.html'
+          },
+          {
+            kind: 'tool',
+            title: 'Kitty Magic Calculator',
+            body: 'kitty magic calculator cat feline katt sedasjon sedation protocol intramuscular im bcs body condition score mood dose syringe',
+            url: 'kitty-magic-calculator.html',
+            displayUrl: 'kitty-magic-calculator.html'
+          },
+          {
+            kind: 'tool',
+            title: 'Dog Premed Calculator',
+            body: 'dog premed premedication hund sedation medetomidine dexmedetomidine methadone intramuscular im syringe calculator',
+            url: 'dog-premed-calculator.html',
+            displayUrl: 'dog-premed-calculator.html'
           }
         ];
         var folderMap = {};
-        var toolPages = [
-          'tools.html',
-          'suspension-calculator.html',
-          'medicated-drinking-water-calculator.html',
-          'anaesthetic-rabbit-calculator.html',
-          'rabbit-upper-airway-disease-calculator.html',
-          'rabbit-critical-care-calculator.html',
-          'anaesthetic-guinea-pig-calculator.html',
-          'anaesthetic-chinchilla-calculator.html',
-          'seagull-sedation-calculator.html',
-          'euthanasia-calculator.html',
-          'rat-euthanasia-calculator.html',
-          'dog-antihistamine-calculator.html',
-          'dog-b1-cardiac-sedation-calculator.html',
-          'ketofol-mixing-calculator.html',
-          'cat-heart-protocol-sedation-calculator.html',
-          'about.html'
-        ];
+        // Derive the list of tool pages to full-text index from the shared tool
+        // catalogue (tools-data.js) so the search index can never drift out of
+        // sync with the Tools page. Any calculator added there is indexed here
+        // automatically.
+        var toolPages = ['tools.html', 'about.html'];
+        var toolViews = window.JEGVET_TOOLS_VIEWS || {};
+        Object.keys(toolViews).forEach(function (key) {
+          var node = toolViews[key];
+          if (node && node.type === 'tool' && node.href && toolPages.indexOf(node.href) === -1) {
+            toolPages.push(node.href);
+          }
+        });
 
         for (var t = 0; t < toolPages.length; t += 1) {
           var toolFile = toolPages[t];
