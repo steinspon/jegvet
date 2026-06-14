@@ -8,7 +8,7 @@
  *  - Navigations fall back to an offline page when the network is unavailable.
  *  - Cross-origin requests (fonts, GitHub API) are left to the network.
  */
-var CACHE = 'jegvet-cache-v1';
+var CACHE = 'jegvet-cache-v2';
 
 var CORE_ASSETS = [
   './',
