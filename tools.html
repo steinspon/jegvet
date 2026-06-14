@@ -138,13 +138,16 @@
 
         titleEl.textContent = currentViewId === rootId ? t('tools_title') : getLabel(current, lang);
 
-        for (var i = 0; i < path.length; i += 1) {
+        // Build the breadcrumb from the ancestor trail only; the current view
+        // is already shown as the title, so excluding it avoids a duplicate.
+        for (var i = 0; i < path.length - 1; i += 1) {
           if (path[i] === rootId) {
             continue;
           }
           pathLabels.push(getLabel(views[path[i]], lang));
         }
         pathEl.textContent = pathLabels.join(' / ');
+        pathEl.hidden = pathLabels.length === 0;
 
         toolsListEl.innerHTML = '';
 
