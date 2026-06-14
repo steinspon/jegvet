@@ -888,6 +888,18 @@
             return b.score - a.score;
           });
 
+        // A page can be indexed twice (once as a curated entry and once from
+        // its fetched content). Collapse results that point at the same
+        // destination, keeping the highest-scoring one.
+        var seenUrls = {};
+        ranked = ranked.filter(function (doc) {
+          if (seenUrls[doc.url]) {
+            return false;
+          }
+          seenUrls[doc.url] = true;
+          return true;
+        });
+
         renderResults(ranked, query, summary, resultsEl);
       }
 
