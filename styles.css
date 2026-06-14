@@ -925,6 +925,13 @@ input.check-toggle-round-flat:checked + label:after {
   font-size: 15px;
 }
 
+.search-result mark {
+  background: var(--find-hit-bg);
+  color: inherit;
+  border-radius: 3px;
+  padding: 0 1px;
+}
+
 .search-empty {
   margin: 6px 2px 0;
   color: var(--muted);
