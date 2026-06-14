@@ -1,4 +1,4 @@
-﻿window.WIKI_FALLBACK = {
+window.WIKI_FALLBACK = {
   manifest: {
     "title":  "Veterinary Reference Wiki",
     "generatedAt":  "2026-05-10T19:17:19+02:00",
