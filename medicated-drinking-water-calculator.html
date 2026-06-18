@@ -16,6 +16,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <script src="calculator-utils.js"></script>
   <script src="app-shell.js" defer></script>
   <script>
     window.PAGE_I18N = {
@@ -61,11 +62,11 @@
       <form id="water-calc-form" class="calc-form">
         <div class="calc-field">
           <label for="target-mg-l" data-i18n="water_target_label">Target concentration (mg/L)</label>
-          <input id="target-mg-l" type="number" min="0" step="0.01" required />
+          <input id="target-mg-l" type="text" inputmode="decimal" min="0" step="0.01" required />
         </div>
         <div class="calc-field">
           <label for="tablet-strength" data-i18n="water_tablet_label">Tablet strength (mg/tablet)</label>
-          <input id="tablet-strength" type="number" min="0" step="0.01" required />
+          <input id="tablet-strength" type="text" inputmode="decimal" min="0" step="0.01" required />
         </div>
       </form>
 
@@ -106,7 +107,7 @@
       var resultEl = document.getElementById('water-calc-result');
 
       function toNumber(value) {
-        return Number(value);
+        return window.JegVetCalc.parseDecimalInput(value);
       }
 
       function format(value, decimals) {

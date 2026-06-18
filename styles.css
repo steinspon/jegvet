@@ -1002,6 +1002,11 @@ input.check-toggle-round-flat:checked + label:after {
   gap: 14px;
 }
 
+.tools-back-button {
+  margin: 0 0 12px;
+  width: 100%;
+}
+
 .tools-list .action-button {
   margin: 0;
 }

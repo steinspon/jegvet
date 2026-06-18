@@ -2,13 +2,13 @@
  * JegVet service worker — offline support and faster repeat loads.
  *
  * Strategy:
- *  - Precache the application shell on install.
+ *  - Precache the application shell, calculators and bundled wiki content on install.
  *  - Same-origin GET requests are served cache-first with a background refresh
  *    (stale-while-revalidate), so the app works offline and updates quietly.
  *  - Navigations fall back to an offline page when the network is unavailable.
  *  - Cross-origin requests (fonts, GitHub API) are left to the network.
  */
-var CACHE = 'jegvet-cache-v2';
+var CACHE = 'jegvet-cache-v3';
 
 var CORE_ASSETS = [
   './',
@@ -21,10 +21,43 @@ var CORE_ASSETS = [
   'offline.html',
   'styles.css',
   'app-shell.js',
+  'calculator-utils.js',
+  'wiki-content.js',
   'tools-data.js',
   'search-engine.js',
   'wiki/wiki.js',
+  'wiki/data/content-manifest.json',
+  'wiki/data/nav.json',
   'wiki/data/wiki-fallback.js',
+  'anaesthetic-chinchilla-calculator.html',
+  'anaesthetic-guinea-pig-calculator.html',
+  'anaesthetic-rabbit-calculator.html',
+  'cat-heart-protocol-sedation-calculator.html',
+  'dog-antihistamine-calculator.html',
+  'dog-b1-cardiac-sedation-calculator.html',
+  'dog-premed-calculator.html',
+  'euthanasia-calculator.html',
+  'ketofol-mixing-calculator.html',
+  'kitty-magic-calculator.html',
+  'medicated-drinking-water-calculator.html',
+  'rabbit-critical-care-calculator.html',
+  'rabbit-upper-airway-disease-calculator.html',
+  'rat-euthanasia-calculator.html',
+  'seagull-sedation-calculator.html',
+  'suspension-calculator.html',
+  'wiki/content/Dermatology/Cat Derm/catderm.md',
+  'wiki/content/Vet Med Stuff/chronic disease/feline-ckd-follow-up.md',
+  'wiki/content/Vet Med Stuff/client communication/discharge-communication-checklist.md',
+  'wiki/content/Vet Med Stuff/client communication/post-op-home-care-script.md',
+  'wiki/content/Vet Med Stuff/clinical protocols/canine-acute-vomiting-triage.md',
+  'wiki/content/Vet Med Stuff/emergency care/suspected-toxin-intake-triage.md',
+  'wiki/content/Vet Med Stuff/surgery/pre-anesthesia-safety-checklist.md',
+  'wiki/content/evidensia stuff/admintest.md',
+  'wiki/content/evidensia stuff/admin/testsub.md',
+  'wiki/content/evidensia stuff/seeyoume.md',
+  'wiki/content/evidensia stuff/third time is a charm.md',
+  'wiki/content/sandbox/test.md',
+  'wiki/images/example.jpg',
   'manifest.webmanifest',
   'logo_day.png',
   'logo_day_small_fixed.png'

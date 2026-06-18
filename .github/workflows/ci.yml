@@ -13,5 +13,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+      - name: Install test dependencies
+        run: npm install
       - name: Run search engine tests
-        run: node --test
+        run: npm test
+      - name: Install browser
+        run: npx playwright install --with-deps chromium
+      - name: Run browser smoke tests
+        run: npm run test:browser

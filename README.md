@@ -46,15 +46,25 @@ The search engine is covered by unit tests using the built-in Node test runner
 npm test          # or: node --test
 ```
 
+Install dev dependencies before running the browser smoke tests:
+
+```bash
+npm install
+npx playwright install chromium
+npm run test:browser
+```
+
+`npm run test:all` runs both the search unit tests and browser smoke tests.
 Tests run automatically on pushes and pull requests via GitHub Actions
 (`.github/workflows/ci.yml`).
 
 ## Progressive web app
 
 The app registers a service worker (`service-worker.js`) that precaches the
-application shell and serves cached content offline, falling back to
-`offline.html` for uncached navigations. The service worker only activates over
-http(s); opening files directly via `file://` simply skips it.
+application shell, calculators and bundled wiki content, then serves cached
+content offline. Uncached navigations fall back to `offline.html`. The service
+worker only activates over http(s); opening files directly via `file://` simply
+skips it.
 
 ## Running locally
 

@@ -50,6 +50,7 @@
       <section aria-label="Tools list">
         <h1 class="section-title" id="tools-current-title" data-i18n="tools_title">Tools & Calculators</h1>
         <p class="section-subtitle tools-path" id="tools-current-path"></p>
+        <button type="button" class="button tools-back-button" id="tools-back-button" hidden></button>
         <div class="tools-list" id="tools-list"></div>
       </section>
     </section>
@@ -67,6 +68,7 @@
       var toolsListEl = null;
       var titleEl = null;
       var pathEl = null;
+      var backButtonEl = null;
 
       function getLang() {
         var bodyLang = document.body && document.body.getAttribute('data-lang');
@@ -84,6 +86,12 @@
           return page[key];
         }
         return key;
+      }
+
+      function template(key, params) {
+        return t(key).replace(/\{([a-zA-Z0-9_]+)\}/g, function (_, paramKey) {
+          return Object.prototype.hasOwnProperty.call(params, paramKey) ? String(params[paramKey]) : '';
+        });
       }
 
       function getLabel(node, lang) {
@@ -149,6 +157,13 @@
         pathEl.textContent = pathLabels.join(' / ');
         pathEl.hidden = pathLabels.length === 0;
 
+        if (backButtonEl) {
+          var parentId = viewHistory.length ? viewHistory[viewHistory.length - 1] : rootId;
+          var parentLabel = parentId === rootId ? t('tools_title') : getLabel(views[parentId], lang);
+          backButtonEl.textContent = template('tools_back_to', { name: parentLabel });
+          backButtonEl.hidden = currentViewId === rootId || viewHistory.length === 0;
+        }
+
         toolsListEl.innerHTML = '';
 
         if (!current.children || current.children.length === 0) {
@@ -207,10 +222,22 @@
         };
       }
 
+      function goBack() {
+        if (!viewHistory.length) {
+          return;
+        }
+        currentViewId = viewHistory.pop();
+        render();
+      }
+
       document.addEventListener('DOMContentLoaded', function () {
         toolsListEl = document.getElementById('tools-list');
         titleEl = document.getElementById('tools-current-title');
         pathEl = document.getElementById('tools-current-path');
+        backButtonEl = document.getElementById('tools-back-button');
+        if (backButtonEl) {
+          backButtonEl.addEventListener('click', goBack);
+        }
         render();
       });
 

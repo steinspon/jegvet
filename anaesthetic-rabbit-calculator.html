@@ -16,6 +16,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <script src="calculator-utils.js"></script>
   <script src="app-shell.js" defer></script>
   <script>
     window.PAGE_I18N = {
@@ -79,7 +80,7 @@
       <form class="calc-form">
         <div class="calc-field">
           <label for="weight-kg" data-i18n="anaes_weight">Weight (kg)</label>
-          <input id="weight-kg" type="number" min="0" step="0.01" required />
+          <input id="weight-kg" type="text" inputmode="decimal" min="0" step="0.01" required />
         </div>
       </form>
 
@@ -177,7 +178,7 @@
       }
 
       function render() {
-        var weightKg = Number(weightInput.value);
+        var weightKg = window.JegVetCalc.parseDecimalInput(weightInput.value);
 
         if (!weightInput.value) {
           errorEl.textContent = '';
