@@ -23,6 +23,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <script src="app-shell.js" defer></script>
+  <script src="wiki-i18n-data.js" defer></script>
   <script src="wiki-content.js" defer></script>
   <script src="wiki/data/wiki-fallback.js" defer></script>
   <script src="search-engine.js" defer></script>
@@ -89,7 +90,7 @@
       // engine. Nothing here lists individual calculators, so the index cannot
       // drift out of sync when calculators or wiki pages are added.
 
-      var docsCacheKey = 'jegvet-search-docs-v3';
+      var docsCacheKey = 'jegvet-search-docs-v4';
       var docsCacheTtlMs = 6 * 60 * 60 * 1000;
       var docsPromise = null;
 
@@ -220,7 +221,7 @@
         return sections;
       }
 
-      async function gatherDocs() {
+      async function gatherDocs(wikiManifest) {
         var docs = [];
 
         // Stable application pages.
@@ -274,7 +275,7 @@
 
         // Wiki reference content (pages and per-heading sections).
         try {
-          var manifest = await loadManifestData();
+          var manifest = wikiManifest || await loadManifestData();
           var pages = (manifest && manifest.pages) || [];
           for (var p = 0; p < pages.length; p += 1) {
             var page = pages[p];
@@ -285,11 +286,12 @@
               continue;
             }
             var pageBody = stripMarkdown(markdown);
+            var searchAliases = window.JegVetWikiContent.getSearchAliases(page);
             if (pageBody) {
               docs.push({
                 kind: 'page',
                 title: page.title,
-                body: pageBody + ' ' + humanizeFolder(page.folder),
+                body: pageBody + ' ' + humanizeFolder(page.folder) + ' ' + searchAliases,
                 url: 'wiki.html?page=' + encodeURIComponent(page.file),
                 displayUrl: 'wiki.html?page=' + page.file
               });
@@ -305,7 +307,7 @@
               docs.push({
                 kind: 'section',
                 title: page.title + ' - ' + section.heading,
-                body: cleaned + ' ' + humanizeFolder(page.folder),
+                body: cleaned + ' ' + humanizeFolder(page.folder) + ' ' + searchAliases,
                 url: 'wiki.html?page=' + encodeURIComponent(page.file) + '#' + encodeURIComponent(hash),
                 displayUrl: 'wiki.html?page=' + page.file + '#' + hash
               });
@@ -318,14 +320,21 @@
         return docs;
       }
 
-      function readCachedDocs() {
+      function getManifestVersion(manifest) {
+        var pages = manifest && Array.isArray(manifest.pages) ? manifest.pages : [];
+        return String(manifest && manifest.generatedAt || '') + ':' + JSON.stringify(pages.map(function (page) {
+          return [page.file, page.title, page.folder];
+        }));
+      }
+
+      function readCachedDocs(manifestVersion) {
         try {
           var raw = window.sessionStorage.getItem(docsCacheKey);
           if (!raw) {
             return null;
           }
           var parsed = JSON.parse(raw);
-          if (!parsed || !Array.isArray(parsed.docs)) {
+          if (!parsed || !Array.isArray(parsed.docs) || parsed.manifestVersion !== manifestVersion) {
             return null;
           }
           if (!parsed.expiresAt || Date.now() > parsed.expiresAt) {
@@ -338,10 +347,11 @@
         }
       }
 
-      function writeCachedDocs(docs) {
+      function writeCachedDocs(docs, manifestVersion) {
         try {
           window.sessionStorage.setItem(docsCacheKey, JSON.stringify({
             expiresAt: Date.now() + docsCacheTtlMs,
+            manifestVersion: manifestVersion,
             docs: docs
           }));
         } catch (error) {
@@ -349,18 +359,20 @@
         }
       }
 
-      function getDocs() {
+      async function getDocs() {
         if (docsPromise) {
           return docsPromise;
         }
-        var cached = readCachedDocs();
-        if (cached) {
-          docsPromise = Promise.resolve(cached);
-          return docsPromise;
-        }
-        docsPromise = gatherDocs().then(function (docs) {
-          writeCachedDocs(docs);
-          return docs;
+        docsPromise = loadManifestData().then(function (manifest) {
+          var manifestVersion = getManifestVersion(manifest);
+          var cached = readCachedDocs(manifestVersion);
+          if (cached) {
+            return cached;
+          }
+          return gatherDocs(manifest).then(function (docs) {
+            writeCachedDocs(docs, manifestVersion);
+            return docs;
+          });
         }).catch(function (error) {
           docsPromise = null;
           throw error;

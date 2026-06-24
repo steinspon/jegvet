@@ -81,8 +81,11 @@ A server is recommended over opening files directly so that the wiki content
 
 ## Wiki content
 
-Wiki entries live under `wiki/content/` as Markdown. After adding or renaming
-entries, rebuild the navigation manifest:
+Wiki entries live under `wiki/content/` as Markdown. On `main`, changes to those
+files automatically rebuild and commit the navigation manifest and offline
+fallback through `.github/workflows/wiki-index.yml`.
+
+For local development, rebuild those generated files directly:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts/rebuild-wiki-manifest.ps1

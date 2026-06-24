@@ -8,7 +8,7 @@
  *  - Navigations fall back to an offline page when the network is unavailable.
  *  - Cross-origin requests (fonts, GitHub API) are left to the network.
  */
-var CACHE = 'jegvet-cache-v5';
+var CACHE = 'jegvet-cache-v6';
 
 var CORE_ASSETS = [
   './',
@@ -109,6 +109,15 @@ self.addEventListener('fetch', function (event) {
   var url = new URL(request.url);
   if (url.origin !== self.location.origin) {
     return; // Let cross-origin requests go straight to the network.
+  }
+
+  if (/\/wiki\/data\/content-manifest\.json$/.test(url.pathname)) {
+    event.respondWith(
+      fetchAndCache(request).catch(function () {
+        return caches.match(request);
+      })
+    );
+    return;
   }
 
   event.respondWith(

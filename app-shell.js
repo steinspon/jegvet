@@ -425,9 +425,11 @@
     if (!body) {
       return;
     }
-    body.classList.remove('app-shell-wide');
+    body.classList.remove('app-shell-wide', 'app-shell-extra-wide');
     var firstLayoutCard = document.querySelector('.layout-card');
-    if (firstLayoutCard && firstLayoutCard.classList.contains('layout-card-wide')) {
+    if (firstLayoutCard && firstLayoutCard.classList.contains('layout-card-extra-wide')) {
+      body.classList.add('app-shell-extra-wide');
+    } else if (firstLayoutCard && firstLayoutCard.classList.contains('layout-card-wide')) {
       body.classList.add('app-shell-wide');
     }
   }

@@ -1,5 +1,8 @@
 :root {
   color-scheme: light;
+  --page-width: 760px;
+  --page-width-wide: 1000px;
+  --page-width-extra-wide: 1180px;
   --bg: #f4f9fd;
   --surface: #fbfdff;
   --surface-strong: #ffffff;
@@ -283,7 +286,11 @@ body {
 }
 
 .has-app-shell.app-shell-wide .app-topbar {
-  max-width: 1000px;
+  max-width: var(--page-width-wide);
+}
+
+.has-app-shell.app-shell-extra-wide .app-topbar {
+  max-width: var(--page-width-extra-wide);
 }
 
 .app-nav-button {
@@ -452,7 +459,11 @@ input.check-toggle-round-flat:checked + label:after {
 }
 
 .layout-card-wide {
-  max-width: 1000px;
+  max-width: var(--page-width-wide);
+}
+
+.layout-card-extra-wide {
+  max-width: var(--page-width-extra-wide);
 }
 
 .brand-link {
@@ -1291,6 +1302,11 @@ input.check-toggle-round-flat:checked + label:after {
 }
 
 @media (min-width: 768px) {
+  .app-topbar-wrap {
+    padding-left: max(28px, env(safe-area-inset-left));
+    padding-right: max(28px, env(safe-area-inset-right));
+  }
+
   .page {
     padding-left: max(28px, env(safe-area-inset-left));
     padding-right: max(28px, env(safe-area-inset-right));
@@ -1298,19 +1314,25 @@ input.check-toggle-round-flat:checked + label:after {
   }
 
   .layout-card {
+    max-width: var(--page-width);
     padding: 30px 32px;
   }
 
-  .page-top .layout-card:not(.layout-card-wide) {
-    max-width: 760px;
+  .app-topbar {
+    max-width: var(--page-width);
   }
 
   .layout-card-wide {
-    max-width: 1180px;
+    max-width: var(--page-width-wide);
   }
 
   .has-app-shell.app-shell-wide .app-topbar {
-    max-width: 1180px;
+    max-width: var(--page-width-wide);
+  }
+
+  .layout-card-extra-wide,
+  .has-app-shell.app-shell-extra-wide .app-topbar {
+    max-width: var(--page-width-extra-wide);
   }
 
   .home-cards {

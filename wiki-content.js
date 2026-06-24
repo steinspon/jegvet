@@ -32,6 +32,42 @@
     return repairMojibake(fallbackTitle);
   }
 
+  function getSearchAliases(page) {
+    page = page || {};
+    var file = normalizeWikiPath(page.file);
+    var aliases = {};
+
+    function add(value) {
+      value = repairMojibake(String(value || '')).trim();
+      if (value) {
+        aliases[value] = true;
+      }
+    }
+
+    add(page.title);
+    add(file);
+    add(page.folder);
+
+    var pageTranslations = window.WIKI_I18N && window.WIKI_I18N.pages && window.WIKI_I18N.pages[file];
+    if (pageTranslations) {
+      Object.keys(pageTranslations).forEach(function (lang) {
+        add(pageTranslations[lang]);
+      });
+    }
+
+    var folderTranslations = window.WIKI_I18N && window.WIKI_I18N.folders;
+    normalizeWikiPath(page.folder).split('/').forEach(function (segment) {
+      add(segment);
+      Object.keys(folderTranslations || {}).forEach(function (lang) {
+        if (folderTranslations[lang] && folderTranslations[lang][segment]) {
+          add(folderTranslations[lang][segment]);
+        }
+      });
+    });
+
+    return Object.keys(aliases).join(' ');
+  }
+
   function looksMojibake(text) {
     return typeof text === 'string' && /Ã.|Â.|â.|�/.test(text);
   }
@@ -262,6 +298,7 @@
 
   window.JegVetWikiContent = {
     extractLocalizedMarkdown: extractLocalizedMarkdown,
+    getSearchAliases: getSearchAliases,
     getGitHubRepoContext: getGitHubRepoContext,
     getWikiLang: getWikiLang,
     humanizeFileName: humanizeFileName,

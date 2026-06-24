@@ -47,3 +47,35 @@ test('search finds calculator content', async function ({ page }) {
   await expect(page.locator('#search-summary')).toContainText('result');
   await expect(page.getByRole('link', { name: /Kitty Magic/i }).first()).toBeVisible();
 });
+
+test('search finds wiki pages by their translated species name', async function ({ page }) {
+  await page.goto('/search.html?q=bearded%20dragon');
+
+  await expect(page.locator('#search-summary')).toContainText('result');
+  await expect(page.getByRole('link', { name: /Bearded Dragon/i }).first()).toBeVisible();
+});
+
+test('desktop widths match page type without changing mobile spacing', async function ({ page }) {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+
+  await page.goto('/');
+  await expect(page.locator('.layout-card')).toHaveCSS('max-width', '760px');
+  await expect(page.locator('.app-topbar')).toHaveCSS('max-width', '760px');
+
+  await page.setViewportSize({ width: 800, height: 900 });
+  await expect(page.locator('.layout-card')).toHaveCSS('width', '744px');
+  await expect(page.locator('.app-topbar')).toHaveCSS('width', '744px');
+
+  await page.setViewportSize({ width: 1440, height: 1000 });
+
+  await page.goto('/kitty-magic-calculator.html');
+  await expect(page.locator('.layout-card')).toHaveCSS('max-width', '1000px');
+  await expect(page.locator('.app-topbar')).toHaveCSS('max-width', '1000px');
+
+  await page.goto('/wiki.html');
+  await expect(page.locator('.layout-card')).toHaveCSS('max-width', '1180px');
+  await expect(page.locator('.app-topbar')).toHaveCSS('max-width', '1180px');
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(page.locator('.layout-card')).toHaveCSS('width', '350px');
+});

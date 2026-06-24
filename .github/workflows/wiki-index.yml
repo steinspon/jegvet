@@ -1,0 +1,34 @@
+name: Update wiki index
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'wiki/content/**/*.md'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: wiki-index-main
+  cancel-in-progress: true
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rebuild wiki manifest and offline fallback
+        shell: pwsh
+        run: ./scripts/rebuild-wiki-manifest.ps1
+      - name: Commit generated index
+        shell: bash
+        run: |
+          if git diff --quiet -- wiki/data/content-manifest.json wiki/data/wiki-fallback.js; then
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add wiki/data/content-manifest.json wiki/data/wiki-fallback.js
+          git commit -m "Update generated wiki index"
+          git push
