@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Snake Anaesthesia Calculator | JegVet</title>
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="JegVet" />
+  <link rel="icon" type="image/png" sizes="32x32" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="calculator-utils.js"></script>
+  <script src="app-shell.js" defer></script>
+  <script>
+    window.PAGE_I18N = {
+      en: {
+        snake_page_title: 'Snake Anaesthesia Calculator | JegVet',
+        snake_title: 'Snake Anaesthesia Calculator',
+        snake_subtitle: 'Enter snake weight in kg with up to 3 decimals. All injection volumes are shown in ml with 2 decimals.',
+        snake_weight_label: 'Weight (kg)',
+        snake_protocol_sedation: 'Light Sedation',
+        snake_protocol_anaesthesia: 'Light Anaesthesia',
+        snake_protocol_common: 'Reversal and Adjuncts',
+        snake_table_drug: 'Drug (conc.)',
+        snake_table_dose: 'Dose',
+        snake_table_volume: 'Volume (ml)',
+        snake_table_comment: 'Comment',
+        snake_placeholder_protocol: 'Enter weight to calculate this protocol.',
+        snake_placeholder_common: 'Enter weight to calculate reversal and adjunct doses.',
+        snake_summary_placeholder: 'Enter weight to calculate total syringe volume and ketamine escalation volume.',
+        snake_owner_no_placeholder: 'Enter weight to generate Norwegian owner discharge instructions.',
+        snake_owner_en_placeholder: 'Enter weight to generate English owner discharge instructions.',
+        snake_error_positive: 'Weight must be greater than 0 kg.',
+        snake_notes_pre: 'Before Injection',
+        snake_notes_induction: 'Induction and Escalation',
+        snake_notes_maintenance: 'Maintenance for Surgery',
+        snake_notes_recovery: 'Recovery',
+        snake_notes_abdominal: 'Abdominal Surgery Notes',
+        snake_owner_no_title: 'Hjemsendelsesskriv (Norsk)',
+        snake_owner_en_title: 'Discharge Sheet (English)',
+        snake_calc_info_title: 'Calculation Information'
+      },
+      no: {
+        snake_page_title: 'Anestesi, slange | JegVet',
+        snake_title: 'Anestesi, slange',
+        snake_subtitle: 'Oppgi slangens vekt i kg med opptil 3 desimaler. Alle injeksjonsvolum vises i ml med 2 desimaler.',
+        snake_weight_label: 'Vekt (kg)',
+        snake_protocol_sedation: 'Lett sedasjon',
+        snake_protocol_anaesthesia: 'Lett anestesi',
+        snake_protocol_common: 'Reversering og tillegg',
+        snake_table_drug: 'Legemiddel (kons.)',
+        snake_table_dose: 'Dose',
+        snake_table_volume: 'Volum (ml)',
+        snake_table_comment: 'Kommentar',
+        snake_placeholder_protocol: 'Oppgi vekt for å beregne denne protokollen.',
+        snake_placeholder_common: 'Oppgi vekt for å beregne reversering og tilleggsdoser.',
+        snake_summary_placeholder: 'Oppgi vekt for å beregne totalt sprøytevolum og maks ketaminvolum.',
+        snake_owner_no_placeholder: 'Oppgi vekt for å generere norsk hjemsendelsesskriv.',
+        snake_owner_en_placeholder: 'Oppgi vekt for å generere engelsk hjemsendelsesskriv.',
+        snake_error_positive: 'Vekten må være større enn 0 kg.',
+        snake_notes_pre: 'Før injeksjon',
+        snake_notes_induction: 'Induksjon og eventuell opptrapping',
+        snake_notes_maintenance: 'Vedlikehold ved operasjon',
+        snake_notes_recovery: 'Oppvåkning',
+        snake_notes_abdominal: 'Tillegg ved bukinngrep',
+        snake_owner_no_title: 'Hjemsendelsesskriv (Norsk)',
+        snake_owner_en_title: 'Hjemsendelsesskriv (English)',
+        snake_calc_info_title: 'Utregningsinformasjon'
+      }
+    };
+  </script>
+</head>
+<body data-i18n-title="snake_page_title">
+  <main class="page page-top">
+    <section class="layout-card layout-card-wide">
+      <a href="index.html" class="brand-link" aria-label="Go to homepage">
+        <img src="logo_day.png" alt="JegVet logo" class="brand-logo" width="1536" height="1024" />
+      </a>
+
+      <h1 class="section-title" data-i18n="snake_title">Snake Anaesthesia Calculator</h1>
+      <p class="section-subtitle" data-i18n="snake_subtitle">Enter snake weight in kg with up to 3 decimals. All injection volumes are shown in ml with 2 decimals.</p>
+
+      <form class="calc-form">
+        <div class="calc-field">
+          <label for="weight-kg" data-i18n="snake_weight_label">Weight (kg)</label>
+          <input id="weight-kg" type="text" inputmode="decimal" min="0" step="0.001" required />
+        </div>
+      </form>
+
+      <p id="calc-error" class="calc-error" aria-live="polite"></p>
+
+      <h2 class="section-subtitle u-section-gap-sm" data-i18n="snake_protocol_sedation">Light Sedation</h2>
+      <div class="calc-table-wrap">
+        <table class="calc-table" aria-label="Snake light sedation dose results">
+          <thead>
+            <tr>
+              <th data-i18n="snake_table_drug">Drug (conc.)</th>
+              <th data-i18n="snake_table_dose">Dose</th>
+              <th data-i18n="snake_table_volume">Volume (ml)</th>
+              <th data-i18n="snake_table_comment">Comment</th>
+            </tr>
+          </thead>
+          <tbody id="sedation-results">
+            <tr><td colspan="4" data-i18n="snake_placeholder_protocol">Enter weight to calculate this protocol.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tool-card u-mt-14" aria-live="polite">
+        <p id="sedation-summary">Enter weight to calculate total syringe volume and ketamine escalation volume.</p>
+      </div>
+
+      <h2 class="section-subtitle u-section-gap-md" data-i18n="snake_protocol_anaesthesia">Light Anaesthesia</h2>
+      <div class="calc-table-wrap">
+        <table class="calc-table" aria-label="Snake light anaesthesia dose results">
+          <thead>
+            <tr>
+              <th data-i18n="snake_table_drug">Drug (conc.)</th>
+              <th data-i18n="snake_table_dose">Dose</th>
+              <th data-i18n="snake_table_volume">Volume (ml)</th>
+              <th data-i18n="snake_table_comment">Comment</th>
+            </tr>
+          </thead>
+          <tbody id="anaesthesia-results">
+            <tr><td colspan="4" data-i18n="snake_placeholder_protocol">Enter weight to calculate this protocol.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tool-card u-mt-14" aria-live="polite">
+        <p id="anaesthesia-summary">Enter weight to calculate total syringe volume and ketamine escalation volume.</p>
+      </div>
+
+      <h2 class="section-subtitle u-section-gap-md" data-i18n="snake_protocol_common">Reversal and Adjuncts</h2>
+      <div class="calc-table-wrap">
+        <table class="calc-table" aria-label="Snake reversal and adjunct dose results">
+          <thead>
+            <tr>
+              <th data-i18n="snake_table_drug">Drug (conc.)</th>
+              <th data-i18n="snake_table_dose">Dose</th>
+              <th data-i18n="snake_table_volume">Volume (ml)</th>
+              <th data-i18n="snake_table_comment">Comment</th>
+            </tr>
+          </thead>
+          <tbody id="common-results">
+            <tr><td colspan="4" data-i18n="snake_placeholder_common">Enter weight to calculate reversal and adjunct doses.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tool-card u-mt-14">
+        <h2 data-i18n="snake_notes_pre">Before Injection</h2>
+        <ul id="notes-pre"></ul>
+      </div>
+
+      <div class="tool-card u-mt-14">
+        <h2 data-i18n="snake_notes_induction">Induction and Escalation</h2>
+        <ul id="notes-induction"></ul>
+      </div>
+
+      <div class="tool-card u-mt-14">
+        <h2 data-i18n="snake_notes_maintenance">Maintenance for Surgery</h2>
+        <ul id="notes-maintenance"></ul>
+      </div>
+
+      <div class="tool-card u-mt-14">
+        <h2 data-i18n="snake_notes_recovery">Recovery</h2>
+        <ul id="notes-recovery"></ul>
+      </div>
+
+      <div class="tool-card u-mt-14">
+        <h2 data-i18n="snake_notes_abdominal">Abdominal Surgery Notes</h2>
+        <ul id="notes-abdominal"></ul>
+      </div>
+
+      <div class="tool-card u-mt-14" aria-live="polite">
+        <h2 data-i18n="snake_owner_no_title">Hjemsendelsesskriv (Norsk)</h2>
+        <textarea id="owner-text-no" rows="12" readonly class="calc-journal-textarea">Oppgi vekt for å generere norsk hjemsendelsesskriv.</textarea>
+      </div>
+
+      <div class="tool-card u-mt-14" aria-live="polite">
+        <h2 data-i18n="snake_owner_en_title">Discharge Sheet (English)</h2>
+        <textarea id="owner-text-en" rows="12" readonly class="calc-journal-textarea">Enter weight to generate English owner discharge instructions.</textarea>
+      </div>
+
+      <div class="tool-card u-mt-14">
+        <h2 data-i18n="snake_calc_info_title">Calculation Information</h2>
+        <ul id="calc-info"></ul>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var PROTOCOLS = {
+        sedation: { ketamineDoseMgKg: 10, key: 'sedation' },
+        anaesthesia: { ketamineDoseMgKg: 25, key: 'anaesthesia' }
+      };
+
+      var CONCENTRATIONS = {
+        medetomidineMgMl: 1,
+        ketamineMgMl: 100,
+        butorphanolMgMl: 10,
+        meloxicamInjectionMgMl: 5,
+        meloxicamOralMgMl: 1.5
+      };
+
+      var TEXT = {
+        en: {
+          protocolPlaceholder: 'Enter weight to calculate this protocol.',
+          commonPlaceholder: 'Enter weight to calculate reversal and adjunct doses.',
+          summaryPlaceholder: 'Enter weight to calculate total syringe volume and ketamine escalation volume.',
+          ownerNoPlaceholder: 'Enter weight to generate Norwegian owner discharge instructions.',
+          ownerEnPlaceholder: 'Enter weight to generate English owner discharge instructions.',
+          errorPositive: 'Weight must be greater than 0 kg.',
+          noResults: 'No results.',
+          medComment: 'IM, same syringe. Split the IM injection across >2 sites.',
+          ketCommentPrefix: 'IM, same syringe. Can be increased to 50 mg/kg = ',
+          ketCommentSuffix: ' ml if stronger effect is needed.',
+          totalPrefix: 'Total initial IM syringe volume:',
+          totalMiddle: ' ml. Split across >2 IM sites. Maximum ketamine volume at 50 mg/kg:',
+          totalSuffix: ' ml.',
+          atipamezoleDose: 'same ml volume as medetomidine',
+          atipamezoleComment: 'Inject across >2 IM sites. Same volume in ml as medetomidine.',
+          butorphanolComment: 'Optional increased analgesia. May contribute to hypoventilation. Analgesic effect at this dose is insufficiently documented in some species, including corn snakes.',
+          meloxicamComment: 'Post-operative analgesia, q24h SC.',
+          notesPre: [
+            'The snake must be warmed to close to the highest basking-spot temperature before injection, usually about 33-34 C, so the drugs are metabolized and induction is effective.',
+            'Give the initial IM injection in >2 sites to improve uptake.'
+          ],
+          notesInduction: [
+            'Continue active warming during induction for 15-30 minutes.',
+            'In both protocols, ketamine can be increased up to 50 mg/kg IM if needed. The calculator shows that maximum volume directly next to the ketamine line.',
+            'If ketamine is repeated, continue warming and allow another 15-30 minute period for effective uptake.',
+            'A sufficient first dose is important. If the initial dose is too low, repeated ketamine top-ups can increase the total dose and often prolong recovery.'
+          ],
+          notesMaintenance: [
+            'Intubate for surgery when depth allows.',
+            'If induction is still not deep enough for intubation, continue induction in an induction chamber with 5-7% iso/sevo for at least 15 minutes while maintaining good warmth.',
+            'Do not over-ventilate during anaesthesia. Keep ETCO2 slightly higher to support spontaneous respiration during recovery.',
+            'Manual ventilation during anaesthesia is approximately 2 breaths per minute.',
+            'Normal snake respiratory rate is about 1.8-4 breaths per minute. Extubation is appropriate once this is achieved spontaneously.'
+          ],
+          notesRecovery: [
+            'Normal recovery period is 72-96 hours.',
+            'The snake must be kept warm >30 C throughout the full recovery period to improve drug metabolism. Cooler temperatures can significantly delay true awakening.'
+          ],
+          notesAbdominal: [
+            'For abdominal surgery, prophylactic antibiotics should generally be given because of increased risk of peritonitis.',
+            'Baytril 10 mg/kg PO SID for 20 days is recommended in this protocol.',
+            'Baytril tastes bad, so the snake should have the whole body wrapped in a towel like a burrito to reduce the risk of self-injury during dosing.',
+            'Do not give Baytril IM because of necrosis risk. Per os is safer.'
+          ],
+          calcInfo: [
+            'Light sedation: medetomidine 0.3 mg/kg + ketamine 10 mg/kg IM in the same syringe.',
+            'Light anaesthesia: medetomidine 0.3 mg/kg + ketamine 25 mg/kg IM in the same syringe.',
+            'Ketamine escalation option: up to 50 mg/kg IM.',
+            'Medetomidine concentration: 1 mg/ml. Ketamine concentration: 100 mg/ml.',
+            'Atipamezole reversal is shown as the same ml volume as the medetomidine volume.',
+            'Butorphanol is calculated here using an assumed concentration of 10 mg/ml because no concentration was specified.',
+            'Meloxicam injection concentration: 5 mg/ml. Oral Metacam concentration: 1.5 mg/ml.',
+            'Volume (ml) = (dose mg/kg x body weight kg) / concentration mg/ml.'
+          ]
+        },
+        no: {
+          protocolPlaceholder: 'Oppgi vekt for å beregne denne protokollen.',
+          commonPlaceholder: 'Oppgi vekt for å beregne reversering og tilleggsdoser.',
+          summaryPlaceholder: 'Oppgi vekt for å beregne totalt sprøytevolum og maks ketaminvolum.',
+          ownerNoPlaceholder: 'Oppgi vekt for å generere norsk hjemsendelsesskriv.',
+          ownerEnPlaceholder: 'Oppgi vekt for å generere engelsk hjemsendelsesskriv.',
+          errorPositive: 'Vekten må være større enn 0 kg.',
+          noResults: 'Ingen resultater.',
+          medComment: 'IM, samme sprøyte. Fordel IM-injeksjonen på >2 injeksjonssteder.',
+          ketCommentPrefix: 'IM, samme sprøyte. Kan økes til 50 mg/kg = ',
+          ketCommentSuffix: ' ml ved behov for sterkere effekt.',
+          totalPrefix: 'Totalt initialt IM-sprøytevolum:',
+          totalMiddle: ' ml. Fordel på >2 IM-injeksjonssteder. Maks ketaminvolum ved 50 mg/kg:',
+          totalSuffix: ' ml.',
+          atipamezoleDose: 'samme ml-volum som medetomidin',
+          atipamezoleComment: 'Sett på >2 IM-injeksjonssteder. Samme volum i ml som medetomidin.',
+          butorphanolComment: 'Valgfri økt analgesi. Kan bidra til hypoventilering. Analgetisk effekt ved denne dosen er utilstrekkelig dokumentert hos enkelte arter, blant annet kornsnok.',
+          meloxicamComment: 'Postoperativ analgesi, q24 timer SC.',
+          notesPre: [
+            'Slangen må varmes opp mot maksimal solplasstemperatur før injeksjon, oftest cirka 33-34 grader, for at medikamentene skal metaboliseres og induksjonen bli effektiv.',
+            'Sett første IM-injeksjon fordelt på >2 injeksjonssteder for raskere opptak.'
+          ],
+          notesInduction: [
+            'Fortsett å holde slangen varm under induksjon i 15-30 minutter.',
+            'I begge protokoller kan ketamin økes opp til 50 mg/kg IM ved behov. Kalkulatoren viser dette maksvolumet direkte ved ketaminlinjen.',
+            'Hvis ketamin må re-doseres, fortsett temperering og la det gå en ny periode på 15-30 minutter for effektivt opptak.',
+            'Det er viktig med en tilstrekkelig første dose. For lav startdose kan føre til flere ketamin-top-ups, høyere totaldose og ofte lengre oppvåkningsperiode.'
+          ],
+          notesMaintenance: [
+            'Intuber ved operasjon når dybden tillater det.',
+            'Hvis slangen ikke er tilstrekkelig indusert til intubering, fortsett induksjonen i induksjonskammer med 5-7 % iso/sevo i minst 15 minutter samtidig som slangen holdes godt varm.',
+            'Unngå overventilering under anestesi. Hold ETCO2 litt høyere for å støtte spontan respirasjon ved oppvåkning.',
+            'Manuell ventilering under anestesi er cirka 2 ganger per minutt.',
+            'Normal respirasjonsfrekvens hos slange er cirka 1,8-4 ganger per minutt. Ekstubering er aktuelt når dette oppnås spontant.'
+          ],
+          notesRecovery: [
+            'Normal recovery-periode er 72-96 timer.',
+            'Slangen må holdes varm >30 grader i hele recovery-perioden for å få mer effektiv metabolisering av medisinene. Lavere temperatur kan forsinke reell oppvåkning betydelig.'
+          ],
+          notesAbdominal: [
+            'Ved bukinngrep bør profylaktisk antibiotika generelt gis på grunn av økt risiko for peritonitt.',
+            'Baytril 10 mg/kg PO SID i 20 dager anbefales i denne protokollen.',
+            'Baytril smaker dårlig, så slangen bør rulles inn i et teppe som en burrito for å redusere risiko for selvskade ved dosering.',
+            'Ikke gi Baytril IM på grunn av risiko for nekrose. Per os er tryggere.'
+          ],
+          calcInfo: [
+            'Lett sedasjon: medetomidin 0,3 mg/kg + ketamin 10 mg/kg IM i samme sprøyte.',
+            'Lett anestesi: medetomidin 0,3 mg/kg + ketamin 25 mg/kg IM i samme sprøyte.',
+            'Mulig ketamin-opptrapping: opptil 50 mg/kg IM.',
+            'Konsentrasjon medetomidin: 1 mg/ml. Konsentrasjon ketamin: 100 mg/ml.',
+            'Atipamezol-reversering vises som samme ml-volum som medetomidinvolumet.',
+            'Butorfanol er beregnet her med antatt konsentrasjon 10 mg/ml siden konsentrasjon ikke var spesifisert.',
+            'Konsentrasjon meloksikam injeksjon: 5 mg/ml. Konsentrasjon Metacam mikstur: 1,5 mg/ml.',
+            'Volum (ml) = (dose mg/kg x kroppsvekt kg) / konsentrasjon mg/ml.'
+          ]
+        }
+      };
+
+      var weightInput = document.getElementById('weight-kg');
+      var errorEl = document.getElementById('calc-error');
+      var sedationResultsEl = document.getElementById('sedation-results');
+      var anaesthesiaResultsEl = document.getElementById('anaesthesia-results');
+      var commonResultsEl = document.getElementById('common-results');
+      var sedationSummaryEl = document.getElementById('sedation-summary');
+      var anaesthesiaSummaryEl = document.getElementById('anaesthesia-summary');
+      var ownerTextNoEl = document.getElementById('owner-text-no');
+      var ownerTextEnEl = document.getElementById('owner-text-en');
+
+      function t(key, fallback) {
+        if (window.JegVetLang && typeof window.JegVetLang.t === 'function') {
+          return window.JegVetLang.t(key, fallback);
+        }
+        return fallback || key;
+      }
+
+      function getLang() {
+        if (window.JegVetLang && typeof window.JegVetLang.getLang === 'function') {
+          return window.JegVetLang.getLang();
+        }
+        return 'en';
+      }
+
+      function currentText() {
+        return TEXT[getLang()] || TEXT.en;
+      }
+
+      function format(value, decimals) {
+        return value.toFixed(decimals);
+      }
+
+      function createListMarkup(items) {
+        var html = [];
+        for (var i = 0; i < items.length; i += 1) {
+          html.push('<li>' + items[i] + '</li>');
+        }
+        return html.join('');
+      }
+
+      function renderStaticLists() {
+        var copy = currentText();
+        document.getElementById('notes-pre').innerHTML = createListMarkup(copy.notesPre);
+        document.getElementById('notes-induction').innerHTML = createListMarkup(copy.notesInduction);
+        document.getElementById('notes-maintenance').innerHTML = createListMarkup(copy.notesMaintenance);
+        document.getElementById('notes-recovery').innerHTML = createListMarkup(copy.notesRecovery);
+        document.getElementById('notes-abdominal').innerHTML = createListMarkup(copy.notesAbdominal);
+        document.getElementById('calc-info').innerHTML = createListMarkup(copy.calcInfo);
+      }
+
+      function protocolValues(weightKg, ketamineDoseMgKg) {
+        var medMl = (0.3 * weightKg) / CONCENTRATIONS.medetomidineMgMl;
+        var ketMl = (ketamineDoseMgKg * weightKg) / CONCENTRATIONS.ketamineMgMl;
+        var ketMaxMl = (50 * weightKg) / CONCENTRATIONS.ketamineMgMl;
+        return {
+          medMl: medMl,
+          ketMl: ketMl,
+          ketMaxMl: ketMaxMl,
+          totalMl: medMl + ketMl
+        };
+      }
+
+      function renderProtocolTable(targetEl, protocol, weightKg) {
+        var copy = currentText();
+        if (!isFinite(weightKg) || weightKg <= 0) {
+          targetEl.innerHTML = '<tr><td colspan="4">' + copy.noResults + '</td></tr>';
+          return null;
+        }
+
+        var values = protocolValues(weightKg, protocol.ketamineDoseMgKg);
+        targetEl.innerHTML = [
+          '<tr>',
+          '<td>Medetomidine (1 mg/ml)</td>',
+          '<td>0.30 mg/kg</td>',
+          '<td>' + format(values.medMl, 2) + '</td>',
+          '<td>' + copy.medComment + '</td>',
+          '</tr>',
+          '<tr>',
+          '<td>Ketamine (100 mg/ml)</td>',
+          '<td>' + format(protocol.ketamineDoseMgKg, 2) + ' mg/kg</td>',
+          '<td>' + format(values.ketMl, 2) + '</td>',
+          '<td>' + copy.ketCommentPrefix + format(values.ketMaxMl, 2) + copy.ketCommentSuffix + '</td>',
+          '</tr>'
+        ].join('');
+
+        return values;
+      }
+
+      function renderCommonTable(weightKg) {
+        var copy = currentText();
+        if (!isFinite(weightKg) || weightKg <= 0) {
+          commonResultsEl.innerHTML = '<tr><td colspan="4">' + copy.noResults + '</td></tr>';
+          return;
+        }
+
+        var medMl = (0.3 * weightKg) / CONCENTRATIONS.medetomidineMgMl;
+        var butorphanolMl = (0.4 * weightKg) / CONCENTRATIONS.butorphanolMgMl;
+        var meloxicamInjectionMl = (0.5 * weightKg) / CONCENTRATIONS.meloxicamInjectionMgMl;
+
+        commonResultsEl.innerHTML = [
+          '<tr>',
+          '<td>Atipamezole</td>',
+          '<td>' + copy.atipamezoleDose + '</td>',
+          '<td>' + format(medMl, 2) + '</td>',
+          '<td>' + copy.atipamezoleComment + '</td>',
+          '</tr>',
+          '<tr>',
+          '<td>Butorphanol (10 mg/ml)</td>',
+          '<td>0.40 mg/kg IM</td>',
+          '<td>' + format(butorphanolMl, 2) + '</td>',
+          '<td>' + copy.butorphanolComment + '</td>',
+          '</tr>',
+          '<tr>',
+          '<td>Meloxicam (5 mg/ml)</td>',
+          '<td>0.50 mg/kg q24h SC</td>',
+          '<td>' + format(meloxicamInjectionMl, 2) + '</td>',
+          '<td>' + copy.meloxicamComment + '</td>',
+          '</tr>'
+        ].join('');
+      }
+
+      function buildSummary(values) {
+        var copy = currentText();
+        if (!values) {
+          return copy.summaryPlaceholder;
+        }
+        return copy.totalPrefix + ' ' + format(values.totalMl, 2) + copy.totalMiddle + ' ' + format(values.ketMaxMl, 2) + copy.totalSuffix;
+      }
+
+      function buildOwnerHandoutNo(weightKg) {
+        var metacamMl = (0.5 * weightKg) / CONCENTRATIONS.meloxicamOralMgMl;
+        return [
+          '1. Metacam smertestillende mikstur 1,5 mg/ml: gi ' + format(metacamMl, 2) + ' ml en gang daglig i 2-3 uker. Viktig å tilby vann daglig. Neste dose i morgen tidlig.',
+          '2. Sørg for at terrariet holder god temperatur for å støtte immunforsvaret og øke medisinomsetningen under helingen. Ca 30-32 grader.',
+          '3. Hold pasienten på rent tørkepapir i 6 uker slik at bunnmateriale ikke irriterer såret før huden er grodd.',
+          '4. Unngå bading av operasjonssåret i vann i 6 uker. Hold henne heller over vann for å kun drikke.',
+          '5. Slangen vil være unormalt trøtt og rolig i opptil 96 timer etter narkosen fordi ektoterme dyr skiller ut anestesimidler sakte.',
+          '6. Sårkontroll med stingfjerning om 6-8 uker. Hamskifte før dette vil kreve litt ekstra hjelp fra dere for å fjerne ham ved områder med sting.',
+          '7. Ta kontakt hvis såret væsker eller blør.'
+        ].join('\n');
+      }
+
+      function buildOwnerHandoutEn(weightKg) {
+        var metacamMl = (0.5 * weightKg) / CONCENTRATIONS.meloxicamOralMgMl;
+        return [
+          '1. Metacam pain-relief oral suspension 1.5 mg/ml: give ' + format(metacamMl, 2) + ' ml once daily for 2-3 weeks. It is important to offer water daily. The next dose is tomorrow morning.',
+          '2. Make sure the terrarium stays warm to support the immune system and improve drug metabolism during healing. About 30-32 C.',
+          '3. Keep the patient on clean paper towels for 6 weeks so the substrate does not irritate the wound before the skin has healed.',
+          '4. Avoid soaking the surgical wound in water for 6 weeks. Hold her over water so she can drink only.',
+          '5. The snake will be unusually tired and quiet for up to 96 hours after anaesthesia because ectothermic animals eliminate anaesthetic drugs slowly.',
+          '6. Wound check with suture removal in 6-8 weeks. If the snake sheds before that, you may need to help remove shed skin around the suture sites.',
+          '7. Contact us if the wound oozes or bleeds.'
+        ].join('\n');
+      }
+
+      function renderPlaceholders() {
+        var copy = currentText();
+        sedationResultsEl.innerHTML = '<tr><td colspan="4">' + copy.protocolPlaceholder + '</td></tr>';
+        anaesthesiaResultsEl.innerHTML = '<tr><td colspan="4">' + copy.protocolPlaceholder + '</td></tr>';
+        commonResultsEl.innerHTML = '<tr><td colspan="4">' + copy.commonPlaceholder + '</td></tr>';
+        sedationSummaryEl.textContent = copy.summaryPlaceholder;
+        anaesthesiaSummaryEl.textContent = copy.summaryPlaceholder;
+        ownerTextNoEl.value = copy.ownerNoPlaceholder;
+        ownerTextEnEl.value = copy.ownerEnPlaceholder;
+      }
+
+      function render() {
+        var weightKg = window.JegVetCalc.parseDecimalInput(weightInput.value);
+        var copy = currentText();
+
+        renderStaticLists();
+
+        if (!weightInput.value) {
+          errorEl.textContent = '';
+          renderPlaceholders();
+          return;
+        }
+
+        if (!isFinite(weightKg) || weightKg <= 0) {
+          errorEl.textContent = copy.errorPositive;
+          sedationResultsEl.innerHTML = '<tr><td colspan="4">' + copy.noResults + '</td></tr>';
+          anaesthesiaResultsEl.innerHTML = '<tr><td colspan="4">' + copy.noResults + '</td></tr>';
+          commonResultsEl.innerHTML = '<tr><td colspan="4">' + copy.noResults + '</td></tr>';
+          sedationSummaryEl.textContent = copy.summaryPlaceholder;
+          anaesthesiaSummaryEl.textContent = copy.summaryPlaceholder;
+          ownerTextNoEl.value = copy.ownerNoPlaceholder;
+          ownerTextEnEl.value = copy.ownerEnPlaceholder;
+          return;
+        }
+
+        errorEl.textContent = '';
+
+        var sedationValues = renderProtocolTable(sedationResultsEl, PROTOCOLS.sedation, weightKg);
+        var anaesthesiaValues = renderProtocolTable(anaesthesiaResultsEl, PROTOCOLS.anaesthesia, weightKg);
+        renderCommonTable(weightKg);
+
+        sedationSummaryEl.textContent = buildSummary(sedationValues);
+        anaesthesiaSummaryEl.textContent = buildSummary(anaesthesiaValues);
+        ownerTextNoEl.value = buildOwnerHandoutNo(weightKg);
+        ownerTextEnEl.value = buildOwnerHandoutEn(weightKg);
+      }
+
+      weightInput.addEventListener('input', render);
+      document.addEventListener('jegvet:langchange', render);
+
+      render();
+    })();
+  </script>
+</body>
+</html>

@@ -694,6 +694,7 @@ input.check-toggle-round-flat:checked + label:after {
 .wiki-find-input:focus-visible,
 .wiki-find-btn:focus-visible,
 .wiki-folder-toggle:focus-visible,
+.wiki-folder-link-button:focus-visible,
 .wiki-nav a:focus-visible {
   outline: 0;
 }
@@ -707,6 +708,7 @@ input.check-toggle-round-flat:checked + label:after {
 .search-input:focus-visible,
 .wiki-find-input:focus-visible,
 .wiki-folder-toggle:focus-visible,
+.wiki-folder-link-button:focus-visible,
 .wiki-nav a:focus-visible {
   box-shadow: 0 0 0 3px var(--focus-ring);
 }
@@ -790,16 +792,22 @@ input.check-toggle-round-flat:checked + label:after {
   margin: 0 0 6px;
 }
 
+.wiki-folder-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
 .wiki-folder-toggle {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
   border: 0;
   background: transparent;
   padding: 2px 0;
   cursor: pointer;
   color: var(--muted-strong);
   font: inherit;
+  flex: 0 0 auto;
 }
 
 .wiki-folder-caret {
@@ -812,6 +820,7 @@ input.check-toggle-round-flat:checked + label:after {
   transform: rotate(90deg);
 }
 
+.wiki-folder-link,
 .wiki-folder-label {
   display: inline-block;
   font-size: 15px;
@@ -821,12 +830,40 @@ input.check-toggle-round-flat:checked + label:after {
   overflow-wrap: anywhere;
 }
 
+.wiki-folder-link {
+  text-decoration: none;
+}
+
+.wiki-folder-link:hover,
+.wiki-folder-link.active {
+  color: var(--brand-teal-dark);
+  text-decoration: underline;
+}
+
+.wiki-folder-link-button {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+.wiki-folder-link-standalone {
+  font-weight: 500;
+}
+
 .wiki-nav a {
   color: var(--brand-blue);
   text-decoration: none;
   font-size: 15px;
   font-weight: 500;
   overflow-wrap: anywhere;
+}
+
+.wiki-nav a.wiki-folder-link {
+  color: var(--muted-heading);
+  font-weight: 600;
 }
 
 .wiki-nav a:hover,

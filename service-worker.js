@@ -8,7 +8,7 @@
  *  - Navigations fall back to an offline page when the network is unavailable.
  *  - Cross-origin requests (fonts, GitHub API) are left to the network.
  */
-var CACHE = 'jegvet-cache-v3';
+var CACHE = 'jegvet-cache-v4';
 
 var CORE_ASSETS = [
   './',
@@ -32,7 +32,9 @@ var CORE_ASSETS = [
   'anaesthetic-chinchilla-calculator.html',
   'anaesthetic-guinea-pig-calculator.html',
   'anaesthetic-rabbit-calculator.html',
+  'anaesthetic-snake-calculator.html',
   'cat-heart-protocol-sedation-calculator.html',
+  'bird-euthanasia-calculator.html',
   'dog-antihistamine-calculator.html',
   'dog-b1-cardiac-sedation-calculator.html',
   'dog-premed-calculator.html',

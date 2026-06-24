@@ -11,7 +11,7 @@ function buildTestIndex() {
     { kind: 'tool', title: 'Kitty Magic Calculator', body: 'kitty magic cat feline sedation im bcs. Norwegian: Kitty Magic kalkulator katt sedasjon', url: 'kitty-magic-calculator.html' },
     { kind: 'tool', title: 'Kitty Magic calculator | JegVet', body: 'kitty magic kalkulator katt sedasjon bcs tools calculator cat', url: 'kitty-magic-calculator.html' },
     { kind: 'tool', title: 'Dog Premed Calculator', body: 'dog premed premedication hund medetomidine dexmedetomidine methadone im', url: 'dog-premed-calculator.html' },
-    { kind: 'tool', title: 'Euthanasia Calculator', body: 'euthanasia zoletil mix euthasol exagon dog cat. Norwegian: Avliving', url: 'euthanasia-calculator.html' },
+    { kind: 'tool', title: 'Dog/Cat Euthanasia Calculator', body: 'euthanasia zoletil mix euthasol exagon dog cat. Norwegian: Avliving hund katt', url: 'euthanasia-calculator.html' },
     { kind: 'tool', title: 'Anaesthetic Calculator, Rabbit', body: 'anaesthetic anesthesia rabbit kanin midazolam medetomidine atipamezole', url: 'anaesthetic-rabbit-calculator.html' },
     { kind: 'tool', title: 'Cat Heart Protocol Sedation Calculator', body: 'cat heart protocol sedation midazolam methadone iv feline', url: 'cat-heart-protocol-sedation-calculator.html' },
     { kind: 'tool', title: 'Seagull Sedation', body: 'seagull maake sedation bird avian midazolam butorphanol', url: 'seagull-sedation-calculator.html' },

@@ -27,12 +27,15 @@
         kitty_magic_weight: 'Cat weight (kg)',
         kitty_magic_mood: 'Cat mood',
         kitty_magic_bcs: 'Body condition score (BCS)',
+        kitty_magic_bonqat: 'Has the cat received Bonqat today?',
         kitty_magic_mood_snill: 'Friendly and social cat (low-normal dose)',
         kitty_magic_mood_redd: 'Scared or nervous cat (slightly higher dose)',
         kitty_magic_mood_sint: 'Very angry cat (high dose)',
         kitty_magic_bcs_slank: 'Lean cat (BCS 3-4/9)',
         kitty_magic_bcs_litt_tjukk: 'Slightly overweight cat (BCS 5-6/9)',
         kitty_magic_bcs_overvektig: 'Overweight cat (BCS 7-9/9)',
+        kitty_magic_bonqat_no: 'No',
+        kitty_magic_bonqat_yes: 'Yes',
         kitty_magic_results: 'Dose Results (IM)',
         kitty_magic_th_drug: 'Drug',
         kitty_magic_th_dose: 'Dose (mg/kg)',
@@ -61,10 +64,11 @@
         kitty_magic_calc_item14: 'Ketamine mood top-up: scared or nervous +0.5 mg/kg; very angry +0.7 mg/kg',
         kitty_magic_calc_item15: 'Dexmedetomidine mood top-up: very angry +0.0025 mg/kg',
         kitty_magic_calc_item16: 'Final ketamine dose = base ketamine dose by BCS/weight + mood top-up',
+        kitty_magic_calc_item19: 'Bonqat today: if yes, reduce ketamine by 1.0 mg/kg regardless of other selected modifiers',
         kitty_magic_calc_item17: 'Volume (ml) = (dose mg/kg x body weight kg) / concentration mg/ml',
         kitty_magic_calc_item18: 'Total IM syringe volume = dexmedetomidine volume + methadone volume + ketamine volume',
         kitty_magic_error_positive: 'Weight must be greater than 0 kg.',
-        kitty_magic_error_select: 'Please select both mood and BCS category.',
+        kitty_magic_error_select: 'Please select mood, BCS, and Bonqat status.',
         kitty_magic_error_range: 'Weight must be between 1.50 and 12.00 kg for selected BCS category.',
         kitty_magic_no_result: 'No result.',
         kitty_magic_total: 'Total volume in same syringe:'
@@ -76,12 +80,15 @@
         kitty_magic_weight: 'Kattens vekt (kg)',
         kitty_magic_mood: 'Kattens hum\u00F8r',
         kitty_magic_bcs: 'Body condition score (BCS)',
+        kitty_magic_bonqat: 'Har katten fått Bonqat i dag?',
         kitty_magic_mood_snill: 'Snill & sosial katt (lav-normal dose)',
         kitty_magic_mood_redd: 'Redd eller nerv\u00F8s katt (litt h\u00F8yere dose)',
         kitty_magic_mood_sint: 'Veldig sint katt (h\u00F8y dose)',
         kitty_magic_bcs_slank: 'Slank katt (BCS 3-4/9)',
         kitty_magic_bcs_litt_tjukk: 'Litt tjukk katt (BCS 5-6/9)',
         kitty_magic_bcs_overvektig: 'Overvektig katt (BCS 7-9/9)',
+        kitty_magic_bonqat_no: 'Nei',
+        kitty_magic_bonqat_yes: 'Ja',
         kitty_magic_results: 'Doseresultat (IM)',
         kitty_magic_th_drug: 'Legemiddel',
         kitty_magic_th_dose: 'Dose (mg/kg)',
@@ -110,10 +117,11 @@
         kitty_magic_calc_item14: 'Hum\u00F8r-top-up for ketamin: redd eller nerv\u00F8s +0,5 mg/kg; veldig sint +0,7 mg/kg',
         kitty_magic_calc_item15: 'Dexmedetomidin hum\u00F8r-top-up: veldig sint +0,0025 mg/kg',
         kitty_magic_calc_item16: 'Endelig ketamindose = basis ketamindose etter BCS/vekt + hum\u00F8r-top-up',
+        kitty_magic_calc_item19: 'Bonqat i dag: hvis ja, reduser ketamin med 1,0 mg/kg uansett andre valgte forbehold',
         kitty_magic_calc_item17: 'Volum (ml) = (dose mg/kg x kroppsvekt kg) / konsentrasjon mg/ml',
         kitty_magic_calc_item18: 'Totalt IM-spr\u00F8ytevolum = dexmedetomidinvolum + methadonevolum + ketaminvolum',
         kitty_magic_error_positive: 'Vekten m\u00E5 v\u00E6re st\u00F8rre enn 0 kg.',
-        kitty_magic_error_select: 'Velg b\u00E5de hum\u00F8rkategori og BCS-kategori.',
+        kitty_magic_error_select: 'Velg hum\u00F8rkategori, BCS-kategori og Bonqat-status.',
         kitty_magic_error_range: 'Vekten m\u00E5 v\u00E6re mellom 1,50 og 12,00 kg for valgt BCS-kategori.',
         kitty_magic_no_result: 'Ingen resultat.',
         kitty_magic_total: 'Totalt volum i samme spr\u00F8yte:'
@@ -152,6 +160,14 @@
             <option value="slank" data-i18n="kitty_magic_bcs_slank">Lean cat (BCS 3-4/9)</option>
             <option value="litt_tjukk" data-i18n="kitty_magic_bcs_litt_tjukk">Slightly overweight cat (BCS 5-6/9)</option>
             <option value="overvektig" data-i18n="kitty_magic_bcs_overvektig">Overweight cat (BCS 7-9/9)</option>
+          </select>
+        </div>
+        <div class="calc-field">
+          <label for="bonqat-choice" data-i18n="kitty_magic_bonqat">Has the cat received Bonqat today?</label>
+          <select id="bonqat-choice" required>
+            <option value="">-</option>
+            <option value="no" data-i18n="kitty_magic_bonqat_no">No</option>
+            <option value="yes" data-i18n="kitty_magic_bonqat_yes">Yes</option>
           </select>
         </div>
       </form>
@@ -217,6 +233,7 @@
           <li data-i18n="kitty_magic_calc_item14">Ketamine mood top-up: scared or nervous +0.5 mg/kg; very angry +0.7 mg/kg</li>
           <li data-i18n="kitty_magic_calc_item15">Dexmedetomidine mood top-up: very angry +0.0025 mg/kg</li>
           <li data-i18n="kitty_magic_calc_item16">Final ketamine dose = base ketamine dose by BCS/weight + mood top-up</li>
+          <li data-i18n="kitty_magic_calc_item19">Bonqat today: if yes, reduce ketamine by 1.0 mg/kg regardless of other selected modifiers</li>
           <li data-i18n="kitty_magic_calc_item17">Volume (ml) = (dose mg/kg x body weight kg) / concentration mg/ml</li>
           <li data-i18n="kitty_magic_calc_item18">Total IM syringe volume = dexmedetomidine volume + methadone volume + ketamine volume</li>
         </ul>
@@ -231,6 +248,7 @@
       var weightInput = document.getElementById('weight-kg');
       var moodSelect = document.getElementById('mood-choice');
       var bcsSelect = document.getElementById('bcs-choice');
+      var bonqatSelect = document.getElementById('bonqat-choice');
       var errorEl = document.getElementById('calc-error');
       var resultsEl = document.getElementById('dose-results');
       var combinedEl = document.getElementById('combined-result');
@@ -282,6 +300,10 @@
         return 0;
       }
 
+      function bonqatKetamineAdjustment(hasBonqat) {
+        return hasBonqat === 'yes' ? -1 : 0;
+      }
+
       function resolveBaseDose(weightKg, bcs) {
         if (bcs === 'slank') {
           if (weightKg >= 1.5 && weightKg <= 5.0) {
@@ -328,8 +350,9 @@
         var weightKg = parseWeightKg(weightInput.value);
         var mood = moodSelect.value;
         var bcs = bcsSelect.value;
+        var bonqat = bonqatSelect.value;
 
-        if (!weightInput.value && !mood && !bcs) {
+        if (!weightInput.value && !mood && !bcs && !bonqat) {
           errorEl.textContent = '';
           renderPlaceholder(t('kitty_magic_placeholder', 'Select BCS, mood, and weight to calculate doses.'));
           return;
@@ -341,8 +364,8 @@
           return;
         }
 
-        if (!mood || !bcs) {
-          errorEl.textContent = t('kitty_magic_error_select', 'Please select both mood and BCS category.');
+        if (!mood || !bcs || !bonqat) {
+          errorEl.textContent = t('kitty_magic_error_select', 'Please select mood, BCS, and Bonqat status.');
           renderPlaceholder(t('kitty_magic_no_result', 'No result.'));
           return;
         }
@@ -358,8 +381,9 @@
 
         var topUp = ketamineTopUp(mood);
         var dexMoodTopUp = dexTopUp(mood);
+        var bonqatAdjustment = bonqatKetamineAdjustment(bonqat);
         var finalDexDose = baseDose.dex + dexMoodTopUp;
-        var finalKetamineDose = baseDose.ketamine + topUp;
+        var finalKetamineDose = baseDose.ketamine + topUp + bonqatAdjustment;
         var dexMl = (finalDexDose * weightKg) / CONCENTRATION.dex;
         var methadoneMl = (baseDose.methadone * weightKg) / CONCENTRATION.methadone;
         var ketamineMl = (finalKetamineDose * weightKg) / CONCENTRATION.ketamine;
@@ -377,6 +401,7 @@
       weightInput.addEventListener('input', render);
       moodSelect.addEventListener('change', render);
       bcsSelect.addEventListener('change', render);
+      bonqatSelect.addEventListener('change', render);
       document.addEventListener('jegvet:langchange', render);
       if (formEl) {
         formEl.addEventListener('submit', function (event) {

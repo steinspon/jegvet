@@ -33,17 +33,17 @@
     group_euthanasia: {
       type: 'group',
       labels: { en: 'Euthanasia', no: 'Avliving' },
-      children: ['tool_euthanasia', 'tool_rat_euthanasia']
+      children: ['tool_euthanasia', 'tool_bird_euthanasia', 'tool_rat_euthanasia']
     },
     sub_reptiles: {
       type: 'group',
       labels: { en: 'Reptiles', no: 'Reptiler' },
-      children: []
+      children: ['tool_snake']
     },
     sub_birds: {
       type: 'group',
       labels: { en: 'Birds', no: 'Fugl' },
-      children: ['sub_birds_wild', 'sub_birds_pet']
+      children: ['tool_bird_euthanasia', 'sub_birds_wild', 'sub_birds_pet']
     },
     sub_birds_wild: {
       type: 'group',
@@ -99,6 +99,11 @@
       href: 'anaesthetic-rabbit-calculator.html',
       labels: { en: 'Anaesthetic, Rabbit', no: 'Anestesi, kanin' }
     },
+    tool_snake: {
+      type: 'tool',
+      href: 'anaesthetic-snake-calculator.html',
+      labels: { en: 'Anaesthetic, Snake', no: 'Anestesi, slange' }
+    },
     tool_rabbit_upper_airway: {
       type: 'tool',
       href: 'rabbit-upper-airway-disease-calculator.html',
@@ -108,6 +113,11 @@
       type: 'tool',
       href: 'rabbit-critical-care-calculator.html',
       labels: { en: 'Rabbit Critical Care Calculator', no: 'Critical Care-kalkulator' }
+    },
+    tool_bird_euthanasia: {
+      type: 'tool',
+      href: 'bird-euthanasia-calculator.html',
+      labels: { en: 'Bird Euthanasia', no: 'Avliving fugl' }
     },
     tool_cat_heart: {
       type: 'tool',
@@ -132,7 +142,7 @@
     tool_euthanasia: {
       type: 'tool',
       href: 'euthanasia-calculator.html',
-      labels: { en: 'Euthanasia', no: 'Avliving' }
+      labels: { en: 'Dog/Cat Euthanasia', no: 'Avliving hund/katt' }
     },
     tool_rat_euthanasia: {
       type: 'tool',

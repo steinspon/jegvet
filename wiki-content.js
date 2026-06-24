@@ -1,20 +1,66 @@
 (function () {
   'use strict';
 
+  function looksMojibake(text) {
+    return typeof text === 'string' && /Ã.|Â.|â.|�/.test(text);
+  }
+
+  function repairMojibake(text) {
+    if (!looksMojibake(text) || typeof TextDecoder === 'undefined') {
+      return text;
+    }
+
+    try {
+      var bytes = new Uint8Array(text.length);
+      for (var i = 0; i < text.length; i += 1) {
+        bytes[i] = text.charCodeAt(i) & 255;
+      }
+
+      var decoded = new TextDecoder('utf-8').decode(bytes);
+      if (!decoded || decoded === text) {
+        return text;
+      }
+
+      var originalNoise = (text.match(/Ã|Â|â|�/g) || []).length;
+      var decodedNoise = (decoded.match(/Ã|Â|â|�/g) || []).length;
+      return decodedNoise < originalNoise ? decoded : text;
+    } catch (error) {
+      return text;
+    }
+  }
+
+  function repairManifest(manifest) {
+    if (!manifest || !manifest.pages) {
+      return manifest;
+    }
+
+    return {
+      title: repairMojibake(manifest.title || 'Veterinary Reference Wiki'),
+      generatedAt: manifest.generatedAt,
+      pages: manifest.pages.map(function (page) {
+        return {
+          file: page.file,
+          title: repairMojibake(page.title || ''),
+          folder: repairMojibake(page.folder || '')
+        };
+      })
+    };
+  }
+
   function normalizeManifestFromLegacyNav(navData) {
     var pages = [];
     navData.sections.forEach(function (section) {
       section.pages.forEach(function (page) {
         pages.push({
           file: page.file,
-          title: page.title,
-          folder: section.label.toLowerCase().replace(/\s+/g, '-')
+          title: repairMojibake(page.title),
+          folder: repairMojibake(section.label).toLowerCase().replace(/\s+/g, '-')
         });
       });
     });
 
     return {
-      title: navData.title || 'Veterinary Reference Wiki',
+      title: repairMojibake(navData.title || 'Veterinary Reference Wiki'),
       pages: pages
     };
   }
@@ -112,7 +158,7 @@
     if (!response.ok) {
       throw new Error('Could not load content-manifest.json');
     }
-    return response.json();
+    return repairManifest(await response.json());
   }
 
   async function loadManifestData(options) {
@@ -122,13 +168,13 @@
       return await loadStaticManifest();
     } catch (staticError) {
       if (window.WIKI_FALLBACK && window.WIKI_FALLBACK.manifest) {
-        return window.WIKI_FALLBACK.manifest;
+        return repairManifest(window.WIKI_FALLBACK.manifest);
       }
       if (window.WIKI_FALLBACK && window.WIKI_FALLBACK.nav) {
         return normalizeManifestFromLegacyNav(window.WIKI_FALLBACK.nav);
       }
       if (options.allowGitHubFallback !== false) {
-        return loadManifestFromGitHub();
+        return repairManifest(await loadManifestFromGitHub());
       }
       throw staticError;
     }
@@ -140,10 +186,10 @@
       if (!response.ok) {
         throw new Error('Could not load ' + file);
       }
-      return await response.text();
+      return repairMojibake(await response.text());
     } catch (error) {
       if (window.WIKI_FALLBACK && window.WIKI_FALLBACK.pages && window.WIKI_FALLBACK.pages[file]) {
-        return window.WIKI_FALLBACK.pages[file];
+        return repairMojibake(window.WIKI_FALLBACK.pages[file]);
       }
       throw error;
     }

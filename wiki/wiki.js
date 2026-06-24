@@ -201,8 +201,12 @@
     return window.JegVetWikiContent.loadMarkdown(file);
   }
 
+  function isFolderOverviewPage(page) {
+    return !!(page && /(^|\/)oversikt\.md$/i.test(page.file || ''));
+  }
+
   function buildTree(pages) {
-    var root = { folders: {}, pages: [] };
+    var root = { folders: {}, pages: [], overviewPage: null };
 
     pages.forEach(function (page) {
       var folderPath = (page.folder || '').replace(/\\/g, '/');
@@ -211,12 +215,16 @@
 
       parts.forEach(function (part) {
         if (!node.folders[part]) {
-          node.folders[part] = { folders: {}, pages: [] };
+          node.folders[part] = { folders: {}, pages: [], overviewPage: null };
         }
         node = node.folders[part];
       });
 
-      node.pages.push(page);
+      if (isFolderOverviewPage(page)) {
+        node.overviewPage = page;
+      } else {
+        node.pages.push(page);
+      }
     });
 
     return root;
@@ -226,21 +234,69 @@
     var nodeHasActive = false;
     var folderNames = Object.keys(node.folders).sort();
     folderNames.forEach(function (folderName) {
+      var childNode = node.folders[folderName];
       var li = document.createElement('li');
       var fullPath = folderPrefix ? folderPrefix + '/' + folderName : folderName;
+      var hasNestedContent = Object.keys(childNode.folders).length > 0 || childNode.pages.length > 0;
+      var hasOverview = !!childNode.overviewPage;
+
+      if (!hasNestedContent && hasOverview) {
+        var singleLink = document.createElement('a');
+        singleLink.href = '#';
+        singleLink.textContent = childNode.overviewPage.title || humanizeFolderName(folderName);
+        singleLink.className = 'wiki-folder-link wiki-folder-link-standalone';
+        singleLink.setAttribute('data-file', childNode.overviewPage.file);
+        singleLink.addEventListener('click', function (event) {
+          event.preventDefault();
+          onClickPage(childNode.overviewPage);
+        });
+        navLinks.push(singleLink);
+        li.appendChild(singleLink);
+        if (activeFile && childNode.overviewPage.file === activeFile) {
+          nodeHasActive = true;
+        }
+        parentEl.appendChild(li);
+        return;
+      }
+
+      var folderRow = document.createElement('div');
+      folderRow.className = 'wiki-folder-row';
+
       var folderButton = document.createElement('button');
       folderButton.type = 'button';
       folderButton.className = 'wiki-folder-toggle';
       folderButton.title = fullPath;
       folderButton.setAttribute('aria-expanded', 'false');
-      folderButton.innerHTML =
-        '<span class="wiki-folder-caret" aria-hidden="true">&#9656;</span>' +
-        '<span class="wiki-folder-label">' + escapeHtml(humanizeFolderName(folderName)) + '</span>';
-      li.appendChild(folderButton);
+      folderButton.innerHTML = '<span class="wiki-folder-caret" aria-hidden="true">&#9656;</span>';
+      folderRow.appendChild(folderButton);
+
+      var folderLabelEl;
+      if (hasOverview) {
+        folderLabelEl = document.createElement('a');
+        folderLabelEl.href = '#';
+        folderLabelEl.textContent = childNode.overviewPage.title || humanizeFolderName(folderName);
+        folderLabelEl.className = 'wiki-folder-link';
+        folderLabelEl.setAttribute('data-file', childNode.overviewPage.file);
+        folderLabelEl.addEventListener('click', function (event) {
+          event.preventDefault();
+          onClickPage(childNode.overviewPage);
+        });
+        navLinks.push(folderLabelEl);
+      } else {
+        folderLabelEl = document.createElement('button');
+        folderLabelEl.type = 'button';
+        folderLabelEl.className = 'wiki-folder-link wiki-folder-link-button';
+        folderLabelEl.textContent = humanizeFolderName(folderName);
+      }
+      folderRow.appendChild(folderLabelEl);
+      li.appendChild(folderRow);
 
       var nested = document.createElement('ul');
       nested.className = 'wiki-folder-list';
-      var childHasActive = renderTree(node.folders[folderName], nested, navLinks, onClickPage, fullPath, activeFile);
+      var childHasActive = renderTree(childNode, nested, navLinks, onClickPage, fullPath, activeFile);
+      if (hasOverview && activeFile && childNode.overviewPage.file === activeFile) {
+        childHasActive = true;
+      }
       nodeHasActive = nodeHasActive || childHasActive;
       if (!childHasActive) {
         nested.classList.add('is-collapsed');
@@ -249,12 +305,17 @@
         folderButton.setAttribute('aria-expanded', 'true');
       }
 
-      folderButton.addEventListener('click', function () {
+      function toggleFolder() {
         var expanded = folderButton.getAttribute('aria-expanded') === 'true';
         folderButton.setAttribute('aria-expanded', expanded ? 'false' : 'true');
         folderButton.classList.toggle('is-expanded', !expanded);
         nested.classList.toggle('is-collapsed', expanded);
-      });
+      }
+
+      folderButton.addEventListener('click', toggleFolder);
+      if (!hasOverview) {
+        folderLabelEl.addEventListener('click', toggleFolder);
+      }
 
       li.appendChild(nested);
       parentEl.appendChild(li);

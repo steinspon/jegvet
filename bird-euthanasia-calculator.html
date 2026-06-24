@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Bird Euthanasia Calculator | JegVet</title>
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="JegVet" />
+  <link rel="icon" type="image/png" sizes="32x32" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="app-shell.js" defer></script>
+  <script>
+    window.PAGE_I18N = {
+      en: {
+        bird_euth_page_title: 'Bird Euthanasia Calculator | JegVet',
+        bird_euth_title: 'Bird Euthanasia',
+        bird_euth_subtitle: 'Select the bird weight class. Protocol volumes are shown in ml and arranged in the practical workflow order.',
+        bird_class_label: 'Bird weight class',
+        bird_class_small: 'Small bird <100 grams (e.g. budgerigar)',
+        bird_class_parrot: 'Small parrot <200 grams',
+        bird_class_pigeon: 'Pigeon (about 300-500 grams)',
+        bird_class_seagull: 'Seagull (0.5-1.5 kg)',
+        bird_th_drug: 'Drug',
+        bird_th_volume: 'Protocol volume (ml)',
+        bird_th_note: 'Note',
+        bird_protocol_title: 'Protocol Notes',
+        bird_mix_note: 'IM in the pectoral muscle. Normal induction occurs within 1-2 minutes.',
+        bird_exagon_note: 'Preferably intra-cardiac or intra-hepatic. IP can be used if you do not get blood on aspiration, but make sure you do not aspirate air back because that means you are in the air sacs, which is neither effective nor ideal from an animal welfare perspective.',
+        bird_mix_title: '1. Zoletil mix',
+        bird_exagon_title: '2. Exagon',
+        bird_calc_info_title: 'Calculation Information'
+      },
+      no: {
+        bird_euth_page_title: 'Avliving fugl | JegVet',
+        bird_euth_title: 'Avliving fugl',
+        bird_euth_subtitle: 'Velg fuglens vektklasse. Protokollvolum vises i ml og er satt opp i praktisk rekkefølge.',
+        bird_class_label: 'Fuglens vektklasse',
+        bird_class_small: 'Liten fugl <100 gram (f.eks.undulat)',
+        bird_class_parrot: 'Liten papegøye <200 gram',
+        bird_class_pigeon: 'Due (ca 300-500 gram)',
+        bird_class_seagull: 'Måke (0,5-1,5 kg)',
+        bird_th_drug: 'Legemiddel',
+        bird_th_volume: 'Protokollvolum (ml)',
+        bird_th_note: 'Notat',
+        bird_protocol_title: 'Protokollnotater',
+        bird_mix_note: 'IM i brystmuskel (pectoral muscle). Innsovning skjer normalt innen 1-2 minutter.',
+        bird_exagon_note: 'Helst intra-cardiac eller intra-hepatic. IP kan brukes hvis man ikke får blodsvar, men pass på at man ikke får luft tilbake, for da er man i luftsekkene, og det er verken effektivt eller dyrevernmessig ideelt.',
+        bird_mix_title: '1. Zoletil mix',
+        bird_exagon_title: '2. Exagon',
+        bird_calc_info_title: 'Utregningsinformasjon'
+      }
+    };
+  </script>
+</head>
+<body data-i18n-title="bird_euth_page_title">
+  <main class="page page-top">
+    <section class="layout-card layout-card-wide">
+      <a href="index.html" class="brand-link" aria-label="Go to homepage">
+        <img src="logo_day.png" alt="JegVet logo" class="brand-logo" width="1536" height="1024" />
+      </a>
+
+      <h1 class="section-title" data-i18n="bird_euth_title">Bird Euthanasia</h1>
+      <p class="section-subtitle" data-i18n="bird_euth_subtitle">Select the bird weight class. Protocol volumes are shown in ml and arranged in the practical workflow order.</p>
+
+      <form class="calc-form" id="bird-euth-form">
+        <div class="calc-field">
+          <label for="bird-class" data-i18n="bird_class_label">Bird weight class</label>
+          <select id="bird-class">
+            <option value="small" data-i18n="bird_class_small">Small bird &lt;100 grams (e.g. budgerigar)</option>
+            <option value="parrot" data-i18n="bird_class_parrot">Small parrot &lt;200 grams</option>
+            <option value="pigeon" data-i18n="bird_class_pigeon">Pigeon (about 300-500 grams)</option>
+            <option value="seagull" data-i18n="bird_class_seagull">Seagull (0.5-1.5 kg)</option>
+          </select>
+        </div>
+      </form>
+
+      <div class="calc-table-wrap">
+        <table class="calc-table" aria-label="Bird euthanasia protocol doses">
+          <thead>
+            <tr>
+              <th data-i18n="bird_th_drug">Drug</th>
+              <th data-i18n="bird_th_volume">Protocol volume (ml)</th>
+              <th data-i18n="bird_th_note">Note</th>
+            </tr>
+          </thead>
+          <tbody id="bird-dose-results"></tbody>
+        </table>
+      </div>
+
+      <div class="tool-card u-mt-14">
+        <h2 data-i18n="bird_protocol_title">Protocol Notes</h2>
+        <p><strong data-i18n="bird_mix_title">1. Zoletil mix</strong><br /><span data-i18n="bird_mix_note">IM in the pectoral muscle. Normal induction occurs within 1-2 minutes.</span></p>
+        <p><strong data-i18n="bird_exagon_title">2. Exagon</strong><br /><span data-i18n="bird_exagon_note">Preferably intra-cardiac or intra-hepatic. IP can be used if you do not get blood on aspiration, but make sure you do not aspirate air back because that means you are in the air sacs, which is neither effective nor ideal from an animal welfare perspective.</span></p>
+      </div>
+
+      <div class="tool-card u-mt-14">
+        <h2 data-i18n="bird_calc_info_title">Calculation Information</h2>
+        <ul id="bird-calc-info"></ul>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var classInput = document.getElementById('bird-class');
+      var resultsEl = document.getElementById('bird-dose-results');
+      var calcInfoEl = document.getElementById('bird-calc-info');
+
+      var DATA = {
+        small: {
+          zoletilNo: '0,1-0,15 ml IM',
+          zoletilEn: '0.1-0.15 ml IM',
+          exagonNo: '0,2 ml',
+          exagonEn: '0.2 ml'
+        },
+        parrot: {
+          zoletilNo: '0,2 ml IM',
+          zoletilEn: '0.2 ml IM',
+          exagonNo: '0,3 ml',
+          exagonEn: '0.3 ml'
+        },
+        pigeon: {
+          zoletilNo: '0,3-0,4 ml IM',
+          zoletilEn: '0.3-0.4 ml IM',
+          exagonNo: '0,5 ml',
+          exagonEn: '0.5 ml'
+        },
+        seagull: {
+          zoletilNo: '0,5 ml IM',
+          zoletilEn: '0.5 ml IM',
+          exagonNo: '1 ml',
+          exagonEn: '1 ml'
+        }
+      };
+
+      function t(key, fallback) {
+        if (window.JegVetLang && typeof window.JegVetLang.t === 'function') {
+          return window.JegVetLang.t(key, fallback);
+        }
+        return fallback || key;
+      }
+
+      function getLang() {
+        if (window.JegVetLang && typeof window.JegVetLang.getLang === 'function') {
+          return window.JegVetLang.getLang();
+        }
+        return 'en';
+      }
+
+      function isNorwegian() {
+        return getLang() === 'no';
+      }
+
+      function renderTable() {
+        var key = classInput.value || 'small';
+        var row = DATA[key];
+        var mixNote = t('bird_mix_note', 'IM in the pectoral muscle. Normal induction occurs within 1-2 minutes.');
+        var exagonNote = t('bird_exagon_note', 'Preferably intra-cardiac or intra-hepatic. IP can be used if you do not get blood on aspiration, but make sure you do not aspirate air back because that means you are in the air sacs, which is neither effective nor ideal from an animal welfare perspective.');
+
+        resultsEl.innerHTML =
+          '<tr>' +
+            '<td>Zoletil mix</td>' +
+            '<td>' + (isNorwegian() ? row.zoletilNo : row.zoletilEn) + '</td>' +
+            '<td>' + mixNote + '</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td>Exagon</td>' +
+            '<td>' + (isNorwegian() ? row.exagonNo : row.exagonEn) + '</td>' +
+            '<td>' + exagonNote + '</td>' +
+          '</tr>';
+      }
+
+      function renderInfo() {
+        var items;
+        if (isNorwegian()) {
+          items = [
+            'Liten fugl <100 gram (f.eks.undulat): Zoletil mix 0,1-0,15 ml IM, Exagon 0,2 ml.',
+            'Liten papegøye <200 gram: Zoletil mix 0,2 ml IM, Exagon 0,3 ml.',
+            'Due (ca 300-500 gram): Zoletil mix 0,3-0,4 ml IM, Exagon 0,5 ml.',
+            'Måke (0,5-1,5 kg): Zoletil mix 0,5 ml IM, Exagon 1 ml.'
+          ];
+        } else {
+          items = [
+            'Small bird <100 grams (e.g. budgerigar): Zoletil mix 0.1-0.15 ml IM, Exagon 0.2 ml.',
+            'Small parrot <200 grams: Zoletil mix 0.2 ml IM, Exagon 0.3 ml.',
+            'Pigeon (about 300-500 grams): Zoletil mix 0.3-0.4 ml IM, Exagon 0.5 ml.',
+            'Seagull (0.5-1.5 kg): Zoletil mix 0.5 ml IM, Exagon 1 ml.'
+          ];
+        }
+
+        calcInfoEl.innerHTML = items.map(function (item) {
+          return '<li>' + item + '</li>';
+        }).join('');
+      }
+
+      function render() {
+        renderTable();
+        renderInfo();
+      }
+
+      classInput.addEventListener('change', render);
+      document.addEventListener('jegvet:langchange', render);
+      render();
+    })();
+  </script>
+</body>
+</html>

@@ -1,6 +1,6 @@
-﻿{
+{
     "title":  "Veterinary Reference Wiki",
-    "generatedAt":  "2026-05-10T19:17:19+02:00",
+    "generatedAt":  "2026-06-24T20:07:57+02:00",
     "pages":  [
                   {
                       "file":  "Dermatology/Cat Derm/catderm.md",
@@ -26,6 +26,171 @@
                       "file":  "evidensia stuff/third time is a charm.md",
                       "title":  "Third Time is a Charm",
                       "folder":  "evidensia stuff"
+                  },
+                  {
+                      "file":  "Exotics/Reptil medisin/Diagnostikk/oversikt.md",
+                      "title":  "Exotics: Reptil medisin - Diagnostikk",
+                      "folder":  "Exotics/Reptil medisin/Diagnostikk"
+                  },
+                  {
+                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Generell ernæring og vannbalanse/oversikt.md",
+                      "title":  "Generell ernæring og vannbalanse hos reptiler",
+                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Generell ernæring og vannbalanse"
+                  },
+                  {
+                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Generelt hold/oversikt.md",
+                      "title":  "Generelt hold av øgler",
+                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Generelt hold"
+                  },
+                  {
+                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Kinesisk vannagam/oversikt.md",
+                      "title":  "Kinesisk vannagam (Physignathus cocincinus)",
+                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Kinesisk vannagam"
+                  },
+                  {
+                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Leguan/oversikt.md",
+                      "title":  "Leguan (Iguana iguana)",
+                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Leguan"
+                  },
+                  {
+                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Leopardgekko/oversikt.md",
+                      "title":  "Leopardgekko (Eublepharis macularius)",
+                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Leopardgekko"
+                  },
+                  {
+                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Pigghaleagam/oversikt.md",
+                      "title":  "Pigghaleagam (Uromastyx spp.)",
+                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Pigghaleagam"
+                  },
+                  {
+                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Skjeggagam/oversikt.md",
+                      "title":  "Skjeggagam (Pogona vitticeps)",
+                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Skjeggagam"
+                  },
+                  {
+                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/oversikt.md",
+                      "title":  "Exotics: Reptil medisin - Miljøkrav og biologi",
+                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi"
+                  },
+                  {
+                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Grønn trepyton/oversikt.md",
+                      "title":  "Grønn trepyton (Morelia viridis)",
+                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Grønn trepyton"
+                  },
+                  {
+                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Kungssnok/oversikt.md",
+                      "title":  "Kongesnok (Lampropeltis getula)",
+                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Kungssnok"
+                  },
+                  {
+                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Mjølksnok/oversikt.md",
+                      "title":  "Mjølksnok (Lampropeltis triangulum)",
+                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Mjølksnok"
+                  },
+                  {
+                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/oversikt.md",
+                      "title":  "Øvrige tillatte arter",
+                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter"
+                  },
+                  {
+                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Øyefransgekko/oversikt.md",
+                      "title":  "Øyefransgekko (Correlophus ciliatus)",
+                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Øyefransgekko"
+                  },
+                  {
+                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Perleøgle/oversikt.md",
+                      "title":  "Perleøgle (Timon lepidus / Lacerta lepida)",
+                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Perleøgle"
+                  },
+                  {
+                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Regnbågeboa/oversikt.md",
+                      "title":  "Regnbågeboa (Epicrates cenchria)",
+                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Regnbågeboa"
+                  },
+                  {
+                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Rutpyton/oversikt.md",
+                      "title":  "Rutpyton (Morelia spilota)",
+                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Rutpyton"
+                  },
+                  {
+                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Stor daggekko/oversikt.md",
+                      "title":  "Stor daggekko (Phelsuma madagascariensis)",
+                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Stor daggekko"
+                  },
+                  {
+                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Taggsvansvaran/oversikt.md",
+                      "title":  "Taggsvansvaran (Varanus acanthurus)",
+                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Taggsvansvaran"
+                  },
+                  {
+                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Treboa/oversikt.md",
+                      "title":  "Treboa (Corallus hortulanus)",
+                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Treboa"
+                  },
+                  {
+                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Boksskilpadder/oversikt.md",
+                      "title":  "Boksskilpadder",
+                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Boksskilpadder"
+                  },
+                  {
+                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Generelle landskilpadder/oversikt.md",
+                      "title":  "Generelle landskilpadder",
+                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Generelle landskilpadder"
+                  },
+                  {
+                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Gresk landskilpadde/oversikt.md",
+                      "title":  "Gresk landskilpadde (Testudo hermanni)",
+                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Gresk landskilpadde"
+                  },
+                  {
+                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Leopardskilpadde/oversikt.md",
+                      "title":  "Leopardskilpadde (Stigmochelys pardalis / Geochelone pardalis)",
+                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Leopardskilpadde"
+                  },
+                  {
+                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Maurisk landskilpadde/oversikt.md",
+                      "title":  "Maurisk landskilpadde (Testudo graeca)",
+                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Maurisk landskilpadde"
+                  },
+                  {
+                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Normal vekst/oversikt.md",
+                      "title":  "Normal vekst hos vanlige skilpaddearter",
+                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Normal vekst"
+                  },
+                  {
+                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Russisk steppeskilpadde/oversikt.md",
+                      "title":  "Russisk steppeskilpadde (Testudo horsfieldi)",
+                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Russisk steppeskilpadde"
+                  },
+                  {
+                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Vannskilpadder/oversikt.md",
+                      "title":  "Vannskilpadder",
+                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Vannskilpadder"
+                  },
+                  {
+                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Slange/Generelt hold/oversikt.md",
+                      "title":  "Generelt hold av slanger",
+                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Slange/Generelt hold"
+                  },
+                  {
+                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Slange/Kongepyton/oversikt.md",
+                      "title":  "Kongepyton (Python regius)",
+                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Slange/Kongepyton"
+                  },
+                  {
+                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Slange/Kongsboa/oversikt.md",
+                      "title":  "Kongsboa (Boa constrictor)",
+                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Slange/Kongsboa"
+                  },
+                  {
+                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Slange/Kornsnok/oversikt.md",
+                      "title":  "Kornsnok (Pantherophis guttatus)",
+                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Slange/Kornsnok"
+                  },
+                  {
+                      "file":  "Exotics/Reptil medisin/Reptil medisin og kirurgi/oversikt.md",
+                      "title":  "Exotics: Reptil medisin - Reptil medisin og kirurgi",
+                      "folder":  "Exotics/Reptil medisin/Reptil medisin og kirurgi"
                   },
                   {
                       "file":  "sandbox/test.md",
