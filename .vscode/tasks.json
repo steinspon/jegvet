@@ -1,0 +1,40 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Watch wiki content",
+      "type": "process",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}\\scripts\\dev-wiki.ps1"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "wiki-watcher",
+        "pattern": {
+          "regexp": "^(?!)$"
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^Watching ",
+          "endsPattern": "^Press Ctrl\\+C to stop\\.$"
+        }
+      },
+      "runOptions": {
+        "runOn": "folderOpen"
+      },
+      "presentation": {
+        "reveal": "silent",
+        "panel": "dedicated",
+        "showReuseMessage": false
+      }
+    }
+  ]
+}

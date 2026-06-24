@@ -37,7 +37,11 @@ $pages = @()
 $contents = [ordered]@{}
 
 foreach ($file in $files) {
-  $relative = $file.FullName.Substring($rootPath.Length).TrimStart('\') -replace '\\','/'
+  $directorySeparators = [char[]]@(
+    [System.IO.Path]::DirectorySeparatorChar,
+    [System.IO.Path]::AltDirectorySeparatorChar
+  )
+  $relative = $file.FullName.Substring($rootPath.Length).TrimStart($directorySeparators) -replace '\\','/'
   $rawContent = Read-Utf8Text -Path $file.FullName
   $lines = $rawContent -replace "`r","" -split "`n"
   $titleLine = $lines | Where-Object { $_ -match '^#\s+.+$' } | Select-Object -First 1

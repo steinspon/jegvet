@@ -91,6 +91,10 @@ For local development, rebuild those generated files directly:
 powershell -ExecutionPolicy Bypass -File scripts/rebuild-wiki-manifest.ps1
 ```
 
+In VS Code, the `Watch wiki content` workspace task starts automatically when
+the repository opens. It rebuilds once at startup, then updates the manifest
+and offline fallback after Markdown files or folders change.
+
 ## Conventions
 
 - All source files are UTF-8 encoded; Norwegian text uses proper `æ`, `ø`, `å`.
