@@ -824,7 +824,7 @@ input.check-toggle-round-flat:checked + label:after {
 .wiki-folder-label {
   display: inline-block;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--muted-heading);
   margin: 0;
   overflow-wrap: anywhere;
@@ -863,7 +863,7 @@ input.check-toggle-round-flat:checked + label:after {
 
 .wiki-nav a.wiki-folder-link {
   color: var(--muted-heading);
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .wiki-nav a:hover,

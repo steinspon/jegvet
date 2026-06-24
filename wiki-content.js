@@ -1,6 +1,37 @@
 (function () {
   'use strict';
 
+  function normalizeWikiPath(value) {
+    return repairMojibake(String(value || '')).replace(/\\/g, '/');
+  }
+
+  function getWikiLang() {
+    if (window.JegVetLang && typeof window.JegVetLang.getLang === 'function') {
+      return window.JegVetLang.getLang();
+    }
+    return 'en';
+  }
+
+  function localizeFolderSegment(segment) {
+    segment = repairMojibake(segment);
+    var lang = getWikiLang();
+    var folders = window.WIKI_I18N && window.WIKI_I18N.folders && window.WIKI_I18N.folders[lang];
+    if (folders && Object.prototype.hasOwnProperty.call(folders, segment)) {
+      return folders[segment];
+    }
+    return segment;
+  }
+
+  function localizePageTitle(file, fallbackTitle) {
+    file = normalizeWikiPath(file);
+    var lang = getWikiLang();
+    var pages = window.WIKI_I18N && window.WIKI_I18N.pages;
+    if (pages && pages[file] && pages[file][lang]) {
+      return pages[file][lang];
+    }
+    return repairMojibake(fallbackTitle);
+  }
+
   function looksMojibake(text) {
     return typeof text === 'string' && /Ã.|Â.|â.|�/.test(text);
   }
@@ -39,9 +70,9 @@
       generatedAt: manifest.generatedAt,
       pages: manifest.pages.map(function (page) {
         return {
-          file: page.file,
-          title: repairMojibake(page.title || ''),
-          folder: repairMojibake(page.folder || '')
+          file: normalizeWikiPath(page.file),
+          title: localizePageTitle(page.file, repairMojibake(page.title || '')),
+          folder: normalizeWikiPath(page.folder || '')
         };
       })
     };
@@ -52,8 +83,8 @@
     navData.sections.forEach(function (section) {
       section.pages.forEach(function (page) {
         pages.push({
-          file: page.file,
-          title: repairMojibake(page.title),
+          file: normalizeWikiPath(page.file),
+          title: localizePageTitle(page.file, repairMojibake(page.title)),
           folder: repairMojibake(section.label).toLowerCase().replace(/\s+/g, '-')
         });
       });
@@ -131,14 +162,14 @@
         return item.type === 'blob' && /^wiki\/content\/.+\.md$/i.test(item.path);
       })
       .map(function (item) {
-        var relative = item.path.replace(/^wiki\/content\//i, '');
+        var relative = normalizeWikiPath(item.path.replace(/^wiki\/content\//i, ''));
         var slashIndex = relative.lastIndexOf('/');
         var folder = slashIndex === -1 ? 'General' : relative.slice(0, slashIndex);
         var fileName = slashIndex === -1 ? relative : relative.slice(slashIndex + 1);
 
         return {
           file: relative,
-          title: humanizeFileName(fileName),
+          title: localizePageTitle(relative, humanizeFileName(fileName)),
           folder: folder
         };
       })
@@ -181,6 +212,7 @@
   }
 
   async function loadMarkdown(file) {
+    file = normalizeWikiPath(file);
     try {
       var response = await fetch('wiki/content/' + file);
       if (!response.ok) {
@@ -195,12 +227,49 @@
     }
   }
 
+  function extractLocalizedMarkdown(markdown, file) {
+    file = normalizeWikiPath(file);
+    var lines = markdown.replace(/\r/g, '').split('\n');
+    var noIndex = -1;
+    var enIndex = -1;
+    var firstTitle = '';
+    var i;
+
+    for (i = 0; i < lines.length; i += 1) {
+      if (!firstTitle && /^#\s+/.test(lines[i])) {
+        firstTitle = lines[i].replace(/^#\s+/, '').trim();
+      }
+      if (lines[i].trim() === '## Norsk') {
+        noIndex = i;
+      }
+      if (lines[i].trim() === '## English') {
+        enIndex = i;
+      }
+    }
+
+    if (noIndex === -1 || enIndex === -1) {
+      return markdown;
+    }
+
+    var lang = getWikiLang();
+    var title = localizePageTitle(file, firstTitle || humanizeFileName(file.split('/').pop() || ''));
+    var sectionStart = lang === 'no' ? noIndex + 1 : enIndex + 1;
+    var sectionEnd = lang === 'no' ? enIndex : lines.length;
+    var body = lines.slice(sectionStart, sectionEnd).join('\n').replace(/^\s+|\s+$/g, '');
+
+    return '# ' + title + '\n\n' + body;
+  }
+
   window.JegVetWikiContent = {
+    extractLocalizedMarkdown: extractLocalizedMarkdown,
     getGitHubRepoContext: getGitHubRepoContext,
+    getWikiLang: getWikiLang,
     humanizeFileName: humanizeFileName,
     loadManifestData: loadManifestData,
     loadManifestFromGitHub: loadManifestFromGitHub,
     loadMarkdown: loadMarkdown,
+    localizeFolderSegment: localizeFolderSegment,
+    localizePageTitle: localizePageTitle,
     normalizeManifestFromLegacyNav: normalizeManifestFromLegacyNav
   };
 })();

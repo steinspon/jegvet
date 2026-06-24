@@ -38,6 +38,13 @@
   }
 
   function humanizeFolderName(segment) {
+    if (window.JegVetWikiContent && typeof window.JegVetWikiContent.localizeFolderSegment === 'function') {
+      var localized = window.JegVetWikiContent.localizeFolderSegment(segment);
+      if (localized && localized !== segment) {
+        return localized;
+      }
+    }
+
     return segment
       .split('-')
       .map(function (part) {
@@ -232,7 +239,9 @@
 
   function renderTree(node, parentEl, navLinks, onClickPage, folderPrefix, activeFile) {
     var nodeHasActive = false;
-    var folderNames = Object.keys(node.folders).sort();
+    var folderNames = Object.keys(node.folders).sort(function (a, b) {
+      return humanizeFolderName(a).localeCompare(humanizeFolderName(b), undefined, { sensitivity: 'base' });
+    });
     folderNames.forEach(function (folderName) {
       var childNode = node.folders[folderName];
       var li = document.createElement('li');
@@ -271,6 +280,12 @@
       folderRow.appendChild(folderButton);
 
       var folderLabelEl;
+      function expandFolder() {
+        folderButton.setAttribute('aria-expanded', 'true');
+        folderButton.classList.add('is-expanded');
+        nested.classList.remove('is-collapsed');
+      }
+
       if (hasOverview) {
         folderLabelEl = document.createElement('a');
         folderLabelEl.href = '#';
@@ -279,6 +294,7 @@
         folderLabelEl.setAttribute('data-file', childNode.overviewPage.file);
         folderLabelEl.addEventListener('click', function (event) {
           event.preventDefault();
+          expandFolder();
           onClickPage(childNode.overviewPage);
         });
         navLinks.push(folderLabelEl);
@@ -301,8 +317,7 @@
       if (!childHasActive) {
         nested.classList.add('is-collapsed');
       } else {
-        folderButton.classList.add('is-expanded');
-        folderButton.setAttribute('aria-expanded', 'true');
+        expandFolder();
       }
 
       function toggleFolder() {
@@ -573,6 +588,9 @@
 
     try {
       var markdown = await loadMarkdown(file);
+      if (window.JegVetWikiContent && typeof window.JegVetWikiContent.extractLocalizedMarkdown === 'function') {
+        markdown = window.JegVetWikiContent.extractLocalizedMarkdown(markdown, file);
+      }
       article.innerHTML = markdownToHtml(markdown, file);
       document.title = title + ' | ' + t('wiki_title_suffix', 'Wiki') + ' | JegVet';
       var nextUrl = new URL(window.location.href);
@@ -611,7 +629,24 @@
 
     try {
       var manifest = await loadManifestData();
-      var pages = (manifest.pages || []).slice().sort(function (a, b) {
+      var pages = (manifest.pages || []).slice().map(function (page) {
+        var nextPage = {
+          file: page.file,
+          title: page.title,
+          folder: page.folder
+        };
+
+        if (window.JegVetWikiContent) {
+          if (typeof window.JegVetWikiContent.localizePageTitle === 'function') {
+            nextPage.title = window.JegVetWikiContent.localizePageTitle(nextPage.file, nextPage.title);
+          }
+          if (typeof window.JegVetWikiContent.humanizeFileName === 'function' && !nextPage.title) {
+            nextPage.title = window.JegVetWikiContent.humanizeFileName((nextPage.file || '').split('/').pop() || '');
+          }
+        }
+
+        return nextPage;
+      }).sort(function (a, b) {
         return a.file.localeCompare(b.file, undefined, { sensitivity: 'base' });
       });
 
@@ -630,6 +665,10 @@
       var requestedFile = params.get('page');
       var hitQuery = params.get('hit') || '';
       var initialPage = null;
+
+      if (requestedFile) {
+        requestedFile = requestedFile.replace(/\\/g, '/');
+      }
 
       if (requestedFile) {
         initialPage = pages.find(function (page) {
@@ -658,6 +697,10 @@
   } else {
     initWiki();
   }
+
+  document.addEventListener('jegvet:langchange', function () {
+    initWiki();
+  });
 
   setupFindUi();
   window.addEventListener('hashchange', highlightHashTarget);
