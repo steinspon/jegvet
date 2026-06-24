@@ -1,169 +1,169 @@
 window.WIKI_FALLBACK = {
   manifest: {
-    "title":  "Veterinary Reference Wiki",
-    "generatedAt":  "2026-06-24T22:06:37+02:00",
-    "pages":  [
-                  {
-                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Generell ernæring og vannbalanse/oversikt.md",
-                      "title":  "Generell ernæring og vannbalanse hos reptiler",
-                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Generell ernæring og vannbalanse"
-                  },
-                  {
-                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Generelt hold/oversikt.md",
-                      "title":  "Generelt hold av øgler",
-                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Generelt hold"
-                  },
-                  {
-                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Kinesisk vannagam/oversikt.md",
-                      "title":  "Kinesisk vannagam (Physignathus cocincinus)",
-                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Kinesisk vannagam"
-                  },
-                  {
-                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Leguan/oversikt.md",
-                      "title":  "Leguan (Iguana iguana)",
-                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Leguan"
-                  },
-                  {
-                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Leopardgekko/oversikt.md",
-                      "title":  "Leopardgekko (Eublepharis macularius)",
-                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Leopardgekko"
-                  },
-                  {
-                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Pigghaleagam/oversikt.md",
-                      "title":  "Pigghaleagam (Uromastyx spp.)",
-                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Pigghaleagam"
-                  },
-                  {
-                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Skjeggagam/oversikt.md",
-                      "title":  "Skjeggagam (Pogona vitticeps)",
-                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Skjeggagam"
-                  },
-                  {
-                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/oversikt.md",
-                      "title":  "Exotics: Reptil medisin - Miljøkrav og biologi",
-                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi"
-                  },
-                  {
-                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Grønn trepyton/oversikt.md",
-                      "title":  "Grønn trepyton (Morelia viridis)",
-                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Grønn trepyton"
-                  },
-                  {
-                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Kungssnok/oversikt.md",
-                      "title":  "Kongesnok (Lampropeltis getula)",
-                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Kungssnok"
-                  },
-                  {
-                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Mjølksnok/oversikt.md",
-                      "title":  "Mjølksnok (Lampropeltis triangulum)",
-                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Mjølksnok"
-                  },
-                  {
-                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/oversikt.md",
-                      "title":  "Øvrige tillatte arter",
-                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter"
-                  },
-                  {
-                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Øyefransgekko/oversikt.md",
-                      "title":  "Øyefransgekko (Correlophus ciliatus)",
-                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Øyefransgekko"
-                  },
-                  {
-                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Perleøgle/oversikt.md",
-                      "title":  "Perleøgle (Timon lepidus / Lacerta lepida)",
-                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Perleøgle"
-                  },
-                  {
-                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Regnbågeboa/oversikt.md",
-                      "title":  "Regnbågeboa (Epicrates cenchria)",
-                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Regnbågeboa"
-                  },
-                  {
-                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Rutpyton/oversikt.md",
-                      "title":  "Rutpyton (Morelia spilota)",
-                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Rutpyton"
-                  },
-                  {
-                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Stor daggekko/oversikt.md",
-                      "title":  "Stor daggekko (Phelsuma madagascariensis)",
-                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Stor daggekko"
-                  },
-                  {
-                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Taggsvansvaran/oversikt.md",
-                      "title":  "Taggsvansvaran (Varanus acanthurus)",
-                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Taggsvansvaran"
-                  },
-                  {
-                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Treboa/oversikt.md",
-                      "title":  "Treboa (Corallus hortulanus)",
-                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Treboa"
-                  },
-                  {
-                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Boksskilpadder/oversikt.md",
-                      "title":  "Boksskilpadder",
-                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Boksskilpadder"
-                  },
-                  {
-                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Generelle landskilpadder/oversikt.md",
-                      "title":  "Generelle landskilpadder",
-                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Generelle landskilpadder"
-                  },
-                  {
-                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Gresk landskilpadde/oversikt.md",
-                      "title":  "Gresk landskilpadde (Testudo hermanni)",
-                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Gresk landskilpadde"
-                  },
-                  {
-                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Leopardskilpadde/oversikt.md",
-                      "title":  "Leopardskilpadde (Stigmochelys pardalis / Geochelone pardalis)",
-                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Leopardskilpadde"
-                  },
-                  {
-                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Maurisk landskilpadde/oversikt.md",
-                      "title":  "Maurisk landskilpadde (Testudo graeca)",
-                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Maurisk landskilpadde"
-                  },
-                  {
-                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Normal vekst/oversikt.md",
-                      "title":  "Normal vekst hos vanlige skilpaddearter",
-                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Normal vekst"
-                  },
-                  {
-                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Russisk steppeskilpadde/oversikt.md",
-                      "title":  "Russisk steppeskilpadde (Testudo horsfieldi)",
-                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Russisk steppeskilpadde"
-                  },
-                  {
-                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Vannskilpadder/oversikt.md",
-                      "title":  "Vannskilpadder",
-                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Vannskilpadder"
-                  },
-                  {
-                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Slange/Generelt hold/oversikt.md",
-                      "title":  "Generelt hold av slanger",
-                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Slange/Generelt hold"
-                  },
-                  {
-                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Slange/Kongepyton/oversikt.md",
-                      "title":  "Kongepyton (Python regius)",
-                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Slange/Kongepyton"
-                  },
-                  {
-                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Slange/Kongsboa/oversikt.md",
-                      "title":  "Kongsboa (Boa constrictor)",
-                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Slange/Kongsboa"
-                  },
-                  {
-                      "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Slange/Kornsnok/oversikt.md",
-                      "title":  "Kornsnok (Pantherophis guttatus)",
-                      "folder":  "Exotics/Reptil medisin/Miljøkrav og biologi/Slange/Kornsnok"
-                  },
-                  {
-                      "file":  "Exotics/Reptil medisin/Reptil medisin og kirurgi/oversikt.md",
-                      "title":  "Exotics: Reptil medisin - Reptil medisin og kirurgi",
-                      "folder":  "Exotics/Reptil medisin/Reptil medisin og kirurgi"
-                  }
-              ]
+  "title": "Veterinary Reference Wiki",
+  "generatedAt": "2026-06-24T20:08:35+00:00",
+  "pages": [
+    {
+      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Generell ernæring og vannbalanse/oversikt.md",
+      "title": "Generell ernæring og vannbalanse hos reptiler",
+      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Generell ernæring og vannbalanse"
+    },
+    {
+      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Generelt hold/oversikt.md",
+      "title": "Generelt hold av øgler",
+      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Generelt hold"
+    },
+    {
+      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Kinesisk vannagam/oversikt.md",
+      "title": "Kinesisk vannagam (Physignathus cocincinus)",
+      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Kinesisk vannagam"
+    },
+    {
+      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Leguan/oversikt.md",
+      "title": "Leguan (Iguana iguana)",
+      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Leguan"
+    },
+    {
+      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Leopardgekko/oversikt.md",
+      "title": "Leopardgekko (Eublepharis macularius)",
+      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Leopardgekko"
+    },
+    {
+      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Pigghaleagam/oversikt.md",
+      "title": "Pigghaleagam (Uromastyx spp.)",
+      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Pigghaleagam"
+    },
+    {
+      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Skjeggagam/oversikt.md",
+      "title": "Skjeggagam (Pogona vitticeps)",
+      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Skjeggagam"
+    },
+    {
+      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/oversikt.md",
+      "title": "Exotics: Reptil medisin - Miljøkrav og biologi",
+      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi"
+    },
+    {
+      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Grønn trepyton/oversikt.md",
+      "title": "Grønn trepyton (Morelia viridis)",
+      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Grønn trepyton"
+    },
+    {
+      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Kungssnok/oversikt.md",
+      "title": "Kongesnok (Lampropeltis getula)",
+      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Kungssnok"
+    },
+    {
+      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Mjølksnok/oversikt.md",
+      "title": "Mjølksnok (Lampropeltis triangulum)",
+      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Mjølksnok"
+    },
+    {
+      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/oversikt.md",
+      "title": "Øvrige tillatte arter",
+      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter"
+    },
+    {
+      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Øyefransgekko/oversikt.md",
+      "title": "Øyefransgekko (Correlophus ciliatus)",
+      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Øyefransgekko"
+    },
+    {
+      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Perleøgle/oversikt.md",
+      "title": "Perleøgle (Timon lepidus / Lacerta lepida)",
+      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Perleøgle"
+    },
+    {
+      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Regnbågeboa/oversikt.md",
+      "title": "Regnbågeboa (Epicrates cenchria)",
+      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Regnbågeboa"
+    },
+    {
+      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Rutpyton/oversikt.md",
+      "title": "Rutpyton (Morelia spilota)",
+      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Rutpyton"
+    },
+    {
+      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Stor daggekko/oversikt.md",
+      "title": "Stor daggekko (Phelsuma madagascariensis)",
+      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Stor daggekko"
+    },
+    {
+      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Taggsvansvaran/oversikt.md",
+      "title": "Taggsvansvaran (Varanus acanthurus)",
+      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Taggsvansvaran"
+    },
+    {
+      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Treboa/oversikt.md",
+      "title": "Treboa (Corallus hortulanus)",
+      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Treboa"
+    },
+    {
+      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Boksskilpadder/oversikt.md",
+      "title": "Boksskilpadder",
+      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Boksskilpadder"
+    },
+    {
+      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Generelle landskilpadder/oversikt.md",
+      "title": "Generelle landskilpadder",
+      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Generelle landskilpadder"
+    },
+    {
+      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Gresk landskilpadde/oversikt.md",
+      "title": "Gresk landskilpadde (Testudo hermanni)",
+      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Gresk landskilpadde"
+    },
+    {
+      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Leopardskilpadde/oversikt.md",
+      "title": "Leopardskilpadde (Stigmochelys pardalis / Geochelone pardalis)",
+      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Leopardskilpadde"
+    },
+    {
+      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Maurisk landskilpadde/oversikt.md",
+      "title": "Maurisk landskilpadde (Testudo graeca)",
+      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Maurisk landskilpadde"
+    },
+    {
+      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Normal vekst/oversikt.md",
+      "title": "Normal vekst hos vanlige skilpaddearter",
+      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Normal vekst"
+    },
+    {
+      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Russisk steppeskilpadde/oversikt.md",
+      "title": "Russisk steppeskilpadde (Testudo horsfieldi)",
+      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Russisk steppeskilpadde"
+    },
+    {
+      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Vannskilpadder/oversikt.md",
+      "title": "Vannskilpadder",
+      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Vannskilpadder"
+    },
+    {
+      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Slange/Generelt hold/oversikt.md",
+      "title": "Generelt hold av slanger",
+      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Slange/Generelt hold"
+    },
+    {
+      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Slange/Kongepyton/oversikt.md",
+      "title": "Kongepyton (Python regius)",
+      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Slange/Kongepyton"
+    },
+    {
+      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Slange/Kongsboa/oversikt.md",
+      "title": "Kongsboa (Boa constrictor)",
+      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Slange/Kongsboa"
+    },
+    {
+      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Slange/Kornsnok/oversikt.md",
+      "title": "Kornsnok (Pantherophis guttatus)",
+      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Slange/Kornsnok"
+    },
+    {
+      "file": "Exotics/Reptil medisin/Reptil medisin og kirurgi/oversikt.md",
+      "title": "Exotics: Reptil medisin - Reptil medisin og kirurgi",
+      "folder": "Exotics/Reptil medisin/Reptil medisin og kirurgi"
+    }
+  ]
 },
   pages: {
     'Exotics/Reptil medisin/Miljøkrav og biologi/Generell ernæring og vannbalanse/oversikt.md': "# Generell ernæring og vannbalanse hos reptiler\n\n## Norsk\n### Kalsium-fosforbalanse\n- Kildematerialet beskriver kalsiummangel som et av de vanligste ernæringsproblemene hos reptiler i fangenskap.\n- Hele virveldyr som byttedyr gir vanligvis god kalsiumdekning, mens insekter og mange kommersielt dyrkede grønnsaker ofte gjør det motsatte.\n- Høy kalsium-fosfor-kvote er ønskelig, og flere gode planteeksempler i kilden er kaktusfiken, alfalfa, kål, nepeblad, karse, persille og maskros.\n\n### Tilskudd\n- Insektetende reptiler bør ofte få fosforfritt kalsiumpudder til hvert måltid.\n- Insektene bør også \"gut-loades\" med næringsrikt fôr før de gis.\n- Multivitamin- og mineraltilskudd må brukes med måte og vurderes ut fra hvor variert dietten er.\n\n### Fytotoksiner\n- Oksalat og fytat kan redusere opptak av kalsium og andre mineraler.\n- Høye nivåer finnes blant annet i enkelte grønnsaker og belgvekster, og dietten bør derfor være variert.\n- Kålplanter kan brukes i små mengder, men skal ikke dominere dietten.\n\n### Vann\n- Det generelle vannbehovet er oppgitt til cirka 20-30 ml/kg/døgn.\n- Etter hamskifte kan vannbehovet øke.\n- Noen reptiler drikker helst dråper fra blader og overflater i stedet for stillestående vann.\n- God vannhygiene er viktig; kilden omtaler også lett surgjøring eller svak salttilsetning som tiltak for å redusere mikrobiell vekst i enkelte oppsett.\n\n## English\n### Calcium-phosphorus balance\n- The source material describes calcium deficiency as one of the most common nutritional problems in captive reptiles.\n- Whole vertebrate prey usually provides good calcium coverage, whereas insects and many commercially grown vegetables often do not.\n- A high calcium-phosphorus ratio is desirable, and good plant examples in the source include prickly pear, alfalfa, cabbage, turnip greens, cress, parsley, and dandelion.\n\n### Supplementation\n- Insect-eating reptiles often need phosphorus-free calcium powder with each meal.\n- Insects should also be gut-loaded with nutritious food before feeding.\n- Multivitamin and mineral supplements should be used carefully and in relation to how varied the diet already is.\n\n### Plant anti-nutrients\n- Oxalates and phytates can reduce absorption of calcium and other minerals.\n- High levels are found in some vegetables and legumes, so the diet should remain varied.\n- Brassica vegetables can be used in small amounts but should not dominate the diet.\n\n### Water\n- The general water requirement is given as about 20-30 ml/kg/day.\n- Water needs may rise after shedding.\n- Some reptiles prefer to drink droplets from leaves and surfaces rather than from standing water.\n- Good water hygiene is important; the source also mentions mild acidification or slight salt addition as ways to reduce microbial growth in some setups.\n",
@@ -180,7 +180,7 @@ window.WIKI_FALLBACK = {
     'Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/oversikt.md': "# Øvrige tillatte arter\n\n## Norsk\nDenne mappen samler reptilarter som i kildematerialet er omtalt mer kortfattet enn hovedartene.\n\n- Slangene omfatter blant annet kongesnok, melkesnok, treboa, grønn trepyton, rutpyton og regnbågeboa.\n- Øglene omfatter blant annet perleøgle, stor daggekko, øyefransgekko og taggsvansvaran.\n\n## English\nThis folder gathers reptile species that were covered more briefly than the main species in the source material.\n\n- The snakes include kingsnake, milk snake, tree boa, green tree python, carpet python, and rainbow boa.\n- The lizards include ocellated lizard, giant day gecko, crested gecko, and spiny-tailed monitor.\n",
     'Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Øyefransgekko/oversikt.md': "# Øyefransgekko (Correlophus ciliatus)\n\n## Norsk\n- Nattaktiv, hovedsakelig busklevende alteter fra Ny-Caledonia.\n- Voksen størrelse i fangenskap er ofte rundt 20 cm.\n- Arten krever ikke høy temperatur; dagtemperatur omkring 22-26 grader er oppgitt, og temperaturen bør ikke overstige 28 grader.\n- Luftfuktigheten bør ligge rundt 60-70 % og oppnås med spraying 2-3 ganger daglig eller regnsystem.\n- Fôring kan bestå av insekter, søt frukt og kommersiell `crested gecko diet`.\n\n## English\n- A nocturnal, mainly shrub-dwelling omnivore from New Caledonia.\n- Adult captive size is often around 20 cm.\n- The species does not require high temperatures; daytime temperature of about 22-26 C is given, and it should not exceed 28 C.\n- Humidity should be around 60-70% and can be achieved through misting 2-3 times daily or by a rain system.\n- Feeding can consist of insects, sweet fruits, and commercial `crested gecko diet`.\n",
     'Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Perleøgle/oversikt.md': "# Perleøgle (Timon lepidus / Lacerta lepida)\n\n## Norsk\n- Dagaktiv insekteter fra Den iberiske halvøy.\n- Terrariet skal ligne halvørken og gi gode graveforhold.\n- Dagtemperatur rundt 25-30 grader og solplass omkring 40 grader.\n- Nattetemperatur kan falle til rundt 15 grader.\n- Arten skal ha UVB over solplassen og en fuktigere del av terrariet for å redusere hamskifteproblemer.\n\n## English\n- A diurnal insectivore from the Iberian Peninsula.\n- The enclosure should resemble semi-desert and allow extensive digging.\n- Daytime temperatures around 25-30 C and a basking site around 40 C.\n- Night temperature can fall to about 15 C.\n- The species should have UVB over the basking site and a more humid area to reduce shedding problems.\n",
-    'Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Regnbågeboa/oversikt.md': "# Regnbågeboa (Epicrates cenchria)\n\n## Norsk\n- Marklevende, gravende og nattaktiv boa fra Sør-Amerika.\n- Fullvoksen størrelse er rundt 2 meter.\n- Arten liker å grave og trenger derfor et tykt, lett fuktig, men ikke vått substrat, gjerne jord/torv-blanding.\n- En fuktboks med sphagnum kan være nyttig.\n- Fullspektrumlys gjør det enklere å se artens farger, og stort vannkar for bløtlegging er nødvendig.\n\n## English\n- A terrestrial, burrowing, nocturnal boa from South America.\n- Adult size is around 2 m.\n- The species likes to burrow and therefore needs a deep substrate kept lightly moist but not wet, for example a soil/peat mix.\n- A humid hide with sphagnum can be useful.\n- Full-spectrum lighting helps show the species\u0027 colors, and a large soaking bowl is necessary.\n",
+    'Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Regnbågeboa/oversikt.md': "# Regnbågeboa (Epicrates cenchria)\n\n## Norsk\n- Marklevende, gravende og nattaktiv boa fra Sør-Amerika.\n- Fullvoksen størrelse er rundt 2 meter.\n- Arten liker å grave og trenger derfor et tykt, lett fuktig, men ikke vått substrat, gjerne jord/torv-blanding.\n- En fuktboks med sphagnum kan være nyttig.\n- Fullspektrumlys gjør det enklere å se artens farger, og stort vannkar for bløtlegging er nødvendig.\n\n## English\n- A terrestrial, burrowing, nocturnal boa from South America.\n- Adult size is around 2 m.\n- The species likes to burrow and therefore needs a deep substrate kept lightly moist but not wet, for example a soil/peat mix.\n- A humid hide with sphagnum can be useful.\n- Full-spectrum lighting helps show the species' colors, and a large soaking bowl is necessary.\n",
     'Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Rutpyton/oversikt.md': "# Rutpyton (Morelia spilota)\n\n## Norsk\n- Marklevende men også klatrende nattaktiv pytonart fra Papua Ny-Guinea og Indonesia.\n- Voksen størrelse er vanligvis omtrent 1,4-1,8 meter.\n- Terrariet bør ha greiner i både varm og kjølig del, godt skjul og et vannkar som også bidrar til 40-60 % luftfuktighet.\n- Dagtid bør temperaturen ligge omkring 24-33 grader, nattetid kan den falle til rundt 20 grader.\n- Voksne kan ofte få 2-3 rotter omtrent én gang per måned, men vekten må overvåkes.\n\n## English\n- A mainly terrestrial but also climbing nocturnal python from Papua New Guinea and Indonesia.\n- Adult size is usually about 1.4-1.8 m.\n- The enclosure should provide branches in both warm and cool zones, good hides, and a water bowl that also helps maintain 40-60% humidity.\n- Daytime temperatures should be around 24-33 C, with night temperatures able to fall to about 20 C.\n- Adults may often receive 2-3 rats about once monthly, but body condition should be monitored carefully.\n",
     'Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Stor daggekko/oversikt.md': "# Stor daggekko (Phelsuma madagascariensis)\n\n## Norsk\n- Dagaktiv, trelevende og territoriell art fra Madagaskar.\n- Terrariet skal være høyt og innredet med planter, bambus og klatremuligheter.\n- Dagtemperatur rundt 27-31 grader, natt noen grader lavere.\n- Luftfuktighet bør ligge omtrent 50-85 % og opprettholdes med spraying flere ganger daglig.\n- Insekter kan gis to ganger ukentlig og frukt én til to ganger per uke.\n- Arten bør håndteres minst mulig fordi den er lettstresset og huden skades lett.\n\n## English\n- A diurnal, arboreal, territorial species from Madagascar.\n- The enclosure should be tall and furnished with plants, bamboo, and climbing structure.\n- Daytime temperatures around 27-31 C, with slightly lower night temperatures.\n- Humidity should be about 50-85% and maintained with repeated misting through the day.\n- Insects can be offered twice weekly and fruit once or twice weekly.\n- Handling should be minimized because the species is easily stressed and its skin is fragile.\n",
     'Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Taggsvansvaran/oversikt.md': "# Taggsvansvaran (Varanus acanthurus)\n\n## Norsk\n- Dagaktiv, marklevende kjøtt-/insekteter fra tørre buskområder i nordvestlige Australia.\n- Voksen størrelse er omtrent 60-70 cm.\n- Terrariet må være stort og ha svært dypt substrat fordi arten graver mye.\n- Luftfuktighet rundt 70 % beskrives i kilden, kombinert med daglig spraying og fuktigere partier i substratet.\n- Solplassen bør være minst 50 grader, mens øvrig temperaturgradient på dagtid ligger rundt 25-32 grader.\n- Fôring kan bestå av blandede insekter, vaktelegg og små mus nesten daglig.\n\n## English\n- A diurnal, terrestrial carnivorous/insectivorous species from dry scrub habitats in northwestern Australia.\n- Adult size is about 60-70 cm.\n- The enclosure must be large and provide very deep substrate because the species digs extensively.\n- Humidity around 70% is described in the source, combined with daily misting and more humid pockets in the substrate.\n- The basking area should be at least 50 C, while the daytime thermal gradient is about 25-32 C.\n- Feeding can consist of mixed insects, quail eggs, and small mice almost daily.\n",
