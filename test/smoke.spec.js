@@ -48,6 +48,18 @@ test('search finds calculator content', async function ({ page }) {
   await expect(page.getByRole('link', { name: /Kitty Magic/i }).first()).toBeVisible();
 });
 
+test('wiki navigation uses literal folder names', async function ({ page }) {
+  await page.goto('/wiki.html?page=Exotics%2FReptil%20medisin%2FDiagnostikk%2Foversikt.md');
+
+  var nav = page.locator('#wiki-nav');
+  await expect(nav.getByText('Exotics', { exact: true })).toBeVisible();
+  await expect(nav.getByText('Reptil medisin', { exact: true })).toBeVisible();
+  await expect(nav.getByText('Diagnostikk', { exact: true })).toBeVisible();
+  await expect(nav.getByText('Miljøkrav og biologi', { exact: true })).toBeVisible();
+  await expect(nav.getByText('Reptil medisin og kirurgi', { exact: true })).toBeVisible();
+  await expect(nav.getByText(/^Exotics:/)).toHaveCount(0);
+});
+
 test('search finds wiki pages by their translated species name', async function ({ page }) {
   await page.goto('/search.html?q=bearded%20dragon');
 

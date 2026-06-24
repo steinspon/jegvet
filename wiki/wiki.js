@@ -37,23 +37,8 @@
       .replace(/'/g, '&#39;');
   }
 
-  function humanizeFolderName(segment) {
-    if (window.JegVetWikiContent && typeof window.JegVetWikiContent.localizeFolderSegment === 'function') {
-      var localized = window.JegVetWikiContent.localizeFolderSegment(segment);
-      if (localized && localized !== segment) {
-        return localized;
-      }
-    }
-
-    return segment
-      .split('-')
-      .map(function (part) {
-        if (!part) {
-          return '';
-        }
-        return part.charAt(0).toUpperCase() + part.slice(1);
-      })
-      .join(' ');
+  function getFolderDisplayName(segment) {
+    return String(segment || '');
   }
 
   function resolveMarkdownPath(url, currentFile) {
@@ -240,7 +225,7 @@
   function renderTree(node, parentEl, navLinks, onClickPage, folderPrefix, activeFile) {
     var nodeHasActive = false;
     var folderNames = Object.keys(node.folders).sort(function (a, b) {
-      return humanizeFolderName(a).localeCompare(humanizeFolderName(b), undefined, { sensitivity: 'base' });
+      return getFolderDisplayName(a).localeCompare(getFolderDisplayName(b), undefined, { sensitivity: 'base' });
     });
     folderNames.forEach(function (folderName) {
       var childNode = node.folders[folderName];
@@ -252,7 +237,7 @@
       if (!hasNestedContent && hasOverview) {
         var singleLink = document.createElement('a');
         singleLink.href = '#';
-        singleLink.textContent = childNode.overviewPage.title || humanizeFolderName(folderName);
+        singleLink.textContent = getFolderDisplayName(folderName);
         singleLink.className = 'wiki-folder-link wiki-folder-link-standalone';
         singleLink.setAttribute('data-file', childNode.overviewPage.file);
         singleLink.addEventListener('click', function (event) {
@@ -289,7 +274,7 @@
       if (hasOverview) {
         folderLabelEl = document.createElement('a');
         folderLabelEl.href = '#';
-        folderLabelEl.textContent = childNode.overviewPage.title || humanizeFolderName(folderName);
+        folderLabelEl.textContent = getFolderDisplayName(folderName);
         folderLabelEl.className = 'wiki-folder-link';
         folderLabelEl.setAttribute('data-file', childNode.overviewPage.file);
         folderLabelEl.addEventListener('click', function (event) {
@@ -302,7 +287,7 @@
         folderLabelEl = document.createElement('button');
         folderLabelEl.type = 'button';
         folderLabelEl.className = 'wiki-folder-link wiki-folder-link-button';
-        folderLabelEl.textContent = humanizeFolderName(folderName);
+        folderLabelEl.textContent = getFolderDisplayName(folderName);
       }
       folderRow.appendChild(folderLabelEl);
       li.appendChild(folderRow);

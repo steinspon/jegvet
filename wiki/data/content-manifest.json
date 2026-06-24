@@ -1,12 +1,7 @@
 {
     "title":  "Veterinary Reference Wiki",
-    "generatedAt":  "2026-06-24T21:56:26+02:00",
+    "generatedAt":  "2026-06-24T22:06:37+02:00",
     "pages":  [
-                  {
-                      "file":  "Exotics/Reptil medisin/Diagnostikk/oversikt.md",
-                      "title":  "Exotics: Reptil medisin - Diagnostikk",
-                      "folder":  "Exotics/Reptil medisin/Diagnostikk"
-                  },
                   {
                       "file":  "Exotics/Reptil medisin/Miljøkrav og biologi/Generell ernæring og vannbalanse/oversikt.md",
                       "title":  "Generell ernæring og vannbalanse hos reptiler",
