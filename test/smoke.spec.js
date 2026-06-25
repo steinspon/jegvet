@@ -48,15 +48,15 @@ test('search finds calculator content', async function ({ page }) {
   await expect(page.getByRole('link', { name: /Kitty Magic/i }).first()).toBeVisible();
 });
 
-test('wiki navigation uses literal folder names', async function ({ page }) {
-  await page.goto('/wiki.html?page=Exotics%2FReptil%20medisin%2FDiagnostikk%2Foversikt.md');
+test('wiki navigation shows translated folder labels', async function ({ page }) {
+  await page.goto('/wiki.html?page=Exotics%2FReptile%20Medicine%2FDiagnostics%2Foversikt.md');
 
   var nav = page.locator('#wiki-nav');
   await expect(nav.getByText('Exotics', { exact: true })).toBeVisible();
-  await expect(nav.getByText('Reptil medisin', { exact: true })).toBeVisible();
-  await expect(nav.getByText('Diagnostikk', { exact: true })).toBeVisible();
-  await expect(nav.getByText('Miljøkrav og biologi', { exact: true })).toBeVisible();
-  await expect(nav.getByText('Reptil medisin og kirurgi', { exact: true })).toBeVisible();
+  await expect(nav.getByText('Reptile Medicine', { exact: true })).toBeVisible();
+  await expect(nav.getByText('Diagnostics', { exact: true })).toBeVisible();
+  await expect(nav.getByText('Husbandry and Biology', { exact: true })).toBeVisible();
+  await expect(nav.getByText('Medicine and Surgery', { exact: true })).toBeVisible();
   await expect(nav.getByText(/^Exotics:/)).toHaveCount(0);
 });
 
