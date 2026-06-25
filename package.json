@@ -5,7 +5,7 @@
   "description": "Bilingual veterinary reference and dosing toolkit (static web app).",
   "type": "commonjs",
   "scripts": {
-    "test": "node --test",
+    "test": "node --test test/search-engine.test.js",
     "test:browser": "playwright test",
     "test:all": "node --test && playwright test"
   },
