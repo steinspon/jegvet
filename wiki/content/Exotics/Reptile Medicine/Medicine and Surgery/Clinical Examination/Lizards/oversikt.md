@@ -1,0 +1,22 @@
+# Øgler
+
+- Øgler skal være våkne og løfte kroppen fra underlaget.
+- Øgler kan bite, store øgler kan slå med hale og klore, og aggressive individer kan pakkes i håndkle.
+- Trykk over øynene kan utløse vagal respons hos aggressive øgler og gjøre korte prosedyrer som røntgen mulig.
+- Friske øgler og skilpadder har klare åpne øyne uten utflod.
+- Respirasjon skal være synlig, men uten anstrengelse.
+- Glottis undersøkes helst ved ekspirasjon; hos reptiler er glottis normalt lukket og åpnes ved inn- og utpust.
+- Væskelyder eller utflod ved glottis kan oppdages ved ekspirasjon.
+- Munn og tenner undersøkes etter luftveiene.
+- Agamider og kameleoner har acrodonte tenner som ikke erstattes og sitter på eksponert benkam; periodontal sykdom er vanlig.
+- Andre øgler har pleurodonte tenner på innsiden av kjevebenet som erstattes regelmessig.
+- Hos øgler vurderes kjevens komprimerbarhet, fordi ben blir myke ved ernæringsbetinget sekundær hyperparatyreoidisme.
+- Hud undersøkes fra hode til halespiss for retinert hud, retinerte briller, arr, sår, parasitter og utflod.
+- Slangemidd, Ophionyssus natricus, er vanligste ektoparasitt og kan infisere slanger og øgler.
+- Lemmer undersøkes for normal bevegelighet, hevelser og smerterespons.
+- Kloakken undersøkes for utflod og prolapser.
+- Digital kloakkpalpasjon hos større øgler og slanger kan vurdere nyrestørrelse.
+- Hele coelomhulen palperes forsiktig for masser og væske.
+- Auskultasjon av lungene har begrenset nytte.
+- Hjertet vurderes best med Doppler.
+- Transilluminasjon kan brukes hos lyshudede gekkoer for å vurdere lever og fettgrad ut fra farge.

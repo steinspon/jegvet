@@ -1301,6 +1301,38 @@ input.check-toggle-round-flat:checked + label:after {
   color: var(--brand-blue);
 }
 
+.gi-stasis-controls {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.gi-stasis-alert {
+  border-color: rgba(180, 65, 65, 0.32);
+  background: var(--tool-card-bg);
+}
+
+.gi-stasis-steps {
+  margin: 0;
+  padding-left: 22px;
+}
+
+.gi-stasis-steps li {
+  margin: 0 0 8px;
+}
+
+.gi-stasis-grid {
+  display: grid;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.gi-dose-main {
+  margin: 0 0 10px;
+  color: var(--brand-blue);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
 @media (min-width: 768px) {
   .app-topbar-wrap {
     padding-left: max(28px, env(safe-area-inset-left));
@@ -1373,6 +1405,10 @@ input.check-toggle-round-flat:checked + label:after {
     grid-template-columns: minmax(200px, 320px) minmax(0, 1fr);
     gap: 20px;
   }
+
+  .gi-stasis-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 767px) {
@@ -1411,6 +1447,25 @@ input.check-toggle-round-flat:checked + label:after {
   .calc-table td {
     font-size: 13px;
     padding: 10px 10px;
+  }
+
+  .gi-stasis-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .gi-dose-main {
+    font-size: 18px;
+  }
+
+  #bird-dose-results td:first-child {
+    width: 42%;
+    font-weight: 700;
+  }
+
+  #bird-dose-results td:last-child {
+    font-size: 15px;
+    font-weight: 700;
+    white-space: nowrap;
   }
 }
 

@@ -1,0 +1,5 @@
+# Radiography
+
+Radiography screening should be performed in every sick reptile. Three standard views used in chelonia. Dorso-ventral vertical beam. This is useful for gastrointestinal tract disease, bladder stones, eggs and bone abnormalities. Anaesthesia may be needed to examine the extremities so that they can be pulled beyond the margin of the carapace and kept still! Horizontal beam radiographs are required as tortoises do not have a diaphragm and coelomic contents can compress the chest. Lateral and crainio-caudal views should be taken. These are useful for assessing the lung fields.
+
+There are two standard views for squamates. Dorso-ventral vertical beam. Anesthesia may be needed to examine snakes so that they can be pulled into a straight line or radiolucent tubes can be used. Marking the snake along its length with radio-opaque markers at set points helps to localise a lesion. Lizards may need to be anaesthetised for limb or head radiography. Lateral horizontal beam radiographs are required.

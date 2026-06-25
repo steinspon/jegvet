@@ -1,0 +1,3 @@
+# Periodontal disease
+
+Acrodont species such as the tuatara, agamids (beardies and water dragons) and chameleons do not replace their teeth. These sit on top of an exposed bony ridge in the mouth and can be prone to trauma and gingival recession down the bone of the jaw. This leads to infection in the bone of the face and gum and lip recession. Early treatment involves correcting the husbandry (covering transparent surfaces) and diet (giving harder invertebrates). Dental therapy to include scaling and debridement of abscesses and necrotic bone is required alongside systemic analgesics and antibiotics.

@@ -1,0 +1,3 @@
+# Fatty liver disease
+
+Hepatic disease is very common in reptiles. The most common problem is fatty infiltration. This can be physiological in the case of breeding females or after hibernation. However if the level of fat becomes excessive then anorexia, lethargy, increased weight, green stained urates or no clinical signs at all can be seen. The diagnosis rests on ultrasound, endoscopic or CT examination with endoscopic biopsy confirming the diagnosis. Treatment rests on supportive care with the addition of anabolic steroids, carnitine, methionine and possibly thyroid supplementation. Typically reproductively active females are affected.

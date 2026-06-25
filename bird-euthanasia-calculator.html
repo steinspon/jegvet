@@ -30,7 +30,6 @@
         bird_class_seagull: 'Seagull (0.5-1.5 kg)',
         bird_th_drug: 'Drug',
         bird_th_volume: 'Protocol volume (ml)',
-        bird_th_note: 'Note',
         bird_protocol_title: 'Protocol Notes',
         bird_mix_note: 'IM in the pectoral muscle. Normal induction occurs within 1-2 minutes.',
         bird_exagon_note: 'Preferably intra-cardiac or intra-hepatic. IP can be used if you do not get blood on aspiration, but make sure you do not aspirate air back because that means you are in the air sacs, which is neither effective nor ideal from an animal welfare perspective.',
@@ -49,7 +48,6 @@
         bird_class_seagull: 'Måke (0,5-1,5 kg)',
         bird_th_drug: 'Legemiddel',
         bird_th_volume: 'Protokollvolum (ml)',
-        bird_th_note: 'Notat',
         bird_protocol_title: 'Protokollnotater',
         bird_mix_note: 'IM i brystmuskel (pectoral muscle). Innsovning skjer normalt innen 1-2 minutter.',
         bird_exagon_note: 'Helst intra-cardiac eller intra-hepatic. IP kan brukes hvis man ikke får blodsvar, men pass på at man ikke får luft tilbake, for da er man i luftsekkene, og det er verken effektivt eller dyrevernmessig ideelt.',
@@ -88,7 +86,6 @@
             <tr>
               <th data-i18n="bird_th_drug">Drug</th>
               <th data-i18n="bird_th_volume">Protocol volume (ml)</th>
-              <th data-i18n="bird_th_note">Note</th>
             </tr>
           </thead>
           <tbody id="bird-dose-results"></tbody>
@@ -164,19 +161,14 @@
       function renderTable() {
         var key = classInput.value || 'small';
         var row = DATA[key];
-        var mixNote = t('bird_mix_note', 'IM in the pectoral muscle. Normal induction occurs within 1-2 minutes.');
-        var exagonNote = t('bird_exagon_note', 'Preferably intra-cardiac or intra-hepatic. IP can be used if you do not get blood on aspiration, but make sure you do not aspirate air back because that means you are in the air sacs, which is neither effective nor ideal from an animal welfare perspective.');
-
         resultsEl.innerHTML =
           '<tr>' +
             '<td>Zoletil mix</td>' +
             '<td>' + (isNorwegian() ? row.zoletilNo : row.zoletilEn) + '</td>' +
-            '<td>' + mixNote + '</td>' +
           '</tr>' +
           '<tr>' +
             '<td>Exagon</td>' +
             '<td>' + (isNorwegian() ? row.exagonNo : row.exagonEn) + '</td>' +
-            '<td>' + exagonNote + '</td>' +
           '</tr>';
       }
 

@@ -1,0 +1,17 @@
+# Endocrine disease
+
+## Norsk
+
+### Cystisk ovariesykdom
+Svært vanlig hos eldre hunner — 76 % insidens er rapportert hos dyr i alderen 1,5–5 år. Etiologien er ukjent; østrogensubstanser i høy har vært implisert. Initialt asymptomatisk. Etter hvert som cystene vokser: ikke-pruritisk alopesi utvikler seg symmetrisk over ryggen og flankene. Abdominal forstørrelse og infertilitet kan også forekomme. Diagnostikk: anamnese, abdominal palpasjon, røntgen, ultrasonografi. Cystene er vanligvis bilaterale, opptil 10 cm, og smertefulle ved palpasjon. Ofte assosiert med samtidig cystisk endometriehyperplasi, mukometra, endometritt og fibroleiomyomer. Behandling: ovariohysterektomi er den foretrukne behandlingen. Humant koriongonadotropin 100 IE IM gjentatt etter 7–10 dager i 1–3 uker er rapportert å gi midlertidig bedring. Perkutan drenasje under anestesi er også mulig. Merk: ikke-pruritisk bilateral flank-alopesi er også vanlig sent i drektigheten (telogen defluxjon) og reverseres etter fødsel.
+
+### Diabetes mellitus
+Rapportert hos marsvin. Mulige etiologier: uklassifisert infeksiøst agens hos Abessinere (muligens viralt), arvelige faktorer, medfødt manganmangel hos unge dyr, diett med høyt sukker- og karbohydratinnhold. Kliniske tegn oppstår hos unge dyr i alderen 3–6 måneder. Infertilitet, fosterdød og dødfødsler er rapportert i avlskolonier. Diagnostikk: blodsukker >20 mmol/L, hyperlipidemi, glukosetoleranse test. Merk: stress alene kan forårsake hyperglykemi; utelukk andre årsaker før diabetes diagnostiseres. Differensier diabetisk katarakt fra arvelig katarakt (sees ved 9–10 måneder) og katarakt sekundær til metastatisk kalsifisering. Behandling: fiberrik diett. Insulin sjelden nødvendig; spontan bedring er vanlig.
+
+## English
+
+### Cystic ovarian disease
+Extremely common in aged females — 76% incidence reported in animals aged 1.5–5 years. Aetiology unknown; oestrogenic substances in hay have been implicated. Initially asymptomatic. As cysts enlarge: non-pruritic alopecia develops symmetrically over the back and flanks. Abdominal enlargement and infertility may also be present. Diagnosis: history, abdominal palpation, radiography, ultrasonography. Cysts are usually bilateral, up to 10 cm, and painful on palpation. Often associated with concurrent cystic endometrial hyperplasia, mucometra, endometritis and fibroleiomyomas. Treatment: ovariohysterectomy is the treatment of choice. Human chorionic gonadotrophin 100 IU IM repeated in 7–10 days for 1–3 weeks has been reported to temporarily resolve this condition. Percutaneous drainage under anaesthesia is also possible. Note: non-pruritic bilateral flank alopecia is also common during late pregnancy (telogen defluxion) and reverses following parturition.
+
+### Diabetes mellitus
+Reported in guinea pigs. Possible aetiologies: unclassified infectious agent in Abyssinians (possibly viral), hereditary factors, congenital manganese deficiency in juveniles, high sugar/high carbohydrate diets. Clinical signs apparent in juvenile animals aged 3–6 months. Infertility, foetal mortality and stillbirths reported in breeding colonies. Diagnosis: blood glucose >20 mmol/L, hyperlipidaemia, glucose tolerance test. Caution: stress alone can cause hyperglycaemia; rule out other causes before diagnosing diabetes. Differentiate diabetic cataracts from inherited cataracts (seen at 9–10 months) and cataracts secondary to metastatic calcification. Treatment: high-fibre diet. Insulin rarely needed; spontaneous recovery is common.

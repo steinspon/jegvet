@@ -38,6 +38,9 @@
   }
 
   function getFolderDisplayName(segment) {
+    if (window.JegVetWikiContent && typeof window.JegVetWikiContent.localizeFolderSegment === 'function') {
+      return window.JegVetWikiContent.localizeFolderSegment(segment);
+    }
     return String(segment || '');
   }
 
@@ -82,6 +85,9 @@
       return '<a href="' + resolved + '"' + target + '>' + label + '</a>';
     });
     html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+    html = html.replace(/\*\*\*([^*]+)\*\*\*/g, '<strong><em>$1</em></strong>');
+    html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    html = html.replace(/\*([^*\n]+)\*/g, '<em>$1</em>');
     return html;
   }
 
@@ -222,10 +228,91 @@
     return root;
   }
 
+  var folderSortOrders = {
+    'Exotics/Reptile Medicine': [
+      'Husbandry and Biology',
+      'Medicine and Surgery',
+      'Diagnostics'
+    ],
+    'Exotics/Reptile Medicine/Medicine and Surgery': [
+      'Clinical Examination',
+      'Preliminary Diagnostics and Parasites',
+      'Hospitalisation and Infection Control',
+      'Supportive Care Fluid and Nutrition',
+      'Common diseases',
+      'Surgical Procedures',
+      'Analgesia and Anaesthesia',
+      'Oesophagostomy Tube and Endoscopy',
+      'Euthanasia'
+    ],
+    'Exotics/Reptile Medicine/Medicine and Surgery/Clinical Examination': [
+      'Clinical examination of reptiles',
+      'General Assessment and Handling',
+      'Lizards',
+      'Snakes',
+      'Tortoises'
+    ],
+    'Exotics/Reptile Medicine/Medicine and Surgery/Common diseases': [
+      'Stomatitis',
+      'Periodontal disease',
+      'Upper respiratory tract disease in chelonians',
+      'Mycoplasma agassizzi',
+      'Herpes viruses',
+      'Pneumonia',
+      'Septicaemia',
+      'Paramyxovirus',
+      'Inclusion body disease',
+      'Snake mites',
+      'Nutritional secondary hyperparathyroidism',
+      'Pyramidal growth in chelonians',
+      'Reproductive diseases',
+      'Skin trauma and infections',
+      'Yellow Fungal Disease',
+      'Dysecdysis',
+      'Fatty liver disease',
+      'Renal disease'
+    ],
+    'Exotics/Reptile Medicine/Medicine and Surgery/Preliminary Diagnostics and Parasites': [
+      'Preliminary diagnostics and parasites',
+      'Culture samples and antibiotics',
+      'Cytology PCR and washes',
+      'Blood sampling',
+      'Radiography',
+      'Barium studies',
+      'Ultrasound CT and MRI'
+    ],
+    'Exotics/Reptile Medicine/Medicine and Surgery/Surgical Procedures': [
+      'Shell trauma in chelonians',
+      'Cloacal organ prolapse',
+      'Aural abscessation in chelonians',
+      'Exploratory celiotomy',
+      'Plastronotomy in chelonians'
+    ],
+    'Exotics/Reptile Medicine/Medicine and Surgery/Oesophagostomy Tube and Endoscopy': [
+      'Oesophagostomy tube placement',
+      'Reptile endoscopy'
+    ]
+  };
+
+  function compareFolderNames(a, b, folderPrefix) {
+    var order = folderSortOrders[folderPrefix || ''];
+    if (order) {
+      var aIndex = order.indexOf(a);
+      var bIndex = order.indexOf(b);
+      if (aIndex !== -1 || bIndex !== -1) {
+        if (aIndex === -1) return 1;
+        if (bIndex === -1) return -1;
+        return aIndex - bIndex;
+      }
+    }
+
+    return getFolderDisplayName(a).localeCompare(getFolderDisplayName(b), undefined, { sensitivity: 'base' });
+  }
+
   function renderTree(node, parentEl, navLinks, onClickPage, folderPrefix, activeFile) {
     var nodeHasActive = false;
     var folderNames = Object.keys(node.folders).sort(function (a, b) {
-      return getFolderDisplayName(a).localeCompare(getFolderDisplayName(b), undefined, { sensitivity: 'base' });
+      return compareFolderNames(a, b, folderPrefix);
     });
     folderNames.forEach(function (folderName) {
       var childNode = node.folders[folderName];
@@ -666,9 +753,7 @@
 
       if (initialPage) {
         loadPage(initialPage.file, initialPage.title, navLinks, { keepHash: true, hitQuery: hitQuery });
-      } else if (pages.length) {
-        loadPage(pages[0].file, pages[0].title, navLinks, { keepHash: false });
-      } else {
+      } else if (!pages.length) {
         article.innerHTML = '<p>' + escapeHtml(t('wiki_no_pages', 'No wiki pages are configured yet.')) + '</p>';
       }
     } catch (error) {

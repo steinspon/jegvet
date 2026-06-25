@@ -1,0 +1,3 @@
+# Stomatitis
+
+This is a commonly presenting condition in snakes and many can be due to inappropriate husbandry like bite wounds, or interaction with transparent surfaces. Some are secondary to immunosuppressive viral conditions. Severe cases can develop septicaemia or pneumonia as an extension of the initial condition. Infections with bacterial and fungal agents are common. Cytological examination and if required even biopsy of the tissues are required to identify pathogens. Presumptive treatment with enrofloxacin or ceftazidime may be required. Debridement under anaesthesia will help lesions to heal. Topical treatment with silver sulphasalazine is possible even in the mouth and this is a useful agent to consider as it provides analgesia and has anti fungal properties.

@@ -1,0 +1,5 @@
+# Cytology PCR and washes
+
+Cytology is a useful tool in clinical practice and samples can be taken from any lesions, nares, tongue, eyes, colon, stomach or trachea, either on swabs or as a wash. These samples can be used for culture but the cytology is not to be underestimated. Cytology can confirm the presence of an organism and an inflammatory response confirming its pathogenicity. Presumptive therapy can be started while waiting for culture results. Cytology can also identify organisms that may be difficult to culture. Tracheal washes are commonly performed in snakes where pneumonia is common. 1% of the bodyweight of warmed saline is infused down an appropriately sized catheter. The snake is rolled and the fluid aspirated. Nasal flushes are commonly used in chelonians either to obtain material for diagnosis or as part of the therapeutic regime.
+
+PCR analysis is now available for two common pathogens in chelonia (Herpesvirus and Mycoplasma) and ocular, nasal or oral swabs and flushes are acceptable samples to send.

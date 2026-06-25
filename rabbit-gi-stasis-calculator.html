@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Tarmlammelse behandling kanin | JegVet</title>
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="JegVet" />
+  <link rel="icon" type="image/png" sizes="32x32" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="calculator-utils.js"></script>
+  <script src="app-shell.js" defer></script>
+</head>
+<body>
+  <main class="page page-top">
+    <section class="layout-card layout-card-wide">
+      <a href="index.html" class="brand-link" aria-label="Gå til forsiden">
+        <img src="logo_day.png" alt="JegVet logo" class="brand-logo" width="1536" height="1024" />
+      </a>
+
+      <h1 class="section-title">Tarmlammelse behandling kanin</h1>
+      <p class="section-subtitle">Akutt behandlingsplan med vektbaserte væske-, smertelindrings-, prokinetika- og ernæringsdoser.</p>
+
+      <form class="calc-form gi-stasis-controls" id="gi-stasis-form">
+        <div class="calc-field">
+          <label for="weight-kg">Kaninens vekt (kg)</label>
+          <input id="weight-kg" type="text" inputmode="decimal" min="0" step="0.01" placeholder="f.eks. 2,0" required />
+        </div>
+      </form>
+      <p id="calc-error" class="calc-error" aria-live="polite"></p>
+
+      <div class="tool-card gi-stasis-alert">
+        <h2>Akutt første time</h2>
+        <ol class="gi-stasis-steps">
+          <li>Legg venflon, helst lateral ørevene, eventuelt bakfot.</li>
+          <li>Mål blodglukose i starten når venflon legges.</li>
+          <li>Start væskeresuscitering og gi Bupaq sammen med første væskebolus.</li>
+          <li>Gi Metacam etter 1 time når rehydrering er ferdig.</li>
+          <li>Gi Afipran hvis det ikke er mistanke om obstruksjon.</li>
+        </ol>
+      </div>
+
+      <div class="gi-stasis-grid" id="acute-plan" aria-live="polite">
+        <div class="tool-card">
+          <h2>1. IV væske første time</h2>
+          <p class="gi-dose-main" id="shock-total">Oppgi vekt.</p>
+          <ul>
+            <li id="shock-iv">IV: oppgi vekt.</li>
+            <li id="shock-sc">SC: oppgi vekt.</li>
+            <li>Max 50 ml IV første time, som 10 ml sakte boluser, cirka én bolus hvert 10. minutt.</li>
+            <li>Resten av sjokkvolumet gis subkutant med stor sprøyte og grønn kanyle.</li>
+            <li>Bruk varmet væske både IV og SC.</li>
+            <li>SC: bruk kun NaCl, fordi Ringer svir subkutant.</li>
+          </ul>
+        </div>
+
+        <div class="tool-card">
+          <h2>2. Bupaq / buprenorfin</h2>
+          <p class="gi-dose-main" id="bupaq-dose">Oppgi vekt.</p>
+          <ul>
+            <li>Dose: 0,05 mg/kg IV/IM/SC q 6-12 t.</li>
+            <li>Styrke brukt i kalkulatoren: 0,3 mg/ml.</li>
+            <li>Gis med en gang venflon er inne, sammen med første væskebolus.</li>
+            <li>Buprenorfin kan gis i opptil 3 døgn før tarmmotilitet kan påvirkes negativt.</li>
+          </ul>
+        </div>
+
+        <div class="tool-card">
+          <h2>3. Metacam / meloksikam</h2>
+          <p class="gi-dose-main" id="metacam-dose">Oppgi vekt.</p>
+          <ul>
+            <li>Dose: 0,3 mg/kg SC q 24 t.</li>
+            <li>Styrke brukt i kalkulatoren: 5 mg/ml.</li>
+            <li>Gis etter 1 time når rehydrering er ferdig.</li>
+            <li>Hvis kaninen sendes hjem før den er helt bra, vurder resept på Metacam.</li>
+          </ul>
+        </div>
+
+        <div class="tool-card">
+          <h2>4. Afipran / metoklopramid</h2>
+          <p class="gi-dose-main" id="afipran-dose">Oppgi vekt.</p>
+          <ul>
+            <li>Dose: 0,5 mg/kg q 6-8 t SC/PO i 3-4 dager.</li>
+            <li>Brukes som tarmstimulerende medisin.</li>
+            <li>Gis hvis det ikke er mistanke om obstruksjon.</li>
+            <li>Injeksjon kan brukes under hospitalisering.</li>
+            <li>Mikstur kan blandes i en liten “poo pot” slik at eier trekker opp riktig volum i 1 ml sprøyte hjemme.</li>
+            <li>Injeksjon styrke 5 mg/ml. Mikstur styrke 1 mg/ml. Kontroller alltid flaskeetiketten.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="calc-table-wrap u-mt-14">
+        <table class="calc-table" aria-label="Tarmlammelse behandlingsdoser">
+          <thead>
+            <tr>
+              <th>Tiltak</th>
+              <th>Dose fra dokumentet</th>
+              <th>Beregnet mengde</th>
+              <th>Når/hvordan</th>
+            </tr>
+          </thead>
+          <tbody id="dose-table">
+            <tr><td colspan="4">Oppgi vekt for å beregne planen.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tool-card u-mt-14">
+        <h2>Journaltekst og hjemmer?d</h2>
+        <p>Teksten oppdateres med beregnede doser og kan kopieres direkte inn i journalen.</p>
+        <textarea id="gi-journal-text" class="calc-journal-textarea" rows="18" readonly></textarea>
+        <div class="journal-actions u-mt-14">
+          <button type="button" id="gi-copy-journal" class="action-button">Kopier journaltekst</button>
+        </div>
+        <p id="gi-copy-status" class="section-subtitle u-section-gap-sm" aria-live="polite"></p>
+      </div>
+
+      <div class="tool-card u-mt-14">
+        <h2>Væskebehandling videre</h2>
+        <ul>
+          <li id="fluid-day-1">Dag 1: oppgi vekt.</li>
+          <li id="fluid-day-2">Dag 2-3: oppgi vekt.</li>
+          <li>Dag 1 gjelder samme døgn som kaninen kom inn og behandlingen startet.</li>
+          <li>Ved hospitalisering gis væske IV som boluser på dagtid, eventuelt en god SC bolus på kvelden før leggetid.</li>
+          <li>Hospitaliserte pasienter bør få fred til å sove og ikke forstyrres hyppig gjennom natten.</li>
+          <li>Hvis kaninen sendes hjem, kan det være lurt å gi dagsbehovet SC før avreise.</li>
+          <li>Ikke bruk infusjonssett som hos hund/katt hvis det hemmer normal adferd og øker stress.</li>
+        </ul>
+      </div>
+
+      <div class="tool-card u-mt-14">
+        <h2>Tvangsfôring med Oxbow Critical Care</h2>
+        <ul>
+          <li id="cc-standard">Standard: oppgi vekt.</li>
+          <li id="cc-gentle">Skånsom plan: oppgi vekt.</li>
+          <li>Tvangsfôring gis frem til kaninen spiser normale mengder selv.</li>
+          <li>Som regel nødvendig i 1-3 døgn.</li>
+          <li>Eier kan gjøre dette hjemme hvis de gir tilstrekkelig mengde.</li>
+          <li>Vær forsiktig slik at munnen ikke traumatiseres når sprøyten føres inn og ut.</li>
+          <li>Gi små porsjoner og unngå skarpe kanter på sprøyten.</li>
+        </ul>
+      </div>
+
+      <div class="tool-card u-mt-14">
+        <h2>Ekstra smertestillende ved behov</h2>
+        <ul>
+          <li id="paracetamol-dose">Paracetamol: oppgi vekt.</li>
+          <li>Paracetamol kan gis i noen få dager. Dokumentet angir stor dosevariasjon i litteraturen.</li>
+          <li>Foreslått dose i dokumentet: 10-30 mg/kg PO q 12-24 t.</li>
+          <li>Dokumentet nevner også 200-500 mg/kg PO som engangsdose, men planen her fremhever 10-30 mg/kg som valgt regime.</li>
+          <li id="tramadol-dose">Tramadol: oppgi vekt.</li>
+          <li>Tramadol mikstur tåles, men effekten er omdiskutert. Dose i dokumentet: 4 mg/kg PO q 12 t.</li>
+        </ul>
+      </div>
+
+      <div class="tool-card u-mt-14">
+        <h2>Klinisk alvor og differensiering mot obstruksjon</h2>
+        <ul>
+          <li>Tarmlammelse behandles akutt, aggressivt og med samme alvor som GDV hos hund.</li>
+          <li>Kaniner dør raskt uten riktig behandling.</li>
+          <li>Tarmlammelse er som regel sekundært til et primært problem; finn årsaken selv om akutt tarmlammelse behandles først.</li>
+          <li>Eksempler på utløsende årsaker: tannproblem, fordervet mat, plutselig økt inntak av ferskt gress/løvetann, plutselig stress eller smerte.</li>
+          <li>Tarmlammelse er mye vanligere enn obstruksjon, men klinisk bilde er svært likt.</li>
+          <li>Blodglukose &gt;20 mmol/l er indikativt for ekstrem smerte/obstruksjon, og kun da er ex-lap indisert.</li>
+          <li>Ved blodglukose 15-20 mmol/l bør veterinær og eier forberede seg på ex-lap.</li>
+          <li>Obstruksjon behandles medisinsk på lik linje med tarmlammelse frem til blodglukose er &gt;20 mmol/l.</li>
+          <li>Hvis eier ikke har økonomi til kirurgi, fortsett medisinsk behandling og gi maksimal smertelindring.</li>
+          <li>Hvis ex-lap blir nødvendig: åpne aldri tarmen. Obstruksjon sitter vanligvis i begynnelsen av tynntarm og skal knuses og melkes videre til tykktarm.</li>
+        </ul>
+      </div>
+
+      <div class="tool-card u-mt-14">
+        <h2>Kliniske tegn på tarmlammelse</h2>
+        <ul>
+          <li>Redusert eller ingen produksjon av avføring.</li>
+          <li>Anoreksi.</li>
+          <li>Mindre aktiv, sitter i hjørne eller gjemmer seg.</li>
+          <li>Reduserte gut sounds.</li>
+          <li>Deigete buk ved palpasjon.</li>
+          <li>Ubehag ved bukpalpasjon.</li>
+          <li>Anspente ansiktsmuskler som smertetegn: ører trukket bakover, værhår peker mer rostralt, øyne litt halvlukket.</li>
+        </ul>
+      </div>
+
+      <div class="tool-card u-mt-14">
+        <h2>Hospitalisering og miljø</h2>
+        <ul>
+          <li>Hospitalisering i 1-3 dager er gold standard.</li>
+          <li>Stress er en vesentlig faktor; ved mye bråk fra hunder på klinikken kan hjemsendelse være akseptabelt når kaninen er mer stabil, produserer avføring og spiser litt selv.</li>
+          <li>Hospitaliser helst med en venn og ikke separer kaninene.</li>
+          <li>Selv om man ønsker å se om den syke kaninen produserer avføring, er stressreduksjon og mental støtte mer verdifullt.</li>
+          <li>Gjemmested med lett tilgang til mat er viktig.</li>
+          <li>Ha både vannskål og drikkeflaske tilgjengelig.</li>
+          <li>Eier bør komme med lunsjboks med ferskt grønt kaninen er vant med, i tillegg til pellets og litt høy.</li>
+          <li>Eier kan ta med litt skittent strø hjemmefra slik at hospitaliseringsplassen lukter kjent.</li>
+          <li>Plasser kaninen så langt unna hunder og katter som mulig.</li>
+          <li>Eier bør få en realistisk formening om kostnad for både akutt tarmlammelse og primærårsaken.</li>
+        </ul>
+      </div>
+
+      <div class="tool-card u-mt-14">
+        <h2>Videre diagnostikk og overvåkning</h2>
+        <ul>
+          <li>Bukrøntgen er ikke alltid lett å bedømme ved tarmlammelse på grunn av mye gass.</li>
+          <li>Ved mistanke om obstruksjon kan ultralyd på stående kanin være nyttig, siden gassen går dorsalt.</li>
+          <li>Fokuser proben på pylorus og første del av tynntarm; noen ganger kan man observere en pellet-plugg i tarmen.</li>
+          <li>Regelmessige blodglukosemålinger med glukosemeter er ofte den mest nyttige overvåkningen for å vurdere om ex-lap er indisert.</li>
+        </ul>
+      </div>
+
+      <div class="tool-card u-mt-14">
+        <h2>Backend doseformler</h2>
+        <ul>
+          <li><code>Sjokkvolum første time = vekt_kg * 100 ml</code></li>
+          <li><code>IV første time = min(sjokkvolum, 50 ml)</code></li>
+          <li><code>SC første time = max(sjokkvolum - IV, 0)</code></li>
+          <li><code>Bupaq ml = vekt_kg * 0,05 mg/kg / 0,3 mg/ml</code></li>
+          <li><code>Metacam ml = vekt_kg * 0,3 mg/kg / 5 mg/ml</code></li>
+          <li><code>Afipran ml = vekt_kg * 0,5 mg/kg / valgt styrke mg/ml</code></li>
+          <li><code>Critical Care standard = vekt_kg * 20 ml per fôring, 4 ganger daglig</code></li>
+          <li><code>Critical Care skånsom = vekt_kg * 10 ml per fôring, 8 ganger daglig</code></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var weightInput = document.getElementById('weight-kg');
+      var errorEl = document.getElementById('calc-error');
+      var tableEl = document.getElementById('dose-table');
+      var journalEl = document.getElementById('gi-journal-text');
+      var copyButton = document.getElementById('gi-copy-journal');
+      var copyStatusEl = document.getElementById('gi-copy-status');
+
+      function parse(value) {
+        return window.JegVetCalc.parseDecimalInput(value);
+      }
+
+      function format(value, decimals) {
+        return value.toLocaleString('nb-NO', {
+          minimumFractionDigits: decimals,
+          maximumFractionDigits: decimals
+        });
+      }
+
+      function setText(id, value) {
+        document.getElementById(id).textContent = value;
+      }
+
+      function mlFromMg(mg, concentration) {
+        if (!isFinite(concentration) || concentration <= 0) {
+          return null;
+        }
+        return mg / concentration;
+      }
+
+      function formatMl(value) {
+        if (value == null) {
+          return 'Oppgi/kontroller styrke';
+        }
+        return format(value, 2) + ' ml';
+      }
+
+      function placeholder() {
+        tableEl.innerHTML = '<tr><td colspan="4">Oppgi vekt for å beregne planen.</td></tr>';
+        journalEl.value = 'Oppgi kaninens vekt for journaltekst med beregnede doser.';
+        copyStatusEl.textContent = '';
+        [
+          ['shock-total', 'Oppgi vekt.'],
+          ['shock-iv', 'IV: oppgi vekt.'],
+          ['shock-sc', 'SC: oppgi vekt.'],
+          ['bupaq-dose', 'Oppgi vekt.'],
+          ['metacam-dose', 'Oppgi vekt.'],
+          ['afipran-dose', 'Oppgi vekt.'],
+          ['fluid-day-1', 'Dag 1: oppgi vekt.'],
+          ['fluid-day-2', 'Dag 2-3: oppgi vekt.'],
+          ['cc-standard', 'Standard: oppgi vekt.'],
+          ['cc-gentle', 'Skånsom plan: oppgi vekt.'],
+          ['paracetamol-dose', 'Paracetamol: oppgi vekt.'],
+          ['tramadol-dose', 'Tramadol: oppgi vekt.']
+        ].forEach(function (item) {
+          setText(item[0], item[1]);
+        });
+      }
+
+      function buildJournalText(values) {
+        var afipranInjText = formatMl(values.afipranInjMl);
+        var afipranPoText = formatMl(values.afipranPoMl);
+
+        return [
+          'Tarmlammelse/ileus kanin - akutt behandling',
+          '',
+          'Vekt: ' + format(values.weight, 2) + ' kg.',
+          'Blodglukose målt ved innleggelse/venflonlegging: ____ mmol/l.',
+          'Venflon lagt: ____.',
+          '',
+          'Utført behandling på klinikk:',
+          '- IV væske første time: ' + format(values.shockIv, 0) + ' ml varmet væske gitt som sakte boluser (' + values.bolusText + ').',
+          '- SC væske første time: ' + format(values.shockSc, 0) + ' ml varmet NaCl.',
+          '- Bupaq/buprenorfin 0,3 mg/ml: ' + format(values.bupaqMl, 2) + ' ml gitt IV/IM/SC = ' + format(values.bupaqMg, 2) + ' mg. Dose 0,05 mg/kg.',
+          '- Metacam/meloksikam 5 mg/ml: ' + format(values.metacamMl, 2) + ' ml gitt SC etter rehydrering = ' + format(values.metacamMg, 2) + ' mg. Dose 0,3 mg/kg.',
+          '- Afipran/metoklopramid gitt hvis ingen mistanke om obstruksjon: ' + format(values.afipranMg, 2) + ' mg = injeksjon ' + afipranInjText + ' / mikstur ' + afipranPoText + '. Dose 0,5 mg/kg q 6-8 t.',
+          '- Tvangsfôring/Oxbow Critical Care planlagt: ' + format(values.ccStandard, 1) + ' ml x 4 daglig eller ' + format(values.ccGentle, 1) + ' ml x 8 daglig, totalt ' + format(values.ccDaily, 1) + ' ml/døgn.',
+          '- Videre væskebehov: dag 1 ca. ' + format(values.fluidDay1, 0) + ' ml/døgn; dag 2-3 ca. ' + format(values.fluidDay23, 0) + ' ml/døgn, justeres etter klinikk.',
+          '',
+          'Vurdering/plan:',
+          '- Tarmlammelse behandlet akutt med væske, smertelindring, tarmstimulerende behandling ved fravær av obstruksjonsmistanke og ernæringsstøtte.',
+          '- Overvåk appetitt, avføringsproduksjon, smerte, hydreringsstatus og gjentatte blodglukosemålinger ved behov.',
+          '- Videre utredning av utløsende årsak anbefales, inkludert tenner/smertekilde/fôrendring/stress og bildediagnostikk ved behov.',
+          '',
+          'Videre behandling hjemme - eierinformasjon:',
+          '- Gi medisiner nøyaktig som avtalt på resept/etikett.',
+          '- Tvangsfôr med Critical Care i små porsjoner til kaninen spiser normale mengder selv.',
+          '- Tilby rikelig med høy, vannskål og vante grønnsaker. Hold kaninen varmt, rolig og stressfritt.',
+          '- Følg med på avføring: mengde, størrelse og om produksjonen stopper igjen.',
+          '- Kontakt veterinær umiddelbart ved manglende matlyst, ingen avføring, økende slapphet, oppblåst/smertefull buk eller forverring.',
+          '- Kontroll anbefales innen ____ timer/døgn eller tidligere ved forverring.'
+        ].join('\n');
+      }
+
+      function updateJournal(values) {
+        journalEl.value = buildJournalText(values);
+        copyStatusEl.textContent = '';
+      }
+
+      function render() {
+        var weight = parse(weightInput.value);
+        var afipranInjMgMl = 5;
+        var afipranPoMgMl = 1;
+
+        if (!weightInput.value) {
+          errorEl.textContent = '';
+          placeholder();
+          return;
+        }
+
+        if (!isFinite(weight) || weight <= 0) {
+          errorEl.textContent = 'Vekten må være større enn 0 kg.';
+          placeholder();
+          return;
+        }
+
+        errorEl.textContent = '';
+
+        var shockTotal = weight * 100;
+        var shockIv = Math.min(shockTotal, 50);
+        var shockSc = Math.max(shockTotal - shockIv, 0);
+        var fullBoluses = Math.floor(shockIv / 10);
+        var remainingBolus = shockIv - (fullBoluses * 10);
+        var bolusText = fullBoluses + ' x 10 ml';
+        if (remainingBolus > 0.01) {
+          bolusText += ' + ' + format(remainingBolus, 1) + ' ml';
+        }
+
+        var bupaqMg = weight * 0.05;
+        var bupaqMl = bupaqMg / 0.3;
+        var metacamMg = weight * 0.3;
+        var metacamMl = metacamMg / 5;
+        var afipranMg = weight * 0.5;
+        var afipranInjMl = mlFromMg(afipranMg, afipranInjMgMl);
+        var afipranPoMl = mlFromMg(afipranMg, afipranPoMgMl);
+        var fluidDay1 = weight * 150;
+        var fluidDay23 = weight * 125;
+        var ccStandard = weight * 20;
+        var ccGentle = weight * 10;
+        var ccDaily = weight * 80;
+        var paracetamolLow = weight * 10;
+        var paracetamolHigh = weight * 30;
+        var tramadolMg = weight * 4;
+        var values = {
+          weight: weight,
+          shockTotal: shockTotal,
+          shockIv: shockIv,
+          shockSc: shockSc,
+          bolusText: bolusText,
+          bupaqMg: bupaqMg,
+          bupaqMl: bupaqMl,
+          metacamMg: metacamMg,
+          metacamMl: metacamMl,
+          afipranMg: afipranMg,
+          afipranInjMl: afipranInjMl,
+          afipranPoMl: afipranPoMl,
+          fluidDay1: fluidDay1,
+          fluidDay23: fluidDay23,
+          ccStandard: ccStandard,
+          ccGentle: ccGentle,
+          ccDaily: ccDaily
+        };
+
+        setText('shock-total', format(shockTotal, 0) + ' ml totalt første time (100 ml/kg).');
+        setText('shock-iv', 'IV første time: ' + format(shockIv, 0) + ' ml totalt, fordelt som ' + bolusText + ' sakte boluser.');
+        setText('shock-sc', 'SC første time: ' + format(shockSc, 0) + ' ml varmet NaCl med en gang.');
+        setText('bupaq-dose', format(bupaqMl, 2) + ' ml Bupaq 0,3 mg/ml nå. (' + format(bupaqMg, 2) + ' mg)');
+        setText('metacam-dose', format(metacamMl, 2) + ' ml Metacam 5 mg/ml etter 1 time. (' + format(metacamMg, 2) + ' mg)');
+        setText('afipran-dose', 'Afipran ' + format(afipranMg, 2) + ' mg: inj ' + formatMl(afipranInjMl) + ', mikstur ' + formatMl(afipranPoMl) + '.');
+        setText('fluid-day-1', 'Dag 1: ' + format(fluidDay1, 0) + ' ml/døgn (150 ml/kg/døgn).');
+        setText('fluid-day-2', 'Dag 2-3: ' + format(fluidDay23, 0) + ' ml/døgn (125 ml/kg/døgn).');
+        setText('cc-standard', 'Standard: ' + format(ccStandard, 1) + ' ml per fôring, 4 ganger daglig. Totalt ' + format(ccDaily, 1) + ' ml/døgn.');
+        setText('cc-gentle', 'Skånsom plan: ' + format(ccGentle, 1) + ' ml per fôring, 8 ganger daglig. Totalt ' + format(ccDaily, 1) + ' ml/døgn.');
+        setText('paracetamol-dose', 'Paracetamol: ' + format(paracetamolLow, 0) + '-' + format(paracetamolHigh, 0) + ' mg PO q 12-24 t.');
+        setText('tramadol-dose', 'Tramadol: ' + format(tramadolMg, 1) + ' mg PO q 12 t.');
+
+        tableEl.innerHTML =
+          '<tr>' +
+            '<td>Blodglukose</td>' +
+            '<td>Startmåling</td>' +
+            '<td>Mål når venflon legges</td>' +
+            '<td>&gt;20 mmol/l: ex-lap indisert. 15-20 mmol/l: forbered kirurgi.</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td>IV væske første time</td>' +
+            '<td>100 ml/kg første time, max 50 ml IV</td>' +
+            '<td>' + format(shockIv, 0) + ' ml IV (' + bolusText + ')</td>' +
+            '<td>10 ml sakte boluser cirka hvert 10. minutt.</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td>SC væske første time</td>' +
+            '<td>Resten av sjokkvolumet</td>' +
+            '<td>' + format(shockSc, 0) + ' ml SC</td>' +
+            '<td>Varmet NaCl, stor sprøyte og grønn kanyle.</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td>Bupaq</td>' +
+            '<td>0,05 mg/kg q 6-12 t</td>' +
+            '<td>' + format(bupaqMl, 2) + ' ml</td>' +
+            '<td>IV/IM/SC straks venflon er inne, sammen med første bolus.</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td>Metacam</td>' +
+            '<td>0,3 mg/kg q 24 t</td>' +
+            '<td>' + format(metacamMl, 2) + ' ml</td>' +
+            '<td>SC etter 1 time når rehydrering er ferdig.</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td>Afipran injeksjon</td>' +
+            '<td>0,5 mg/kg q 6-8 t</td>' +
+            '<td>' + formatMl(afipranInjMl) + '</td>' +
+            '<td>SC under hospitalisering hvis ikke obstruksjonsmistanke.</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td>Afipran mikstur</td>' +
+            '<td>0,5 mg/kg q 6-8 t</td>' +
+            '<td>' + formatMl(afipranPoMl) + '</td>' +
+            '<td>PO i 3-4 dager hvis ikke obstruksjonsmistanke.</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td>Critical Care</td>' +
+            '<td>20 ml/kg x 4 eller 10 ml/kg x 8</td>' +
+            '<td>' + format(ccStandard, 1) + ' ml x 4 eller ' + format(ccGentle, 1) + ' ml x 8</td>' +
+            '<td>Til normal frivillig fôring er tilbake.</td>' +
+          '</tr>';
+        updateJournal(values);
+      }
+
+      async function copyJournalText() {
+        var text = journalEl.value;
+        if (!text || text.indexOf('Oppgi kaninens vekt') === 0) {
+          copyStatusEl.textContent = 'Oppgi vekt først.';
+          return;
+        }
+
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(text);
+          } else {
+            journalEl.focus();
+            journalEl.select();
+            document.execCommand('copy');
+          }
+          copyStatusEl.textContent = 'Journaltekst kopiert.';
+        } catch (error) {
+          copyStatusEl.textContent = 'Kunne ikke kopiere automatisk. Kopier manuelt fra tekstfeltet.';
+        }
+      }
+
+      weightInput.addEventListener('input', render);
+      document.getElementById('gi-stasis-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+        render();
+      });
+      copyButton.addEventListener('click', copyJournalText);
+      render();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+# Skilpadder
+
+- Aktive skilpadder skal gå eller løpe med plastron løftet fra gulvet.
+- Håndtering av skilpadder må ta hensyn til hengslede skall, kraftig tilbaketrekking av hode/lemmer og bitt fra snapping turtles og softshell turtles.
+- Alle pasienter veies; gamle vekt-/lengdeforhold hos landskilpadder er utdaterte fordi tumorer, egg, follikkelstase og ascites kan gi falskt inntrykk av normal kondisjon.
+- Friske øgler og skilpadder har klare åpne øyne uten utflod.
+- Det skal ikke være nasal eller okulær utflod, med unntak av at rødfotet skogskilpadde normalt kan ha øyeutflod.
+- Respirasjon skal være synlig, men uten anstrengelse.
+- Glottis undersøkes helst ved ekspirasjon; hos reptiler er glottis normalt lukket og åpnes ved inn- og utpust.
+- Væskelyder eller utflod ved glottis kan oppdages ved ekspirasjon.
+- Munn og tenner undersøkes etter luftveiene.
+- Hos skilpadder ses normalt lett forbeinsbevegelse uten anstrengelse eller respirasjonslyd; økt gjesping, ansiktsgnissing, anstrengelse og pipelyder kan tyde på luftveissykdom.
+- Nebbovervekst hos skilpadder er vanlig og kan slipes forsiktig tilbake.
+- Mellomøreabscesser hos skilpadder gir utspiling av trommehinnen.
+- Hud undersøkes fra hode til halespiss for retinert hud, retinerte briller, arr, sår, parasitter og utflod.
+- Hos skilpadder er ektoparasitter hovedsakelig flått hos importerte individer.
+- Skilpaddeskallet undersøkes for komprimerbarhet, løse scuter, utflod, frakturer og rødme.
+- Lemmer undersøkes for normal bevegelighet, hevelser og smerterespons.
+- Kloakken undersøkes for utflod og prolapser.
+- Hele coelomhulen palperes forsiktig for masser og væske.
+- Auskultasjon av lungene har begrenset nytte.
+- Hjertet vurderes best med Doppler.
+- Hos skilpadder palperes coelomhulen via prefemoral fossa; ved å tippe dyret mot undersøker kan egg og blærestein falle mot fingeren og bekreftes med ballottement.

@@ -23,7 +23,7 @@
     group_cat: {
       type: 'group',
       labels: { en: 'Cat', no: 'Katt' },
-      children: ['tool_cat_heart', 'tool_ketofol', 'tool_kitty_magic']
+      children: ['tool_cat_heart', 'tool_cat_hcm', 'tool_ketofol', 'tool_kitty_magic']
     },
     group_meds: {
       type: 'group',
@@ -58,7 +58,7 @@
     sub_rabbit: {
       type: 'group',
       labels: { en: 'Rabbit', no: 'Kanin' },
-      children: ['tool_rabbit', 'tool_rabbit_upper_airway', 'tool_rabbit_critical_care']
+      children: ['tool_rabbit', 'tool_rabbit_gi_stasis', 'tool_rabbit_upper_airway', 'tool_rabbit_critical_care']
     },
     sub_guinea: {
       type: 'group',
@@ -99,6 +99,11 @@
       href: 'anaesthetic-rabbit-calculator.html',
       labels: { en: 'Anaesthetic, Rabbit', no: 'Anestesi, kanin' }
     },
+    tool_rabbit_gi_stasis: {
+      type: 'tool',
+      href: 'rabbit-gi-stasis-calculator.html',
+      labels: { en: 'Rabbit GI Stasis Treatment', no: 'Tarmlammelse behandling' }
+    },
     tool_snake: {
       type: 'tool',
       href: 'anaesthetic-snake-calculator.html',
@@ -123,6 +128,11 @@
       type: 'tool',
       href: 'cat-heart-protocol-sedation-calculator.html',
       labels: { en: 'Cat Heart Protocol Sedation', no: 'Katt hjerteprotokoll sedasjon' }
+    },
+    tool_cat_hcm: {
+      type: 'tool',
+      href: 'cat-hcm-sedation-calculator.html',
+      labels: { en: 'Cat HCM Sedation', no: 'Anestesi HCM katt' }
     },
     tool_dog_antihistamine: {
       type: 'tool',

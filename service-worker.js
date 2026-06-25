@@ -44,6 +44,7 @@ var CORE_ASSETS = [
   'kitty-magic-calculator.html',
   'medicated-drinking-water-calculator.html',
   'rabbit-critical-care-calculator.html',
+  'rabbit-gi-stasis-calculator.html',
   'rabbit-upper-airway-disease-calculator.html',
   'rat-euthanasia-calculator.html',
   'seagull-sedation-calculator.html',

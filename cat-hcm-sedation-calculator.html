@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Cat HCM Sedation | JegVet</title>
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="JegVet" />
+  <link rel="icon" type="image/png" sizes="32x32" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="calculator-utils.js"></script>
+  <script src="app-shell.js" defer></script>
+  <script>
+    window.PAGE_I18N = {
+      en: {
+        hcm_page_title:              'Cat HCM Sedation | JegVet',
+        hcm_title:                   'Cat HCM Sedation',
+        hcm_subtitle:                'Anaesthesia protocol for cats with hypertrophic cardiomyopathy (HCM). Not for use in congestive heart failure.',
+        hcm_weight:                  'Weight (kg)',
+        hcm_procedure_label:         'Procedure type',
+        hcm_painful:                 'Painful',
+        hcm_nonpainful:              'Non-painful',
+        hcm_warnings_title:          'Special considerations',
+        hcm_warning_chf:             'Do not use this protocol for cats in congestive heart failure — consult an anaesthesiologist.',
+        hcm_warning_meds:            'Continue existing cardiac medications. Avoid ACE inhibitors on the day of anaesthesia (increased hypotension risk).',
+        hcm_warning_comorbidity:     'Consider comorbidities when selecting drugs. Aim for euthyroid status before anaesthesia if hyperthyroidism is present.',
+        hcm_warning_tachycardia:     'Avoid tachycardia and vasodilation. Do not use ephedrine or drugs that increase contractility (e.g. dobutamine).',
+        hcm_premed_section:          'Premedication (IM)',
+        hcm_th_drug:                 'Drug (conc.)',
+        hcm_th_dose:                 'Dose range',
+        hcm_th_volume:               'Volume range (ml)',
+        hcm_th_rate:                 'Infusion rate (ml/h)',
+        hcm_placeholder:             'Enter weight to calculate doses.',
+        hcm_no_results:              'No results.',
+        hcm_error_positive:          'Weight must be greater than 0 kg.',
+        hcm_premed_combined_title:   'Combined IM syringe',
+        hcm_premed_combined_ph:      'Enter weight to calculate combined syringe volume.',
+        hcm_induction_section:       'Induction (IV)',
+        hcm_induction_note:          'Give propofol slowly IV to effect. Titrate individually.',
+        hcm_maintenance_title:       'Maintenance',
+        hcm_inhalation_title:        'Inhalation',
+        hcm_inhalation_note:         'Isoflurane or sevoflurane, titrated to desired anaesthetic depth. Avoid vasodilation.',
+        hcm_tiva_title:              'TIVA (intravenous)',
+        hcm_propofol_tiva_note:      'Maximum propofol infusion duration in cats: 60 minutes.',
+        hcm_analgesia_title:         'Intraoperative Analgesia',
+        hcm_local_note:              'Local anaesthesia should be used where possible.',
+        hcm_ketamin_bolus_note:      'Ketamine bolus may be repeated as needed. Do not exceed 2–3 mg/kg/hour total. Avoid tachycardia when using ketamine.',
+        hcm_postop_title:            'Postoperative Analgesia',
+        hcm_postop_note:             'See the postoperative pain management protocol.',
+        hcm_source:                  'Protocol: Andreas Lervik, PhD, Dipl. ECVAA, Evidensia, 23.02.2024.',
+        hcm_calc_title:              'Calculation information',
+        hcm_calc_intro:              'Drug concentrations used in this calculator:'
+      },
+      no: {
+        hcm_page_title:              'Katt HCM sedasjon | JegVet',
+        hcm_title:                   'Katt HCM anestesi',
+        hcm_subtitle:                'Anestesiprotokoll for katter med hypertrofisk kardiomyopati (HCM). Skal ikke brukes ved kongestiv hjertesvikt.',
+        hcm_weight:                  'Vekt (kg)',
+        hcm_procedure_label:         'Type prosedyre',
+        hcm_painful:                 'Smertefull',
+        hcm_nonpainful:              'Ikke-smertefull',
+        hcm_warnings_title:          'Spesielle hensyn',
+        hcm_warning_chf:             'Protokollen skal ikke brukes til katter i kongestiv hjertesvikt — ta kontakt med anestesiolog.',
+        hcm_warning_meds:            'Gi pågående hjertemedisiner som vanlig. Unngå ACE-hemmere samme dag som anestesi (økt risiko for hypotensjon).',
+        hcm_warning_comorbidity:     'Hensynta ko-morbiditet ved valg av legemidler. Behandle hypertyreose med mål om eutyroid status før anestesi.',
+        hcm_warning_tachycardia:     'Unngå takykardi og vasodilatasjon. Ikke bruk efedrin eller legemidler som øker kontraktilitet (f.eks. dobutamin).',
+        hcm_premed_section:          'Premedikasjon (IM)',
+        hcm_th_drug:                 'Legemiddel (kons.)',
+        hcm_th_dose:                 'Doseintervall',
+        hcm_th_volume:               'Volumintervall (ml)',
+        hcm_th_rate:                 'Infusjonshastighet (ml/t)',
+        hcm_placeholder:             'Oppgi vekt for å beregne doser.',
+        hcm_no_results:              'Ingen resultater.',
+        hcm_error_positive:          'Vekten må være større enn 0 kg.',
+        hcm_premed_combined_title:   'Kombinert IM-sprøyte',
+        hcm_premed_combined_ph:      'Oppgi vekt for å beregne kombinert sprøytevolum.',
+        hcm_induction_section:       'Induksjon (IV)',
+        hcm_induction_note:          'Propofol gis sakte IV til effekt. Dose tilpasses individuelt.',
+        hcm_maintenance_title:       'Vedlikehold',
+        hcm_inhalation_title:        'Inhalasjon',
+        hcm_inhalation_note:         'Isofluran eller sevofluran, titreres til ønsket anestesidyp. Unngå vasodilatasjon.',
+        hcm_tiva_title:              'TIVA (intravenøst)',
+        hcm_propofol_tiva_note:      'Maksimal varighet av propofolinfusjon hos katt: 60 minutter.',
+        hcm_analgesia_title:         'Intraoperativ analgesi',
+        hcm_local_note:              'Lokalanestesi skal benyttes der det er mulig.',
+        hcm_ketamin_bolus_note:      'Ketaminbolus kan gjentas ved behov. Bør ikke overstige 2–3 mg/kg/time totalt. Unngå takykardi ved bruk av ketamin.',
+        hcm_postop_title:            'Postoperativ analgesi',
+        hcm_postop_note:             'Se egen protokoll for postoperativ smertebehandling.',
+        hcm_source:                  'Protokoll: Andreas Lervik, PhD, Dipl. ECVAA, Evidensia, 23.02.2024.',
+        hcm_calc_title:              'Kalkulasjonsinformasjon',
+        hcm_calc_intro:              'Legemiddelkonsentrasjoner brukt i denne kalkulatoren:'
+      }
+    };
+  </script>
+</head>
+<body data-i18n-title="hcm_page_title">
+  <main class="page page-top">
+    <section class="layout-card layout-card-wide">
+      <a href="index.html" class="brand-link" aria-label="Go to homepage">
+        <img src="logo_day.png" alt="JegVet logo" class="brand-logo" width="1536" height="1024" />
+      </a>
+
+      <h1 class="section-title" data-i18n="hcm_title">Cat HCM Sedation</h1>
+      <p class="section-subtitle" data-i18n="hcm_subtitle">Anaesthesia protocol for cats with hypertrophic cardiomyopathy (HCM). Not for use in congestive heart failure.</p>
+
+      <form class="calc-form" id="hcm-form">
+        <div class="calc-field">
+          <label for="weight-kg" data-i18n="hcm_weight">Weight (kg)</label>
+          <input id="weight-kg" type="text" inputmode="decimal" min="0" step="0.01" placeholder="e.g. 4.5" required />
+        </div>
+        <div class="calc-field">
+          <label for="procedure-type" data-i18n="hcm_procedure_label">Procedure type</label>
+          <select id="procedure-type">
+            <option value="painful" data-i18n-option="hcm_painful">Painful</option>
+            <option value="nonpainful" data-i18n-option="hcm_nonpainful">Non-painful</option>
+          </select>
+        </div>
+      </form>
+      <p id="calc-error" class="calc-error" aria-live="polite"></p>
+
+      <div class="tool-card u-mt-14">
+        <h2 data-i18n="hcm_warnings_title">Special considerations</h2>
+        <ul>
+          <li data-i18n="hcm_warning_chf">Do not use this protocol for cats in congestive heart failure — consult an anaesthesiologist.</li>
+          <li data-i18n="hcm_warning_meds">Continue existing cardiac medications. Avoid ACE inhibitors on the day of anaesthesia (increased hypotension risk).</li>
+          <li data-i18n="hcm_warning_comorbidity">Consider comorbidities when selecting drugs. Aim for euthyroid status before anaesthesia if hyperthyroidism is present.</li>
+          <li data-i18n="hcm_warning_tachycardia">Avoid tachycardia and vasodilation. Do not use ephedrine or drugs that increase contractility (e.g. dobutamine).</li>
+        </ul>
+      </div>
+
+      <!-- Premedication -->
+      <h2 class="section-subtitle u-section-gap-sm" data-i18n="hcm_premed_section">Premedication (IM)</h2>
+      <div class="calc-table-wrap">
+        <table class="calc-table" aria-label="Premedication doses">
+          <thead>
+            <tr>
+              <th data-i18n="hcm_th_drug">Drug (conc.)</th>
+              <th data-i18n="hcm_th_dose">Dose range</th>
+              <th data-i18n="hcm_th_volume">Volume range (ml)</th>
+            </tr>
+          </thead>
+          <tbody id="premed-results" aria-live="polite">
+            <tr><td colspan="3" data-i18n="hcm_placeholder">Enter weight to calculate doses.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="tool-card u-mt-14" aria-live="polite">
+        <h2 data-i18n="hcm_premed_combined_title">Combined IM syringe</h2>
+        <p id="premed-combined" data-i18n="hcm_premed_combined_ph">Enter weight to calculate combined syringe volume.</p>
+      </div>
+
+      <!-- Induction -->
+      <h2 class="section-subtitle u-section-gap-sm" data-i18n="hcm_induction_section">Induction (IV)</h2>
+      <p class="section-subtitle" data-i18n="hcm_induction_note">Give propofol slowly IV to effect. Titrate individually.</p>
+      <div class="calc-table-wrap">
+        <table class="calc-table" aria-label="Induction doses">
+          <thead>
+            <tr>
+              <th data-i18n="hcm_th_drug">Drug (conc.)</th>
+              <th data-i18n="hcm_th_dose">Dose range</th>
+              <th data-i18n="hcm_th_volume">Volume range (ml)</th>
+            </tr>
+          </thead>
+          <tbody id="induction-results" aria-live="polite">
+            <tr><td colspan="3" data-i18n="hcm_placeholder">Enter weight to calculate doses.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Maintenance -->
+      <div class="tool-card u-mt-14">
+        <h2 data-i18n="hcm_maintenance_title">Maintenance</h2>
+        <h3 data-i18n="hcm_inhalation_title">Inhalation</h3>
+        <p data-i18n="hcm_inhalation_note">Isoflurane or sevoflurane, titrated to desired anaesthetic depth. Avoid vasodilation.</p>
+        <h3 class="u-section-gap-sm" data-i18n="hcm_tiva_title">TIVA (intravenous)</h3>
+        <div class="calc-table-wrap">
+          <table class="calc-table" aria-label="TIVA infusion rates">
+            <thead>
+              <tr>
+                <th data-i18n="hcm_th_drug">Drug (conc.)</th>
+                <th data-i18n="hcm_th_dose">Dose range</th>
+                <th data-i18n="hcm_th_rate">Infusion rate (ml/h)</th>
+              </tr>
+            </thead>
+            <tbody id="tiva-results" aria-live="polite">
+              <tr><td colspan="3" data-i18n="hcm_placeholder">Enter weight to calculate doses.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="section-subtitle u-section-gap-sm" data-i18n="hcm_propofol_tiva_note">Maximum propofol infusion duration in cats: 60 minutes.</p>
+      </div>
+
+      <!-- Intraoperative Analgesia -->
+      <div class="tool-card u-mt-14">
+        <h2 data-i18n="hcm_analgesia_title">Intraoperative Analgesia</h2>
+        <p data-i18n="hcm_local_note">Local anaesthesia should be used where possible.</p>
+        <div class="calc-table-wrap u-section-gap-sm">
+          <table class="calc-table" aria-label="Intraoperative analgesia doses">
+            <thead>
+              <tr>
+                <th data-i18n="hcm_th_drug">Drug (conc.)</th>
+                <th data-i18n="hcm_th_dose">Dose range</th>
+                <th data-i18n="hcm_th_rate">Infusion rate (ml/h)</th>
+              </tr>
+            </thead>
+            <tbody id="analgesia-results" aria-live="polite">
+              <tr><td colspan="3" data-i18n="hcm_placeholder">Enter weight to calculate doses.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="section-subtitle u-section-gap-sm" data-i18n="hcm_ketamin_bolus_note">Ketamine bolus may be repeated as needed. Do not exceed 2–3 mg/kg/hour total. Avoid tachycardia when using ketamine.</p>
+      </div>
+
+      <!-- Postoperative analgesia -->
+      <div class="tool-card u-mt-14">
+        <h2 data-i18n="hcm_postop_title">Postoperative Analgesia</h2>
+        <p data-i18n="hcm_postop_note">See the postoperative pain management protocol.</p>
+        <p class="section-subtitle u-section-gap-sm" data-i18n="hcm_source">Protocol: Andreas Lervik, PhD, Dipl. ECVAA, Evidensia, 23.02.2024.</p>
+      </div>
+
+      <!-- Calculation information -->
+      <div class="tool-card u-mt-14">
+        <h2 data-i18n="hcm_calc_title">Calculation information</h2>
+        <p data-i18n="hcm_calc_intro">Drug concentrations used in this calculator:</p>
+        <ul>
+          <li>Dexmedetomidine: 0.5 mg/ml</li>
+          <li>Methadone: 10 mg/ml</li>
+          <li>Butorphanol: 10 mg/ml</li>
+          <li>Propofol (induction): 10 mg/ml</li>
+          <li>Propofol (TIVA): 10 mg/ml</li>
+          <li>Alfaxalone: 10 mg/ml</li>
+          <li>Fentanyl: 0.05 mg/ml (50 µg/ml)</li>
+          <li>Ketamine: 10 mg/ml (diluted from standard solution for practical syringe pump volumes)</li>
+        </ul>
+        <p>Formulas: Volume (ml) = dose (mg/kg) × weight (kg) / concentration (mg/ml). Infusion rate (ml/h) = dose rate (mg/kg/h) × weight (kg) / concentration (mg/ml).</p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var weightInput    = document.getElementById('weight-kg');
+      var procedureSelect = document.getElementById('procedure-type');
+      var errorEl        = document.getElementById('calc-error');
+      var premedResults  = document.getElementById('premed-results');
+      var premedCombined = document.getElementById('premed-combined');
+      var inductionResults = document.getElementById('induction-results');
+      var tivaResults    = document.getElementById('tiva-results');
+      var analgesiaResults = document.getElementById('analgesia-results');
+
+      function t(key, fallback) {
+        if (window.JegVetLang && typeof window.JegVetLang.t === 'function') {
+          return window.JegVetLang.t(key, fallback);
+        }
+        return fallback || key;
+      }
+
+      function fmt(val, dp) {
+        return val.toFixed(dp);
+      }
+
+      function fmtRange(lo, hi, dp) {
+        return fmt(lo, dp) + ' – ' + fmt(hi, dp);
+      }
+
+      function placeholder(tbody, cols) {
+        tbody.innerHTML = '<tr><td colspan="' + cols + '">' + t('hcm_placeholder', 'Enter weight to calculate doses.') + '</td></tr>';
+      }
+
+      function noResults(tbody, cols) {
+        tbody.innerHTML = '<tr><td colspan="' + cols + '">' + t('hcm_no_results', 'No results.') + '</td></tr>';
+      }
+
+      function updateSelectOptions() {
+        var opts = procedureSelect.options;
+        if (opts[0]) opts[0].text = t('hcm_painful',    'Painful');
+        if (opts[1]) opts[1].text = t('hcm_nonpainful', 'Non-painful');
+      }
+
+      function render() {
+        updateSelectOptions();
+
+        var weight = window.JegVetCalc.parseDecimalInput(weightInput.value);
+        var isPainful = procedureSelect.value === 'painful';
+
+        if (!weightInput.value) {
+          errorEl.textContent = '';
+          placeholder(premedResults, 3);
+          placeholder(inductionResults, 3);
+          placeholder(tivaResults, 3);
+          placeholder(analgesiaResults, 3);
+          premedCombined.textContent = t('hcm_premed_combined_ph', 'Enter weight to calculate combined syringe volume.');
+          return;
+        }
+
+        if (!isFinite(weight) || weight <= 0) {
+          errorEl.textContent = t('hcm_error_positive', 'Weight must be greater than 0 kg.');
+          noResults(premedResults, 3);
+          noResults(inductionResults, 3);
+          noResults(tivaResults, 3);
+          noResults(analgesiaResults, 3);
+          premedCombined.textContent = '';
+          return;
+        }
+
+        errorEl.textContent = '';
+
+        // ── Premedication ──────────────────────────────────────────────
+        // Dexmedetomidine: 5–15 µg/kg = 0.005–0.015 mg/kg at 0.5 mg/ml
+        var dexMinMl = (0.005 * weight) / 0.5;
+        var dexMaxMl = (0.015 * weight) / 0.5;
+
+        var drug2Label, drug2MinMgKg, drug2MaxMgKg, drug2Conc, drug2MinMl, drug2MaxMl;
+        if (isPainful) {
+          drug2Label    = 'Methadone (10 mg/ml)';
+          drug2MinMgKg  = 0.2;
+          drug2MaxMgKg  = 0.3;
+          drug2Conc     = 10;
+        } else {
+          drug2Label    = 'Butorphanol (10 mg/ml)';
+          drug2MinMgKg  = 0.2;
+          drug2MaxMgKg  = 0.4;
+          drug2Conc     = 10;
+        }
+        drug2MinMl = (drug2MinMgKg * weight) / drug2Conc;
+        drug2MaxMl = (drug2MaxMgKg * weight) / drug2Conc;
+
+        var combinedMinMl = dexMinMl + drug2MinMl;
+        var combinedMaxMl = dexMaxMl + drug2MaxMl;
+
+        premedResults.innerHTML =
+          '<tr>' +
+            '<td>Dexmedetomidine (0.5 mg/ml)</td>' +
+            '<td>5–15 µg/kg</td>' +
+            '<td>' + fmtRange(dexMinMl, dexMaxMl, 2) + '</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td>' + drug2Label + '</td>' +
+            '<td>' + fmtRange(drug2MinMgKg, drug2MaxMgKg, 1) + ' mg/kg</td>' +
+            '<td>' + fmtRange(drug2MinMl, drug2MaxMl, 2) + '</td>' +
+          '</tr>';
+
+        var drug2ShortName = isPainful ? 'methadone' : 'butorphanol';
+        premedCombined.textContent =
+          t('hcm_premed_combined_title', 'Combined IM syringe') +
+          ' (dexmedetomidine + ' + drug2ShortName + '): ' +
+          fmtRange(combinedMinMl, combinedMaxMl, 2) + ' ml';
+
+        // ── Induction ──────────────────────────────────────────────────
+        // Propofol 1–3 mg/kg IV at 10 mg/ml
+        var indMinMl = (1 * weight) / 10;
+        var indMaxMl = (3 * weight) / 10;
+
+        inductionResults.innerHTML =
+          '<tr>' +
+            '<td>Propofol (10 mg/ml)</td>' +
+            '<td>1–3 mg/kg</td>' +
+            '<td>' + fmtRange(indMinMl, indMaxMl, 2) + '</td>' +
+          '</tr>';
+
+        // ── Maintenance — TIVA ─────────────────────────────────────────
+        // Propofol 12–36 mg/kg/h at 10 mg/ml
+        var propTivaMinMlH = (12 * weight) / 10;
+        var propTivaMaxMlH = (36 * weight) / 10;
+        // Alfaxalone 5–15 mg/kg/h at 10 mg/ml
+        var alfaMinMlH = (5 * weight) / 10;
+        var alfaMaxMlH = (15 * weight) / 10;
+
+        tivaResults.innerHTML =
+          '<tr>' +
+            '<td>Propofol (10 mg/ml)</td>' +
+            '<td>12–36 mg/kg/h</td>' +
+            '<td>' + fmtRange(propTivaMinMlH, propTivaMaxMlH, 1) + '</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td>Alfaxalone (10 mg/ml)</td>' +
+            '<td>5–15 mg/kg/h</td>' +
+            '<td>' + fmtRange(alfaMinMlH, alfaMaxMlH, 1) + '</td>' +
+          '</tr>';
+
+        // ── Intraoperative Analgesia ───────────────────────────────────
+        // Fentanyl 5–20 µg/kg/h = 0.005–0.02 mg/kg/h at 0.05 mg/ml
+        var fentMinMlH = (0.005 * weight) / 0.05;
+        var fentMaxMlH = (0.02  * weight) / 0.05;
+        // Ketamine CRI 0.6 mg/kg/h at 10 mg/ml
+        var ketCriMlH  = (0.6 * weight) / 10;
+        // Ketamine bolus 0.5 mg/kg at 10 mg/ml
+        var ketBolusMl = (0.5 * weight) / 10;
+
+        analgesiaResults.innerHTML =
+          '<tr>' +
+            '<td>Fentanyl CRI (0.05 mg/ml)</td>' +
+            '<td>5–20 µg/kg/h</td>' +
+            '<td>' + fmtRange(fentMinMlH, fentMaxMlH, 2) + '</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td>Ketamine CRI (10 mg/ml)</td>' +
+            '<td>0.6 mg/kg/h</td>' +
+            '<td>' + fmt(ketCriMlH, 2) + '</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td>Ketamine bolus IV (10 mg/ml)</td>' +
+            '<td>0.5 mg/kg</td>' +
+            '<td>' + fmt(ketBolusMl, 2) + ' (single dose)</td>' +
+          '</tr>';
+      }
+
+      weightInput.addEventListener('input', render);
+      procedureSelect.addEventListener('change', render);
+      document.getElementById('hcm-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        render();
+      });
+      document.addEventListener('jegvet:langchange', render);
+
+      render();
+    })();
+  </script>
+</body>
+</html>
