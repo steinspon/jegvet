@@ -1,166 +1,781 @@
 {
   "title": "Veterinary Reference Wiki",
-  "generatedAt": "2026-06-24T20:08:35+00:00",
+  "generatedAt": "2026-06-25T17:59:50+00:00",
   "pages": [
     {
-      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Generell ernæring og vannbalanse/oversikt.md",
+      "file": "Exotics/Reptile Medicine/Diagnostics/oversikt.md",
+      "title": "Diagnostikk",
+      "folder": "Exotics/Reptile Medicine/Diagnostics"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Husbandry and Biology/General Nutrition and Water Balance/oversikt.md",
       "title": "Generell ernæring og vannbalanse hos reptiler",
-      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Generell ernæring og vannbalanse"
+      "folder": "Exotics/Reptile Medicine/Husbandry and Biology/General Nutrition and Water Balance"
     },
     {
-      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Generelt hold/oversikt.md",
-      "title": "Generelt hold av øgler",
-      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Generelt hold"
-    },
-    {
-      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Kinesisk vannagam/oversikt.md",
-      "title": "Kinesisk vannagam (Physignathus cocincinus)",
-      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Kinesisk vannagam"
-    },
-    {
-      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Leguan/oversikt.md",
-      "title": "Leguan (Iguana iguana)",
-      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Leguan"
-    },
-    {
-      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Leopardgekko/oversikt.md",
-      "title": "Leopardgekko (Eublepharis macularius)",
-      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Leopardgekko"
-    },
-    {
-      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Pigghaleagam/oversikt.md",
-      "title": "Pigghaleagam (Uromastyx spp.)",
-      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Pigghaleagam"
-    },
-    {
-      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Skjeggagam/oversikt.md",
+      "file": "Exotics/Reptile Medicine/Husbandry and Biology/Lizards/Bearded Dragon/oversikt.md",
       "title": "Skjeggagam (Pogona vitticeps)",
-      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Øgle/Skjeggagam"
+      "folder": "Exotics/Reptile Medicine/Husbandry and Biology/Lizards/Bearded Dragon"
     },
     {
-      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/oversikt.md",
-      "title": "Exotics: Reptil medisin - Miljøkrav og biologi",
-      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi"
+      "file": "Exotics/Reptile Medicine/Husbandry and Biology/Lizards/Chinese Water Dragon/oversikt.md",
+      "title": "Kinesisk vannagam (Physignathus cocincinus)",
+      "folder": "Exotics/Reptile Medicine/Husbandry and Biology/Lizards/Chinese Water Dragon"
     },
     {
-      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Grønn trepyton/oversikt.md",
-      "title": "Grønn trepyton (Morelia viridis)",
-      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Grønn trepyton"
+      "file": "Exotics/Reptile Medicine/Husbandry and Biology/Lizards/General Husbandry/oversikt.md",
+      "title": "Generelt hold av øgler",
+      "folder": "Exotics/Reptile Medicine/Husbandry and Biology/Lizards/General Husbandry"
     },
     {
-      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Kungssnok/oversikt.md",
-      "title": "Kongesnok (Lampropeltis getula)",
-      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Kungssnok"
+      "file": "Exotics/Reptile Medicine/Husbandry and Biology/Lizards/Iguana/oversikt.md",
+      "title": "Iguana (Iguana iguana)",
+      "folder": "Exotics/Reptile Medicine/Husbandry and Biology/Lizards/Iguana"
     },
     {
-      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Mjølksnok/oversikt.md",
-      "title": "Mjølksnok (Lampropeltis triangulum)",
-      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Mjølksnok"
+      "file": "Exotics/Reptile Medicine/Husbandry and Biology/Lizards/Leopard Gecko/oversikt.md",
+      "title": "Leopardgekko (Eublepharis macularius)",
+      "folder": "Exotics/Reptile Medicine/Husbandry and Biology/Lizards/Leopard Gecko"
     },
     {
-      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/oversikt.md",
-      "title": "Øvrige tillatte arter",
-      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter"
+      "file": "Exotics/Reptile Medicine/Husbandry and Biology/Lizards/Spiny-tailed Lizard/oversikt.md",
+      "title": "Pigghaleagam (Uromastyx spp.)",
+      "folder": "Exotics/Reptile Medicine/Husbandry and Biology/Lizards/Spiny-tailed Lizard"
     },
     {
-      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Øyefransgekko/oversikt.md",
-      "title": "Øyefransgekko (Correlophus ciliatus)",
-      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Øyefransgekko"
-    },
-    {
-      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Perleøgle/oversikt.md",
-      "title": "Perleøgle (Timon lepidus / Lacerta lepida)",
-      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Perleøgle"
-    },
-    {
-      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Regnbågeboa/oversikt.md",
-      "title": "Regnbågeboa (Epicrates cenchria)",
-      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Regnbågeboa"
-    },
-    {
-      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Rutpyton/oversikt.md",
+      "file": "Exotics/Reptile Medicine/Husbandry and Biology/Other Permitted Species/Carpet Python/oversikt.md",
       "title": "Rutpyton (Morelia spilota)",
-      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Rutpyton"
+      "folder": "Exotics/Reptile Medicine/Husbandry and Biology/Other Permitted Species/Carpet Python"
     },
     {
-      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Stor daggekko/oversikt.md",
+      "file": "Exotics/Reptile Medicine/Husbandry and Biology/Other Permitted Species/Crested Gecko/oversikt.md",
+      "title": "Øyefransgekko (Correlophus ciliatus)",
+      "folder": "Exotics/Reptile Medicine/Husbandry and Biology/Other Permitted Species/Crested Gecko"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Husbandry and Biology/Other Permitted Species/Giant Day Gecko/oversikt.md",
       "title": "Stor daggekko (Phelsuma madagascariensis)",
-      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Stor daggekko"
+      "folder": "Exotics/Reptile Medicine/Husbandry and Biology/Other Permitted Species/Giant Day Gecko"
     },
     {
-      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Taggsvansvaran/oversikt.md",
+      "file": "Exotics/Reptile Medicine/Husbandry and Biology/Other Permitted Species/Green Tree Python/oversikt.md",
+      "title": "Grønn trepyton (Morelia viridis)",
+      "folder": "Exotics/Reptile Medicine/Husbandry and Biology/Other Permitted Species/Green Tree Python"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Husbandry and Biology/Other Permitted Species/Kingsnake/oversikt.md",
+      "title": "Kongesnok (Lampropeltis getula)",
+      "folder": "Exotics/Reptile Medicine/Husbandry and Biology/Other Permitted Species/Kingsnake"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Husbandry and Biology/Other Permitted Species/Milksnake/oversikt.md",
+      "title": "Mjølksnok (Lampropeltis triangulum)",
+      "folder": "Exotics/Reptile Medicine/Husbandry and Biology/Other Permitted Species/Milksnake"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Husbandry and Biology/Other Permitted Species/Ocellated Lizard/oversikt.md",
+      "title": "Perleøgle (Timon lepidus / Lacerta lepida)",
+      "folder": "Exotics/Reptile Medicine/Husbandry and Biology/Other Permitted Species/Ocellated Lizard"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Husbandry and Biology/Other Permitted Species/oversikt.md",
+      "title": "Øvrige tillatte arter",
+      "folder": "Exotics/Reptile Medicine/Husbandry and Biology/Other Permitted Species"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Husbandry and Biology/Other Permitted Species/Rainbow Boa/oversikt.md",
+      "title": "Regnbågeboa (Epicrates cenchria)",
+      "folder": "Exotics/Reptile Medicine/Husbandry and Biology/Other Permitted Species/Rainbow Boa"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Husbandry and Biology/Other Permitted Species/Spiny-tailed Monitor/oversikt.md",
       "title": "Taggsvansvaran (Varanus acanthurus)",
-      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Taggsvansvaran"
+      "folder": "Exotics/Reptile Medicine/Husbandry and Biology/Other Permitted Species/Spiny-tailed Monitor"
     },
     {
-      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Treboa/oversikt.md",
+      "file": "Exotics/Reptile Medicine/Husbandry and Biology/Other Permitted Species/Tree Boa/oversikt.md",
       "title": "Treboa (Corallus hortulanus)",
-      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Øvrige tillatte arter/Treboa"
+      "folder": "Exotics/Reptile Medicine/Husbandry and Biology/Other Permitted Species/Tree Boa"
     },
     {
-      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Boksskilpadder/oversikt.md",
-      "title": "Boksskilpadder",
-      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Boksskilpadder"
+      "file": "Exotics/Reptile Medicine/Husbandry and Biology/oversikt.md",
+      "title": "Exotics: Reptil medisin - Miljøkrav og biologi",
+      "folder": "Exotics/Reptile Medicine/Husbandry and Biology"
     },
     {
-      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Generelle landskilpadder/oversikt.md",
-      "title": "Generelle landskilpadder",
-      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Generelle landskilpadder"
-    },
-    {
-      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Gresk landskilpadde/oversikt.md",
-      "title": "Gresk landskilpadde (Testudo hermanni)",
-      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Gresk landskilpadde"
-    },
-    {
-      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Leopardskilpadde/oversikt.md",
-      "title": "Leopardskilpadde (Stigmochelys pardalis / Geochelone pardalis)",
-      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Leopardskilpadde"
-    },
-    {
-      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Maurisk landskilpadde/oversikt.md",
-      "title": "Maurisk landskilpadde (Testudo graeca)",
-      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Maurisk landskilpadde"
-    },
-    {
-      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Normal vekst/oversikt.md",
-      "title": "Normal vekst hos vanlige skilpaddearter",
-      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Normal vekst"
-    },
-    {
-      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Russisk steppeskilpadde/oversikt.md",
-      "title": "Russisk steppeskilpadde (Testudo horsfieldi)",
-      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Russisk steppeskilpadde"
-    },
-    {
-      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Vannskilpadder/oversikt.md",
-      "title": "Vannskilpadder",
-      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Skilpadde/Vannskilpadder"
-    },
-    {
-      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Slange/Generelt hold/oversikt.md",
-      "title": "Generelt hold av slanger",
-      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Slange/Generelt hold"
-    },
-    {
-      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Slange/Kongepyton/oversikt.md",
+      "file": "Exotics/Reptile Medicine/Husbandry and Biology/Snakes/Ball Python/oversikt.md",
       "title": "Kongepyton (Python regius)",
-      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Slange/Kongepyton"
+      "folder": "Exotics/Reptile Medicine/Husbandry and Biology/Snakes/Ball Python"
     },
     {
-      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Slange/Kongsboa/oversikt.md",
+      "file": "Exotics/Reptile Medicine/Husbandry and Biology/Snakes/Boa Constrictor/oversikt.md",
       "title": "Kongsboa (Boa constrictor)",
-      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Slange/Kongsboa"
+      "folder": "Exotics/Reptile Medicine/Husbandry and Biology/Snakes/Boa Constrictor"
     },
     {
-      "file": "Exotics/Reptil medisin/Miljøkrav og biologi/Slange/Kornsnok/oversikt.md",
+      "file": "Exotics/Reptile Medicine/Husbandry and Biology/Snakes/Corn Snake/oversikt.md",
       "title": "Kornsnok (Pantherophis guttatus)",
-      "folder": "Exotics/Reptil medisin/Miljøkrav og biologi/Slange/Kornsnok"
+      "folder": "Exotics/Reptile Medicine/Husbandry and Biology/Snakes/Corn Snake"
     },
     {
-      "file": "Exotics/Reptil medisin/Reptil medisin og kirurgi/oversikt.md",
+      "file": "Exotics/Reptile Medicine/Husbandry and Biology/Snakes/General Husbandry/oversikt.md",
+      "title": "Generelt hold av slanger",
+      "folder": "Exotics/Reptile Medicine/Husbandry and Biology/Snakes/General Husbandry"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Husbandry and Biology/Tortoises and Turtles/Aquatic Turtles/oversikt.md",
+      "title": "Vannskilpadder",
+      "folder": "Exotics/Reptile Medicine/Husbandry and Biology/Tortoises and Turtles/Aquatic Turtles"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Husbandry and Biology/Tortoises and Turtles/Box Turtles/oversikt.md",
+      "title": "Boksskilpadder",
+      "folder": "Exotics/Reptile Medicine/Husbandry and Biology/Tortoises and Turtles/Box Turtles"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Husbandry and Biology/Tortoises and Turtles/General Tortoise Husbandry/oversikt.md",
+      "title": "Generelle landskilpadder",
+      "folder": "Exotics/Reptile Medicine/Husbandry and Biology/Tortoises and Turtles/General Tortoise Husbandry"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Husbandry and Biology/Tortoises and Turtles/Hermanns Tortoise/oversikt.md",
+      "title": "Gresk landskilpadde (Testudo hermanni)",
+      "folder": "Exotics/Reptile Medicine/Husbandry and Biology/Tortoises and Turtles/Hermanns Tortoise"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Husbandry and Biology/Tortoises and Turtles/Leopard Tortoise/oversikt.md",
+      "title": "Leopardskilpadde (Stigmochelys pardalis / Geochelone pardalis)",
+      "folder": "Exotics/Reptile Medicine/Husbandry and Biology/Tortoises and Turtles/Leopard Tortoise"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Husbandry and Biology/Tortoises and Turtles/Moorish Tortoise/oversikt.md",
+      "title": "Maurisk landskilpadde (Testudo graeca)",
+      "folder": "Exotics/Reptile Medicine/Husbandry and Biology/Tortoises and Turtles/Moorish Tortoise"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Husbandry and Biology/Tortoises and Turtles/Normal Growth/oversikt.md",
+      "title": "Normal vekst hos vanlige skilpaddearter",
+      "folder": "Exotics/Reptile Medicine/Husbandry and Biology/Tortoises and Turtles/Normal Growth"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Husbandry and Biology/Tortoises and Turtles/Russian Tortoise/oversikt.md",
+      "title": "Russisk steppeskilpadde (Testudo horsfieldi)",
+      "folder": "Exotics/Reptile Medicine/Husbandry and Biology/Tortoises and Turtles/Russian Tortoise"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Analgesia and Anaesthesia/oversikt.md",
+      "title": "Analgesia and anaesthesia",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Analgesia and Anaesthesia"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Clinical Examination/Clinical examination of reptiles/oversikt.md",
+      "title": "Clinical examination of reptiles",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Clinical Examination/Clinical examination of reptiles"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Clinical Examination/General Assessment and Handling/oversikt.md",
+      "title": "Felles vurdering og håndtering",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Clinical Examination/General Assessment and Handling"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Clinical Examination/Lizards/oversikt.md",
+      "title": "Øgler",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Clinical Examination/Lizards"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Clinical Examination/oversikt.md",
+      "title": "Klinisk undersøkelse",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Clinical Examination"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Clinical Examination/Snakes/oversikt.md",
+      "title": "Slanger",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Clinical Examination/Snakes"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Clinical Examination/Tortoises/oversikt.md",
+      "title": "Skilpadder",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Clinical Examination/Tortoises"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Dysecdysis/oversikt.md",
+      "title": "Dysecdysis",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Dysecdysis"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Fatty liver disease/oversikt.md",
+      "title": "Fatty liver disease",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Fatty liver disease"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Herpes viruses/oversikt.md",
+      "title": "Herpes viruses",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Herpes viruses"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Inclusion body disease/oversikt.md",
+      "title": "Inclusion body disease",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Inclusion body disease"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Mycoplasma agassizzi/oversikt.md",
+      "title": "Mycoplasma agassizzi",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Mycoplasma agassizzi"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Nutritional secondary hyperparathyroidism/oversikt.md",
+      "title": "Nutritional secondary hyperparathyroidism",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Nutritional secondary hyperparathyroidism"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/oversikt.md",
+      "title": "Common diseases",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Paramyxovirus/oversikt.md",
+      "title": "Paramyxovirus",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Paramyxovirus"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Periodontal disease/oversikt.md",
+      "title": "Periodontal disease",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Periodontal disease"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Pneumonia/oversikt.md",
+      "title": "Pneumonia",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Pneumonia"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Pyramidal growth in chelonians/oversikt.md",
+      "title": "Pyramidal growth in chelonians",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Pyramidal growth in chelonians"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Renal disease/oversikt.md",
+      "title": "Renal disease",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Renal disease"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Reproductive diseases/oversikt.md",
+      "title": "Reproductive diseases",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Reproductive diseases"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Septicaemia/oversikt.md",
+      "title": "Septicaemia",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Septicaemia"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Skin trauma and infections/oversikt.md",
+      "title": "Skin trauma and infections",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Skin trauma and infections"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Snake mites/oversikt.md",
+      "title": "Snake mites",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Snake mites"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Stomatitis/oversikt.md",
+      "title": "Stomatitis",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Stomatitis"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Upper respiratory tract disease in chelonians/oversikt.md",
+      "title": "Upper respiratory tract disease in chelonians",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Upper respiratory tract disease in chelonians"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Yellow Fungal Disease/oversikt.md",
+      "title": "Yellow Fungal Disease",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Common diseases/Yellow Fungal Disease"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Euthanasia/oversikt.md",
+      "title": "Euthanasia of reptiles",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Euthanasia"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Hospitalisation and Infection Control/oversikt.md",
+      "title": "Hospitalisation",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Hospitalisation and Infection Control"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Oesophagostomy Tube and Endoscopy/Oesophagostomy tube placement/oversikt.md",
+      "title": "Oesophagostomy tube placement",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Oesophagostomy Tube and Endoscopy/Oesophagostomy tube placement"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Oesophagostomy Tube and Endoscopy/oversikt.md",
+      "title": "Øsofagostomitube og endoskopi",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Oesophagostomy Tube and Endoscopy"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Oesophagostomy Tube and Endoscopy/Reptile endoscopy/oversikt.md",
+      "title": "Reptile endoscopy",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Oesophagostomy Tube and Endoscopy/Reptile endoscopy"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/oversikt.md",
       "title": "Exotics: Reptil medisin - Reptil medisin og kirurgi",
-      "folder": "Exotics/Reptil medisin/Reptil medisin og kirurgi"
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Preliminary Diagnostics and Parasites/Barium studies/oversikt.md",
+      "title": "Barium studies",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Preliminary Diagnostics and Parasites/Barium studies"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Preliminary Diagnostics and Parasites/Blood sampling/oversikt.md",
+      "title": "Blood sampling",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Preliminary Diagnostics and Parasites/Blood sampling"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Preliminary Diagnostics and Parasites/Culture samples and antibiotics/oversikt.md",
+      "title": "Culture samples and antibiotics",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Preliminary Diagnostics and Parasites/Culture samples and antibiotics"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Preliminary Diagnostics and Parasites/Cytology PCR and washes/oversikt.md",
+      "title": "Cytology PCR and washes",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Preliminary Diagnostics and Parasites/Cytology PCR and washes"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Preliminary Diagnostics and Parasites/oversikt.md",
+      "title": "Innledende diagnostikk og parasitter",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Preliminary Diagnostics and Parasites"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Preliminary Diagnostics and Parasites/Preliminary diagnostics and parasites/oversikt.md",
+      "title": "Preliminary diagnostics and parasites",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Preliminary Diagnostics and Parasites/Preliminary diagnostics and parasites"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Preliminary Diagnostics and Parasites/Radiography/oversikt.md",
+      "title": "Radiography",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Preliminary Diagnostics and Parasites/Radiography"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Preliminary Diagnostics and Parasites/Ultrasound CT and MRI/oversikt.md",
+      "title": "Ultrasound CT and MRI",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Preliminary Diagnostics and Parasites/Ultrasound CT and MRI"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Supportive Care Fluid and Nutrition/oversikt.md",
+      "title": "Supportive care",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Supportive Care Fluid and Nutrition"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Surgical Procedures/Aural abscessation in chelonians/oversikt.md",
+      "title": "Aural abscessation in chelonians",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Surgical Procedures/Aural abscessation in chelonians"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Surgical Procedures/Cloacal organ prolapse/oversikt.md",
+      "title": "Cloacal organ prolapse",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Surgical Procedures/Cloacal organ prolapse"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Surgical Procedures/Exploratory celiotomy/oversikt.md",
+      "title": "Exploratory celiotomy",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Surgical Procedures/Exploratory celiotomy"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Surgical Procedures/oversikt.md",
+      "title": "Kirurgiske prosedyrer",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Surgical Procedures"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Surgical Procedures/Plastronotomy in chelonians/oversikt.md",
+      "title": "Plastronotomy in chelonians",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Surgical Procedures/Plastronotomy in chelonians"
+    },
+    {
+      "file": "Exotics/Reptile Medicine/Medicine and Surgery/Surgical Procedures/Shell trauma in chelonians/oversikt.md",
+      "title": "Shell trauma in chelonians",
+      "folder": "Exotics/Reptile Medicine/Medicine and Surgery/Surgical Procedures/Shell trauma in chelonians"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Chinchilla/Common diseases/Bacterial skin disease/oversikt.md",
+      "title": "Bacterial skin disease",
+      "folder": "Exotics/Small Mammal Medicine/Chinchilla/Common diseases/Bacterial skin disease"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Chinchilla/Common diseases/Cardiorespiratory disease/oversikt.md",
+      "title": "Cardiorespiratory disease",
+      "folder": "Exotics/Small Mammal Medicine/Chinchilla/Common diseases/Cardiorespiratory disease"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Chinchilla/Common diseases/Ectoparasites/oversikt.md",
+      "title": "Ectoparasites",
+      "folder": "Exotics/Small Mammal Medicine/Chinchilla/Common diseases/Ectoparasites"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Chinchilla/Common diseases/Endocrine disease/oversikt.md",
+      "title": "Endocrine disease",
+      "folder": "Exotics/Small Mammal Medicine/Chinchilla/Common diseases/Endocrine disease"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Chinchilla/Common diseases/Environmental and behavioural conditions/oversikt.md",
+      "title": "Environmental and behavioural conditions",
+      "folder": "Exotics/Small Mammal Medicine/Chinchilla/Common diseases/Environmental and behavioural conditions"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Chinchilla/Common diseases/Head tilt/oversikt.md",
+      "title": "Head tilt",
+      "folder": "Exotics/Small Mammal Medicine/Chinchilla/Common diseases/Head tilt"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Chinchilla/Common diseases/Miscellaneous conditions/oversikt.md",
+      "title": "Miscellaneous conditions",
+      "folder": "Exotics/Small Mammal Medicine/Chinchilla/Common diseases/Miscellaneous conditions"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Chinchilla/Common diseases/Neurological disease/oversikt.md",
+      "title": "Neurological disease",
+      "folder": "Exotics/Small Mammal Medicine/Chinchilla/Common diseases/Neurological disease"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Chinchilla/Common diseases/oversikt.md",
+      "title": "Common diseases",
+      "folder": "Exotics/Small Mammal Medicine/Chinchilla/Common diseases"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Chinchilla/Common diseases/Renal failure/oversikt.md",
+      "title": "Renal failure",
+      "folder": "Exotics/Small Mammal Medicine/Chinchilla/Common diseases/Renal failure"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Chinchilla/oversikt.md",
+      "title": "Chinchilla",
+      "folder": "Exotics/Small Mammal Medicine/Chinchilla"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Gerbil/Common diseases/Bacterial skin disease/oversikt.md",
+      "title": "Bacterial skin disease",
+      "folder": "Exotics/Small Mammal Medicine/Gerbil/Common diseases/Bacterial skin disease"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Gerbil/Common diseases/Cardiorespiratory disease/oversikt.md",
+      "title": "Cardiorespiratory disease",
+      "folder": "Exotics/Small Mammal Medicine/Gerbil/Common diseases/Cardiorespiratory disease"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Gerbil/Common diseases/Ectoparasites/oversikt.md",
+      "title": "Ectoparasites",
+      "folder": "Exotics/Small Mammal Medicine/Gerbil/Common diseases/Ectoparasites"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Gerbil/Common diseases/Endocrine disease/oversikt.md",
+      "title": "Endocrine disease",
+      "folder": "Exotics/Small Mammal Medicine/Gerbil/Common diseases/Endocrine disease"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Gerbil/Common diseases/Environmental and behavioural conditions/oversikt.md",
+      "title": "Environmental and behavioural conditions",
+      "folder": "Exotics/Small Mammal Medicine/Gerbil/Common diseases/Environmental and behavioural conditions"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Gerbil/Common diseases/Fungal skin disease/oversikt.md",
+      "title": "Fungal skin disease",
+      "folder": "Exotics/Small Mammal Medicine/Gerbil/Common diseases/Fungal skin disease"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Gerbil/Common diseases/Head tilt/oversikt.md",
+      "title": "Head tilt",
+      "folder": "Exotics/Small Mammal Medicine/Gerbil/Common diseases/Head tilt"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Gerbil/Common diseases/Mammary gland neoplasia/oversikt.md",
+      "title": "Mammary gland neoplasia",
+      "folder": "Exotics/Small Mammal Medicine/Gerbil/Common diseases/Mammary gland neoplasia"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Gerbil/Common diseases/Neurological disease/oversikt.md",
+      "title": "Neurological disease",
+      "folder": "Exotics/Small Mammal Medicine/Gerbil/Common diseases/Neurological disease"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Gerbil/Common diseases/oversikt.md",
+      "title": "Common diseases",
+      "folder": "Exotics/Small Mammal Medicine/Gerbil/Common diseases"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Gerbil/Common diseases/Renal failure/oversikt.md",
+      "title": "Renal failure",
+      "folder": "Exotics/Small Mammal Medicine/Gerbil/Common diseases/Renal failure"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Gerbil/Common diseases/Skin neoplasia/oversikt.md",
+      "title": "Skin neoplasia",
+      "folder": "Exotics/Small Mammal Medicine/Gerbil/Common diseases/Skin neoplasia"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Gerbil/oversikt.md",
+      "title": "Gerbil",
+      "folder": "Exotics/Small Mammal Medicine/Gerbil"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Guinea pig/Common diseases/Bacterial skin disease/oversikt.md",
+      "title": "Bacterial skin disease",
+      "folder": "Exotics/Small Mammal Medicine/Guinea pig/Common diseases/Bacterial skin disease"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Guinea pig/Common diseases/Cardiorespiratory disease/oversikt.md",
+      "title": "Cardiorespiratory disease",
+      "folder": "Exotics/Small Mammal Medicine/Guinea pig/Common diseases/Cardiorespiratory disease"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Guinea pig/Common diseases/Ectoparasites/oversikt.md",
+      "title": "Ectoparasites",
+      "folder": "Exotics/Small Mammal Medicine/Guinea pig/Common diseases/Ectoparasites"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Guinea pig/Common diseases/Endocrine disease/oversikt.md",
+      "title": "Endocrine disease",
+      "folder": "Exotics/Small Mammal Medicine/Guinea pig/Common diseases/Endocrine disease"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Guinea pig/Common diseases/Environmental and behavioural conditions/oversikt.md",
+      "title": "Environmental and behavioural conditions",
+      "folder": "Exotics/Small Mammal Medicine/Guinea pig/Common diseases/Environmental and behavioural conditions"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Guinea pig/Common diseases/Fungal skin disease/oversikt.md",
+      "title": "Fungal skin disease",
+      "folder": "Exotics/Small Mammal Medicine/Guinea pig/Common diseases/Fungal skin disease"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Guinea pig/Common diseases/Head tilt/oversikt.md",
+      "title": "Head tilt",
+      "folder": "Exotics/Small Mammal Medicine/Guinea pig/Common diseases/Head tilt"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Guinea pig/Common diseases/Miscellaneous conditions/oversikt.md",
+      "title": "Miscellaneous conditions",
+      "folder": "Exotics/Small Mammal Medicine/Guinea pig/Common diseases/Miscellaneous conditions"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Guinea pig/Common diseases/Neurological disease/oversikt.md",
+      "title": "Neurological disease",
+      "folder": "Exotics/Small Mammal Medicine/Guinea pig/Common diseases/Neurological disease"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Guinea pig/Common diseases/oversikt.md",
+      "title": "Common diseases",
+      "folder": "Exotics/Small Mammal Medicine/Guinea pig/Common diseases"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Guinea pig/Common diseases/Renal failure/oversikt.md",
+      "title": "Renal failure",
+      "folder": "Exotics/Small Mammal Medicine/Guinea pig/Common diseases/Renal failure"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Guinea pig/Common diseases/Skin neoplasia/oversikt.md",
+      "title": "Skin neoplasia",
+      "folder": "Exotics/Small Mammal Medicine/Guinea pig/Common diseases/Skin neoplasia"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Guinea pig/Common diseases/Viral skin disease/oversikt.md",
+      "title": "Viral skin disease",
+      "folder": "Exotics/Small Mammal Medicine/Guinea pig/Common diseases/Viral skin disease"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Guinea pig/oversikt.md",
+      "title": "Guinea pig",
+      "folder": "Exotics/Small Mammal Medicine/Guinea pig"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Hamster/Common diseases/Bacterial skin disease/oversikt.md",
+      "title": "Bacterial skin disease",
+      "folder": "Exotics/Small Mammal Medicine/Hamster/Common diseases/Bacterial skin disease"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Hamster/Common diseases/Cardiorespiratory disease/oversikt.md",
+      "title": "Cardiorespiratory disease",
+      "folder": "Exotics/Small Mammal Medicine/Hamster/Common diseases/Cardiorespiratory disease"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Hamster/Common diseases/Ectoparasites/oversikt.md",
+      "title": "Ectoparasites",
+      "folder": "Exotics/Small Mammal Medicine/Hamster/Common diseases/Ectoparasites"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Hamster/Common diseases/Endocrine disease/oversikt.md",
+      "title": "Endocrine disease",
+      "folder": "Exotics/Small Mammal Medicine/Hamster/Common diseases/Endocrine disease"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Hamster/Common diseases/Environmental and behavioural conditions/oversikt.md",
+      "title": "Environmental and behavioural conditions",
+      "folder": "Exotics/Small Mammal Medicine/Hamster/Common diseases/Environmental and behavioural conditions"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Hamster/Common diseases/Fungal skin disease/oversikt.md",
+      "title": "Fungal skin disease",
+      "folder": "Exotics/Small Mammal Medicine/Hamster/Common diseases/Fungal skin disease"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Hamster/Common diseases/Head tilt/oversikt.md",
+      "title": "Head tilt",
+      "folder": "Exotics/Small Mammal Medicine/Hamster/Common diseases/Head tilt"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Hamster/Common diseases/Miscellaneous conditions/oversikt.md",
+      "title": "Miscellaneous conditions",
+      "folder": "Exotics/Small Mammal Medicine/Hamster/Common diseases/Miscellaneous conditions"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Hamster/Common diseases/oversikt.md",
+      "title": "Common diseases",
+      "folder": "Exotics/Small Mammal Medicine/Hamster/Common diseases"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Hamster/Common diseases/Renal failure/oversikt.md",
+      "title": "Renal failure",
+      "folder": "Exotics/Small Mammal Medicine/Hamster/Common diseases/Renal failure"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Hamster/Common diseases/Skin neoplasia/oversikt.md",
+      "title": "Skin neoplasia",
+      "folder": "Exotics/Small Mammal Medicine/Hamster/Common diseases/Skin neoplasia"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Hamster/Common diseases/Viral skin disease/oversikt.md",
+      "title": "Viral skin disease",
+      "folder": "Exotics/Small Mammal Medicine/Hamster/Common diseases/Viral skin disease"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Hamster/oversikt.md",
+      "title": "Hamster",
+      "folder": "Exotics/Small Mammal Medicine/Hamster"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Mouse/Common diseases/Bacterial skin disease/oversikt.md",
+      "title": "Bacterial skin disease",
+      "folder": "Exotics/Small Mammal Medicine/Mouse/Common diseases/Bacterial skin disease"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Mouse/Common diseases/Cardiorespiratory disease/oversikt.md",
+      "title": "Cardiorespiratory disease",
+      "folder": "Exotics/Small Mammal Medicine/Mouse/Common diseases/Cardiorespiratory disease"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Mouse/Common diseases/Ectoparasites/oversikt.md",
+      "title": "Ectoparasites",
+      "folder": "Exotics/Small Mammal Medicine/Mouse/Common diseases/Ectoparasites"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Mouse/Common diseases/Environmental and behavioural conditions/oversikt.md",
+      "title": "Environmental and behavioural conditions",
+      "folder": "Exotics/Small Mammal Medicine/Mouse/Common diseases/Environmental and behavioural conditions"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Mouse/Common diseases/Fungal skin disease/oversikt.md",
+      "title": "Fungal skin disease",
+      "folder": "Exotics/Small Mammal Medicine/Mouse/Common diseases/Fungal skin disease"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Mouse/Common diseases/Head tilt/oversikt.md",
+      "title": "Head tilt",
+      "folder": "Exotics/Small Mammal Medicine/Mouse/Common diseases/Head tilt"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Mouse/Common diseases/Mammary gland neoplasia/oversikt.md",
+      "title": "Mammary gland neoplasia",
+      "folder": "Exotics/Small Mammal Medicine/Mouse/Common diseases/Mammary gland neoplasia"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Mouse/Common diseases/oversikt.md",
+      "title": "Common diseases",
+      "folder": "Exotics/Small Mammal Medicine/Mouse/Common diseases"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Mouse/Common diseases/Renal failure/oversikt.md",
+      "title": "Renal failure",
+      "folder": "Exotics/Small Mammal Medicine/Mouse/Common diseases/Renal failure"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Mouse/Common diseases/Skin neoplasia/oversikt.md",
+      "title": "Skin neoplasia",
+      "folder": "Exotics/Small Mammal Medicine/Mouse/Common diseases/Skin neoplasia"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Mouse/oversikt.md",
+      "title": "Mouse (*Mus musculus*)",
+      "folder": "Exotics/Small Mammal Medicine/Mouse"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/oversikt.md",
+      "title": "Exotics: Small Mammal Medicine",
+      "folder": "Exotics/Small Mammal Medicine"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Rat/Common diseases/Bacterial skin disease/oversikt.md",
+      "title": "Bacterial skin disease",
+      "folder": "Exotics/Small Mammal Medicine/Rat/Common diseases/Bacterial skin disease"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Rat/Common diseases/Cardiorespiratory disease/oversikt.md",
+      "title": "Cardiorespiratory disease",
+      "folder": "Exotics/Small Mammal Medicine/Rat/Common diseases/Cardiorespiratory disease"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Rat/Common diseases/Ectoparasites/oversikt.md",
+      "title": "Ectoparasites",
+      "folder": "Exotics/Small Mammal Medicine/Rat/Common diseases/Ectoparasites"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Rat/Common diseases/Environmental and behavioural conditions/oversikt.md",
+      "title": "Environmental and behavioural conditions",
+      "folder": "Exotics/Small Mammal Medicine/Rat/Common diseases/Environmental and behavioural conditions"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Rat/Common diseases/Fungal skin disease/oversikt.md",
+      "title": "Fungal skin disease",
+      "folder": "Exotics/Small Mammal Medicine/Rat/Common diseases/Fungal skin disease"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Rat/Common diseases/Head tilt/oversikt.md",
+      "title": "Head tilt",
+      "folder": "Exotics/Small Mammal Medicine/Rat/Common diseases/Head tilt"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Rat/Common diseases/Mammary gland neoplasia/oversikt.md",
+      "title": "Mammary gland neoplasia",
+      "folder": "Exotics/Small Mammal Medicine/Rat/Common diseases/Mammary gland neoplasia"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Rat/Common diseases/Miscellaneous conditions/oversikt.md",
+      "title": "Miscellaneous conditions",
+      "folder": "Exotics/Small Mammal Medicine/Rat/Common diseases/Miscellaneous conditions"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Rat/Common diseases/Neurological disease/oversikt.md",
+      "title": "Neurological disease",
+      "folder": "Exotics/Small Mammal Medicine/Rat/Common diseases/Neurological disease"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Rat/Common diseases/oversikt.md",
+      "title": "Common diseases",
+      "folder": "Exotics/Small Mammal Medicine/Rat/Common diseases"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Rat/Common diseases/Renal failure/oversikt.md",
+      "title": "Renal failure",
+      "folder": "Exotics/Small Mammal Medicine/Rat/Common diseases/Renal failure"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Rat/Common diseases/Skin neoplasia/oversikt.md",
+      "title": "Skin neoplasia",
+      "folder": "Exotics/Small Mammal Medicine/Rat/Common diseases/Skin neoplasia"
+    },
+    {
+      "file": "Exotics/Small Mammal Medicine/Rat/oversikt.md",
+      "title": "Rat",
+      "folder": "Exotics/Small Mammal Medicine/Rat"
     }
   ]
 }
