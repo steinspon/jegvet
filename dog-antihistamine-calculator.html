@@ -11,7 +11,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="logo_day_small_fixed.png?v=4" />
   <link rel="apple-touch-icon" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
   <link rel="apple-touch-icon-precomposed" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
-  <link rel='manifest' href='manifest.webmanifest' />
+  <link rel="manifest" href="manifest.webmanifest" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
@@ -29,18 +29,20 @@
         dog_antihistamine_placeholder: 'Enter weight to calculate doses.',
         dog_antihistamine_error_positive: 'Weight must be greater than 0 kg.',
         dog_antihistamine_no_result: 'No result.',
+        dog_antihistamine_metric: 'Metric',
         dog_antihistamine_atarax_heading: 'Atarax',
         dog_antihistamine_atarax_rule: '2.2 mg/kg every 8 hours (TID)',
         dog_antihistamine_aerius_heading: 'Aerius',
         dog_antihistamine_aerius_rule: '0.5 mg/kg every 12 hours (BID)',
-        dog_antihistamine_per_dose: 'Per dose:',
-        dog_antihistamine_per_day: 'Per day total:',
-        dog_antihistamine_tab10_exact: '10 mg tablets per dose (exact):',
-        dog_antihistamine_tab10_quarter: '10 mg tablets per dose (nearest 1/4 tab):',
-        dog_antihistamine_tab25_exact: '25 mg tablets per dose (exact):',
-        dog_antihistamine_tab25_quarter: '25 mg tablets per dose (nearest 1/4 tab):',
-        dog_antihistamine_tab5_exact: '5 mg tablets per dose (exact):',
-        dog_antihistamine_tab5_quarter: '5 mg tablets per dose (nearest 1/4 tab):'
+        dog_antihistamine_regimen: 'Dose regimen',
+        dog_antihistamine_per_dose: 'Dose need per dose',
+        dog_antihistamine_tablet_options: 'Tablet options',
+        dog_antihistamine_liquid_option: 'Liquid option',
+        dog_antihistamine_journal_text: 'Journal text',
+        dog_antihistamine_not_available: 'Not relevant',
+        dog_antihistamine_no_liquid_needed: 'No liquid needed',
+        dog_antihistamine_liquid_not_used_over_9kg: 'Not used above 9 kg',
+        dog_antihistamine_start_today: 'Start today.'
       },
       no: {
         page_title_dog_antihistamine: 'Antihistamin kalkulator hund | JegVet',
@@ -51,18 +53,20 @@
         dog_antihistamine_placeholder: 'Oppgi vekt for å beregne doser.',
         dog_antihistamine_error_positive: 'Vekten må være større enn 0 kg.',
         dog_antihistamine_no_result: 'Ingen resultat.',
+        dog_antihistamine_metric: 'Mål',
         dog_antihistamine_atarax_heading: 'Atarax',
         dog_antihistamine_atarax_rule: '2,2 mg/kg hver 8. time (TID)',
         dog_antihistamine_aerius_heading: 'Aerius',
         dog_antihistamine_aerius_rule: '0,5 mg/kg hver 12. time (BID)',
-        dog_antihistamine_per_dose: 'Per dose:',
-        dog_antihistamine_per_day: 'Total per doegn:',
-        dog_antihistamine_tab10_exact: '10 mg tabletter per dose (eksakt):',
-        dog_antihistamine_tab10_quarter: '10 mg tabletter per dose (naermeste 1/4 tablett):',
-        dog_antihistamine_tab25_exact: '25 mg tabletter per dose (eksakt):',
-        dog_antihistamine_tab25_quarter: '25 mg tabletter per dose (naermeste 1/4 tablett):',
-        dog_antihistamine_tab5_exact: '5 mg tabletter per dose (eksakt):',
-        dog_antihistamine_tab5_quarter: '5 mg tabletter per dose (naermeste 1/4 tablett):'
+        dog_antihistamine_regimen: 'Doseringsregime',
+        dog_antihistamine_per_dose: 'Dosebehov per dose',
+        dog_antihistamine_tablet_options: 'Tablettvalg',
+        dog_antihistamine_liquid_option: 'Mikstur',
+        dog_antihistamine_journal_text: 'Journaltekst',
+        dog_antihistamine_not_available: 'Ikke aktuelt',
+        dog_antihistamine_no_liquid_needed: 'Mikstur trengs ikke',
+        dog_antihistamine_liquid_not_used_over_9kg: 'Brukes ikke over 9 kg',
+        dog_antihistamine_start_today: 'Start i dag.'
       }
     };
   </script>
@@ -91,29 +95,50 @@
         <p id="dose-placeholder" data-i18n="dog_antihistamine_placeholder">Enter weight to calculate doses.</p>
 
         <div id="dose-results" class="u-hidden">
-          <h3 data-i18n="dog_antihistamine_atarax_heading">Atarax</h3>
-          <p id="atarax-rule" data-i18n="dog_antihistamine_atarax_rule">2.2 mg/kg every 8 hours (TID)</p>
-          <table class="calc-table" aria-label="Atarax dose details">
-            <tbody>
-              <tr><th data-i18n="dog_antihistamine_per_dose">Per dose:</th><td id="atarax-per-dose"></td></tr>
-              <tr><th data-i18n="dog_antihistamine_per_day">Per day total:</th><td id="atarax-per-day"></td></tr>
-              <tr><th data-i18n="dog_antihistamine_tab10_exact">10 mg tablets per dose (exact):</th><td id="atarax-10-exact"></td></tr>
-              <tr><th data-i18n="dog_antihistamine_tab10_quarter">10 mg tablets per dose (nearest 1/4 tab):</th><td id="atarax-10-quarter"></td></tr>
-              <tr><th data-i18n="dog_antihistamine_tab25_exact">25 mg tablets per dose (exact):</th><td id="atarax-25-exact"></td></tr>
-              <tr><th data-i18n="dog_antihistamine_tab25_quarter">25 mg tablets per dose (nearest 1/4 tab):</th><td id="atarax-25-quarter"></td></tr>
-            </tbody>
-          </table>
-
-          <h3 class="u-mt-14" data-i18n="dog_antihistamine_aerius_heading">Aerius</h3>
-          <p id="aerius-rule" data-i18n="dog_antihistamine_aerius_rule">0.5 mg/kg every 12 hours (BID)</p>
-          <table class="calc-table" aria-label="Aerius dose details">
-            <tbody>
-              <tr><th data-i18n="dog_antihistamine_per_dose">Per dose:</th><td id="aerius-per-dose"></td></tr>
-              <tr><th data-i18n="dog_antihistamine_per_day">Per day total:</th><td id="aerius-per-day"></td></tr>
-              <tr><th data-i18n="dog_antihistamine_tab5_exact">5 mg tablets per dose (exact):</th><td id="aerius-5-exact"></td></tr>
-              <tr><th data-i18n="dog_antihistamine_tab5_quarter">5 mg tablets per dose (nearest 1/4 tab):</th><td id="aerius-5-quarter"></td></tr>
-            </tbody>
-          </table>
+          <div class="calc-table-wrap">
+            <table class="calc-table antihistamine-comparison-table" aria-label="Antihistamine dose comparison">
+              <thead>
+                <tr>
+                  <th data-i18n="dog_antihistamine_metric">Metric</th>
+                  <th>
+                    <span data-i18n="dog_antihistamine_atarax_heading">Atarax</span><br />
+                    <span class="table-subhead" id="atarax-rule" data-i18n="dog_antihistamine_atarax_rule">2.2 mg/kg every 8 hours (TID)</span>
+                  </th>
+                  <th>
+                    <span data-i18n="dog_antihistamine_aerius_heading">Aerius</span><br />
+                    <span class="table-subhead" id="aerius-rule" data-i18n="dog_antihistamine_aerius_rule">0.5 mg/kg every 12 hours (BID)</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th data-i18n="dog_antihistamine_regimen">Dose regimen</th>
+                  <td id="atarax-regimen"></td>
+                  <td id="aerius-regimen"></td>
+                </tr>
+                <tr>
+                  <th data-i18n="dog_antihistamine_per_dose">Dose need per dose</th>
+                  <td id="atarax-per-dose"></td>
+                  <td id="aerius-per-dose"></td>
+                </tr>
+                <tr>
+                  <th data-i18n="dog_antihistamine_tablet_options">Tablet options</th>
+                  <td id="atarax-tablet-options"></td>
+                  <td id="aerius-tablet-options"></td>
+                </tr>
+                <tr>
+                  <th data-i18n="dog_antihistamine_liquid_option">Liquid option</th>
+                  <td id="atarax-liquid-option"></td>
+                  <td id="aerius-liquid-option"></td>
+                </tr>
+                <tr>
+                  <th data-i18n="dog_antihistamine_journal_text">Journal text</th>
+                  <td id="atarax-journal-text"></td>
+                  <td id="aerius-journal-text"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
@@ -124,12 +149,14 @@
           <li>Species: dog</li>
           <li>Atarax dose: 2.2 mg/kg every 8 hours (TID)</li>
           <li>Aerius dose: 0.5 mg/kg every 12 hours (BID)</li>
-          <li>Atarax strengths: 10 mg and 25 mg tablets</li>
-          <li>Aerius strength: 5 mg tablet</li>
+          <li>Atarax strengths: 10 mg tablet and 25 mg tablet with score line</li>
+          <li>Aerius strengths: 5 mg tablet and 0.5 mg/ml liquid</li>
           <li>Atarax mg per dose = body weight (kg) x 2.2</li>
           <li>Aerius mg per dose = body weight (kg) x 0.5</li>
-          <li>Exact tablets per dose = mg per dose / tablet strength</li>
-          <li>Nearest quarter-tablet values are shown as a practical guide</li>
+          <li>Atarax 10 mg is shown as whole tablets only</li>
+          <li>Atarax 25 mg is shown in half-tablet steps</li>
+          <li>Aerius 5 mg is shown as whole tablets only</li>
+          <li>Aerius liquid is only shown as an alternative up to and including 9 kg</li>
         </ul>
       </div>
     </section>
@@ -152,12 +179,69 @@
         return fallback || key;
       }
 
-      function format(value, decimals) {
-        return value.toFixed(decimals);
+      function getUiLocale() {
+        if (window.JegVetLang && typeof window.JegVetLang.get === 'function') {
+          return window.JegVetLang.get();
+        }
+        return document.documentElement.lang === 'nb' ? 'no' : 'en';
       }
 
-      function roundQuarter(value) {
-        return Math.round(value * 4) / 4;
+      function getNumberLocale(locale) {
+        return locale === 'no' ? 'nb-NO' : 'en-US';
+      }
+
+      function roundWhole(value) {
+        return Math.round(value);
+      }
+
+      function formatNumber(value, decimals, locale) {
+        var rounded = Number(value.toFixed(decimals));
+        return rounded.toLocaleString(getNumberLocale(locale), {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: decimals
+        });
+      }
+
+      function formatDose(valueMg, locale) {
+        return formatNumber(valueMg, 2, locale) + ' mg';
+      }
+
+      function formatMl(valueMl, locale) {
+        return formatNumber(valueMl, 2, locale) + ' ml';
+      }
+
+      function formatStrength(valueMg, locale) {
+        return formatNumber(valueMg, valueMg % 1 === 0 ? 0 : 1, locale) + ' mg';
+      }
+
+      function formatLiquidStrength(locale) {
+        return locale === 'no' ? '0,5 mg/ml' : '0.5 mg/ml';
+      }
+
+      function formatTabletCount(count, locale) {
+        var singular = locale === 'no' ? 'tablett' : 'tablet';
+        var plural = locale === 'no' ? 'tabletter' : 'tablets';
+        return formatNumber(count, count % 1 === 0 ? 0 : 1, locale) + ' ' + (count === 1 ? singular : plural);
+      }
+
+      function formatJournalTabletCount(count, locale) {
+        var singular = locale === 'no' ? 'tablett' : 'tablet';
+        var plural = locale === 'no' ? 'tabletter' : 'tablets';
+
+        if (Math.abs(count - 0.5) < 0.001) {
+          return '1/2 ' + singular;
+        }
+
+        if (Math.abs(count % 1 - 0.5) < 0.001) {
+          return Math.floor(count) + ' 1/2 ' + plural;
+        }
+
+        var rounded = Math.round(count);
+        return rounded + ' ' + (rounded === 1 ? singular : plural);
+      }
+
+      function buildTabletDescription(strengthMg, count, locale) {
+        return formatStrength(strengthMg, locale) + ': ' + formatTabletCount(count, locale) + ' (' + formatDose(strengthMg * count, locale) + ')';
       }
 
       function setText(id, text) {
@@ -167,14 +251,149 @@
         }
       }
 
+      function showResults() {
+        resultsEl.classList.remove('u-hidden');
+        resultsEl.style.display = '';
+      }
+
+      function hideResults() {
+        resultsEl.style.display = 'none';
+      }
+
       function clearResult() {
         placeholderEl.textContent = t('dog_antihistamine_placeholder', 'Enter weight to calculate doses.');
         placeholderEl.style.display = '';
-        resultsEl.style.display = 'none';
+        hideResults();
+      }
+
+      function buildAtaraxCandidates(doseMg) {
+        var candidates = [];
+        var maxHalf25 = Math.ceil((doseMg + 25) / 12.5) + 1;
+        var maxTen = Math.ceil((doseMg + 20) / 10) + 1;
+        var require25 = doseMg > 25;
+        var half25;
+        var count10;
+
+        for (half25 = 0; half25 <= maxHalf25; half25 += 1) {
+          for (count10 = 0; count10 <= maxTen; count10 += 1) {
+            var count25 = half25 / 2;
+            var deliveredMg = (count25 * 25) + (count10 * 10);
+            var usesOnly10 = count25 === 0 && count10 > 0;
+            var optionCount = (count25 > 0 ? 1 : 0) + (count10 > 0 ? 1 : 0);
+
+            if (!deliveredMg) {
+              continue;
+            }
+
+            if (require25 && usesOnly10) {
+              continue;
+            }
+
+            candidates.push({
+              count25: count25,
+              count10: count10,
+              deliveredMg: deliveredMg,
+              errorMg: Math.abs(deliveredMg - doseMg),
+              tabletCount: count25 + count10,
+              optionCount: optionCount
+            });
+          }
+        }
+
+        candidates.sort(function (a, b) {
+          if (a.errorMg !== b.errorMg) {
+            return a.errorMg - b.errorMg;
+          }
+          if (a.tabletCount !== b.tabletCount) {
+            return a.tabletCount - b.tabletCount;
+          }
+          if (a.optionCount !== b.optionCount) {
+            return a.optionCount - b.optionCount;
+          }
+          return a.deliveredMg - b.deliveredMg;
+        });
+
+        return candidates;
+      }
+
+      function buildAtaraxChoiceText(candidate, locale) {
+        var parts = [];
+
+        if (candidate.count25 > 0) {
+          parts.push(buildTabletDescription(25, candidate.count25, locale));
+        }
+        if (candidate.count10 > 0) {
+          parts.push(buildTabletDescription(10, candidate.count10, locale));
+        }
+
+        return parts.join(' + ') + ' = ' + formatDose(candidate.deliveredMg, locale);
+      }
+
+      function selectAtaraxBestCandidate(candidates, doseMg) {
+        var bestByError = candidates[0];
+        var threshold = Math.max(2.5, doseMg * 0.1);
+
+        return candidates.find(function (candidate) {
+          return candidate !== bestByError &&
+            candidate.errorMg <= bestByError.errorMg + threshold &&
+            candidate.tabletCount < bestByError.tabletCount &&
+            candidate.optionCount <= bestByError.optionCount;
+        }) || bestByError;
+      }
+
+      function buildAtaraxJournalText(candidate, locale) {
+        var parts = [];
+        var joiner = locale === 'no' ? ' og ' : ' and ';
+        var sentence;
+
+        if (candidate.count25 > 0) {
+          if (locale === 'no') {
+            parts.push('Atarax 25 mg, gi ' + formatJournalTabletCount(candidate.count25, locale));
+          } else {
+            parts.push('Atarax 25 mg, give ' + formatJournalTabletCount(candidate.count25, locale));
+          }
+        }
+
+        if (candidate.count10 > 0) {
+          if (locale === 'no') {
+            parts.push('Atarax 10 mg, gi ' + formatJournalTabletCount(candidate.count10, locale));
+          } else {
+            parts.push('Atarax 10 mg, give ' + formatJournalTabletCount(candidate.count10, locale));
+          }
+        }
+
+        sentence = parts.join(joiner);
+        if (locale === 'no') {
+          return sentence + ' hver 8. time. ' + t('dog_antihistamine_start_today', 'Start i dag.');
+        }
+        return sentence + ' every 8 hours. ' + t('dog_antihistamine_start_today', 'Start today.');
+      }
+
+      function buildAeriusTabletJournalText(count, locale) {
+        if (locale === 'no') {
+          return 'Aerius 5 mg, gi ' + formatJournalTabletCount(count, locale) + ' hver 12. time. ' + t('dog_antihistamine_start_today', 'Start i dag.');
+        }
+        return 'Aerius 5 mg, give ' + formatJournalTabletCount(count, locale) + ' every 12 hours. ' + t('dog_antihistamine_start_today', 'Start today.');
+      }
+
+      function buildAeriusLiquidJournalText(volumeMl, locale) {
+        if (locale === 'no') {
+          return 'Aerius mikstur 0,5 mg/ml, gi ' + formatMl(volumeMl, locale) + ' hver 12. time. ' + t('dog_antihistamine_start_today', 'Start i dag.');
+        }
+        return 'Aerius liquid 0.5 mg/ml, give ' + formatMl(volumeMl, locale) + ' every 12 hours. ' + t('dog_antihistamine_start_today', 'Start today.');
       }
 
       function render() {
         var weightKg = window.JegVetCalc.parseDecimalInput(weightInput.value);
+        var locale = getUiLocale();
+        var notAvailable = t('dog_antihistamine_not_available', 'Not relevant');
+        var noLiquidNeeded = t('dog_antihistamine_no_liquid_needed', 'No liquid needed');
+        var ataraxDose;
+        var ataraxCandidates;
+        var ataraxBest;
+        var aeriusDose;
+        var aeriusTabletCount;
+        var aeriusUseLiquid;
 
         if (!weightInput.value) {
           errorEl.textContent = '';
@@ -186,29 +405,47 @@
           errorEl.textContent = t('dog_antihistamine_error_positive', 'Weight must be greater than 0 kg.');
           placeholderEl.textContent = t('dog_antihistamine_no_result', 'No result.');
           placeholderEl.style.display = '';
-          resultsEl.style.display = 'none';
+          hideResults();
           return;
         }
 
         errorEl.textContent = '';
 
-        var ataraxDose = weightKg * 2.2;
-        var aeriusDose = weightKg * 0.5;
+        ataraxDose = weightKg * 2.2;
+        ataraxCandidates = buildAtaraxCandidates(ataraxDose);
+        ataraxBest = selectAtaraxBestCandidate(ataraxCandidates, ataraxDose);
 
-        setText('atarax-per-dose', format(ataraxDose, 2) + ' mg');
-        setText('atarax-per-day', format(ataraxDose * 3, 2) + ' mg');
-        setText('atarax-10-exact', format(ataraxDose / 10, 2) + ' tablets');
-        setText('atarax-10-quarter', format(roundQuarter(ataraxDose / 10), 2) + ' tablets');
-        setText('atarax-25-exact', format(ataraxDose / 25, 2) + ' tablets');
-        setText('atarax-25-quarter', format(roundQuarter(ataraxDose / 25), 2) + ' tablets');
+        aeriusDose = weightKg * 0.5;
+        aeriusTabletCount = Math.max(1, roundWhole(aeriusDose / 5));
+        aeriusUseLiquid = weightKg <= 9 && aeriusDose < 5;
 
-        setText('aerius-per-dose', format(aeriusDose, 2) + ' mg');
-        setText('aerius-per-day', format(aeriusDose * 2, 2) + ' mg');
-        setText('aerius-5-exact', format(aeriusDose / 5, 2) + ' tablets');
-        setText('aerius-5-quarter', format(roundQuarter(aeriusDose / 5), 2) + ' tablets');
+        setText('atarax-regimen', t('dog_antihistamine_atarax_rule', '2.2 mg/kg every 8 hours (TID)'));
+        setText('aerius-regimen', t('dog_antihistamine_aerius_rule', '0.5 mg/kg every 12 hours (BID)'));
+
+        setText('atarax-per-dose', formatDose(ataraxDose, locale));
+        setText('atarax-tablet-options', buildAtaraxChoiceText(ataraxBest, locale));
+        setText('atarax-liquid-option', notAvailable);
+        setText('atarax-journal-text', buildAtaraxJournalText(ataraxBest, locale));
+
+        setText('aerius-per-dose', formatDose(aeriusDose, locale));
+        setText('aerius-tablet-options', buildTabletDescription(5, aeriusTabletCount, locale));
+        setText(
+          'aerius-liquid-option',
+          aeriusUseLiquid
+            ? formatLiquidStrength(locale) + ': ' + formatMl(aeriusDose / 0.5, locale)
+            : weightKg <= 9
+              ? noLiquidNeeded
+              : notAvailable
+        );
+        setText(
+          'aerius-journal-text',
+          aeriusUseLiquid
+            ? buildAeriusTabletJournalText(aeriusTabletCount, locale) + ' ' + buildAeriusLiquidJournalText(aeriusDose / 0.5, locale)
+            : buildAeriusTabletJournalText(aeriusTabletCount, locale)
+        );
 
         placeholderEl.style.display = 'none';
-        resultsEl.style.display = '';
+        showResults();
       }
 
       weightInput.addEventListener('input', render);
@@ -223,6 +460,3 @@
   </script>
 </body>
 </html>
-
-
-

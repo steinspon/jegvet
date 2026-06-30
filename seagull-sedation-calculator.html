@@ -111,9 +111,9 @@
         <p>Assumptions used in this calculator:</p>
         <ul>
           <li>Midazolam dose: 1.00 mg/kg</li>
-          <li>Midazolam concentration: 5.00 mg/ml</li>
+          <li>Midazolam concentration: 5 mg/ml</li>
           <li>(+) Butophanol dose: 1.00 mg/kg</li>
-          <li>(+) Butophanol concentration: 10.00 mg/ml</li>
+          <li>(+) Butophanol concentration: 10 mg/ml</li>
           <li>Volume (ml) = (dose mg/kg x body weight kg) / concentration mg/ml</li>
           <li>Combined IM volume = midazolam volume + butophanol volume</li>
         </ul>
@@ -141,10 +141,6 @@
       var errorEl = document.getElementById('calc-error');
       var sedationResultsEl = document.getElementById('sedation-results');
       var combinedResultEl = document.getElementById('combined-result');
-
-      function format(value, decimals) {
-        return value.toFixed(decimals);
-      }
 
       function renderPlaceholder() {
         sedationResultsEl.innerHTML = '<tr><td colspan="3">' + t('seagull_table_placeholder', 'Enter weight to calculate doses.') + '</td></tr>';
@@ -180,15 +176,15 @@
 
           rows.push(
             '<tr>' +
-              '<td>' + drug.label + ' (' + format(drug.concentrationMgMl, 2) + ' mg/ml)</td>' +
-              '<td>' + format(drug.doseMgKg, 2) + '</td>' +
-              '<td>' + format(ml, 2) + '</td>' +
+              '<td>' + drug.label + ' (' + window.JegVetCalc.formatMgMl(drug.concentrationMgMl) + ' mg/ml)</td>' +
+              '<td>' + window.JegVetCalc.formatDoseMgKg(drug.doseMgKg) + '</td>' +
+              '<td>' + window.JegVetCalc.formatMl(ml) + '</td>' +
             '</tr>'
           );
         }
 
         sedationResultsEl.innerHTML = rows.join('');
-        combinedResultEl.textContent = t('seagull_total_label', 'Total IM volume (midazolam + (+) butophanol):') + ' ' + format(totalMl, 2) + ' ml';
+        combinedResultEl.textContent = t('seagull_total_label', 'Total IM volume (midazolam + (+) butophanol):') + ' ' + window.JegVetCalc.formatMl(totalMl) + ' ml';
       }
 
       weightInput.addEventListener('input', render);

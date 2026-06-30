@@ -23,7 +23,7 @@
       en: {
         page_title_dog_premed: 'Dog Premed Calculator | JegVet',
         dog_premed_title: 'Dog Premed Calculator',
-        dog_premed_subtitle: 'Medetomidine or dexmedetomidine plus methadone in same IM syringe.',
+        dog_premed_subtitle: 'Medetomidine or dexmedetomidine plus methadone in same IM syringe. This sedation is intended for haemodynamically healthy animals.',
         dog_premed_weight: 'Dog weight (kg)',
         dog_premed_alpha: 'Alpha-2 choice',
         dog_premed_mood: 'Dog mood category',
@@ -50,22 +50,22 @@
       no: {
         page_title_dog_premed: 'Premed kalkulator hund | JegVet',
         dog_premed_title: 'Premed kalkulator hund',
-        dog_premed_subtitle: 'Medetomidin eller dexmedetomidin pluss methadone i samme IM-sprøyte.',
+        dog_premed_subtitle: 'Medetomidin eller dexmedetomidin pluss metadon i samme IM-sprøyte. Denne sedasjonen er ment for sirkulatorisk friske dyr.',
         dog_premed_weight: 'Hundens vekt (kg)',
         dog_premed_alpha: 'Valg av alpha-2',
-        dog_premed_mood: 'Kategori for hundens humoor',
-        dog_premed_pain: 'Kategori for methadone',
+        dog_premed_mood: 'Kategori for hundens humør',
+        dog_premed_pain: 'Kategori for metadon',
         dog_premed_alpha_med: 'Medetomidin 1 mg/ml',
         dog_premed_alpha_dex: 'Dexmedetomidin 0,5 mg/ml',
         dog_premed_mood_low: 'Veldig gammel og rolig hund (lav dose)',
         dog_premed_mood_mid: 'Chill & happy hund (normal dose)',
-        dog_premed_mood_high: 'Veldig stresset eller sint hund (hoy dose)',
+        dog_premed_mood_high: 'Veldig stresset eller sint hund (høy dose)',
         dog_premed_pain_low: 'Litt smertefull (0,2 mg/kg)',
         dog_premed_pain_high: 'Veldig smertefull/sint (0,3 mg/kg)',
         dog_premed_results: 'Doseresultat (IM)',
         dog_premed_placeholder: 'Velg alternativ og oppgi vekt for å beregne dose i ml.',
         dog_premed_error_positive: 'Vekten må være større enn 0 kg.',
-        dog_premed_error_select: 'Velg alpha-2, humoorkategori og methadone-kategori.',
+        dog_premed_error_select: 'Velg alpha-2, humørkategori og metadon-kategori.',
         dog_premed_no_result: 'Ingen resultat.',
         dog_premed_th_drug: 'Legemiddel',
         dog_premed_th_dose: 'Dose',
@@ -180,10 +180,6 @@
         return fallback || key;
       }
 
-      function format(value, decimals) {
-        return value.toFixed(decimals);
-      }
-
       function renderPlaceholder(messageKey, fallback) {
         resultsEl.innerHTML = '<tr><td colspan="3">' + t(messageKey, fallback) + '</td></tr>';
         combinedEl.textContent = t(messageKey, fallback);
@@ -225,11 +221,11 @@
         var totalMl = alphaVolumeMl + methadoneVolumeMl;
 
         resultsEl.innerHTML = [
-          '<tr><td>' + alphaDef.label + ' (' + format(alphaDef.concentrationMgMl, 2) + ' mg/ml)</td><td>' + format(alphaDoseUgKg, 0) + ' ug/kg</td><td>' + format(alphaVolumeMl, 2) + '</td></tr>',
-          '<tr><td>Methadone (10.00 mg/ml)</td><td>' + format(methadoneDoseMgKg, 1) + ' mg/kg</td><td>' + format(methadoneVolumeMl, 2) + '</td></tr>'
+          '<tr><td>' + alphaDef.label + ' (' + window.JegVetCalc.formatMgMl(alphaDef.concentrationMgMl) + ' mg/ml)</td><td>' + window.JegVetCalc.formatFixed(alphaDoseUgKg, 0) + ' ug/kg</td><td>' + window.JegVetCalc.formatMl(alphaVolumeMl) + '</td></tr>',
+          '<tr><td>Methadone (' + window.JegVetCalc.formatMgMl(methadoneConcentration) + ' mg/ml)</td><td>' + window.JegVetCalc.formatDoseMgKg(methadoneDoseMgKg) + ' mg/kg</td><td>' + window.JegVetCalc.formatMl(methadoneVolumeMl) + '</td></tr>'
         ].join('');
 
-        combinedEl.textContent = t('dog_premed_total', 'Total volume in same syringe:') + ' ' + format(totalMl, 2) + ' ml';
+        combinedEl.textContent = t('dog_premed_total', 'Total volume in same syringe:') + ' ' + window.JegVetCalc.formatMl(totalMl) + ' ml';
       }
 
       weightInput.addEventListener('input', render);

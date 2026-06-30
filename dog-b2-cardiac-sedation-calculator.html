@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Hund B2 hjertesykdom sedasjon | JegVet</title>
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="JegVet" />
+  <link rel="icon" type="image/png" sizes="32x32" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="logo_day_small_fixed.png?v=4" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="calculator-utils.js"></script>
+  <script src="app-shell.js" defer></script>
+  <script>
+    window.PAGE_I18N = {
+      en: {
+        dog_b2_page_title: 'Dog B2 Cardiac Sedation | JegVet',
+        dog_b2_title: 'Dog B2 Cardiac Sedation',
+        dog_b2_subtitle: 'Based on the mitral insufficiency anaesthesia protocol. Do not use in dogs with congestive heart failure.',
+        dog_b2_weight: 'Weight (kg)',
+        dog_b2_procedure_label: 'Procedure type',
+        dog_b2_painful: 'Painful',
+        dog_b2_nonpainful: 'Non-painful',
+        dog_b2_warnings_title: 'Special considerations',
+        dog_b2_warning_chf: 'This protocol should not be used in dogs with congestive heart failure. Consult an anaesthesiologist in such cases.',
+        dog_b2_warning_meds: 'If medical treatment is indicated, it should be started before anaesthesia. Continue ongoing cardiac medication, but avoid ACE inhibitors on the day of anaesthesia because of increased risk of hypotension.',
+        dog_b2_warning_comorbidity: 'Comorbidity must be considered when choosing drugs. Acepromazine should be avoided in bleeding, SIRS/sepsis or severe BOAS.',
+        dog_b2_premed_title: 'Premedication (IM)',
+        dog_b2_induction_title: 'Induction (IV)',
+        dog_b2_induction_note: 'Propofol is given slowly IV to effect. Dose is adjusted individually; 3-5 mg/kg is a good starting point.',
+        dog_b2_maintenance_title: 'Maintenance',
+        dog_b2_inhalation_title: 'Inhalation',
+        dog_b2_inhalation_note: 'Isoflurane or sevoflurane is titrated to the desired anaesthetic depth.',
+        dog_b2_tiva_title: 'TIVA',
+        dog_b2_tiva_note: 'Propofol 12-36 mg/kg/hour by syringe pump may be preferable because the risk of hypotension is somewhat lower.',
+        dog_b2_analgesia_title: 'Analgesia during surgery',
+        dog_b2_analgesia_note: 'For surgical procedures, additional analgesia should be used. Avoid hypertension and sustained tachycardia. Local anaesthesia should be used where possible.',
+        dog_b2_postop_title: 'Postoperative analgesia',
+        dog_b2_postop_note: 'See the separate protocol for postoperative pain management.',
+        dog_b2_table_drug: 'Drug (conc.)',
+        dog_b2_table_dose: 'Dose range',
+        dog_b2_table_volume: 'Volume range (ml)',
+        dog_b2_table_volume_undiluted: 'Volume from 10 mg/ml (ml)',
+        dog_b2_table_volume_diluted: 'Volume from 1 mg/ml dilution (ml)',
+        dog_b2_table_rate: 'Infusion rate (ml/h)',
+        dog_b2_placeholder: 'Enter weight to calculate doses.',
+        dog_b2_no_results: 'No results.',
+        dog_b2_no_result: 'No result.',
+        dog_b2_error_positive: 'Weight must be greater than 0 kg.',
+        dog_b2_combined_title: 'Combined IM syringe',
+        dog_b2_combined_placeholder: 'Enter weight to calculate the combined syringe volume.',
+        dog_b2_combined_label: 'Total IM volume range',
+        dog_b2_dilution_title: 'Acepromazine dilution for small dogs',
+        dog_b2_dilution_placeholder: 'Dilution guidance appears automatically when acepromazine needs dilution.',
+        dog_b2_calc_title: 'Calculation information',
+        dog_b2_calc_intro: 'Doses from the protocol used in this calculator:',
+        dog_b2_calc_item_ace: 'Acepromazine: 0.01-0.02 mg/kg IM',
+        dog_b2_calc_item_methadone: 'Methadone for painful procedures: 0.2-0.4 mg/kg IM',
+        dog_b2_calc_item_butorphanol: 'Butorphanol for non-painful procedures: 0.2-0.4 mg/kg IM',
+        dog_b2_calc_item_propofol_induction: 'Propofol for induction: 3-5 mg/kg IV',
+        dog_b2_calc_item_propofol_tiva: 'Propofol for TIVA: 12-36 mg/kg/hour',
+        dog_b2_calc_item_fentanyl: 'Fentanyl: 5-20 µg/kg/hour',
+        dog_b2_calc_item_ketamine_bolus: 'Ketamine bolus: 0.5 mg/kg IV as needed',
+        dog_b2_calc_item_ketamine_cri: 'Ketamine CRI: 0.6 mg/kg/hour',
+        dog_b2_calc_concentrations: 'The following concentrations are used for volume calculations: acepromazine 10 mg/ml, methadone 10 mg/ml, butorphanol 10 mg/ml, propofol 10 mg/ml, fentanyl 0.05 mg/ml (50 µg/ml), and ketamine 10 mg/ml.',
+        dog_b2_calc_formula: 'Formula: Volume (ml) = dose (mg/kg) × weight (kg) / concentration (mg/ml). Infusion rate (ml/h) = dose rate (mg/kg/h) × weight (kg) / concentration (mg/ml).',
+        dog_b2_source: 'Source: "Anestesi mitralisinsuffisiens hund".',
+        dog_b2_label_acepromazine: 'Acepromazine',
+        dog_b2_label_acepromazine_undiluted: 'Acepromazine (10 mg/ml)',
+        dog_b2_not_relevant: 'Not relevant',
+        dog_b2_combined_with_methadone: 'acepromazine + methadone',
+        dog_b2_combined_with_butorphanol: 'acepromazine + butorphanol',
+        dog_b2_dilution_note_small: 'Dilute acepromazine by mixing 1 ml Acepromazine 10 mg/ml with 9 ml NaCl. This gives a 1 mg/ml solution. Draw up {minDiluted} - {maxDiluted} ml from the diluted solution for the patient. The equivalent undiluted volume is {minUndiluted} - {maxUndiluted} ml, and this must not be drawn up directly. The combined IM volume above uses diluted acepromazine volume.',
+        dog_b2_dilution_note_direct: 'No dilution needed. Draw up {minUndiluted} - {maxUndiluted} ml directly from Acepromazine 10 mg/ml.'
+      },
+      no: {
+        dog_b2_page_title: 'Hund B2 hjertesykdom sedasjon | JegVet',
+        dog_b2_title: 'Hund B2 hjertesykdom sedasjon',
+        dog_b2_subtitle: 'Basert på anestesiprotokoll for mitralisinsuffisiens hos hund. Skal ikke brukes ved kongestiv hjertesvikt.',
+        dog_b2_weight: 'Vekt (kg)',
+        dog_b2_procedure_label: 'Type prosedyre',
+        dog_b2_painful: 'Smertefull',
+        dog_b2_nonpainful: 'Ikke-smertefull',
+        dog_b2_warnings_title: 'Spesielle hensyn',
+        dog_b2_warning_chf: 'Protokollen bør ikke brukes til hunder med kongestiv hjertesvikt. Ta kontakt med anestesiolog i slike tilfeller.',
+        dog_b2_warning_meds: 'Hvis medikamentell behandling er indisert, bør den være påbegynt før anestesi. Gi pågående hjertemedisiner som vanlig, men unngå ACE-hemmere samme dag som anestesi på grunn av økt risiko for hypotensjon.',
+        dog_b2_warning_comorbidity: 'Komorbiditet må tas hensyn til ved valg av legemidler. Acepromazin bør unngås ved blødning, SIRS/sepsis eller alvorlig BOAS.',
+        dog_b2_premed_title: 'Premedikasjon (IM)',
+        dog_b2_induction_title: 'Induksjon (IV)',
+        dog_b2_induction_note: 'Propofol gis sakte IV til effekt. Dosen tilpasses individuelt; 3-5 mg/kg er et godt utgangspunkt.',
+        dog_b2_maintenance_title: 'Vedlikehold',
+        dog_b2_inhalation_title: 'Inhalasjon',
+        dog_b2_inhalation_note: 'Isofluran eller sevofluran titreres til ønsket anestesidybde.',
+        dog_b2_tiva_title: 'TIVA',
+        dog_b2_tiva_note: 'Propofol 12-36 mg/kg/time med sprøytepumpe kan være en fordel fordi risikoen for hypotensjon er noe lavere.',
+        dog_b2_analgesia_title: 'Analgesi ved kirurgi',
+        dog_b2_analgesia_note: 'Ved kirurgi bør tilleggsanalgesi brukes. Unngå hypertensjon og vedvarende takykardi. Lokalanestesi skal brukes der det er mulig.',
+        dog_b2_postop_title: 'Postoperativ analgesi',
+        dog_b2_postop_note: 'Se egen protokoll for postoperativ smertebehandling.',
+        dog_b2_table_drug: 'Legemiddel (kons.)',
+        dog_b2_table_dose: 'Doseintervall',
+        dog_b2_table_volume: 'Volumintervall (ml)',
+        dog_b2_table_volume_undiluted: 'Volum fra 10 mg/ml (ml)',
+        dog_b2_table_volume_diluted: 'Volum fra 1 mg/ml fortynning (ml)',
+        dog_b2_table_rate: 'Infusjonshastighet (ml/t)',
+        dog_b2_placeholder: 'Oppgi vekt for å beregne doser.',
+        dog_b2_no_results: 'Ingen resultater.',
+        dog_b2_no_result: 'Ingen resultat.',
+        dog_b2_error_positive: 'Vekten må være større enn 0 kg.',
+        dog_b2_combined_title: 'Kombinert IM-sprøyte',
+        dog_b2_combined_placeholder: 'Oppgi vekt for å beregne kombinert sprøytevolum.',
+        dog_b2_combined_label: 'Totalt IM-volumintervall',
+        dog_b2_dilution_title: 'Fortynning av acepromazin til små hunder',
+        dog_b2_dilution_placeholder: 'Fortynningsveiledning vises automatisk når acepromazin trenger fortynning.',
+        dog_b2_calc_title: 'Informasjon brukt i kalkulatoren',
+        dog_b2_calc_intro: 'Doser fra protokollen som brukes i denne kalkulatoren:',
+        dog_b2_calc_item_ace: 'Acepromazin: 0.01-0.02 mg/kg IM',
+        dog_b2_calc_item_methadone: 'Metadon ved smertefulle prosedyrer: 0.2-0.4 mg/kg IM',
+        dog_b2_calc_item_butorphanol: 'Butorfanol ved ikke-smertefulle prosedyrer: 0.2-0.4 mg/kg IM',
+        dog_b2_calc_item_propofol_induction: 'Propofol til induksjon: 3-5 mg/kg IV',
+        dog_b2_calc_item_propofol_tiva: 'Propofol til TIVA: 12-36 mg/kg/time',
+        dog_b2_calc_item_fentanyl: 'Fentanyl: 5-20 µg/kg/time',
+        dog_b2_calc_item_ketamine_bolus: 'Ketaminbolus: 0.5 mg/kg IV ved behov',
+        dog_b2_calc_item_ketamine_cri: 'Ketamin CRI: 0.6 mg/kg/time',
+        dog_b2_calc_concentrations: 'For beregning av volum er følgende konsentrasjoner lagt til grunn: acepromazin 10 mg/ml, metadon 10 mg/ml, butorfanol 10 mg/ml, propofol 10 mg/ml, fentanyl 0.05 mg/ml (50 µg/ml) og ketamin 10 mg/ml.',
+        dog_b2_calc_formula: 'Formel: Volum (ml) = dose (mg/kg) × vekt (kg) / konsentrasjon (mg/ml). Infusjonshastighet (ml/t) = dosehastighet (mg/kg/t) × vekt (kg) / konsentrasjon (mg/ml).',
+        dog_b2_source: 'Kilde: «Anestesi mitralisinsuffisiens hund».',
+        dog_b2_label_acepromazine: 'Acepromazin',
+        dog_b2_label_acepromazine_undiluted: 'Acepromazin (10 mg/ml)',
+        dog_b2_not_relevant: 'Ikke relevant',
+        dog_b2_combined_with_methadone: 'acepromazin + metadon',
+        dog_b2_combined_with_butorphanol: 'acepromazin + butorfanol',
+        dog_b2_dilution_note_small: 'Fortynn acepromazin ved å blande 1 ml Acepromazine 10 mg/ml med 9 ml NaCl. Dette gir en løsning på 1 mg/ml. Trekk opp {minDiluted} - {maxDiluted} ml fra fortynningsløsningen til pasienten. Tilsvarende ufortynnet volum er {minUndiluted} - {maxUndiluted} ml, og dette skal ikke trekkes opp direkte. Kombinert IM-volum ovenfor bruker fortynnet acepromazinvolum.',
+        dog_b2_dilution_note_direct: 'Ingen fortynning nødvendig. Trekk opp {minUndiluted} - {maxUndiluted} ml direkte fra Acepromazine 10 mg/ml.'
+      }
+    };
+  </script>
+</head>
+<body data-i18n-title="dog_b2_page_title">
+  <main class="page page-top">
+    <section class="layout-card layout-card-wide">
+      <a href="index.html" class="brand-link" aria-label="Go to homepage">
+        <img src="logo_day.png" alt="JegVet logo" class="brand-logo" width="1536" height="1024" />
+      </a>
+
+      <h1 class="section-title" data-i18n="dog_b2_title">Dog B2 Cardiac Sedation</h1>
+      <p class="section-subtitle" data-i18n="dog_b2_subtitle">Based on the mitral insufficiency anaesthesia protocol. Do not use in dogs with congestive heart failure.</p>
+
+      <form class="calc-form" id="dog-b2-form">
+        <div class="calc-field">
+          <label for="weight-kg" data-i18n="dog_b2_weight">Weight (kg)</label>
+          <input id="weight-kg" type="text" inputmode="decimal" min="0" step="0.01" placeholder="f.eks. 12,5" required />
+        </div>
+        <div class="calc-field">
+          <label for="procedure-type" data-i18n="dog_b2_procedure_label">Procedure type</label>
+          <select id="procedure-type">
+            <option value="painful" data-i18n-option="dog_b2_painful">Painful</option>
+            <option value="nonpainful" data-i18n-option="dog_b2_nonpainful">Non-painful</option>
+          </select>
+        </div>
+      </form>
+
+      <p id="calc-error" class="calc-error" aria-live="polite"></p>
+
+      <div class="tool-card u-mt-14">
+        <h2 data-i18n="dog_b2_warnings_title">Special considerations</h2>
+        <ul>
+          <li data-i18n="dog_b2_warning_chf">This protocol should not be used in dogs with congestive heart failure. Consult an anaesthesiologist in such cases.</li>
+          <li data-i18n="dog_b2_warning_meds">If medical treatment is indicated, it should be started before anaesthesia. Continue ongoing cardiac medication, but avoid ACE inhibitors on the day of anaesthesia because of increased risk of hypotension.</li>
+          <li data-i18n="dog_b2_warning_comorbidity">Comorbidity must be considered when choosing drugs. Acepromazine should be avoided in bleeding, SIRS/sepsis or severe BOAS.</li>
+        </ul>
+      </div>
+
+      <h2 class="section-subtitle u-section-gap-sm" data-i18n="dog_b2_premed_title">Premedication (IM)</h2>
+      <div class="calc-table-wrap">
+        <table class="calc-table" aria-label="Dog B2 cardiac premedication doses">
+          <thead>
+            <tr id="premed-head-row">
+              <th data-i18n="dog_b2_table_drug">Drug (conc.)</th>
+              <th data-i18n="dog_b2_table_dose">Dose range</th>
+              <th data-i18n="dog_b2_table_volume">Volume range (ml)</th>
+            </tr>
+          </thead>
+          <tbody id="premed-results" aria-live="polite">
+            <tr><td colspan="3" data-i18n="dog_b2_placeholder">Enter weight to calculate doses.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tool-card u-mt-14" aria-live="polite">
+        <h2 data-i18n="dog_b2_combined_title">Combined IM syringe</h2>
+        <p id="premed-combined" data-i18n="dog_b2_combined_placeholder">Enter weight to calculate the combined syringe volume.</p>
+      </div>
+
+      <div class="tool-card u-mt-14" aria-live="polite">
+        <h2 data-i18n="dog_b2_dilution_title">Acepromazine dilution for small dogs</h2>
+        <p id="dilution-note" data-i18n="dog_b2_dilution_placeholder">Dilution guidance appears automatically when acepromazine needs dilution.</p>
+      </div>
+
+      <h2 class="section-subtitle u-section-gap-sm" data-i18n="dog_b2_induction_title">Induction (IV)</h2>
+      <p class="section-subtitle" data-i18n="dog_b2_induction_note">Propofol is given slowly IV to effect. Dose is adjusted individually; 3-5 mg/kg is a good starting point.</p>
+      <div class="calc-table-wrap">
+        <table class="calc-table" aria-label="Dog B2 cardiac induction doses">
+          <thead>
+            <tr>
+              <th data-i18n="dog_b2_table_drug">Drug (conc.)</th>
+              <th data-i18n="dog_b2_table_dose">Dose range</th>
+              <th data-i18n="dog_b2_table_volume">Volume range (ml)</th>
+            </tr>
+          </thead>
+          <tbody id="induction-results" aria-live="polite">
+            <tr><td colspan="3" data-i18n="dog_b2_placeholder">Enter weight to calculate doses.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tool-card u-mt-14">
+        <h2 data-i18n="dog_b2_maintenance_title">Maintenance</h2>
+        <h3 data-i18n="dog_b2_inhalation_title">Inhalation</h3>
+        <p data-i18n="dog_b2_inhalation_note">Isoflurane or sevoflurane is titrated to the desired anaesthetic depth.</p>
+        <h3 class="u-section-gap-sm" data-i18n="dog_b2_tiva_title">TIVA</h3>
+        <div class="calc-table-wrap">
+          <table class="calc-table" aria-label="Dog B2 cardiac TIVA rates">
+            <thead>
+              <tr>
+                <th data-i18n="dog_b2_table_drug">Drug (conc.)</th>
+                <th data-i18n="dog_b2_table_dose">Dose range</th>
+                <th data-i18n="dog_b2_table_rate">Infusion rate (ml/h)</th>
+              </tr>
+            </thead>
+            <tbody id="tiva-results" aria-live="polite">
+              <tr><td colspan="3" data-i18n="dog_b2_placeholder">Enter weight to calculate doses.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="section-subtitle u-section-gap-sm" data-i18n="dog_b2_tiva_note">Propofol 12-36 mg/kg/hour by syringe pump may be preferable because the risk of hypotension is somewhat lower.</p>
+      </div>
+
+      <div class="tool-card u-mt-14">
+        <h2 data-i18n="dog_b2_analgesia_title">Analgesia during surgery</h2>
+        <p data-i18n="dog_b2_analgesia_note">For surgical procedures, additional analgesia should be used. Avoid hypertension and sustained tachycardia. Local anaesthesia should be used where possible.</p>
+        <div class="calc-table-wrap u-section-gap-sm">
+          <table class="calc-table" aria-label="Dog B2 cardiac analgesia rates">
+            <thead>
+              <tr>
+                <th data-i18n="dog_b2_table_drug">Drug (conc.)</th>
+                <th data-i18n="dog_b2_table_dose">Dose range</th>
+                <th data-i18n="dog_b2_table_rate">Infusion rate (ml/h)</th>
+              </tr>
+            </thead>
+            <tbody id="analgesia-results" aria-live="polite">
+              <tr><td colspan="3" data-i18n="dog_b2_placeholder">Enter weight to calculate doses.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="tool-card u-mt-14">
+        <h2 data-i18n="dog_b2_postop_title">Postoperative analgesia</h2>
+        <p data-i18n="dog_b2_postop_note">See the separate protocol for postoperative pain management.</p>
+      </div>
+
+      <div class="tool-card u-mt-14">
+        <h2 data-i18n="dog_b2_calc_title">Calculation information</h2>
+        <p data-i18n="dog_b2_calc_intro">Doses from the protocol used in this calculator:</p>
+        <ul>
+          <li data-i18n="dog_b2_calc_item_ace">Acepromazine: 0.01-0.02 mg/kg IM</li>
+          <li data-i18n="dog_b2_calc_item_methadone">Methadone for painful procedures: 0.2-0.4 mg/kg IM</li>
+          <li data-i18n="dog_b2_calc_item_butorphanol">Butorphanol for non-painful procedures: 0.2-0.4 mg/kg IM</li>
+          <li data-i18n="dog_b2_calc_item_propofol_induction">Propofol for induction: 3-5 mg/kg IV</li>
+          <li data-i18n="dog_b2_calc_item_propofol_tiva">Propofol for TIVA: 12-36 mg/kg/hour</li>
+          <li data-i18n="dog_b2_calc_item_fentanyl">Fentanyl: 5-20 µg/kg/hour</li>
+          <li data-i18n="dog_b2_calc_item_ketamine_bolus">Ketamine bolus: 0.5 mg/kg IV as needed</li>
+          <li data-i18n="dog_b2_calc_item_ketamine_cri">Ketamine CRI: 0.6 mg/kg/hour</li>
+        </ul>
+        <p data-i18n="dog_b2_calc_concentrations">The following concentrations are used for volume calculations: acepromazine 10 mg/ml, methadone 10 mg/ml, butorphanol 10 mg/ml, propofol 10 mg/ml, fentanyl 0.05 mg/ml (50 µg/ml), and ketamine 10 mg/ml.</p>
+        <p data-i18n="dog_b2_calc_formula">Formula: Volume (ml) = dose (mg/kg) × weight (kg) / concentration (mg/ml). Infusion rate (ml/h) = dose rate (mg/kg/h) × weight (kg) / concentration (mg/ml).</p>
+        <p class="section-subtitle u-section-gap-sm" data-i18n="dog_b2_source">Source: "Anestesi mitralisinsuffisiens hund".</p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var weightInput = document.getElementById('weight-kg');
+      var procedureSelect = document.getElementById('procedure-type');
+      var formEl = document.getElementById('dog-b2-form');
+      var errorEl = document.getElementById('calc-error');
+      var premedHeadRow = document.getElementById('premed-head-row');
+      var premedResults = document.getElementById('premed-results');
+      var premedCombined = document.getElementById('premed-combined');
+      var dilutionNote = document.getElementById('dilution-note');
+      var inductionResults = document.getElementById('induction-results');
+      var tivaResults = document.getElementById('tiva-results');
+      var analgesiaResults = document.getElementById('analgesia-results');
+
+      var premedConfig = {
+        painful: {
+          opioidLabel: 'Methadone',
+          opioidDoseMinMgKg: 0.2,
+          opioidDoseMaxMgKg: 0.4,
+          opioidConcentrationMgMl: 10
+        },
+        nonpainful: {
+          opioidLabel: 'Butorphanol',
+          opioidDoseMinMgKg: 0.2,
+          opioidDoseMaxMgKg: 0.4,
+          opioidConcentrationMgMl: 10
+        }
+      };
+
+      function t(key, fallback) {
+        if (window.JegVetLang && typeof window.JegVetLang.t === 'function') {
+          return window.JegVetLang.t(key, fallback);
+        }
+        return fallback || key;
+      }
+
+      function template(key, fallback, params) {
+        return t(key, fallback).replace(/\{([a-zA-Z0-9_]+)\}/g, function (_, paramKey) {
+          return Object.prototype.hasOwnProperty.call(params, paramKey) ? String(params[paramKey]) : '';
+        });
+      }
+
+      function formatFlexible(value) {
+        return window.JegVetCalc.formatTrimmed(value, 2);
+      }
+
+      function formatUpToThree(value) {
+        return window.JegVetCalc.formatTrimmed(value, 3);
+      }
+
+      function formatRange(minValue, maxValue, formatter) {
+        return window.JegVetCalc.formatRange(minValue, maxValue, formatter);
+      }
+
+      function formatFlexibleRange(minValue, maxValue) {
+        return formatFlexible(minValue) + ' - ' + formatFlexible(maxValue);
+      }
+
+      function renderPremedHeader(useDilutedAce) {
+        if (!premedHeadRow) {
+          return;
+        }
+
+        if (useDilutedAce) {
+          premedHeadRow.innerHTML =
+            '<th>' + t('dog_b2_table_drug', 'Drug (conc.)') + '</th>' +
+            '<th>' + t('dog_b2_table_dose', 'Dose range') + '</th>' +
+            '<th>' + t('dog_b2_table_volume_undiluted', 'Volume from 10 mg/ml (ml)') + '</th>' +
+            '<th>' + t('dog_b2_table_volume_diluted', 'Volume from 1 mg/ml dilution (ml)') + '</th>';
+          return;
+        }
+
+        premedHeadRow.innerHTML =
+          '<th>' + t('dog_b2_table_drug', 'Drug (conc.)') + '</th>' +
+          '<th>' + t('dog_b2_table_dose', 'Dose range') + '</th>' +
+          '<th>' + t('dog_b2_table_volume', 'Volume range (ml)') + '</th>';
+      }
+
+      function setPlaceholder(tbody, cols) {
+        tbody.innerHTML = '<tr><td colspan="' + cols + '">' + t('dog_b2_placeholder', 'Enter weight to calculate doses.') + '</td></tr>';
+      }
+
+      function setNoResults(tbody, cols) {
+        tbody.innerHTML = '<tr><td colspan="' + cols + '">' + t('dog_b2_no_results', 'No results.') + '</td></tr>';
+      }
+
+      function updateSelectOptions() {
+        var options = procedureSelect.options;
+        if (options[0]) {
+          options[0].text = t('dog_b2_painful', 'Painful');
+        }
+        if (options[1]) {
+          options[1].text = t('dog_b2_nonpainful', 'Non-painful');
+        }
+      }
+
+      function render() {
+        updateSelectOptions();
+
+        var weightKg = window.JegVetCalc.parseDecimalInput(weightInput.value);
+        var config = premedConfig[procedureSelect.value] || premedConfig.painful;
+
+        if (!weightInput.value) {
+          errorEl.textContent = '';
+          renderPremedHeader(false);
+          setPlaceholder(premedResults, 3);
+          setPlaceholder(inductionResults, 3);
+          setPlaceholder(tivaResults, 3);
+          setPlaceholder(analgesiaResults, 3);
+          premedCombined.textContent = t('dog_b2_combined_placeholder', 'Enter weight to calculate the combined syringe volume.');
+          dilutionNote.textContent = t('dog_b2_dilution_placeholder', 'Dilution guidance appears automatically when acepromazine needs dilution.');
+          return;
+        }
+
+        if (!isFinite(weightKg) || weightKg <= 0) {
+          errorEl.textContent = t('dog_b2_error_positive', 'Weight must be greater than 0 kg.');
+          renderPremedHeader(false);
+          setNoResults(premedResults, 3);
+          setNoResults(inductionResults, 3);
+          setNoResults(tivaResults, 3);
+          setNoResults(analgesiaResults, 3);
+          premedCombined.textContent = t('dog_b2_no_result', 'No result.');
+          dilutionNote.textContent = t('dog_b2_no_result', 'No result.');
+          return;
+        }
+
+        errorEl.textContent = '';
+
+        var aceMinMl = (0.01 * weightKg) / 10;
+        var aceMaxMl = (0.02 * weightKg) / 10;
+        var useDilutedAce = weightKg < 10;
+        var aceDisplayMinMl = useDilutedAce ? (0.01 * weightKg) / 1 : aceMinMl;
+        var aceDisplayMaxMl = useDilutedAce ? (0.02 * weightKg) / 1 : aceMaxMl;
+        var opioidMinMl = (config.opioidDoseMinMgKg * weightKg) / config.opioidConcentrationMgMl;
+        var opioidMaxMl = (config.opioidDoseMaxMgKg * weightKg) / config.opioidConcentrationMgMl;
+
+        renderPremedHeader(useDilutedAce);
+
+        if (useDilutedAce) {
+          premedResults.innerHTML =
+            '<tr>' +
+              '<td>' + t('dog_b2_label_acepromazine', 'Acepromazine') + '</td>' +
+              '<td>' + formatRange(0.01, 0.02, window.JegVetCalc.formatDoseMgKg) + ' mg/kg</td>' +
+              '<td>' + formatUpToThree(aceMinMl) + ' - ' + formatUpToThree(aceMaxMl) + '</td>' +
+              '<td>' + formatUpToThree(aceDisplayMinMl) + ' - ' + formatUpToThree(aceDisplayMaxMl) + '</td>' +
+            '</tr>' +
+            '<tr>' +
+              '<td>' + config.opioidLabel + ' (10 mg/ml)</td>' +
+              '<td>' + formatRange(config.opioidDoseMinMgKg, config.opioidDoseMaxMgKg, window.JegVetCalc.formatDoseMgKg) + ' mg/kg</td>' +
+              '<td>' + formatFlexibleRange(opioidMinMl, opioidMaxMl) + '</td>' +
+              '<td>' + t('dog_b2_not_relevant', 'Not relevant') + '</td>' +
+            '</tr>';
+        } else {
+          premedResults.innerHTML =
+            '<tr>' +
+              '<td>' + t('dog_b2_label_acepromazine_undiluted', 'Acepromazine (10 mg/ml)') + '</td>' +
+              '<td>' + formatRange(0.01, 0.02, window.JegVetCalc.formatDoseMgKg) + ' mg/kg</td>' +
+              '<td>' + formatUpToThree(aceMinMl) + ' - ' + formatUpToThree(aceMaxMl) + '</td>' +
+            '</tr>' +
+            '<tr>' +
+              '<td>' + config.opioidLabel + ' (10 mg/ml)</td>' +
+              '<td>' + formatRange(config.opioidDoseMinMgKg, config.opioidDoseMaxMgKg, window.JegVetCalc.formatDoseMgKg) + ' mg/kg</td>' +
+              '<td>' + formatFlexibleRange(opioidMinMl, opioidMaxMl) + '</td>' +
+            '</tr>';
+        }
+
+        premedCombined.textContent =
+          t('dog_b2_combined_label', 'Total IM volume range') +
+          ' (' + t(config.opioidLabel === 'Methadone' ? 'dog_b2_combined_with_methadone' : 'dog_b2_combined_with_butorphanol', config.opioidLabel === 'Methadone' ? 'acepromazine + methadone' : 'acepromazine + butorphanol') + '): ' +
+          formatFlexibleRange(aceDisplayMinMl + opioidMinMl, aceDisplayMaxMl + opioidMaxMl) + ' ml';
+
+        if (useDilutedAce) {
+          dilutionNote.textContent = template('dog_b2_dilution_note_small', 'Dilute acepromazine by mixing 1 ml Acepromazine 10 mg/ml with 9 ml NaCl. This gives a 1 mg/ml solution. Draw up {minDiluted} - {maxDiluted} ml from the diluted solution for the patient. The equivalent undiluted volume is {minUndiluted} - {maxUndiluted} ml, and this must not be drawn up directly. The combined IM volume above uses diluted acepromazine volume.', { minDiluted: formatUpToThree(aceDisplayMinMl), maxDiluted: formatUpToThree(aceDisplayMaxMl), minUndiluted: formatUpToThree(aceMinMl), maxUndiluted: formatUpToThree(aceMaxMl) });
+        } else {
+          dilutionNote.textContent = template('dog_b2_dilution_note_direct', 'No dilution needed. Draw up {minUndiluted} - {maxUndiluted} ml directly from Acepromazine 10 mg/ml.', { minUndiluted: formatUpToThree(aceMinMl), maxUndiluted: formatUpToThree(aceMaxMl) });
+        }
+
+        var inductionMinMl = (3 * weightKg) / 10;
+        var inductionMaxMl = (5 * weightKg) / 10;
+        inductionResults.innerHTML =
+          '<tr>' +
+            '<td>Propofol (10 mg/ml)</td>' +
+            '<td>3 - 5 mg/kg</td>' +
+            '<td>' + formatFlexibleRange(inductionMinMl, inductionMaxMl) + '</td>' +
+          '</tr>';
+
+        var tivaMinMlH = (12 * weightKg) / 10;
+        var tivaMaxMlH = (36 * weightKg) / 10;
+        tivaResults.innerHTML =
+          '<tr>' +
+            '<td>Propofol (10 mg/ml)</td>' +
+            '<td>12 - 36 mg/kg/h</td>' +
+            '<td>' + formatFlexibleRange(tivaMinMlH, tivaMaxMlH) + '</td>' +
+          '</tr>';
+
+        var fentanylMinMlH = (0.005 * weightKg) / 0.05;
+        var fentanylMaxMlH = (0.02 * weightKg) / 0.05;
+        var ketamineBolusMl = (0.5 * weightKg) / 10;
+        var ketamineCriMlH = (0.6 * weightKg) / 10;
+
+        analgesiaResults.innerHTML =
+          '<tr>' +
+            '<td>Fentanyl CRI (0.05 mg/ml)</td>' +
+            '<td>5 - 20 µg/kg/h</td>' +
+            '<td>' + formatFlexibleRange(fentanylMinMlH, fentanylMaxMlH) + '</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td>Ketamine bolus IV (10 mg/ml)</td>' +
+            '<td>0.5 mg/kg</td>' +
+            '<td>' + formatFlexible(ketamineBolusMl) + ' (single dose)</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td>Ketamine CRI (10 mg/ml)</td>' +
+            '<td>0.6 mg/kg/h</td>' +
+            '<td>' + formatFlexible(ketamineCriMlH) + '</td>' +
+          '</tr>';
+      }
+
+      weightInput.addEventListener('input', render);
+      procedureSelect.addEventListener('change', render);
+      document.addEventListener('jegvet:langchange', render);
+      if (formEl) {
+        formEl.addEventListener('submit', function (event) {
+          event.preventDefault();
+          render();
+        });
+      }
+
+      render();
+    })();
+  </script>
+</body>
+</html>

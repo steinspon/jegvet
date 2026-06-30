@@ -102,9 +102,9 @@
         <p>Assumptions used in this calculator:</p>
         <ul>
           <li>Midazolam dose range: 0.20 to 0.30 mg/kg</li>
-          <li>Midazolam concentration: 5.00 mg/ml</li>
+          <li>Midazolam concentration: 5 mg/ml</li>
           <li>Methadone dose range: 0.20 to 0.30 mg/kg</li>
-          <li>Methadone concentration: 10.00 mg/ml</li>
+          <li>Methadone concentration: 10 mg/ml</li>
           <li>Volume range (ml) = ((dose range mg/kg) x body weight kg) / concentration mg/ml</li>
           <li>Combined IV volume range = midazolam range + methadone range</li>
         </ul>
@@ -132,10 +132,6 @@
           return window.JegVetLang.t(key, fallback);
         }
         return fallback || key;
-      }
-
-      function format(value, decimals) {
-        return value.toFixed(decimals);
       }
 
       function renderPlaceholder() {
@@ -176,9 +172,9 @@
 
           rows.push(
             '<tr>' +
-              '<td>' + drug.label + ' (' + format(drug.concentrationMgMl, 2) + ' mg/ml)</td>' +
-              '<td>' + format(drug.doseMinMgKg, 2) + ' - ' + format(drug.doseMaxMgKg, 2) + '</td>' +
-              '<td>' + format(minMl, 2) + ' - ' + format(maxMl, 2) + '</td>' +
+              '<td>' + drug.label + ' (' + window.JegVetCalc.formatMgMl(drug.concentrationMgMl) + ' mg/ml)</td>' +
+              '<td>' + window.JegVetCalc.formatRange(drug.doseMinMgKg, drug.doseMaxMgKg, window.JegVetCalc.formatDoseMgKg) + '</td>' +
+              '<td>' + window.JegVetCalc.formatRange(minMl, maxMl, window.JegVetCalc.formatMl) + '</td>' +
             '</tr>'
           );
         }
@@ -186,7 +182,7 @@
         resultsEl.innerHTML = rows.join('');
         combinedResultEl.textContent =
           t('cat_heart_total_label', 'Total IV volume range (midazolam + methadone):') +
-          ' ' + format(totalMinMl, 2) + ' - ' + format(totalMaxMl, 2) + ' ml';
+          ' ' + window.JegVetCalc.formatRange(totalMinMl, totalMaxMl, window.JegVetCalc.formatMl) + ' ml';
       }
 
       weightInput.addEventListener('input', render);

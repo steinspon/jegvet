@@ -18,7 +18,7 @@
     group_dog: {
       type: 'group',
       labels: { en: 'Dog', no: 'Hund' },
-      children: ['tool_dog_antihistamine', 'tool_dog_b1', 'tool_dog_premed', 'tool_ketofol']
+      children: ['tool_dog_antihistamine', 'tool_dog_b1', 'tool_dog_b2', 'tool_dog_premed', 'tool_ketofol']
     },
     group_cat: {
       type: 'group',
@@ -127,12 +127,12 @@
     tool_cat_heart: {
       type: 'tool',
       href: 'cat-heart-protocol-sedation-calculator.html',
-      labels: { en: 'Cat Heart Protocol Sedation', no: 'Katt hjerteprotokoll sedasjon' }
+      labels: { en: 'Cat Heart Protocol Sedation', no: 'Katt hjertesykdom sedasjon midazolam+metadon' }
     },
     tool_cat_hcm: {
       type: 'tool',
       href: 'cat-hcm-sedation-calculator.html',
-      labels: { en: 'Cat HCM Sedation', no: 'Anestesi HCM katt' }
+      labels: { en: 'Cat HCM Sedation', no: 'Katt HCM hjertesykdom sedasjon' }
     },
     tool_dog_antihistamine: {
       type: 'tool',
@@ -142,12 +142,17 @@
     tool_dog_premed: {
       type: 'tool',
       href: 'dog-premed-calculator.html',
-      labels: { en: 'Dog Premed', no: 'Hund premed' }
+      labels: { en: 'Dog ordinary pre med', no: 'Hund vanlig premed' }
     },
     tool_dog_b1: {
       type: 'tool',
       href: 'dog-b1-cardiac-sedation-calculator.html',
-      labels: { en: 'Dog B1 Cardiac Sedation', no: 'Hund B1 hjertesedasjon' }
+      labels: { en: 'Dog B1 Cardiac Sedation', no: 'Hund B1 hjertesykdom sedasjon' }
+    },
+    tool_dog_b2: {
+      type: 'tool',
+      href: 'dog-b2-cardiac-sedation-calculator.html',
+      labels: { en: 'Dog B2 Cardiac Sedation', no: 'Hund B2 hjertesykdom sedasjon' }
     },
     tool_euthanasia: {
       type: 'tool',

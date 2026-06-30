@@ -1301,6 +1301,18 @@ input.check-toggle-round-flat:checked + label:after {
   color: var(--brand-blue);
 }
 
+.table-subhead {
+  display: inline-block;
+  margin-top: 4px;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.antihistamine-comparison-table th,
+.antihistamine-comparison-table td {
+  line-height: 1.45;
+}
+
 .gi-stasis-controls {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }

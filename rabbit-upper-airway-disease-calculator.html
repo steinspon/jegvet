@@ -200,7 +200,7 @@
       }
 
       function format(value, decimals) {
-        return window.JegVetCalc.parseDecimalInput(value).toLocaleString(getLocale(), {
+        return Number(value).toLocaleString(getLocale(), {
           minimumFractionDigits: decimals,
           maximumFractionDigits: decimals
         });
@@ -244,16 +244,16 @@
         resultsEl.innerHTML =
           '<tr>' +
             '<td>Baytril (Enrofloxacin)</td>' +
-            '<td>100 mg/ml</td>' +
-            '<td>20.00</td>' +
+            '<td>' + window.JegVetCalc.formatMgMl(100) + ' mg/ml</td>' +
+            '<td>' + window.JegVetCalc.formatDoseMgKg(20) + '</td>' +
             '<td>' + format(baytrilMg, 2) + '</td>' +
             '<td>' + format(baytrilMl, 2) + '</td>' +
             '<td>' + t('rabbit_airway_baytril_instr') + '</td>' +
           '</tr>' +
           '<tr>' +
             '<td>Bactrim (TMP-SMX)</td>' +
-            '<td>48 mg/ml total</td>' +
-            '<td>30.00</td>' +
+            '<td>' + window.JegVetCalc.formatMgMl(48) + ' mg/ml total</td>' +
+            '<td>' + window.JegVetCalc.formatDoseMgKg(30) + '</td>' +
             '<td>' + format(bactrimMg, 2) + '</td>' +
             '<td>' + format(bactrimMl, 2) + '</td>' +
             '<td>' + t('rabbit_airway_bactrim_instr') + '</td>' +
@@ -261,15 +261,15 @@
           '<tr>' +
             '<td>Doxycycline</td>' +
             '<td>100 mg tablet</td>' +
-            '<td>5.00</td>' +
+            '<td>' + window.JegVetCalc.formatDoseMgKg(5) + '</td>' +
             '<td>' + format(doxyMg, 2) + '</td>' +
             '<td>' + format(doxyMl, 2) + '</td>' +
             '<td>' + doxyInstr + '</td>' +
           '</tr>' +
           '<tr>' +
             '<td>Meloxicam</td>' +
-            '<td>1.5 mg/ml</td>' +
-            '<td>0.60</td>' +
+            '<td>' + window.JegVetCalc.formatMgMl(1.5) + ' mg/ml</td>' +
+            '<td>' + window.JegVetCalc.formatDoseMgKg(0.6) + '</td>' +
             '<td>' + format(meloxicamMg, 2) + '</td>' +
             '<td>' + format(meloxicamMl, 2) + '</td>' +
             '<td>' + t('rabbit_airway_meloxicam_instr') + '</td>' +
@@ -277,15 +277,15 @@
           '<tr>' +
             '<td>Famotidine (Pepcid)</td>' +
             '<td>10 mg tablet in 4 ml</td>' +
-            '<td>0.50</td>' +
+            '<td>' + window.JegVetCalc.formatDoseMgKg(0.5) + '</td>' +
             '<td>' + format(famotidineMg, 2) + '</td>' +
             '<td>' + format(famotidineMl, 2) + '</td>' +
             '<td>' + t('rabbit_airway_famotidine_instr') + '</td>' +
           '</tr>' +
           '<tr>' +
             '<td>Bisolvon (Bromhexine)</td>' +
-            '<td>1.6 mg/ml</td>' +
-            '<td>1.00</td>' +
+            '<td>' + window.JegVetCalc.formatMgMl(1.6) + ' mg/ml</td>' +
+            '<td>' + window.JegVetCalc.formatDoseMgKg(1) + '</td>' +
             '<td>' + format(bisolvonMg, 2) + '</td>' +
             '<td>' + format(bisolvonMl, 2) + '</td>' +
             '<td>' + t('rabbit_airway_bisolvon_instr') + '</td>' +

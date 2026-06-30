@@ -70,7 +70,7 @@
         hcm_warnings_title:          'Spesielle hensyn',
         hcm_warning_chf:             'Protokollen skal ikke brukes til katter i kongestiv hjertesvikt — ta kontakt med anestesiolog.',
         hcm_warning_meds:            'Gi pågående hjertemedisiner som vanlig. Unngå ACE-hemmere samme dag som anestesi (økt risiko for hypotensjon).',
-        hcm_warning_comorbidity:     'Hensynta ko-morbiditet ved valg av legemidler. Behandle hypertyreose med mål om eutyroid status før anestesi.',
+        hcm_warning_comorbidity:     'Ta hensyn til komorbiditet ved valg av legemidler. Behandle hypertyreose med mål om eutyroid status før anestesi.',
         hcm_warning_tachycardia:     'Unngå takykardi og vasodilatasjon. Ikke bruk efedrin eller legemidler som øker kontraktilitet (f.eks. dobutamin).',
         hcm_premed_section:          'Premedikasjon (IM)',
         hcm_th_drug:                 'Legemiddel (kons.)',
@@ -266,7 +266,7 @@
       }
 
       function fmt(val, dp) {
-        return val.toFixed(dp);
+        return typeof dp === 'function' ? dp(val) : val.toFixed(dp);
       }
 
       function fmtRange(lo, hi, dp) {
@@ -342,19 +342,19 @@
           '<tr>' +
             '<td>Dexmedetomidine (0.5 mg/ml)</td>' +
             '<td>5–15 µg/kg</td>' +
-            '<td>' + fmtRange(dexMinMl, dexMaxMl, 2) + '</td>' +
+            '<td>' + fmtRange(dexMinMl, dexMaxMl, window.JegVetCalc.formatMl) + '</td>' +
           '</tr>' +
           '<tr>' +
             '<td>' + drug2Label + '</td>' +
-            '<td>' + fmtRange(drug2MinMgKg, drug2MaxMgKg, 1) + ' mg/kg</td>' +
-            '<td>' + fmtRange(drug2MinMl, drug2MaxMl, 2) + '</td>' +
+            '<td>' + fmtRange(drug2MinMgKg, drug2MaxMgKg, window.JegVetCalc.formatDoseMgKg) + ' mg/kg</td>' +
+            '<td>' + fmtRange(drug2MinMl, drug2MaxMl, window.JegVetCalc.formatMl) + '</td>' +
           '</tr>';
 
         var drug2ShortName = isPainful ? 'methadone' : 'butorphanol';
         premedCombined.textContent =
           t('hcm_premed_combined_title', 'Combined IM syringe') +
           ' (dexmedetomidine + ' + drug2ShortName + '): ' +
-          fmtRange(combinedMinMl, combinedMaxMl, 2) + ' ml';
+          fmtRange(combinedMinMl, combinedMaxMl, window.JegVetCalc.formatMl) + ' ml';
 
         // ── Induction ──────────────────────────────────────────────────
         // Propofol 1–3 mg/kg IV at 10 mg/ml
@@ -365,7 +365,7 @@
           '<tr>' +
             '<td>Propofol (10 mg/ml)</td>' +
             '<td>1–3 mg/kg</td>' +
-            '<td>' + fmtRange(indMinMl, indMaxMl, 2) + '</td>' +
+            '<td>' + fmtRange(indMinMl, indMaxMl, window.JegVetCalc.formatMl) + '</td>' +
           '</tr>';
 
         // ── Maintenance — TIVA ─────────────────────────────────────────
@@ -380,12 +380,12 @@
           '<tr>' +
             '<td>Propofol (10 mg/ml)</td>' +
             '<td>12–36 mg/kg/h</td>' +
-            '<td>' + fmtRange(propTivaMinMlH, propTivaMaxMlH, 1) + '</td>' +
+            '<td>' + fmtRange(propTivaMinMlH, propTivaMaxMlH, window.JegVetCalc.formatDoseMgKg) + '</td>' +
           '</tr>' +
           '<tr>' +
             '<td>Alfaxalone (10 mg/ml)</td>' +
             '<td>5–15 mg/kg/h</td>' +
-            '<td>' + fmtRange(alfaMinMlH, alfaMaxMlH, 1) + '</td>' +
+            '<td>' + fmtRange(alfaMinMlH, alfaMaxMlH, window.JegVetCalc.formatDoseMgKg) + '</td>' +
           '</tr>';
 
         // ── Intraoperative Analgesia ───────────────────────────────────
@@ -401,17 +401,17 @@
           '<tr>' +
             '<td>Fentanyl CRI (0.05 mg/ml)</td>' +
             '<td>5–20 µg/kg/h</td>' +
-            '<td>' + fmtRange(fentMinMlH, fentMaxMlH, 2) + '</td>' +
+            '<td>' + fmtRange(fentMinMlH, fentMaxMlH, window.JegVetCalc.formatMl) + '</td>' +
           '</tr>' +
           '<tr>' +
             '<td>Ketamine CRI (10 mg/ml)</td>' +
             '<td>0.6 mg/kg/h</td>' +
-            '<td>' + fmt(ketCriMlH, 2) + '</td>' +
+            '<td>' + window.JegVetCalc.formatMl(ketCriMlH) + '</td>' +
           '</tr>' +
           '<tr>' +
             '<td>Ketamine bolus IV (10 mg/ml)</td>' +
             '<td>0.5 mg/kg</td>' +
-            '<td>' + fmt(ketBolusMl, 2) + ' (single dose)</td>' +
+            '<td>' + window.JegVetCalc.formatMl(ketBolusMl) + ' (single dose)</td>' +
           '</tr>';
       }
 

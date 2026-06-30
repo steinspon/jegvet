@@ -168,10 +168,6 @@
       var combinedResultEl = document.getElementById('combined-result');
       var journalTextEl = document.getElementById('journal-text');
 
-      function format(value, decimals) {
-        return value.toFixed(decimals);
-      }
-
       function renderPlaceholder() {
         anaestheticResultsEl.innerHTML = '<tr><td colspan="3">' + t('anaes_placeholder_dose', 'Enter weight to calculate doses.') + '</td></tr>';
         reversalResultsEl.innerHTML = '<tr><td colspan="3">' + t('anaes_placeholder_rev', 'Enter weight to calculate reversal doses.') + '</td></tr>';
@@ -213,17 +209,17 @@
             combinedImMl += ml;
             anaestheticRows.push(
               '<tr>' +
-                '<td>' + drug.label + ' (' + format(drug.concentrationMgMl, 3) + ' mg/ml)</td>' +
-                '<td>' + format(drug.doseMgKg, 3) + '</td>' +
-                '<td>' + format(ml, 2) + '</td>' +
+                '<td>' + drug.label + ' (' + window.JegVetCalc.formatMgMl(drug.concentrationMgMl) + ' mg/ml)</td>' +
+                '<td>' + window.JegVetCalc.formatDoseMgKg(drug.doseMgKg) + '</td>' +
+                '<td>' + window.JegVetCalc.formatMl(ml) + '</td>' +
               '</tr>'
             );
           } else {
             reversalRows.push(
               '<tr>' +
-                '<td>' + drug.label + ' (' + format(drug.concentrationMgMl, 3) + ' mg/ml)</td>' +
-                '<td>' + format(drug.doseMgKg, 3) + '</td>' +
-                '<td>' + format(ml, 2) + '</td>' +
+                '<td>' + drug.label + ' (' + window.JegVetCalc.formatMgMl(drug.concentrationMgMl) + ' mg/ml)</td>' +
+                '<td>' + window.JegVetCalc.formatDoseMgKg(drug.doseMgKg) + '</td>' +
+                '<td>' + window.JegVetCalc.formatMl(ml) + '</td>' +
               '</tr>'
             );
           }
@@ -231,14 +227,14 @@
 
         anaestheticResultsEl.innerHTML = anaestheticRows.join('');
         reversalResultsEl.innerHTML = reversalRows.join('');
-        combinedResultEl.textContent = t('anaes_total_label', 'Total IM volume (fentanyl + midazolam + medetomidine):') + ' ' + format(combinedImMl, 2) + ' ml';
+        combinedResultEl.textContent = t('anaes_total_label', 'Total IM volume (fentanyl + midazolam + medetomidine):') + ' ' + window.JegVetCalc.formatMl(combinedImMl) + ' ml';
 
         journalTextEl.value =
           'Pasienten ble plassert i rolige omgivelser preoperativt for å minimere stress og ble deretter preoksygenert med 100 % O2 før anestesiinduksjon. ' +
           'Narkoseprotokoll kanin: fentanyl 0,01 mg/kg + midazolam 0,75 mg/kg + medetomidine 0,15 mg/kg gis IM. ' +
-          'Beregnet for ' + format(weightKg, 2) + ' kg: fentanyl ' + format(resultByKey.fentanyl.ml, 2) + ' ml, midazolam ' + format(resultByKey.midazolam.ml, 2) + ' ml, medetomidine ' + format(resultByKey.medetomidine.ml, 2) + ' ml (totalt IM ' + format(combinedImMl, 2) + ' ml). ' +
+          'Beregnet for ' + window.JegVetCalc.formatFixed(weightKg, 2) + ' kg: fentanyl ' + window.JegVetCalc.formatMl(resultByKey.fentanyl.ml) + ' ml, midazolam ' + window.JegVetCalc.formatMl(resultByKey.midazolam.ml) + ' ml, medetomidine ' + window.JegVetCalc.formatMl(resultByKey.medetomidine.ml) + ' ml (totalt IM ' + window.JegVetCalc.formatMl(combinedImMl) + ' ml). ' +
           'Det ble lagt inn perifert intravenøst kateter for vaskulær tilgang dersom anatomisk og klinisk mulig. Vedlikehold av narkose med isofluran gass 1-3%. Manuell monitorering av pasienten kontinuelig. ' +
-          'Reversert med: naloxone 0,01 mg/kg (' + format(resultByKey.naloxone.ml, 2) + ' ml), flumazenil 0,075 mg/kg (' + format(resultByKey.flumazenil.ml, 2) + ' ml), atipamezole 0,75 mg/kg (' + format(resultByKey.atipamezole.ml, 2) + ' ml). Gis IV i veneflon eller IM.';
+          'Reversert med: naloxone 0,01 mg/kg (' + window.JegVetCalc.formatMl(resultByKey.naloxone.ml) + ' ml), flumazenil 0,075 mg/kg (' + window.JegVetCalc.formatMl(resultByKey.flumazenil.ml) + ' ml), atipamezole 0,75 mg/kg (' + window.JegVetCalc.formatMl(resultByKey.atipamezole.ml) + ' ml). Gis IV i veneflon eller IM.';
       }
 
       weightInput.addEventListener('input', render);

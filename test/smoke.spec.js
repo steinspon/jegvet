@@ -41,6 +41,56 @@ test('calculator accepts comma decimal input', async function ({ page }) {
   await expect(page.locator('#calc-error')).toHaveText('');
 });
 
+test('dog antihistamine calculator shows comparison table after weight input', async function ({ page }) {
+  await page.goto('/dog-antihistamine-calculator.html');
+
+  await page.locator('#weight-kg').fill('12,5');
+
+  await expect(page.locator('#dose-results')).toBeVisible();
+  await expect(page.locator('#atarax-per-dose')).toHaveText('27.5 mg');
+  await expect(page.locator('#aerius-per-dose')).toHaveText('6.25 mg');
+  await expect(page.locator('#atarax-journal-text')).toContainText('Atarax 25 mg, give 1 tablet every 8 hours. Start today.');
+  await expect(page.locator('#atarax-tablet-options')).toContainText('25 mg: 1 tablet (25 mg) = 25 mg');
+  await expect(page.locator('#aerius-tablet-options')).toContainText('5 mg: 1 tablet (5 mg)');
+  await expect(page.locator('#aerius-liquid-option')).toContainText('Not relevant');
+  await expect(page.locator('#aerius-journal-text')).toContainText('Aerius 5 mg, give 1 tablet every 12 hours. Start today.');
+});
+
+test('dog antihistamine calculator shows Atarax combination and Aerius liquid when practical', async function ({ page }) {
+  await page.goto('/dog-antihistamine-calculator.html');
+
+  await page.locator('#weight-kg').fill('15');
+
+  await expect(page.locator('#atarax-tablet-options')).toContainText('25 mg: 1 tablet + 10 mg: 1 tablet = 35 mg');
+  await expect(page.locator('#atarax-journal-text')).toContainText('Atarax 25 mg, give 1 tablet and Atarax 10 mg, give 1 tablet every 8 hours. Start today.');
+
+  await page.locator('#weight-kg').fill('8');
+
+  await expect(page.locator('#aerius-liquid-option')).toContainText('0.5 mg/ml: 8 ml');
+  await expect(page.locator('#aerius-journal-text')).toContainText('Aerius 5 mg, give 1 tablet every 12 hours. Start today.');
+  await expect(page.locator('#aerius-journal-text')).toContainText('Aerius liquid 0.5 mg/ml, give 8 ml every 12 hours. Start today.');
+});
+
+test('dog antihistamine calculator shows one practical Atarax tablet option for large dogs', async function ({ page }) {
+  await page.goto('/dog-antihistamine-calculator.html');
+
+  await page.locator('#weight-kg').fill('40');
+
+  await expect(page.locator('#atarax-tablet-options')).toHaveText('25 mg: 3.5 tablets (87.5 mg) = 87.5 mg');
+});
+
+test('dog B2 cardiac sedation calculator switches protocol by procedure type', async function ({ page }) {
+  await page.goto('/dog-b2-cardiac-sedation-calculator.html');
+
+  await page.locator('#weight-kg').fill('10,5');
+  await expect(page.locator('#premed-results')).toContainText('Methadone');
+  await expect(page.locator('#premed-combined')).toContainText('0.22 - 0.44 ml');
+
+  await page.locator('#procedure-type').selectOption('nonpainful');
+  await expect(page.locator('#premed-results')).toContainText('Butorphanol');
+  await expect(page.locator('#premed-results')).not.toContainText('Methadone');
+});
+
 test('search finds calculator content', async function ({ page }) {
   await page.goto('/search.html?q=kitty%20magic');
 

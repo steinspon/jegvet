@@ -267,18 +267,6 @@
         return fallback || key;
       }
 
-      function format(value) {
-        return value.toFixed(2);
-      }
-
-      function formatDoseMgKg(value) {
-        var fixed3 = value.toFixed(3);
-        if (fixed3.charAt(fixed3.length - 1) !== '0') {
-          return fixed3;
-        }
-        return value.toFixed(2);
-      }
-
       function parseWeightKg(rawValue) {
         return window.JegVetCalc.parseDecimalInput(rawValue);
       }
@@ -390,12 +378,12 @@
         var totalMl = dexMl + methadoneMl + ketamineMl;
 
         resultsEl.innerHTML = [
-          '<tr><td>Dexmedetomidine (0,5 mg/ml)</td><td>' + formatDoseMgKg(finalDexDose) + '</td><td>' + format(dexMl) + '</td></tr>',
-          '<tr><td>Methadone (10 mg/ml)</td><td>' + formatDoseMgKg(baseDose.methadone) + '</td><td>' + format(methadoneMl) + '</td></tr>',
-          '<tr><td>Ketamine (100 mg/ml)</td><td>' + formatDoseMgKg(finalKetamineDose) + '</td><td>' + format(ketamineMl) + '</td></tr>'
+          '<tr><td>Dexmedetomidine (' + window.JegVetCalc.formatMgMl(CONCENTRATION.dex) + ' mg/ml)</td><td>' + window.JegVetCalc.formatDoseMgKg(finalDexDose) + '</td><td>' + window.JegVetCalc.formatMl(dexMl) + '</td></tr>',
+          '<tr><td>Methadone (' + window.JegVetCalc.formatMgMl(CONCENTRATION.methadone) + ' mg/ml)</td><td>' + window.JegVetCalc.formatDoseMgKg(baseDose.methadone) + '</td><td>' + window.JegVetCalc.formatMl(methadoneMl) + '</td></tr>',
+          '<tr><td>Ketamine (' + window.JegVetCalc.formatMgMl(CONCENTRATION.ketamine) + ' mg/ml)</td><td>' + window.JegVetCalc.formatDoseMgKg(finalKetamineDose) + '</td><td>' + window.JegVetCalc.formatMl(ketamineMl) + '</td></tr>'
         ].join('');
 
-        combinedEl.textContent = t('kitty_magic_total', 'Total volume in same syringe:') + ' ' + format(totalMl) + ' ml';
+        combinedEl.textContent = t('kitty_magic_total', 'Total volume in same syringe:') + ' ' + window.JegVetCalc.formatMl(totalMl) + ' ml';
       }
 
       weightInput.addEventListener('input', render);

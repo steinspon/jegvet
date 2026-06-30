@@ -29,14 +29,14 @@
         ketofol_mix_th_size: 'Syringe size (ml)',
         ketofol_mix_th_propofol: 'Propofol 10 mg/ml (ml)',
         ketofol_mix_th_ketamine: 'Belatamine 100 mg/ml (ml)',
-        ketofol_dose_section: 'Dose Calculation (0.1 ml/kg slow IV)',
+        ketofol_dose_section: 'Dose Calculation (MAX 0.1 ml/kg slow IV)',
         ketofol_dose_placeholder: 'Enter weight to calculate dose volume.',
         ketofol_error_positive: 'Weight must be greater than 0 kg.',
         ketofol_no_result: 'No result.',
         ketofol_total_label: 'Total ketofol dose volume:',
         ketofol_prop_label: 'Propofol volume within dose:',
         ketofol_ket_label: 'Ketamine volume within dose:',
-        ketofol_note: 'NB! Many patients may need lower dose.'
+        ketofol_note: 'NB! Many patients may need a lower induction dose. The required ketofol volume is often lower than with propofol alone. Start cautiously and give more only if needed.'
       },
       no: {
         page_title_ketofol: 'Ketofol blandekalkulator | JegVet',
@@ -47,14 +47,14 @@
         ketofol_mix_th_size: 'Sprøytestørrelse (ml)',
         ketofol_mix_th_propofol: 'Propofol 10 mg/ml (ml)',
         ketofol_mix_th_ketamine: 'Belatamine 100 mg/ml (ml)',
-        ketofol_dose_section: 'Doseberegning (0,1 ml/kg langsom IV)',
+        ketofol_dose_section: 'Doseberegning (MAX 0,1 ml/kg langsom IV)',
         ketofol_dose_placeholder: 'Oppgi vekt for å beregne dosevolum.',
         ketofol_error_positive: 'Vekten må være større enn 0 kg.',
         ketofol_no_result: 'Ingen resultat.',
         ketofol_total_label: 'Totalt ketofol-dosevolum:',
         ketofol_prop_label: 'Propofolvolum i dose:',
         ketofol_ket_label: 'Ketaminvolum i dose:',
-        ketofol_note: 'NB! Mange pasienter kan trenge lavere dose.'
+        ketofol_note: 'NB! Mange pasienter kan trenge lavere dose ved induksjon. Reit med ketofol er ofte lavere volum enn ved propofol alene. Bruk heller litt forsiktig mengde i starten og heller gi litt mer ved behov.'
       }
     };
   </script>
@@ -80,9 +80,9 @@
             </tr>
           </thead>
           <tbody>
-            <tr><td>1.0</td><td>0.90</td><td>0.10</td></tr>
-            <tr><td>2.0</td><td>1.80</td><td>0.20</td></tr>
-            <tr><td>5.0</td><td>4.50</td><td>0.50</td></tr>
+            <tr><td>1</td><td>0.9</td><td>0.1</td></tr>
+            <tr><td>2</td><td>1.8</td><td>0.2</td></tr>
+            <tr><td>5</td><td>4.5</td><td>0.5</td></tr>
           </tbody>
         </table>
       </div>
@@ -162,9 +162,9 @@
         var ketMl = totalMl * 0.1;
 
         resultEl.textContent =
-          t('ketofol_total_label', 'Total ketofol dose volume:') + ' ' + format(totalMl, 2) + ' ml' +
-          ' | ' + t('ketofol_prop_label', 'Propofol volume within dose:') + ' ' + format(propMl, 2) + ' ml' +
-          ' | ' + t('ketofol_ket_label', 'Ketamine volume within dose:') + ' ' + format(ketMl, 2) + ' ml';
+          t('ketofol_total_label', 'Total ketofol dose volume:') + ' ' + format(totalMl, 1) + ' ml' +
+          ' | ' + t('ketofol_prop_label', 'Propofol volume within dose:') + ' ' + format(propMl, 1) + ' ml' +
+          ' | ' + t('ketofol_ket_label', 'Ketamine volume within dose:') + ' ' + format(ketMl, 1) + ' ml';
       }
 
       weightInput.addEventListener('input', render);
