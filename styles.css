@@ -1055,6 +1055,10 @@ input.check-toggle-round-flat:checked + label:after {
   width: 100%;
 }
 
+.tools-back-button[hidden] {
+  display: none !important;
+}
+
 .tools-list .action-button {
   margin: 0;
 }

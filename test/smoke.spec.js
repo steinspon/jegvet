@@ -36,6 +36,7 @@ test('calculator accepts comma decimal input', async function ({ page }) {
   await page.locator('#weight-kg').fill('4,2');
   await page.locator('#mood-choice').selectOption('snill');
   await page.locator('#bcs-choice').selectOption('slank');
+  await page.locator('#bonqat-choice').selectOption('no');
 
   await expect(page.locator('#dose-results')).toContainText('Dexmedetomidine');
   await expect(page.locator('#calc-error')).toHaveText('');
@@ -61,7 +62,7 @@ test('dog antihistamine calculator shows Atarax combination and Aerius liquid wh
 
   await page.locator('#weight-kg').fill('15');
 
-  await expect(page.locator('#atarax-tablet-options')).toContainText('25 mg: 1 tablet + 10 mg: 1 tablet = 35 mg');
+  await expect(page.locator('#atarax-tablet-options')).toContainText('25 mg: 1 tablet (25 mg) + 10 mg: 1 tablet (10 mg) = 35 mg');
   await expect(page.locator('#atarax-journal-text')).toContainText('Atarax 25 mg, give 1 tablet and Atarax 10 mg, give 1 tablet every 8 hours. Start today.');
 
   await page.locator('#weight-kg').fill('8');
